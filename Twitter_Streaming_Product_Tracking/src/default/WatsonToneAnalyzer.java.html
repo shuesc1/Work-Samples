@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>WatsonToneAnalyzer.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">WatsonToneAnalyzer.java</span></div><h1>WatsonToneAnalyzer.java</h1><pre class="source lang-java linenums">import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
+import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
+
+/**
+ * A class that calls the Watson Tone Analyzer and creates a tone variable for each tweet
+ * @author josephhaymaker
+ *
+ */
+public class WatsonToneAnalyzer {
+	private String TweetToAnalyze;
+	private String tweetTone;
+
+	/**
+	 * The constructor for the class
+	 */
+<span class="nc" id="L16">	WatsonToneAnalyzer(){</span>
+<span class="nc" id="L17">	}</span>
+
+	/**
+	 * A class that calls the Tone Analyzer service which creates a JSON object, which is parsed, read, and used to return a tone
+	 * @param tweet a tweet object with corresponding variables
+	 * @return tweetTone a string with the value of either &quot;positive&quot;, &quot;negative&quot;, or &quot;indeterminate&quot;
+	 */
+	public String GetTweetTone(String tweet){
+<span class="nc" id="L25">		ToneAnalyzer service = new ToneAnalyzer(ToneAnalyzer.VERSION_DATE_2016_05_19);</span>
+<span class="nc" id="L26">		service.setUsernameAndPassword(&quot;0b749d00-1e64-4e19-9e39-12596e5975da&quot;, &quot;0wjKfSOI0wRc&quot;);</span>
+<span class="nc" id="L27">		ToneAnalysis tone = service.getTone(tweet, null).execute();</span>
+
+		//need to parse return and provide logic to decide if it is 'positive' or 'negative'
+		//PARSE JSON--would look like something in processJSonObj.java
+		// get &quot;docEmotions&quot;, returns 1. anger, 2. disgust, 3. fear, 4. joy, 5. sadness
+		//each has a score from 0.0 to 1.0 ; if score &gt; 0.5 text &quot;contains&quot; emotion
+		//////LOGIC//////
+//		if (anger &gt;= 0.5 || disgust &gt;= 0.5 || fear &gt;= 0.5){
+//			tweetTone = &quot;negative&quot;;
+//		} else if (joy &gt;= 0.5 || sadness &lt; 0.5){
+//			tweetTone = &quot;positive&quot;;
+//		} else {
+//			tweetTone = &quot;indeterminate&quot;;
+//		}
+
+<span class="nc" id="L42">		return tweetTone;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>

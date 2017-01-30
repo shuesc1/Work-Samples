@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>TwitterFeedExtractor.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TwitterFeedExtractor.java</span></div><h1>TwitterFeedExtractor.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1"></span>
+import java.util.ArrayList;
+import twitter4j.FilterQuery;
+import twitter4j.StallWarning;
+import twitter4j.Status;
+import twitter4j.StatusDeletionNotice;
+import twitter4j.StatusListener;
+import twitter4j.TwitterException;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
+/**
+ * A class that gets tweets live with the Watson Streaming API
+ * @author josephhaymaker
+ *
+ */
+public class TwitterFeedExtractor {
+	private ArrayList&lt;Tweet&gt; listOfTweets;
+	private WatsonToneAnalyzer wta;
+	String tone;
+
+	/**
+	 * The constructor for the class
+	 */
+<span class="nc" id="L26">	public TwitterFeedExtractor() {	</span>
+<span class="nc" id="L27">	}</span>
+
+	/**
+	 * A getter method for the size of the ArrayList holding the tweet objects
+	 * @return size an int of the size of the tweet ArrayList
+	 */
+	public int getTotalTweets(){
+<span class="nc" id="L34">		int size = listOfTweets.size();</span>
+<span class="nc" id="L35">		return size;</span>
+	}
+	
+	/**
+	 * A getter method for the arraylist of tweets
+	 * @return listOfTweets an arraylist filled with tweet objects
+	 */
+	public ArrayList&lt;Tweet&gt; getTweetList(){
+<span class="nc" id="L43">		return listOfTweets;</span>
+	}
+	
+	/**
+	 * A setter method for the arraylist of tweets
+	 * @param tweetList an arraylist filled with tweet objects
+	 */
+	public void setTweetList(ArrayList&lt;Tweet&gt; tweetList){
+<span class="nc" id="L51">		listOfTweets = tweetList;</span>
+<span class="nc" id="L52">	}</span>
+	
+	/**
+	 * A method that makes calls to the Watson Streaming API and gets live tweets containing keywords
+	 * @throws TwitterException
+	 */
+	public void run() throws TwitterException {
+<span class="nc" id="L59">		listOfTweets = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L60">		wta = new WatsonToneAnalyzer();</span>
+		
+<span class="nc" id="L62">		ConfigurationBuilder cb = new ConfigurationBuilder();</span>
+<span class="nc" id="L63">		cb.setDebugEnabled(true);</span>
+<span class="nc" id="L64">		cb.setOAuthConsumerKey(&quot;KY1Wh2MoiP1Q5c1BVUyemcRlR&quot;);</span>
+<span class="nc" id="L65">		cb.setOAuthConsumerSecret(&quot;BZGxfGZjYjDB2DjBuWlJaPw4pFaiahVb1eFfzHc5ymACrx17oz&quot;);</span>
+<span class="nc" id="L66">		cb.setOAuthAccessToken(&quot;4878823353-LszyOWEfmfnrUdHi3po7HhRjmZg8NVDA6BCpUuo&quot;);</span>
+<span class="nc" id="L67">		cb.setOAuthAccessTokenSecret(&quot;a0IUMlpxZ6EXsCY87rAUFa4iDRUBPzhxCykNCEW1MGj3x&quot;);</span>
+
+<span class="nc" id="L69">		TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();</span>
+<span class="nc" id="L70">		StatusListener listener = new StatusListener() {</span>
+
+			@Override
+			public void onStatus(Status status) {				
+<span class="nc" id="L74">				Tweet thisTweet = new Tweet(status.getText(), status.getGeoLocation(), status.getPlace(), status.getLang(), status.getUser(), status.isRetweeted(), status.getCreatedAt());</span>
+<span class="nc" id="L75">				tone = wta.GetTweetTone(thisTweet.getText());</span>
+<span class="nc" id="L76">				thisTweet.setTone(tone);</span>
+<span class="nc" id="L77">				listOfTweets.add(thisTweet);</span>
+<span class="nc" id="L78">				System.out.println(status);</span>
+<span class="nc" id="L79">			}</span>
+
+			@Override
+			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+<span class="nc" id="L83">				System.out.println(&quot;Got a status deletion notice id:&quot; + statusDeletionNotice.getStatusId());</span>
+<span class="nc" id="L84">			}</span>
+
+			@Override
+			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+<span class="nc" id="L88">				System.out.println(&quot;Got track limitation notice:&quot; + numberOfLimitedStatuses);</span>
+<span class="nc" id="L89">			}</span>
+
+			@Override
+			public void onScrubGeo(long userId, long upToStatusId) {
+<span class="nc" id="L93">				System.out.println(&quot;Got scrub_geo event userId:&quot; + userId + &quot; upToStatusId:&quot; + upToStatusId);</span>
+<span class="nc" id="L94">			}</span>
+
+			@Override
+			public void onStallWarning(StallWarning warning) {
+<span class="nc" id="L98">				System.out.println(&quot;Got stall warning:&quot; + warning);</span>
+<span class="nc" id="L99">			}</span>
+
+			@Override
+			public void onException(Exception ex) {
+<span class="nc" id="L103">				ex.printStackTrace();</span>
+<span class="nc" id="L104">			}</span>
+		};
+
+<span class="nc" id="L107">		FilterQuery fq = new FilterQuery();</span>
+<span class="nc" id="L108">		String[] keywords = {&quot;truvada&quot;, &quot;PrEP&quot;};</span>
+<span class="nc" id="L109">		fq.language(new String[]{&quot;en&quot;});</span>
+<span class="nc" id="L110">		fq.track(keywords);</span>
+
+<span class="nc" id="L112">		twitterStream.addListener(listener);</span>
+<span class="nc" id="L113">		twitterStream.filter(fq);</span>
+
+		//POSSIBLE FURTHER IMPLEMENTATION
+		//		SentimentAnalyzer sa = new SentimentAnalyzer(listOfTweets);
+		//		ArrayList&lt;Tweet&gt; positiveTweets = sa.getPosTweets();
+		//		ArrayList&lt;Tweet&gt; negativeTweets = sa.getNegTweets();
+		//		//prompt user for csv filename and type of info they want in CSV file
+		//		String filename = new Scanner(System.in);
+		//		CsvWriter cw = new CsvWriter(filename);
+		//		CSVWriter csvw = new CSVWriter();
+		//		csvw.writeall(listOfTweets, true);
+		//writes out CSV file according to user defined name and values/info desired
+
+<span class="nc" id="L126">	}</span>
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>

@@ -1,4 +1,4 @@
-//package com.alchemyapi.api;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>AlchemyAPI.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">AlchemyAPI.java</span></div><h1>AlchemyAPI.java</h1><pre class="source lang-java linenums">//package com.alchemyapi.api;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,13 +24,13 @@ import org.xml.sax.SAXException;
 public class AlchemyAPI {
 
     private String _apiKey;
-    private String _requestUri = "http://access.alchemyapi.com/calls/";
+    private String _requestUri = &quot;http://access.alchemyapi.com/calls/&quot;;
 
     private AlchemyAPI() {
     }
 
 
-    static public AlchemyAPI GetInstanceFromFile(String keyFilename)
+<span class="nc" id="L33">    static public AlchemyAPI GetInstanceFromFile(String keyFilename)</span>
         throws FileNotFoundException, IOException
     {
         AlchemyAPI api = new AlchemyAPI();
@@ -39,7 +39,7 @@ public class AlchemyAPI {
         return api;
     }
 
-    static public AlchemyAPI GetInstanceFromString(String apiKey)
+<span class="nc" id="L42">    static public AlchemyAPI GetInstanceFromString(String apiKey)</span>
     {
         AlchemyAPI api = new AlchemyAPI();
         api.SetAPIKey(apiKey);
@@ -47,47 +47,47 @@ public class AlchemyAPI {
         return api;
     }
 
-    public void LoadAPIKey(String filename) throws IOException, FileNotFoundException
+<span class="nc" id="L50">    public void LoadAPIKey(String filename) throws IOException, FileNotFoundException</span>
     {
         if (null == filename || 0 == filename.length())
-            throw new IllegalArgumentException("Empty API key file specified.");
+            throw new IllegalArgumentException(&quot;Empty API key file specified.&quot;);
 
         File file = new File(filename);
         FileInputStream fis = new FileInputStream(file);
 
         BufferedReader breader = new BufferedReader(new InputStreamReader(fis));
 
-        _apiKey = breader.readLine().replaceAll("\\n", "").replaceAll("\\r", "");
+        _apiKey = breader.readLine().replaceAll(&quot;\\n&quot;, &quot;&quot;).replaceAll(&quot;\\r&quot;, &quot;&quot;);
 
         fis.close();
         breader.close();
 
-        if (null == _apiKey || _apiKey.length() < 5)
-            throw new IllegalArgumentException("Too short API key.");
+        if (null == _apiKey || _apiKey.length() &lt; 5)
+            throw new IllegalArgumentException(&quot;Too short API key.&quot;);
     }
 
-    public void SetAPIKey(String apiKey) {
+<span class="nc" id="L69">    public void SetAPIKey(String apiKey) {</span>
         _apiKey = apiKey;
 
-        if (null == _apiKey || _apiKey.length() < 5)
-            throw new IllegalArgumentException("Too short API key.");
+        if (null == _apiKey || _apiKey.length() &lt; 5)
+            throw new IllegalArgumentException(&quot;Too short API key.&quot;);
     }
 
-    public void SetAPIHost(String apiHost) {
-        if (null == apiHost || apiHost.length() < 2)
-            throw new IllegalArgumentException("Too short API host.");
+<span class="nc" id="L76">    public void SetAPIHost(String apiHost) {</span>
+        if (null == apiHost || apiHost.length() &lt; 2)
+            throw new IllegalArgumentException(&quot;Too short API host.&quot;);
 
-        _requestUri = "http://" + apiHost + ".alchemyapi.com/calls/";
+        _requestUri = &quot;http://&quot; + apiHost + &quot;.alchemyapi.com/calls/&quot;;
     }
 
     public Document URLGetAuthor(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetAuthor(url, new AlchemyAPI_Params());
+<span class="nc" id="L87">        return URLGetAuthor(url, new AlchemyAPI_Params());</span>
     }
 
-    public Document URLGetAuthor(String url, AlchemyAPI_Params params)
+<span class="nc" id="L90">    public Document URLGetAuthor(String url, AlchemyAPI_Params params)</span>
         throws IOException, SAXException, ParserConfigurationException,
                XPathExpressionException
     {
@@ -95,18 +95,18 @@ public class AlchemyAPI {
 
         params.setUrl(url);
 
-        return GET("URLGetAuthor", "url", params);
+        return GET(&quot;URLGetAuthor&quot;, &quot;url&quot;, params);
     }
 
     public Document HTMLGetAuthor(String html, String url)
         throws IOException, SAXException, ParserConfigurationException,
                XPathExpressionException
     {
-        return HTMLGetAuthor(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L105">        return HTMLGetAuthor(html, url, new AlchemyAPI_Params());</span>
     }
 
     public Document HTMLGetAuthor(String html, String url,
-			          AlchemyAPI_Params params)
+<span class="nc" id="L109">			          AlchemyAPI_Params params)</span>
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
@@ -115,17 +115,17 @@ public class AlchemyAPI {
         params.setHtml(html);
         params.setUrl(url);
 
-        return POST("HTMLGetAuthor", "html", params);
+        return POST(&quot;HTMLGetAuthor&quot;, &quot;html&quot;, params);
     }
 
     public Document URLGetRankedNamedEntities(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetRankedNamedEntities(url, new AlchemyAPI_NamedEntityParams());
+<span class="nc" id="L125">        return URLGetRankedNamedEntities(url, new AlchemyAPI_NamedEntityParams());</span>
     }
     
-    public Document URLGetRankedNamedEntities(String url, AlchemyAPI_NamedEntityParams params)
+<span class="nc" id="L128">    public Document URLGetRankedNamedEntities(String url, AlchemyAPI_NamedEntityParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
     {
@@ -133,18 +133,18 @@ public class AlchemyAPI {
     	
     	params.setUrl(url);
 
-    	return GET("URLGetRankedNamedEntities", "url", params);
+    	return GET(&quot;URLGetRankedNamedEntities&quot;, &quot;url&quot;, params);
     }
 
     public Document HTMLGetRankedNamedEntities(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetRankedNamedEntities(html, url, new AlchemyAPI_NamedEntityParams());
+<span class="nc" id="L143">        return HTMLGetRankedNamedEntities(html, url, new AlchemyAPI_NamedEntityParams());</span>
     }
     
 
-    public Document HTMLGetRankedNamedEntities(String html, String url, AlchemyAPI_NamedEntityParams params)
+<span class="nc" id="L147">    public Document HTMLGetRankedNamedEntities(String html, String url, AlchemyAPI_NamedEntityParams params)</span>
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
@@ -153,17 +153,17 @@ public class AlchemyAPI {
         params.setUrl(url);
         params.setHtml(html);
 
-        return POST("HTMLGetRankedNamedEntities", "html", params);
+        return POST(&quot;HTMLGetRankedNamedEntities&quot;, &quot;html&quot;, params);
     }
 
     public Document TextGetRankedNamedEntities(String text)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return TextGetRankedNamedEntities(text, new AlchemyAPI_NamedEntityParams());
+<span class="nc" id="L163">        return TextGetRankedNamedEntities(text, new AlchemyAPI_NamedEntityParams());</span>
     }
     
-    public Document TextGetRankedNamedEntities(String text, AlchemyAPI_NamedEntityParams params)
+<span class="nc" id="L166">    public Document TextGetRankedNamedEntities(String text, AlchemyAPI_NamedEntityParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
     {
@@ -171,7 +171,7 @@ public class AlchemyAPI {
     
     	params.setText(text);
 
-    	return POST("TextGetRankedNamedEntities", "text", params);
+    	return POST(&quot;TextGetRankedNamedEntities&quot;, &quot;text&quot;, params);
     }
     
     
@@ -180,10 +180,10 @@ public class AlchemyAPI {
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetRankedConcepts(url, new AlchemyAPI_ConceptParams());
+<span class="nc" id="L183">        return URLGetRankedConcepts(url, new AlchemyAPI_ConceptParams());</span>
     }
     
-    public Document URLGetRankedConcepts(String url, AlchemyAPI_ConceptParams params)
+<span class="nc" id="L186">    public Document URLGetRankedConcepts(String url, AlchemyAPI_ConceptParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
     {
@@ -191,7 +191,7 @@ public class AlchemyAPI {
     
     	params.setUrl(url);
 
-    	return GET("URLGetRankedConcepts", "url", params);
+    	return GET(&quot;URLGetRankedConcepts&quot;, &quot;url&quot;, params);
     }    
     
 
@@ -199,10 +199,10 @@ public class AlchemyAPI {
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetRankedConcepts(html, url, new AlchemyAPI_ConceptParams());
+<span class="nc" id="L202">        return HTMLGetRankedConcepts(html, url, new AlchemyAPI_ConceptParams());</span>
     }
     
-    public Document HTMLGetRankedConcepts(String html, String url, AlchemyAPI_ConceptParams params)
+<span class="nc" id="L205">    public Document HTMLGetRankedConcepts(String html, String url, AlchemyAPI_ConceptParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -211,22 +211,22 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetRankedConcepts", "html", params);
+	    return POST(&quot;HTMLGetRankedConcepts&quot;, &quot;html&quot;, params);
 	}
 
     public Document TextGetRankedConcepts(String text) throws IOException, SAXException,
             ParserConfigurationException, XPathExpressionException {
-        return TextGetRankedConcepts(text, new AlchemyAPI_ConceptParams());
+<span class="nc" id="L219">        return TextGetRankedConcepts(text, new AlchemyAPI_ConceptParams());</span>
     }
     
-    public Document TextGetRankedConcepts(String text, AlchemyAPI_ConceptParams params) throws IOException, SAXException,
+<span class="nc" id="L222">    public Document TextGetRankedConcepts(String text, AlchemyAPI_ConceptParams params) throws IOException, SAXException,</span>
     ParserConfigurationException, XPathExpressionException 
     {
 		CheckText(text);
 		
 		params.setText(text);
 		
-		return POST("TextGetRankedConcepts", "text", params);
+		return POST(&quot;TextGetRankedConcepts&quot;, &quot;text&quot;, params);
 	}
     
     
@@ -235,10 +235,10 @@ public class AlchemyAPI {
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetRankedKeywords(url, new AlchemyAPI_KeywordParams());
+<span class="nc" id="L238">        return URLGetRankedKeywords(url, new AlchemyAPI_KeywordParams());</span>
     }
     
-    public Document URLGetRankedKeywords(String url, AlchemyAPI_KeywordParams params)
+<span class="nc" id="L241">    public Document URLGetRankedKeywords(String url, AlchemyAPI_KeywordParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
     {
@@ -246,7 +246,7 @@ public class AlchemyAPI {
     
     	params.setUrl(url);
 
-    	return GET("URLGetRankedKeywords", "url", params);
+    	return GET(&quot;URLGetRankedKeywords&quot;, &quot;url&quot;, params);
     }    
     
 
@@ -254,10 +254,10 @@ public class AlchemyAPI {
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetRankedKeywords(html, url, new AlchemyAPI_KeywordParams());
+<span class="nc" id="L257">        return HTMLGetRankedKeywords(html, url, new AlchemyAPI_KeywordParams());</span>
     }
     
-    public Document HTMLGetRankedKeywords(String html, String url, AlchemyAPI_KeywordParams params)
+<span class="nc" id="L260">    public Document HTMLGetRankedKeywords(String html, String url, AlchemyAPI_KeywordParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -266,32 +266,32 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetRankedKeywords", "html", params);
+	    return POST(&quot;HTMLGetRankedKeywords&quot;, &quot;html&quot;, params);
 	}
 
     public Document TextGetRankedKeywords(String text) throws IOException, SAXException,
             ParserConfigurationException, XPathExpressionException {
-        return TextGetRankedKeywords(text, new AlchemyAPI_KeywordParams());
+<span class="nc" id="L274">        return TextGetRankedKeywords(text, new AlchemyAPI_KeywordParams());</span>
     }
     
-    public Document TextGetRankedKeywords(String text, AlchemyAPI_KeywordParams params) throws IOException, SAXException,
+<span class="nc" id="L277">    public Document TextGetRankedKeywords(String text, AlchemyAPI_KeywordParams params) throws IOException, SAXException,</span>
     ParserConfigurationException, XPathExpressionException 
     {
 		CheckText(text);
 		
 		params.setText(text);
 		
-		return POST("TextGetRankedKeywords", "text", params);
+		return POST(&quot;TextGetRankedKeywords&quot;, &quot;text&quot;, params);
 	}
 
     public Document URLGetLanguage(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetLanguage(url, new AlchemyAPI_LanguageParams());
+<span class="nc" id="L291">        return URLGetLanguage(url, new AlchemyAPI_LanguageParams());</span>
     }
     
-    public Document URLGetLanguage(String url, AlchemyAPI_LanguageParams params)
+<span class="nc" id="L294">    public Document URLGetLanguage(String url, AlchemyAPI_LanguageParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -299,17 +299,17 @@ public class AlchemyAPI {
 	    
 	    params.setUrl(url);
 	
-	    return GET("URLGetLanguage", "url", params);
+	    return GET(&quot;URLGetLanguage&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetLanguage(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetLanguage(html, url, new AlchemyAPI_LanguageParams());
+<span class="nc" id="L309">        return HTMLGetLanguage(html, url, new AlchemyAPI_LanguageParams());</span>
     }
     
-    public Document HTMLGetLanguage(String html, String url, AlchemyAPI_LanguageParams params)
+<span class="nc" id="L312">    public Document HTMLGetLanguage(String html, String url, AlchemyAPI_LanguageParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -318,17 +318,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetLanguage", "html", params);
+	    return POST(&quot;HTMLGetLanguage&quot;, &quot;html&quot;, params);
 	}
 
     public Document TextGetLanguage(String text)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return TextGetLanguage(text, new AlchemyAPI_LanguageParams());
+<span class="nc" id="L328">        return TextGetLanguage(text, new AlchemyAPI_LanguageParams());</span>
     }
     
-    public Document TextGetLanguage(String text, AlchemyAPI_LanguageParams params)
+<span class="nc" id="L331">    public Document TextGetLanguage(String text, AlchemyAPI_LanguageParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -336,17 +336,17 @@ public class AlchemyAPI {
 
 	    params.setText(text);
 	
-	    return POST("TextGetLanguage", "text", params);
+	    return POST(&quot;TextGetLanguage&quot;, &quot;text&quot;, params);
 	}
 
     public Document URLGetCategory(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetCategory(url, new AlchemyAPI_CategoryParams());
+<span class="nc" id="L346">        return URLGetCategory(url, new AlchemyAPI_CategoryParams());</span>
     }
     
-    public Document URLGetCategory(String url, AlchemyAPI_CategoryParams params)
+<span class="nc" id="L349">    public Document URLGetCategory(String url, AlchemyAPI_CategoryParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -354,17 +354,17 @@ public class AlchemyAPI {
 
 	    params.setUrl(url);
 	
-	    return GET("URLGetCategory", "url", params);
+	    return GET(&quot;URLGetCategory&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetCategory(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetCategory(html, url, new AlchemyAPI_CategoryParams());
+<span class="nc" id="L364">        return HTMLGetCategory(html, url, new AlchemyAPI_CategoryParams());</span>
     }
     
-    public Document HTMLGetCategory(String html, String url, AlchemyAPI_CategoryParams params)
+<span class="nc" id="L367">    public Document HTMLGetCategory(String html, String url, AlchemyAPI_CategoryParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -373,17 +373,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetCategory", "html", params);
+	    return POST(&quot;HTMLGetCategory&quot;, &quot;html&quot;, params);
 	}
 
     public Document TextGetCategory(String text)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return TextGetCategory(text, new AlchemyAPI_TextParams());
+<span class="nc" id="L383">        return TextGetCategory(text, new AlchemyAPI_TextParams());</span>
     }
     
-    public Document TextGetCategory(String text, AlchemyAPI_TextParams params)
+<span class="nc" id="L386">    public Document TextGetCategory(String text, AlchemyAPI_TextParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -391,17 +391,17 @@ public class AlchemyAPI {
 	    
 	    params.setText(text);
 	
-	    return POST("TextGetCategory", "text", params);
+	    return POST(&quot;TextGetCategory&quot;, &quot;text&quot;, params);
 	}
 
     public Document URLGetText(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetText(url, new AlchemyAPI_TextParams());
+<span class="nc" id="L401">        return URLGetText(url, new AlchemyAPI_TextParams());</span>
     }
     
-    public Document URLGetText(String url, AlchemyAPI_TextParams params)
+<span class="nc" id="L404">    public Document URLGetText(String url, AlchemyAPI_TextParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -409,17 +409,17 @@ public class AlchemyAPI {
 	    
 	    params.setUrl(url);
 	
-	    return GET("URLGetText", "url", params);
+	    return GET(&quot;URLGetText&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetText(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetText(html, url, new AlchemyAPI_TextParams());
+<span class="nc" id="L419">        return HTMLGetText(html, url, new AlchemyAPI_TextParams());</span>
     }
     
-    public Document HTMLGetText(String html, String url, AlchemyAPI_TextParams params)
+<span class="nc" id="L422">    public Document HTMLGetText(String html, String url, AlchemyAPI_TextParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -428,17 +428,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetText", "html", params);
+	    return POST(&quot;HTMLGetText&quot;, &quot;html&quot;, params);
 	}
 
     public Document URLGetRawText(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetRawText(url, new AlchemyAPI_Params());
+<span class="nc" id="L438">        return URLGetRawText(url, new AlchemyAPI_Params());</span>
     }
     
-    public Document URLGetRawText(String url, AlchemyAPI_Params params)
+<span class="nc" id="L441">    public Document URLGetRawText(String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -446,17 +446,17 @@ public class AlchemyAPI {
 
 	    params.setUrl(url);
 	
-	    return GET("URLGetRawText", "url", params);
+	    return GET(&quot;URLGetRawText&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetRawText(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetRawText(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L456">        return HTMLGetRawText(html, url, new AlchemyAPI_Params());</span>
     }
     
-    public Document HTMLGetRawText(String html, String url, AlchemyAPI_Params params)
+<span class="nc" id="L459">    public Document HTMLGetRawText(String html, String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -465,17 +465,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetRawText", "html", params);
+	    return POST(&quot;HTMLGetRawText&quot;, &quot;html&quot;, params);
 	}
 
     public Document URLGetTitle(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetTitle(url, new AlchemyAPI_Params());
+<span class="nc" id="L475">        return URLGetTitle(url, new AlchemyAPI_Params());</span>
     }
     
-    public Document URLGetTitle(String url, AlchemyAPI_Params params)
+<span class="nc" id="L478">    public Document URLGetTitle(String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -483,17 +483,17 @@ public class AlchemyAPI {
 	    
 	    params.setUrl(url);
 	
-	    return GET("URLGetTitle", "url", params);
+	    return GET(&quot;URLGetTitle&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetTitle(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetTitle(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L493">        return HTMLGetTitle(html, url, new AlchemyAPI_Params());</span>
     }
     
-    public Document HTMLGetTitle(String html, String url, AlchemyAPI_Params params)
+<span class="nc" id="L496">    public Document HTMLGetTitle(String html, String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -502,17 +502,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetTitle", "html", params);
+	    return POST(&quot;HTMLGetTitle&quot;, &quot;html&quot;, params);
 	}
 
     public Document URLGetFeedLinks(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetFeedLinks(url, new AlchemyAPI_Params());
+<span class="nc" id="L512">        return URLGetFeedLinks(url, new AlchemyAPI_Params());</span>
     }
     
-    public Document URLGetFeedLinks(String url, AlchemyAPI_Params params)
+<span class="nc" id="L515">    public Document URLGetFeedLinks(String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -520,17 +520,17 @@ public class AlchemyAPI {
 	    
 	    params.setUrl(url);
 	
-	    return GET("URLGetFeedLinks", "url", params);
+	    return GET(&quot;URLGetFeedLinks&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetFeedLinks(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetFeedLinks(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L530">        return HTMLGetFeedLinks(html, url, new AlchemyAPI_Params());</span>
     }
     
-    public Document HTMLGetFeedLinks(String html, String url, AlchemyAPI_Params params)
+<span class="nc" id="L533">    public Document HTMLGetFeedLinks(String html, String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -539,17 +539,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetFeedLinks", "html", params);
+	    return POST(&quot;HTMLGetFeedLinks&quot;, &quot;html&quot;, params);
 	}
 
     public Document URLGetMicroformats(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetMicroformats(url, new AlchemyAPI_Params());
+<span class="nc" id="L549">        return URLGetMicroformats(url, new AlchemyAPI_Params());</span>
     }
     
-    public Document URLGetMicroformats(String url, AlchemyAPI_Params params)
+<span class="nc" id="L552">    public Document URLGetMicroformats(String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -557,17 +557,17 @@ public class AlchemyAPI {
 
 	    params.setUrl(url);
 	
-	    return GET("URLGetMicroformatData", "url", params);
+	    return GET(&quot;URLGetMicroformatData&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetMicroformats(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetMicroformats(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L567">        return HTMLGetMicroformats(html, url, new AlchemyAPI_Params());</span>
     }
     
-    public Document HTMLGetMicroformats(String html, String url, AlchemyAPI_Params params)
+<span class="nc" id="L570">    public Document HTMLGetMicroformats(String html, String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -576,28 +576,28 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetMicroformatData", "html", params);
+	    return POST(&quot;HTMLGetMicroformatData&quot;, &quot;html&quot;, params);
 	}
 
     public Document URLGetConstraintQuery(String url, String query)
         throws IOException, XPathExpressionException,
                SAXException, ParserConfigurationException
     {
-        return URLGetConstraintQuery(url, query, new AlchemyAPI_ConstraintQueryParams());
+<span class="nc" id="L586">        return URLGetConstraintQuery(url, query, new AlchemyAPI_ConstraintQueryParams());</span>
     }
     
-    public Document URLGetConstraintQuery(String url, String query, AlchemyAPI_ConstraintQueryParams params)
+<span class="nc" id="L589">    public Document URLGetConstraintQuery(String url, String query, AlchemyAPI_ConstraintQueryParams params)</span>
     throws IOException, XPathExpressionException,
            SAXException, ParserConfigurationException
 	{
 	    CheckURL(url);
-	    if (null == query || query.length() < 2)
-	        throw new IllegalArgumentException("Invalid constraint query specified");
+	    if (null == query || query.length() &lt; 2)
+	        throw new IllegalArgumentException(&quot;Invalid constraint query specified&quot;);
 	    
 	    params.setUrl(url);
 	    params.setCQuery(query);
 	
-	    return POST("URLGetConstraintQuery", "url", params);
+	    return POST(&quot;URLGetConstraintQuery&quot;, &quot;url&quot;, params);
 	}
 
 
@@ -605,32 +605,32 @@ public class AlchemyAPI {
         throws IOException, XPathExpressionException,
                SAXException, ParserConfigurationException
     {
-        return HTMLGetConstraintQuery(html, url, query, new AlchemyAPI_ConstraintQueryParams());
+<span class="nc" id="L608">        return HTMLGetConstraintQuery(html, url, query, new AlchemyAPI_ConstraintQueryParams());</span>
     }
     
-    public Document HTMLGetConstraintQuery(String html, String url, String query, AlchemyAPI_ConstraintQueryParams params)
+<span class="nc" id="L611">    public Document HTMLGetConstraintQuery(String html, String url, String query, AlchemyAPI_ConstraintQueryParams params)</span>
     throws IOException, XPathExpressionException,
            SAXException, ParserConfigurationException
 	{
 	    CheckHTML(html, url);
-	    if (null == query || query.length() < 2)
-	        throw new IllegalArgumentException("Invalid constraint query specified");
+	    if (null == query || query.length() &lt; 2)
+	        throw new IllegalArgumentException(&quot;Invalid constraint query specified&quot;);
 
 	    params.setUrl(url);
 	    params.setHtml(html);
 	    params.setCQuery(query);
 	
-	    return POST("HTMLGetConstraintQuery", "html", params);
+	    return POST(&quot;HTMLGetConstraintQuery&quot;, &quot;html&quot;, params);
 	}
 	
 	public Document URLGetTextSentiment(String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetTextSentiment(url, new AlchemyAPI_Params());
+<span class="nc" id="L630">        return URLGetTextSentiment(url, new AlchemyAPI_Params());</span>
     }
     
-    public Document URLGetTextSentiment(String url, AlchemyAPI_Params params)
+<span class="nc" id="L633">    public Document URLGetTextSentiment(String url, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
     {
@@ -638,7 +638,7 @@ public class AlchemyAPI {
     
     	params.setUrl(url);
 
-    	return GET("URLGetTextSentiment", "url", params);
+    	return GET(&quot;URLGetTextSentiment&quot;, &quot;url&quot;, params);
     }    
     
 
@@ -646,10 +646,10 @@ public class AlchemyAPI {
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetTextSentiment(html, url, new AlchemyAPI_Params());
+<span class="nc" id="L649">        return HTMLGetTextSentiment(html, url, new AlchemyAPI_Params());</span>
     }
     
-    public Document HTMLGetTextSentiment(String html, String url, AlchemyAPI_Params params)
+<span class="nc" id="L652">    public Document HTMLGetTextSentiment(String html, String url, AlchemyAPI_Params params)</span>
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
@@ -658,17 +658,17 @@ public class AlchemyAPI {
         params.setUrl(url);
         params.setHtml(html);
 	
-        return POST("HTMLGetTextSentiment", "html", params);
+        return POST(&quot;HTMLGetTextSentiment&quot;, &quot;html&quot;, params);
     }
 
     public Document TextGetTextSentiment(String text)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return TextGetTextSentiment(text, new AlchemyAPI_Params());
+<span class="nc" id="L668">        return TextGetTextSentiment(text, new AlchemyAPI_Params());</span>
     }
     
-    public Document TextGetTextSentiment(String text, AlchemyAPI_Params params)
+<span class="nc" id="L671">    public Document TextGetTextSentiment(String text, AlchemyAPI_Params params)</span>
         throws IOException, SAXException,
         ParserConfigurationException, XPathExpressionException 
     {
@@ -676,7 +676,7 @@ public class AlchemyAPI {
 		
         params.setText(text);
 		
-        return POST("TextGetTextSentiment", "text", params);
+        return POST(&quot;TextGetTextSentiment&quot;, &quot;text&quot;, params);
     }
 	
 	//------------------
@@ -686,11 +686,11 @@ public class AlchemyAPI {
                XPathExpressionException
     {
         return URLGetTargetedSentiment(url, target,
-                                       new AlchemyAPI_TargetedSentimentParams());
+<span class="nc" id="L689">                                       new AlchemyAPI_TargetedSentimentParams());</span>
     }
 
     public Document URLGetTargetedSentiment(String url, String target,
-                                            AlchemyAPI_TargetedSentimentParams params)
+<span class="nc" id="L693">                                            AlchemyAPI_TargetedSentimentParams params)</span>
         throws IOException, SAXException, ParserConfigurationException,
                XPathExpressionException
     {
@@ -700,7 +700,7 @@ public class AlchemyAPI {
         params.setUrl(url);
         params.setTarget(target);
 
-        return GET("URLGetTargetedSentiment", "url", params);
+        return GET(&quot;URLGetTargetedSentiment&quot;, &quot;url&quot;, params);
     }
 	
     public Document HTMLGetTargetedSentiment(String html, String url, String target)
@@ -708,11 +708,11 @@ public class AlchemyAPI {
                XPathExpressionException
     {
         return HTMLGetTargetedSentiment(html, url, target,
-                                        new AlchemyAPI_TargetedSentimentParams());
+<span class="nc" id="L711">                                        new AlchemyAPI_TargetedSentimentParams());</span>
     }
 
     public Document HTMLGetTargetedSentiment(String html, String url, String target,
-                                             AlchemyAPI_TargetedSentimentParams params)
+<span class="nc" id="L715">                                             AlchemyAPI_TargetedSentimentParams params)</span>
         throws IOException, SAXException, ParserConfigurationException,
                XPathExpressionException
     {
@@ -723,7 +723,7 @@ public class AlchemyAPI {
         params.setUrl(url);
         params.setTarget(target);
 
-        return POST("HTMLGetTargetedSentiment", "html", params);
+        return POST(&quot;HTMLGetTargetedSentiment&quot;, &quot;html&quot;, params);
     }
 	
     public Document TextGetTargetedSentiment(String text, String target)
@@ -731,11 +731,11 @@ public class AlchemyAPI {
                XPathExpressionException
     {
         return TextGetTargetedSentiment(text, target,
-                                        new AlchemyAPI_TargetedSentimentParams());
+<span class="nc" id="L734">                                        new AlchemyAPI_TargetedSentimentParams());</span>
     }
 
     public Document TextGetTargetedSentiment(String text, String target,
-                                             AlchemyAPI_TargetedSentimentParams params)
+<span class="nc" id="L738">                                             AlchemyAPI_TargetedSentimentParams params)</span>
         throws IOException, SAXException, ParserConfigurationException,
 	       XPathExpressionException
     {
@@ -745,7 +745,7 @@ public class AlchemyAPI {
         params.setText(text);
         params.setTarget(target);
 
-        return POST("TextGetTargetedSentiment", "text", params);
+        return POST(&quot;TextGetTargetedSentiment&quot;, &quot;text&quot;, params);
     }
 
 	//------------------
@@ -753,10 +753,10 @@ public class AlchemyAPI {
     public Document URLGetRelations(String url) throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return URLGetRelations(url, new AlchemyAPI_RelationParams());
+<span class="nc" id="L756">        return URLGetRelations(url, new AlchemyAPI_RelationParams());</span>
     }
     
-    public Document URLGetRelations(String url, AlchemyAPI_RelationParams params)
+<span class="nc" id="L759">    public Document URLGetRelations(String url, AlchemyAPI_RelationParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -764,17 +764,17 @@ public class AlchemyAPI {
 
 	    params.setUrl(url);
 	
-	    return GET("URLGetRelations", "url", params);
+	    return GET(&quot;URLGetRelations&quot;, &quot;url&quot;, params);
 	}
 
     public Document HTMLGetRelations(String html, String url)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return HTMLGetRelations(html, url, new AlchemyAPI_RelationParams());
+<span class="nc" id="L774">        return HTMLGetRelations(html, url, new AlchemyAPI_RelationParams());</span>
     }
     
-    public Document HTMLGetRelations(String html, String url, AlchemyAPI_RelationParams params)
+<span class="nc" id="L777">    public Document HTMLGetRelations(String html, String url, AlchemyAPI_RelationParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -783,17 +783,17 @@ public class AlchemyAPI {
 	    params.setUrl(url);
 	    params.setHtml(html);
 	
-	    return POST("HTMLGetRelations", "html", params);
+	    return POST(&quot;HTMLGetRelations&quot;, &quot;html&quot;, params);
 	}
 
     public Document TextGetRelations(String text)
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        return TextGetRelations(text, new AlchemyAPI_RelationParams());
+<span class="nc" id="L793">        return TextGetRelations(text, new AlchemyAPI_RelationParams());</span>
     }
     
-    public Document TextGetRelations(String text, AlchemyAPI_RelationParams params)
+<span class="nc" id="L796">    public Document TextGetRelations(String text, AlchemyAPI_RelationParams params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
@@ -801,35 +801,35 @@ public class AlchemyAPI {
 	    
 	    params.setText(text);
 	
-	    return POST("TextGetRelations", "text", params);
+	    return POST(&quot;TextGetRelations&quot;, &quot;text&quot;, params);
 	}
     
 
-    private void CheckHTML(String html, String url) {
-        if (null == html || html.length() < 5)
-            throw new IllegalArgumentException("Enter a HTML document to analyze.");
+<span class="nc" id="L808">    private void CheckHTML(String html, String url) {</span>
+        if (null == html || html.length() &lt; 5)
+            throw new IllegalArgumentException(&quot;Enter a HTML document to analyze.&quot;);
 
-        if (null == url || url.length() < 10)
-            throw new IllegalArgumentException("Enter an URL to analyze.");
+        if (null == url || url.length() &lt; 10)
+            throw new IllegalArgumentException(&quot;Enter an URL to analyze.&quot;);
     }
 
-    private void CheckText(String text) {
-        if (null == text || text.length() < 5)
-            throw new IllegalArgumentException("Enter some text to analyze.");
+<span class="nc" id="L816">    private void CheckText(String text) {</span>
+        if (null == text || text.length() &lt; 5)
+            throw new IllegalArgumentException(&quot;Enter some text to analyze.&quot;);
     }
 
-    private void CheckURL(String url) {
-        if (null == url || url.length() < 10)
-            throw new IllegalArgumentException("Enter an URL to analyze.");
+<span class="nc" id="L821">    private void CheckURL(String url) {</span>
+        if (null == url || url.length() &lt; 10)
+            throw new IllegalArgumentException(&quot;Enter an URL to analyze.&quot;);
     }
     
-    private Document GET(String callName, String callPrefix, AlchemyAPI_Params params)
+<span class="nc" id="L826">    private Document GET(String callName, String callPrefix, AlchemyAPI_Params params)</span>
     throws IOException, SAXException,
            ParserConfigurationException, XPathExpressionException
 	{
 	    StringBuilder uri = new StringBuilder();
 	    uri.append(_requestUri).append(callPrefix).append('/').append(callName)
-	       .append('?').append("apikey=").append(this._apiKey);
+	       .append('?').append(&quot;apikey=&quot;).append(this._apiKey);
 	    uri.append(params.getParameterString());
 	
 	    URL url = new URL(uri.toString());
@@ -839,21 +839,21 @@ public class AlchemyAPI {
 	    return doRequest(handle, params.getOutputMode());
 	}
 
-    private Document POST(String callName, String callPrefix, AlchemyAPI_Params params)
+<span class="nc" id="L842">    private Document POST(String callName, String callPrefix, AlchemyAPI_Params params)</span>
         throws IOException, SAXException,
                ParserConfigurationException, XPathExpressionException
     {
-        URL url = new URL(_requestUri + callPrefix + "/" + callName);
+        URL url = new URL(_requestUri + callPrefix + &quot;/&quot; + callName);
         
         HttpURLConnection handle = (HttpURLConnection) url.openConnection();
         handle.setDoOutput(true);
 
         StringBuilder data = new StringBuilder();
 
-        data.append("apikey=").append(this._apiKey);
+        data.append(&quot;apikey=&quot;).append(this._apiKey);
         data.append(params.getParameterString());
         
-        handle.addRequestProperty("Content-Length", Integer.toString(data.length()));
+        handle.addRequestProperty(&quot;Content-Length&quot;, Integer.toString(data.length()));
 
         DataOutputStream ostream = new DataOutputStream(handle.getOutputStream());
         ostream.write(data.toString().getBytes());
@@ -874,31 +874,31 @@ public class AlchemyAPI {
 
         XPathFactory factory = XPathFactory.newInstance();
 
-        if(AlchemyAPI_Params.OUTPUT_XML.equals(outputMode)) {
-        	String statusStr = getNodeValue(factory, doc, "/results/status/text()");
-        	if (null == statusStr || !statusStr.equals("OK")) {
-        		String statusInfoStr = getNodeValue(factory, doc, "/results/statusInfo/text()");
-        		if (null != statusInfoStr && statusInfoStr.length() > 0)
-        			throw new IOException("Error making API call: " + statusInfoStr + '.');
+<span class="nc" id="L877">        if(AlchemyAPI_Params.OUTPUT_XML.equals(outputMode)) {</span>
+        	String statusStr = getNodeValue(factory, doc, &quot;/results/status/text()&quot;);
+        	if (null == statusStr || !statusStr.equals(&quot;OK&quot;)) {
+        		String statusInfoStr = getNodeValue(factory, doc, &quot;/results/statusInfo/text()&quot;);
+        		if (null != statusInfoStr &amp;&amp; statusInfoStr.length() &gt; 0)
+        			throw new IOException(&quot;Error making API call: &quot; + statusInfoStr + '.');
 
-        		throw new IOException("Error making API call: " + statusStr + '.');
+        		throw new IOException(&quot;Error making API call: &quot; + statusStr + '.');
         	}
         }
         else if(AlchemyAPI_Params.OUTPUT_RDF.equals(outputMode)) {
-        	String statusStr = getNodeValue(factory, doc, "//RDF/Description/ResultStatus/text()");
-        	if (null == statusStr || !statusStr.equals("OK")) {
-        		String statusInfoStr = getNodeValue(factory, doc, "//RDF/Description/ResultStatus/text()");
-        		if (null != statusInfoStr && statusInfoStr.length() > 0)
-        			throw new IOException("Error making API call: " + statusInfoStr + '.');
+        	String statusStr = getNodeValue(factory, doc, &quot;//RDF/Description/ResultStatus/text()&quot;);
+        	if (null == statusStr || !statusStr.equals(&quot;OK&quot;)) {
+        		String statusInfoStr = getNodeValue(factory, doc, &quot;//RDF/Description/ResultStatus/text()&quot;);
+        		if (null != statusInfoStr &amp;&amp; statusInfoStr.length() &gt; 0)
+        			throw new IOException(&quot;Error making API call: &quot; + statusInfoStr + '.');
 
-        		throw new IOException("Error making API call: " + statusStr + '.');
+        		throw new IOException(&quot;Error making API call: &quot; + statusStr + '.');
         	}
         }
 
         return doc;
     }
 
-    private String getNodeValue(XPathFactory factory, Document doc, String xpathStr)
+<span class="nc" id="L901">    private String getNodeValue(XPathFactory factory, Document doc, String xpathStr)</span>
         throws XPathExpressionException
     {
         XPath xpath = factory.newXPath();
@@ -906,7 +906,7 @@ public class AlchemyAPI {
         Object result = expr.evaluate(doc, XPathConstants.NODESET);
         NodeList results = (NodeList) result;
 
-        if (results.getLength() > 0 && null != results.item(0))
+        if (results.getLength() &gt; 0 &amp;&amp; null != results.item(0))
             return results.item(0).getNodeValue();
 
         return null;
@@ -915,3 +915,4 @@ public class AlchemyAPI {
 
 	
 }
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>TwitterTesting2.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">TwitterTesting2.java</span></div><h1>TwitterTesting2.java</h1><pre class="source lang-java linenums">import java.util.List;
+
+import twitter4j.Status;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
+<span class="nc" id="L8">public class TwitterTesting2 {</span>
+
+	public static void main(String[] args) throws TwitterException {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L13">		ConfigurationBuilder cb = new ConfigurationBuilder();</span>
+
+<span class="nc" id="L15">		cb.setDebugEnabled(true);</span>
+<span class="nc" id="L16">		cb.setOAuthConsumerKey(&quot;KY1Wh2MoiP1Q5c1BVUyemcRlR&quot;);</span>
+<span class="nc" id="L17">		cb.setOAuthConsumerSecret(&quot;BZGxfGZjYjDB2DjBuWlJaPw4pFaiahVb1eFfzHc5ymACrx17oz&quot;);</span>
+<span class="nc" id="L18">		cb.setOAuthAccessToken(&quot;4878823353-LszyOWEfmfnrUdHi3po7HhRjmZg8NVDA6BCpUuo&quot;);</span>
+<span class="nc" id="L19">		cb.setOAuthAccessTokenSecret(&quot;a0IUMlpxZ6EXsCY87rAUFa4iDRUBPzhxCykNCEW1MGj3x&quot;);</span>
+		
+		//get username, get status, time of post
+		
+<span class="nc" id="L23">		TwitterFactory tf = new TwitterFactory(cb.build());</span>
+<span class="nc" id="L24">		twitter4j.Twitter twitter = tf.getInstance();</span>
+		
+<span class="nc" id="L26">		List&lt;Status&gt; status = twitter.getHomeTimeline();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">			for (Status st : status){</span>
+//				if (st.)
+<span class="nc" id="L29">				System.out.println(st.getUser().getName() + &quot;-------------&quot; + st.getText());</span>
+			}
+		
+<span class="nc" id="L32">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>CsvWriter.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">CsvWriter.java</span></div><h1>CsvWriter.java</h1><pre class="source lang-java linenums">import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.opencsv.CSVWriter;
+
+import twitter4j.GeoLocation;
+import twitter4j.Place;
+import twitter4j.User;
+
+/**
+ * A class that takes and ArrayList of tweets and converts it to a CSV file
+ * @author josephhaymaker
+ *
+ */
+public class CsvWriter {
+	private static final String COMMA_DELIM = &quot;,&quot;;
+	private static final String NEW_LINE_SEPARATOR = &quot;\n&quot;;
+	ArrayList&lt;Tweet&gt; allTweets;
+<span class="nc" id="L22">	private static String filename = &quot;Aggregated_tweets.csv&quot;;</span>
+	private static String textData; 
+	private static GeoLocation locationData; 
+	private static Place placeData; 
+	private static String languageData;
+	private static User userData; 
+	private static boolean isRetweetedData;
+	private static Date sentDateData;
+<span class="nc" id="L30">	private static String toneData;</span>
+
+<span class="nc" id="L32">	public CsvWriter(ArrayList&lt;Tweet&gt; tweetList){</span>
+<span class="nc" id="L33">	}</span>
+	
+	/**
+	 * A method that takes in tweet variables and sets the information to be written
+	 * @param textData
+	 * @param locationData
+	 * @param placeData
+	 * @param languageData
+	 * @param userData
+	 * @param sentDateData
+	 * @param toneData
+	 */
+	public void setOutputData(String textData, GeoLocation locationData, Place placeData, String languageData, User userData, Date sentDateData, String toneData){
+<span class="nc" id="L46">		textData = this.textData;</span>
+<span class="nc" id="L47">		locationData = this.locationData;</span>
+<span class="nc" id="L48">		placeData = this.placeData;</span>
+<span class="nc" id="L49">		languageData = this.languageData;</span>
+<span class="nc" id="L50">		userData = this.userData;</span>
+<span class="nc" id="L51">		sentDateData = this.sentDateData;</span>
+<span class="nc" id="L52">		toneData = this.toneData;</span>
+<span class="nc" id="L53">	}</span>
+	//	public void setOutputData(boolean wantText, boolean wantLocation, boolean wantPlace, boolean wantLang, boolean wantUser, boolean wantDate){
+	//		wantText = this.wantText;
+	//		wantLocation = this.wantLocation;
+	//		wantPlace = this.wantPlace;
+	//		wantLang = this.wantLang;
+	//		wantUser = this.wantUser;
+	//		wantDate = this.wantDate;
+	//	}
+
+	/**
+	 * A method that generates a CSV file with tweet information
+	 * 
+	 */
+	public void toCSV() {
+		//check to see if file already exists
+<span class="nc" id="L69">		boolean alreadyExists = new File(filename).exists();</span>
+
+		try {
+//			CSVWriter writer = new CSVWriter(new FileWriter(filename), ',');
+<span class="nc" id="L73">			FileWriter csvOutput = new FileWriter(filename);</span>
+			// if the file didn't already exist then we need to write out the header line
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			if (!alreadyExists)</span>
+			{
+				//HANDLE HEADER
+<span class="nc" id="L78">				csvOutput.write(&quot;TEXT&quot;);</span>
+<span class="nc" id="L79">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L80">				csvOutput.write(&quot;LOCATION&quot;);</span>
+<span class="nc" id="L81">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L82">				csvOutput.write(&quot;PLACE&quot;);</span>
+<span class="nc" id="L83">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L84">				csvOutput.write(&quot;LANGUAGE&quot;);</span>
+<span class="nc" id="L85">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L86">				csvOutput.write(&quot;USER&quot;);</span>
+<span class="nc" id="L87">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L88">				csvOutput.write(&quot;DATE&quot;);</span>
+<span class="nc" id="L89">				csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L90">				csvOutput.write(&quot;TONE&quot;);</span>
+<span class="nc" id="L91">				csvOutput.append(NEW_LINE_SEPARATOR);</span>
+			}
+			// else assume that the file already has the correct header line
+<span class="nc" id="L94">			csvOutput.write(textData);</span>
+<span class="nc" id="L95">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L96">			csvOutput.write(locationData.toString());</span>
+<span class="nc" id="L97">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L98">			csvOutput.write(placeData.toString());</span>
+<span class="nc" id="L99">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L100">			csvOutput.write(languageData);</span>
+<span class="nc" id="L101">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L102">			csvOutput.write(userData.toString());</span>
+<span class="nc" id="L103">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L104">			csvOutput.write(sentDateData.toString());</span>
+<span class="nc" id="L105">			csvOutput.append(COMMA_DELIM);</span>
+<span class="nc" id="L106">			csvOutput.write(toneData);</span>
+<span class="nc" id="L107">			csvOutput.append(NEW_LINE_SEPARATOR);</span>
+
+<span class="nc" id="L109">			csvOutput.close();</span>
+<span class="nc" id="L110">			csvOutput.flush();</span>
+<span class="nc" id="L111">		} catch (IOException e) {</span>
+<span class="nc" id="L112">			e.printStackTrace();</span>
+		}
+
+<span class="nc" id="L115">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>

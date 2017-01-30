@@ -1,4 +1,4 @@
-	package com.alchemyapi.test;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>SentimentAnalysis.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">TweetTest (Jan 26, 2017 6:40:16 PM)</a> &gt; <a href="../../index.html" class="el_group">HW6</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">SentimentAnalysis.java</span></div><h1>SentimentAnalysis.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">	package com.alchemyapi.test;</span>
 
 	import com.alchemyapi.api.AlchemyAPI;
 	import com.alchemyapi.api.*;
@@ -18,53 +18,53 @@ public class SentimentAnalysis {
 	    public static void main(String[] args) throws IOException, SAXException,
 	            ParserConfigurationException, XPathExpressionException {
 	        // Create an AlchemyAPI object.
-	        AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile("api_key.txt");
+	        AlchemyAPI alchemyObj = AlchemyAPI.GetInstanceFromFile(&quot;api_key.txt&quot;);
 
 	        // Extract sentiment for a web URL.
-	        Document doc = alchemyObj.URLGetTextSentiment("http://www.techcrunch.com/");
+	        Document doc = alchemyObj.URLGetTextSentiment(&quot;http://www.techcrunch.com/&quot;);
 	        System.out.println(getStringFromDocument(doc));
 
 	        // Extract sentiment for a text string.
 	        doc = alchemyObj.TextGetTextSentiment(
-	            "That hat is ridiculous, Charles.");
+	            &quot;That hat is ridiculous, Charles.&quot;);
 	        System.out.println(getStringFromDocument(doc));
 
 	        // Load a HTML document to analyze.
-	        String htmlDoc = getFileContents("data/example.html");
+	        String htmlDoc = getFileContents(&quot;data/example.html&quot;);
 
 	        // Extract sentiment for a HTML document.
-	        doc = alchemyObj.HTMLGetTextSentiment(htmlDoc, "http://www.test.com/");
+	        doc = alchemyObj.HTMLGetTextSentiment(htmlDoc, &quot;http://www.test.com/&quot;);
 		System.out.println(getStringFromDocument(doc));
 		
 		// Extract entity-targeted sentiment from a HTML document.	
-		AlchemyAPI_NamedEntityParams entityParams = new AlchemyAPI_NamedEntityParams();
+<span class="nc" id="L40">		AlchemyAPI_NamedEntityParams entityParams = new AlchemyAPI_NamedEntityParams();</span>
 		entityParams.setSentiment(true);
-		doc = alchemyObj.TextGetRankedNamedEntities("That Mike Tyson is such a sweetheart.", entityParams);
+		doc = alchemyObj.TextGetRankedNamedEntities(&quot;That Mike Tyson is such a sweetheart.&quot;, entityParams);
 		System.out.println(getStringFromDocument(doc));
 		
 		// Extract keyword-targeted sentiment from a HTML document.	
 		AlchemyAPI_KeywordParams keywordParams = new AlchemyAPI_KeywordParams();
 		keywordParams.setSentiment(true);
-		doc = alchemyObj.TextGetRankedKeywords("That Mike Tyson is such a sweetheart.", keywordParams);
+		doc = alchemyObj.TextGetRankedKeywords(&quot;That Mike Tyson is such a sweetheart.&quot;, keywordParams);
 		System.out.println(getStringFromDocument(doc));
 	        
 		//Extract Targeted Sentiment from text
 		AlchemyAPI_TargetedSentimentParams sentimentParams = new AlchemyAPI_TargetedSentimentParams();
 		sentimentParams.setShowSourceText(true);
-		doc = alchemyObj.TextGetTargetedSentiment("This car is terrible.", "car", sentimentParams);
+		doc = alchemyObj.TextGetTargetedSentiment(&quot;This car is terrible.&quot;, &quot;car&quot;, sentimentParams);
 		System.out.print(getStringFromDocument(doc));
 
 		//Extract Targeted Sentiment from url
-		doc = alchemyObj.URLGetTargetedSentiment("http://techcrunch.com/2012/03/01/keen-on-anand-rajaraman-how-walmart-wants-to-leapfrog-over-amazon-tctv/", "Walmart",sentimentParams);
+		doc = alchemyObj.URLGetTargetedSentiment(&quot;http://techcrunch.com/2012/03/01/keen-on-anand-rajaraman-how-walmart-wants-to-leapfrog-over-amazon-tctv/&quot;, &quot;Walmart&quot;,sentimentParams);
 		System.out.print(getStringFromDocument(doc));
 
 		//Extract Targeted Sentiment from html
-		doc = alchemyObj.HTMLGetTargetedSentiment(htmlDoc, "http://www.test.com/", "WujWuj", sentimentParams);
+		doc = alchemyObj.HTMLGetTargetedSentiment(htmlDoc, &quot;http://www.test.com/&quot;, &quot;WujWuj&quot;, sentimentParams);
 		System.out.print(getStringFromDocument(doc));
 	}
 
 	    // utility function
-	    private static String getFileContents(String filename)
+<span class="nc" id="L67">	    private static String getFileContents(String filename)</span>
 	        throws IOException, FileNotFoundException
 	    {
 	        File file = new File(filename);
@@ -77,7 +77,7 @@ public class SentimentAnalysis {
 
 	            while ((line = input.readLine()) != null) {
 	                contents.append(line);
-	                contents.append(System.getProperty("line.separator"));
+	                contents.append(System.getProperty(&quot;line.separator&quot;));
 	            }
 	        } finally {
 	            input.close();
@@ -87,7 +87,7 @@ public class SentimentAnalysis {
 	    }
 
 	    // utility method
-	    private static String getStringFromDocument(Document doc) {
+<span class="nc" id="L90">	    private static String getStringFromDocument(Document doc) {</span>
 	        try {
 	            DOMSource domSource = new DOMSource(doc);
 	            StringWriter writer = new StringWriter();
@@ -106,3 +106,4 @@ public class SentimentAnalysis {
 	}
 
 }
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>TweetTest (Jan 26, 2017 6:40:16 PM)</div></body></html>
