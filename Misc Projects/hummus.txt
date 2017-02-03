@@ -1,0 +1,33 @@
+<task id="Making_Hummus">
+	<title>Making traditional hummus</title>
+	<shortdesc>Hummus is a simple yet delicious side dish that only requires a few ingredients.
+	It is also great for anyone who is vegetarian or vegan.</shortdesc>
+	
+	<taskbody>
+	<context>This recipe instructs you how to make your own hummus in just a few short 
+	minutes.<p/></context>
+	
+	<steps>
+		<step>
+	<cmd>First, gather all the necessary ingredients: 2 cloves garlic, 1 8oz. can garbanzo beans
+	(chickpeas), 1/4 cup tahini (sesame paste), 1 tsp. salt, 3 tbsp. fresh lemon juice, smoked
+	paprika for garnish (optional), fresh pita for serving (optional). </cmd>
+		</step>
+		<step>
+	<cmd>Add the can of garbanzos to a food processor, draining and reserving excess liquid.
+	This can be used to thin out the hummus at the end if it's too thick.</cmd>
+		</step>
+		<step>
+	<cmd>Mince the garlic finely and add to the food processor. Then add the tahini, salt,
+	and lemon juice.</cmd>
+		</step>
+		<step>
+	<cmd>Blend until smooth. If the hummus is too thick add some of the reserve bean liquid.</cmd>
+		</step>
+		<step>
+	<cmd>Sprinkle paprika or olive oil over the hummus before serving (optional). Serve
+	with chips, warm pita, or vegetables. Enjoy!</cmd>
+		</step>
+	</steps>
+	</taskbody>
+</task>
