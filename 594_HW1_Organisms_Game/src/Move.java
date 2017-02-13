@@ -3,7 +3,7 @@
  * @author swapneel
  *
  */
-public class Move {
+public class Move implements Constants {
 
 	int type;
 	int childpos;
