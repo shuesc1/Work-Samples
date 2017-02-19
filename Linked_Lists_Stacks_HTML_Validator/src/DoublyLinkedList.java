@@ -1,19 +1,11 @@
 /**
  * Our implementation of Linked List using MyGenericNode
- * 
- * @author swapneel
- *
+ * @author haymakej
  */
 public class DoublyLinkedList<T> {
 
 	private DoublyLinkedNode<T> head;
 	private int size;
-
-	
-	
-	public DoublyLinkedNode<T> getHead() {
-		return head;
-	}
 
 	/**
 	 * The constructor Will initialize head to null
@@ -22,6 +14,31 @@ public class DoublyLinkedList<T> {
 		head = null;
 		size = 0;
 	}
+	
+	/**
+	 * A getter method for the head node
+	 * @return a doubly linked head node 
+	 */
+	public DoublyLinkedNode<T> getHead() {
+		return head;
+	}
+	
+	/**
+	 * A getter method for the tail node
+	 * @return the tail node
+	 */
+	public DoublyLinkedNode<T> getTail() {
+		DoublyLinkedNode<T> tail = head;
+		
+		if(tail.next == null){
+			return tail;
+		}
+		while(tail.next != null){
+			tail = tail.next;
+		}
+		return tail;
+	}
+
 
 	/** #1
 	 * A method to add a value to the end of the list
