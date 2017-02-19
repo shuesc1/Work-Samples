@@ -1,5 +1,5 @@
 /**
- * Our implementation of Linked List using MyGenericNode
+ * An implementation of a doubly Linked List using DoublyLinkedNode
  * @author haymakej
  */
 public class DoublyLinkedList<T> {
@@ -53,10 +53,10 @@ public class DoublyLinkedList<T> {
 		DoublyLinkedNode<T> tail = new DoublyLinkedNode<T>(value);
 		DoublyLinkedNode<T> dummy = head;
 
-//		if(head.value == null){
+		//		if(head.value == null){
 		if(head == null){
 			head = tail;
-//			tail = head;
+			//			tail = head;
 		} else {
 			while(dummy.next != null){
 				dummy = dummy.next;
@@ -160,7 +160,6 @@ public class DoublyLinkedList<T> {
 			currentNode = currentNode.next;
 			index++;
 		}
-
 		if(currentNode == o){
 			remove(index);
 			return true;
@@ -186,8 +185,6 @@ public class DoublyLinkedList<T> {
 		return size;
 	}
 
-
-
 	/**
 	 * This method will create a new node. It will add it as the first node of
 	 * the linked list.
@@ -203,8 +200,6 @@ public class DoublyLinkedList<T> {
 		} else {
 			head.prev = node;
 			node.next = head;
-			//		node.next.prev = node;
-			//		node.prev = null;
 			head = node;
 		}
 		size++;
@@ -272,11 +267,8 @@ public class DoublyLinkedList<T> {
 		if (size == 0) {
 			System.out.println("List is empty");
 		} else {
-
 			DoublyLinkedNode<T> i = head;
-
 			System.out.println("Printing out the contents:");
-
 			while (i.next != null) {
 				// while(i != null) {
 				// print node
@@ -284,7 +276,6 @@ public class DoublyLinkedList<T> {
 				System.out.print(i.value + " ---> ");
 				i = i.next;
 			}
-
 			System.out.print(i.value + "\n");
 		}
 	}

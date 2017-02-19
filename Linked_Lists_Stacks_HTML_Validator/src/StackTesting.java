@@ -1,4 +1,8 @@
-
+/**
+ * A class used to infomally test the implementation of the MyStack class
+ * @author josephhaymaker
+ *
+ */
 public class StackTesting {
 
 	public static void main(String[] args) {

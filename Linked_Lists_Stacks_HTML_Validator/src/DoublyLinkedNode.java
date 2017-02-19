@@ -11,7 +11,6 @@ public class DoublyLinkedNode<T> {
 	
 	public T value;
 	public DoublyLinkedNode<T> next, prev;
-//	public DoublyLinkedNode<T> prev;
 	
 	/**
 	 * The constructor for node, prev & next both point to null

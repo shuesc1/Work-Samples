@@ -7,26 +7,14 @@
 public class MyStack<T> {
 
 	private DoublyLinkedList<T> dll;
-//	private DoublyLinkedNode<T> itemNode;
 
 	/**
 	 * The constructor for the class
+	 * initializes the doubly linked list
 	 */
 	public MyStack(){
 		dll = new DoublyLinkedList<T>();
 	}
-
-	
-	public DoublyLinkedList<T> getDoublylinkedlist() {
-		return dll;
-	}
-
-
-	public void setDoublylinkedlist(DoublyLinkedList<T> dll) {
-		this.dll = dll;
-	}
-
-
 
 	/**#1
 	 * A method for checking if the stack is empty
@@ -66,16 +54,38 @@ public class MyStack<T> {
 			return lastValue;
 		}
 	}
-	
+
 	/**#4
 	 * A method that puts an item onto the top of the stack
 	 * @param item
 	 */
-//	public <E> void push(E item){
-//		dll.add((T) item);
-//	}
 	public void push(T item){
 		dll.add(item);
 	}
 
+	/**
+	 * A getter method for the linked list
+	 * @return the doubly linked list
+	 */
+	public DoublyLinkedList<T> getDoublylinkedlist() {
+		return dll;
+	}
+
+	/**
+	 * A setter method for the doubly linked list
+	 * @param dll
+	 */
+	public void setDoublylinkedlist(DoublyLinkedList<T> dll) {
+		this.dll = dll;
+	}
+
+	/**
+	 * A method for getting the size of the stack
+	 * @return an int of the size
+	 */
+	public int size(){
+		int stackSize = dll.size();
+		return stackSize;
+	}
+	
 }

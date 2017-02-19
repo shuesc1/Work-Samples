@@ -1,4 +1,8 @@
-
+/**
+ * A class that was used to test parts of the implementation of the DoublyLinkedList class
+ * @author josephhaymaker
+ *
+ */
 public class DoublyLinkedListTester {
 
 	public static void main(String[] args) {
@@ -6,11 +10,9 @@ public class DoublyLinkedListTester {
 
 		DoublyLinkedNode<String> node = new DoublyLinkedNode<String>("SFO");
 		DoublyLinkedNode<Integer> node2 = new DoublyLinkedNode<Integer>(3);
-		
 //		node.next = node2;
 		
 		DoublyLinkedList<String> linkedList = new DoublyLinkedList<String>();
-		
 		linkedList.display();
 		
 		linkedList.addFirst("EWR");

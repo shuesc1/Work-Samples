@@ -98,4 +98,13 @@ public class DoublyLinkedListJUnitTester {
 		linkedList1.deleteLast();
 		assertNotEquals("node should be deleted", "list", linkedList1.getTail());
 	}
+	
+	@Test
+	public void testDeleteLast2(){
+		DoublyLinkedList<String> linkedList3 = new DoublyLinkedList<String>();
+		linkedList3.deleteLast();
+		assertTrue("no node to delete", linkedList3.isEmpty());
+	}
+	
+	
 }

@@ -26,6 +26,11 @@ public class MyStackTester {
 	}
 	
 	@Test
+	public void testPeek2() {
+		assertNull("Should return null", stack1.peek());
+	}
+	
+	@Test
 	public void testPop() {
 		Integer i = 2;
 		Integer j = 3;
@@ -36,11 +41,24 @@ public class MyStackTester {
 	}
 	
 	@Test
+	public void testPop2() {
+		assertNull("Stack is empty, should return null", stack2.pop());
+	}
+	
+	@Test
 	public void testPush() {
 		DoublyLinkedList<String> dll = stack1.getDoublylinkedlist();
 		dll.add("value1");
 		stack1.push("push");
 		assertFalse("There should be an element here now", stack1.empty());
+	}
+	
+	@Test
+	public void testSetDLL(){
+		DoublyLinkedList thisDLL = new DoublyLinkedList<>();
+		stack1.setDoublylinkedlist(thisDLL);
+		
+		assertEquals(thisDLL, stack1.getDoublylinkedlist());
 	}
 
 }
