@@ -32,11 +32,13 @@ public class MyStackTester {
 		stack2.push(i);
 		stack2.push(j);
 		stack2.pop();
-		assertEquals("Popped off top element, leaving 2", 2, stack2.peek());
+		assertEquals("Popped off top element, leaving 2", i, stack2.peek());
 	}
 	
 	@Test
 	public void testPush() {
+		DoublyLinkedList<String> dll = stack1.getDoublylinkedlist();
+		dll.add("value1");
 		stack1.push("push");
 		assertFalse("There should be an element here now", stack1.empty());
 	}

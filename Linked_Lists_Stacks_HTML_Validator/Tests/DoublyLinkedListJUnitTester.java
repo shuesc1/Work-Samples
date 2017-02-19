@@ -92,4 +92,10 @@ public class DoublyLinkedListJUnitTester {
 //		ll.addLast(3);
 		assertEquals("Size should be 0", 0, ll.size());
 	}
+	
+	@Test
+	public void testDeleteLast(){
+		linkedList1.deleteLast();
+		assertNotEquals("node should be deleted", "list", linkedList1.getTail());
+	}
 }

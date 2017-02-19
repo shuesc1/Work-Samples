@@ -14,7 +14,7 @@ public class DoublyLinkedList<T> {
 		head = null;
 		size = 0;
 	}
-	
+
 	/**
 	 * A getter method for the head node
 	 * @return a doubly linked head node 
@@ -22,14 +22,14 @@ public class DoublyLinkedList<T> {
 	public DoublyLinkedNode<T> getHead() {
 		return head;
 	}
-	
+
 	/**
 	 * A getter method for the tail node
 	 * @return the tail node
 	 */
 	public DoublyLinkedNode<T> getTail() {
 		DoublyLinkedNode<T> tail = head;
-		
+
 		if(tail.next == null){
 			return tail;
 		}
@@ -53,17 +53,18 @@ public class DoublyLinkedList<T> {
 		DoublyLinkedNode<T> tail = new DoublyLinkedNode<T>(value);
 		DoublyLinkedNode<T> dummy = head;
 
-		if(head.value == null){
+//		if(head.value == null){
+		if(head == null){
 			head = tail;
+//			tail = head;
+		} else {
+			while(dummy.next != null){
+				dummy = dummy.next;
+			}
+			//		tail = head;
+			dummy.next = tail;
+			tail.prev = dummy;
 		}
-
-		while(dummy.next != null){
-			dummy = dummy.next;
-		}
-		//		tail = head;
-		dummy.next = tail;
-		tail.prev = dummy;
-
 		return true;
 	}
 

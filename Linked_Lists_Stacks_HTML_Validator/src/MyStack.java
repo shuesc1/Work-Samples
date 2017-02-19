@@ -16,6 +16,18 @@ public class MyStack<T> {
 		dll = new DoublyLinkedList<T>();
 	}
 
+	
+	public DoublyLinkedList<T> getDoublylinkedlist() {
+		return dll;
+	}
+
+
+	public void setDoublylinkedlist(DoublyLinkedList<T> dll) {
+		this.dll = dll;
+	}
+
+
+
 	/**#1
 	 * A method for checking if the stack is empty
 	 * @return a boolean true if stack is empty
@@ -27,14 +39,16 @@ public class MyStack<T> {
 
 	/**#2
 	 * a method to see the object at the top of the stack
+	 * @return 
 	 * @return a doubly linked list node at the top of the stack
 	 */
-	public DoublyLinkedNode<T> peek(){
+	public T peek(){
 		if(dll.isEmpty() == true){
 			return null;
 		} else {
 			DoublyLinkedNode<T> topOfStack = dll.getTail();
-			return topOfStack;
+			T value = topOfStack.value;
+			return value;
 		}
 	}
 
@@ -42,13 +56,14 @@ public class MyStack<T> {
 	 * A method that deletes the last element on the stack
 	 * @return
 	 */
-	public DoublyLinkedNode<T> pop(){
+	public T pop(){
 		if(dll.isEmpty() == true){
 			return null;
 		} else {
 			DoublyLinkedNode<T> last = dll.getTail();
+			T lastValue = last.value;
 			dll.deleteLast();
-			return last;
+			return lastValue;
 		}
 	}
 	
@@ -56,8 +71,11 @@ public class MyStack<T> {
 	 * A method that puts an item onto the top of the stack
 	 * @param item
 	 */
-	public <E> void push(E item){
-		dll.add((T) item);
+//	public <E> void push(E item){
+//		dll.add((T) item);
+//	}
+	public void push(T item){
+		dll.add(item);
 	}
 
 }
