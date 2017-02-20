@@ -81,7 +81,7 @@ public class DoublyLinkedListJUnitTester {
 		
 		Integer i = 0;
 		ll.remove(i);
-		assertNotNull("First value shouldn't be 1", ll);
+		assertNotNull("There should be a node containing null, but LL isn't null", ll);
 	}
 	
 	//#7
@@ -96,14 +96,14 @@ public class DoublyLinkedListJUnitTester {
 	@Test
 	public void testDeleteLast(){
 		linkedList1.deleteLast();
-		assertNotEquals("node should be deleted", "list", linkedList1.getTail());
+		assertNotEquals("Node containing 'list'should be deleted", "list", linkedList1.getTail());
 	}
 	
 	@Test
 	public void testDeleteLast2(){
 		DoublyLinkedList<String> linkedList3 = new DoublyLinkedList<String>();
 		linkedList3.deleteLast();
-		assertTrue("no node to delete", linkedList3.isEmpty());
+		assertTrue("No node to delete", linkedList3.isEmpty());
 	}
 	
 	

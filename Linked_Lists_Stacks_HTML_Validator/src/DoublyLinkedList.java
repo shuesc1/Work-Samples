@@ -110,9 +110,14 @@ public class DoublyLinkedList<T> {
 	public void clear(){
 		if(head != null){
 			while(head.next != null){
-				head.value = null;
+//				head.value = null;
 				head = head.next;
+				head.prev = null;
 			}
+		}
+		
+		if(head.next == null){
+			head = null;
 		}
 	}
 
