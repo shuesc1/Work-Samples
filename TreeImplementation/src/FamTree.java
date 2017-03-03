@@ -7,12 +7,13 @@ import java.util.StringTokenizer;
 
 public class FamTree<T> {
 
-	private ArrayList<GenericNode<T>> allNodes;
+	private ArrayList<GenericNode<String>> allNodes;
 	private GenericNode<String> parent, child, root;
 	private String aParent;
 	private String aChild;
-	int count = 0;
+	private int count = 0;
 	private Scanner in;
+	private boolean result;
 
 	/**
 	 * The constructor for the class
@@ -22,6 +23,10 @@ public class FamTree<T> {
 		allNodes = new ArrayList<>();
 	}
 
+	public void addNode(GenericNode<String> g){
+		allNodes.add(g);
+	}
+	
 	/**
 	 * A method to take in a file representing family members and store them as nodes
 	 * @param filename a .txt file with family relationships
@@ -35,12 +40,13 @@ public class FamTree<T> {
 		while(in.hasNextLine()){
 			StringTokenizer st = new StringTokenizer(in.nextLine());
 			while(st.hasMoreTokens()){
-				aParent = st.nextToken(","); //gets name which is a string
-				aChild = st.nextToken(); //gets name which is a string
+				aParent = st.nextToken(",").trim(); //gets name which is a string
+				aChild = st.nextToken().trim(); //gets name which is a string
 
 				parent = new GenericNode<String>(aParent);
-				allNodes.add((GenericNode<T>) parent); //add parent node to list of all parent nodes
+				allNodes.add(parent); //add parent node to list of all parent nodes
 				child = new GenericNode<String>(aChild);
+				allNodes.add(child);
 				parent.children.add(child); //adds child to parent node's personal children arraylist
 				if(count == 0){
 					root = parent;
@@ -55,14 +61,17 @@ public class FamTree<T> {
 	 * @param root
 	 * @return
 	 */
-	public int size(GenericNode<T> root){
+	public int size(){
 		int size = 0;
 		if(root == null){
 			size = 0;
-		}else {
-			for(int i = 0; i < root.children.size() ; i++){
-				size = 1 + size(root.children.get(i));
-			}
+		}else if (root.children.size() == 0){
+			size = 1 + root.children.size(); 
+		} else {
+			size = 1 + size();
+			//			for(int i = 0; i < root.children.size() ; i++){
+			//				size = 1 + size(root.children.get(i));
+			//			}
 		}
 		return size;
 	}
@@ -74,21 +83,49 @@ public class FamTree<T> {
 	 * @return a boolean indicating if a is a parent of b
 	 */
 	public boolean isParent(String a, String b){
-		if(root.name.equals(a)){
-			for(GenericNode n : root.children){
-				if(n.name.equals(b)){
-					return true;
+		//		for(GenericNode<String> g : allNodes)
+		//			if((g.name).equalsIgnoreCase(a)){
+		GenericNode<String> start = new GenericNode<String>(null);
+		start = root;
+		int v = 0;
+
+		for(GenericNode<String> gn : allNodes){
+			if(gn.name.equalsIgnoreCase(a) && gn.children.toString().contains(b)){
+//				if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+					result = true;
 				} else {
-					return false;
+					result = false;
 				}
 			}
-		}
-
-//		if(isChild(b, a) == true){
-//			return true;
+		
+		
+		
+		
+//		if(start.children.size() == 0){
+//			result = false;
+//		} else if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+//			result = true;
 //		} else {
-//			return false;
+//			isParent(a,b);
 //		}
+		
+//		if((start.name).equalsIgnoreCase(a)){
+//			for(GenericNode<String> n : root.children){
+//				if((n.name).equalsIgnoreCase(b)){
+//					result = true;
+//				} else {
+//					result =  false;
+//					root = n;
+//					isParent(a, b);
+//				}
+//			}
+//		} else {
+//			//			for(int i = 0; i < start.children.size(); i++){
+//			start = start.children.get(v);
+//			v++;
+////			isParent(a,b);
+//		}
+		return result;
 	}
 
 	/**#2
@@ -188,11 +225,11 @@ public class FamTree<T> {
 	/**#9
 	 * 
 	 */
-	public void preorderTraversal(GenericNode<T> g){
+	public void preorderTraversal(){
 		//Preorder (Root, Left, Right) : 1 2 4 5 3
-		if(g == null){
+		if(root == null){
 			System.out.println("Tree is empty");
-		} else if(g != null){
+		} else if(root != null){
 			System.out.println(g.name + "," + preorderTraversal(g.left) + "," + preorderTraversal(g.right) + ",");
 		}
 
@@ -201,64 +238,51 @@ public class FamTree<T> {
 	/**#10
 	 * 
 	 */
-	public void postorderTraversal(GenericNode<T> g){
+	public void postorderTraversal(){
 		//Postorder (Left, Right, Root) : 4 5 2 3 1
-		if(g == null){
+		if(root == null){
 			System.out.println("Tree is empty");
-		} else if(g != null){
+		} else if(root != null){
 			System.out.println(preorderTraversal(g.left) + "," + preorderTraversal(g.right) + "," + g.name + ",");
 		}
 	}
 
-
-
-	public GenericNode<T> getLeftChild(GenericNode<T> parent){
-		child = (GenericNode<String>) parent.left;
-		return (GenericNode<T>) child;
+	/**#11
+	 * A method that uses census data to tell whether a family member is female or not
+	 * @param a a string name
+	 * @return a boolean true if female, false if male
+	 * @throws FileNotFoundException
+	 */
+	public boolean isFemale(String a) throws FileNotFoundException{
+		result = false;
+		File file = new File("census_female_names.csv");
+		Scanner in = new Scanner(file);
+		while(in.hasNext()){
+			String name = in.next();
+			if(name.equalsIgnoreCase(a)){
+				result = true;
+				break;
+			} else {
+				result = false;
+			}
+		}
+		in.close();
+		return result;
 	}
 
-	public GenericNode<T> getRightChild(GenericNode<T> parent){
-		child = (GenericNode<String>) parent.right;
-		return (GenericNode<T>) child;
+	/**#12
+	 * A method that tells is a person is an only child or not
+	 * @param a a string name
+	 * @return a boolean true if person is only child, false otherwise
+	 */
+	public boolean isOnlyChild(String a){
+		for(GenericNode<String> n : allNodes){
+			if(!n.name.equals(a) && isSibling((String) n.name, a) == true){
+				result = false;
+			} else {
+				result = true;
+			}
+		}
+		return result;
 	}
-
-	//	public void addChild(GenericNode child) {
-	//        child.setParent(this);
-	//        this.children.add(child);
-	//    }
-	//
-	//    public void addChild(String name) {
-	//    	GenericNode<T> newChild = new GenericNode<>(name);
-	//        newChild.setParent(parent);
-	//        children.add(newChild);
-	//    }
-	//
-	//    public void addChildren(ArrayList<GenericNode> children) {
-	//        for(GenericNode t : children) {
-	//            t.setParent(parent);
-	//        }
-	//        this.children.addAll(children);
-	//    }
-	//
-	//    public List<GenericNode> getChildren() {
-	//        return children;
-	//    }
-	//
-	//    public T getData() {
-	//        return data;
-	//    }
-	//
-	//    public void setData(T data) {
-	//        this.data = data;
-	//    }
-	//
-	private void setParent(GenericNode parent) {
-		this.parent = parent;
-	}
-
-	public GenericNode getParent() {
-		return parent;
-	}
-
-
 }
