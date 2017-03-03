@@ -25,21 +25,7 @@ public class FamTree<T> {
 
 
 
-	/**
-	 * A getter method for a node's parent
-	 * @param a string name of a child
-	 * @return parent a parent node
-	 */
-	public GenericNode<String> getParent(String a){
-		for(GenericNode<String> gn : allNodes){
-			for(GenericNode<String> n : gn.children){
-				if(n.name.equalsIgnoreCase(a)){
-					parent = gn;
-				}
-			}
-		}
-		return parent;
-	}
+
 
 	/**
 	 * A method to take in a file representing family members and store them as nodes
@@ -212,7 +198,8 @@ public class FamTree<T> {
 	 * @return a boolean value if a is a sibling of b
 	 */
 	public boolean isSibling(String a, String b){
-		if(isSibling(b,a) == true){
+		if(getParent(a).name.equalsIgnoreCase(getParent(b).name) ){
+//		if(getParent(a) == getParent(b)){
 			return true;
 		} else {
 			return false;
@@ -226,7 +213,7 @@ public class FamTree<T> {
 	 * @return
 	 */
 	public boolean isCousin(String a, String b){
-		if(isCousin(b,a) == true){
+		if(isSibling(getParent(a).name,getParent(b).name) == true){
 			return true;
 		} else {
 			return false;
@@ -345,6 +332,21 @@ public class FamTree<T> {
 		root = g;
 	}
 
-
+	/**
+	 * A getter method for a node's parent
+	 * @param a string name of a child
+	 * @return parent a parent node
+	 */
+	public GenericNode<String> getParent(String a){
+		for(GenericNode<String> gn : allNodes){
+			for(GenericNode<String> n : gn.children){
+				if(n.name.equalsIgnoreCase(a)){
+					parent = gn;
+				}
+			}
+		}
+		return parent;
+	}
+	
 
 }
