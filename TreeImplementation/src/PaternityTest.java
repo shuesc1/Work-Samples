@@ -27,6 +27,10 @@ public class PaternityTest {
 		
 		boolean r3 = ft.isParent("Adam", "Abraham");
 		System.out.println("You claim Abraham is your son. The paternity test proves that this is:\n" + r3);
+		
+		
+		System.out.println("Tree size: " + ft.size());
+		System.out.println("Height: " + ft.getHeight());
 	}
 
 }

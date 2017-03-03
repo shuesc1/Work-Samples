@@ -10,6 +10,8 @@ public class FamilyTreeSimulator {
 		FamTree ft = new FamTree();
 		String filename = "family_tree.txt";
 		ft.parseMembers(filename);
+//		System.out.println("Size:" + ft.size());
+//		System.out.println("Height: " + ft.getHeight());
 		
 		System.out.println("**********FAMILY TREE SIMULATOR*********");
 		System.out.println("1a). Is Andrew the parent of Kevin?"); //#1
@@ -49,17 +51,20 @@ public class FamilyTreeSimulator {
 		System.out.println("6b). Is Camilla a cousin to Sally?"); //#6
 		System.out.println("Answer: " + ft.isCousin("Camilla", "Sally"));
 		
-//		System.out.println("7a). Is Kevin an uncle to Lucy?"); //#7
-//		System.out.println("Answer: " + ft.isUncle("Kevin", "Lucy"));
+		System.out.println("7a). Is Kevin an uncle to Lucy?"); //#7
+		System.out.println("Answer: " + ft.isUncle("Kevin", "Lucy"));
 		
-//		System.out.println("DISPLAY STATISTICS:"); //#8
-//		System.out.println(ft.displayStatistics());
+		System.out.println("7b). Is Mary an aunt to Sally?"); //#7
+		System.out.println("Answer: " + ft.isUncle("Mary", "Sally"));
 		
-//		System.out.println("Preorder traversal:"); //#9
-//		ft.preorderTraversal();
-////		
-//		System.out.println("Postorder traversal:"); //#10
-//		ft.postorderTraversal();
+		System.out.println("DISPLAY STATISTICS:"); //#8
+		ft.displayStatistics();
+		
+		System.out.println("PREORDER TRAVERSAL:"); //#9
+		ft.preorderTraversal();
+//		
+		System.out.println("\nPOSTORDER TRAVERSAL:"); //#10
+		ft.postorderTraversal();
 		
 		System.out.println("11a). Is Mary a girl?"); //#11
 		System.out.println("Answer: " + ft.isFemale("Mary"));
@@ -70,8 +75,8 @@ public class FamilyTreeSimulator {
 		System.out.println("12a). Is Steve an only child?"); //#12
 		System.out.println("Answer: " + ft.isOnlyChild("Steve"));
 		
-//		System.out.println("12a). Is Andrew an only child?"); //#12
-//		System.out.println("Answer: " + ft.isOnlyChild("Andrew"));
+		System.out.println("12b). Is Elisa an only child?"); //#12
+		System.out.println("Answer: " + ft.isOnlyChild("Elisa"));
 	}
 
 }

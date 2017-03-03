@@ -1,0 +1,66 @@
+public boolean isParent(String a, String b){
+		//		for(GenericNode<String> g : allNodes)
+		//			if((g.name).equalsIgnoreCase(a)){
+		//		GenericNode<String> currentNode = new GenericNode<String>(null);
+		GenericNode<String> parentNode = new GenericNode<String>(null);
+		//		currentNode = root;
+		int v = 0;
+
+		parentNode = getParent(b);
+		if(parentNode.name.equalsIgnoreCase(a)){
+			return true;
+		} else {
+			return false;
+		}
+
+
+
+
+		//recursive approach
+		//		if(currentNode.name.equalsIgnoreCase(a) && currentNode.children.size() == 0){
+		//			result = false;
+		//		} else if(currentNode.name.equalsIgnoreCase(a) && root.children.toString().contains(b)){
+		//			result = true;
+		//		} else if(!currentNode.name.equalsIgnoreCase(a)){
+		//			for(GenericNode<String> gn : currentNode.children){
+		//				currentNode = gn;
+		//				isParent(a,b);
+		//			}
+		//		}
+
+
+		//		for(GenericNode<String> gn : allNodes){
+		//			if(gn.name.equalsIgnoreCase(a) && gn.children.toString().contains(b)){
+		////				if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+		//					result = true;
+		//				} else {
+		//					result = false;
+		//				}
+		//			}
+
+		//		if(start.children.size() == 0){
+		//			result = false;
+		//		} else if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+		//			result = true;
+		//		} else {
+		//			isParent(a,b);
+		//		}
+
+		//		if((start.name).equalsIgnoreCase(a)){
+		//			for(GenericNode<String> n : root.children){
+		//				if((n.name).equalsIgnoreCase(b)){
+		//					result = true;
+		//				} else {
+		//					result =  false;
+		//					root = n;
+		//					isParent(a, b);
+		//				}
+		//			}
+		//		} else {
+		//			//			for(int i = 0; i < start.children.size(); i++){
+		//			start = start.children.get(v);
+		//			v++;
+		////			isParent(a,b);
+		//		}
+		//		return result;
+	}
