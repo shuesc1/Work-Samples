@@ -12,26 +12,26 @@ public class FamilyTreeSimulator {
 		ft.parseMembers(filename);
 		
 		System.out.println("**********FAMILY TREE SIMULATOR*********");
-		System.out.println("1a). Is Andrew the parent of Kevin?"); //#1
-		result = ft.isParent("Andrew", "Kevin");
-		System.out.println("Answer: " + result);
-		
-		System.out.println("1b). Is Brandon the parent of Tom?"); 
-		result = ft.isParent("Brandon", "Tom");
-		System.out.println("Answer: " + result);
+//		System.out.println("1a). Is Andrew the parent of Kevin?"); //#1
+//		result = ft.isParent("Andrew", "Kevin");
+//		System.out.println("Answer: " + result);
+//		
+//		System.out.println("1b). Is Brandon the parent of Tom?"); //#1
+//		result = ft.isParent("Brandon", "Tom");
+//		System.out.println("Answer: " + result);
 //		
 //		System.out.println("2a). Is Will the child of Adam?"); //#2
 //		result = ft.isChild("Will", "Adam");
 //		System.out.println("Answer: " + result);
 //
-//		System.out.println("2b). Is Adam the child of Elisa?"); 
+//		System.out.println("2b). Is Adam the child of Elisa?"); //#2
 //		result = ft.isChild("Adam", "Elisa");
 //		System.out.println("Answer: " + result);
 //		
 //		System.out.println("3a). Is Will the ancestor of Steve?"); //#3
 //		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
 //		
-//		System.out.println("3b). Is Sally the ancestor of Will?"); 
+//		System.out.println("3b). Is Sally the ancestor of Will?");  //#3
 //		System.out.println("Answer: " + ft.isAncestor("Sally", "Will"));
 //		
 //		System.out.println("4a). Is Kevin the descendant of Adam?"); //#4
@@ -50,10 +50,10 @@ public class FamilyTreeSimulator {
 //		System.out.println(ft.displayStatistics());
 //		
 //		System.out.println("Preorder traversal:"); //#9
-//		System.out.println(ft.preorderTraversal());
+//		ft.preorderTraversal();
 //		
-//		System.out.println("Preorder traversal:"); //#10
-//		System.out.println(ft.preorderTraversal());
+		System.out.println("Postorder traversal:"); //#10
+		ft.postorderTraversal();
 		
 		System.out.println("11a). Is Mary a girl?"); //#11
 		System.out.println("Answer: " + ft.isFemale("Mary"));

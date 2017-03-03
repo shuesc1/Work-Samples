@@ -17,16 +17,30 @@ public class FamTree<T> {
 
 	/**
 	 * The constructor for the class
-	 * it initializes arraylists to store the nodes
+	 * it initializes an arraylist to store the nodes
 	 */
 	public FamTree(){
 		allNodes = new ArrayList<>();
 	}
 
-	public void addNode(GenericNode<String> g){
-		allNodes.add(g);
+
+
+	/**
+	 * A getter method for a node's parent
+	 * @param a string name of a child
+	 * @return parent a parent node
+	 */
+	public GenericNode<String> getParent(String a){
+		for(GenericNode<String> gn : allNodes){
+			for(GenericNode<String> n : gn.children){
+				if(n.name.equalsIgnoreCase(a)){
+					parent = gn;
+				}
+			}
+		}
+		return parent;
 	}
-	
+
 	/**
 	 * A method to take in a file representing family members and store them as nodes
 	 * @param filename a .txt file with family relationships
@@ -85,47 +99,68 @@ public class FamTree<T> {
 	public boolean isParent(String a, String b){
 		//		for(GenericNode<String> g : allNodes)
 		//			if((g.name).equalsIgnoreCase(a)){
-		GenericNode<String> start = new GenericNode<String>(null);
-		start = root;
+		//		GenericNode<String> currentNode = new GenericNode<String>(null);
+		GenericNode<String> parentNode = new GenericNode<String>(null);
+		//		currentNode = root;
 		int v = 0;
 
-		for(GenericNode<String> gn : allNodes){
-			if(gn.name.equalsIgnoreCase(a) && gn.children.toString().contains(b)){
-//				if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
-					result = true;
-				} else {
-					result = false;
-				}
-			}
-		
-		
-		
-		
-//		if(start.children.size() == 0){
-//			result = false;
-//		} else if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
-//			result = true;
-//		} else {
-//			isParent(a,b);
-//		}
-		
-//		if((start.name).equalsIgnoreCase(a)){
-//			for(GenericNode<String> n : root.children){
-//				if((n.name).equalsIgnoreCase(b)){
-//					result = true;
-//				} else {
-//					result =  false;
-//					root = n;
-//					isParent(a, b);
-//				}
-//			}
-//		} else {
-//			//			for(int i = 0; i < start.children.size(); i++){
-//			start = start.children.get(v);
-//			v++;
-////			isParent(a,b);
-//		}
-		return result;
+		parentNode = getParent(b);
+		if(parentNode.name.equalsIgnoreCase(a)){
+			return true;
+		} else {
+			return false;
+		}
+
+
+
+
+		//recursive approach
+		//		if(currentNode.name.equalsIgnoreCase(a) && currentNode.children.size() == 0){
+		//			result = false;
+		//		} else if(currentNode.name.equalsIgnoreCase(a) && root.children.toString().contains(b)){
+		//			result = true;
+		//		} else if(!currentNode.name.equalsIgnoreCase(a)){
+		//			for(GenericNode<String> gn : currentNode.children){
+		//				currentNode = gn;
+		//				isParent(a,b);
+		//			}
+		//		}
+
+
+		//		for(GenericNode<String> gn : allNodes){
+		//			if(gn.name.equalsIgnoreCase(a) && gn.children.toString().contains(b)){
+		////				if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+		//					result = true;
+		//				} else {
+		//					result = false;
+		//				}
+		//			}
+
+		//		if(start.children.size() == 0){
+		//			result = false;
+		//		} else if(start.name.equalsIgnoreCase(a) && start.children.toString().contains(b)){
+		//			result = true;
+		//		} else {
+		//			isParent(a,b);
+		//		}
+
+		//		if((start.name).equalsIgnoreCase(a)){
+		//			for(GenericNode<String> n : root.children){
+		//				if((n.name).equalsIgnoreCase(b)){
+		//					result = true;
+		//				} else {
+		//					result =  false;
+		//					root = n;
+		//					isParent(a, b);
+		//				}
+		//			}
+		//		} else {
+		//			//			for(int i = 0; i < start.children.size(); i++){
+		//			start = start.children.get(v);
+		//			v++;
+		////			isParent(a,b);
+		//		}
+		//		return result;
 	}
 
 	/**#2
@@ -240,10 +275,18 @@ public class FamTree<T> {
 	 */
 	public void postorderTraversal(){
 		//Postorder (Left, Right, Root) : 4 5 2 3 1
-		if(root == null){
+		if(root == null){	//bc empty
 			System.out.println("Tree is empty");
-		} else if(root != null){
-			System.out.println(preorderTraversal(g.left) + "," + preorderTraversal(g.right) + "," + g.name + ",");
+		} else if(root.children.size() != 0){ //bc children are leaves
+			for(GenericNode<String> g :root.children){
+				System.out.print(g.name + ", ");
+			}
+			System.out.println(root.name);	
+		} else if(root.children.get(1).children.size() != 0){ //case of children having children
+			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
+			for(GenericNode<String> g :root.children){
+				postorderTraversal();
+			}
 		}
 	}
 
@@ -285,4 +328,23 @@ public class FamTree<T> {
 		}
 		return result;
 	}
+
+	/**
+	 * A method to add nodes to the list of all nodes (for testing purposes)
+	 * @param g a node object
+	 */
+	public void addNode(GenericNode<String> g){
+		allNodes.add(g);
+	}
+
+	/**
+	 * A setter method for setting the root (for testing)
+	 * @param g
+	 */
+	public void setRoot(GenericNode<String> g){
+		root = g;
+	}
+
+
+
 }

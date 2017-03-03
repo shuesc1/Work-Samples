@@ -9,10 +9,12 @@ public class PaternityTest {
 		GenericNode<String> daughter = new GenericNode<String>("Sara");
 		GenericNode<String> grandson = new GenericNode<String>("Abraham");
 		
+		
 		root.children.add(daughter);
 		daughter.children.add(grandson);
 		
 		FamTree<GenericNode<String>> ft = new FamTree<GenericNode<String>>();
+		ft.setRoot(root);
 		ft.addNode(root);
 		ft.addNode(daughter);
 		ft.addNode(grandson);
