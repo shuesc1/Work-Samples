@@ -30,14 +30,14 @@ public class FamilyTreeSimulator {
 		result = ft.isChild("Adam", "Elisa");
 		System.out.println("Answer: " + result);
 		
-//		System.out.println("3a). Is Will the ancestor of Steve?"); //#3
-//		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
+		System.out.println("3a). Is Will the ancestor of Steve?"); //#3
+		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
 		
-//		System.out.println("3b). Is Sally the ancestor of Will?");  //#3
-//		System.out.println("Answer: " + ft.isAncestor("Sally", "Will"));
-//		
-//		System.out.println("4a). Is Kevin the descendant of Adam?"); //#4
-//		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
+		System.out.println("3b). Is Sally the ancestor of Will?");  //#3
+		System.out.println("Answer: " + ft.isAncestor("Sally", "Will"));
+		
+		System.out.println("4a). Is Kevin the descendant of Adam?"); //#4
+		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
 		
 		System.out.println("5a). Is Stacy the sibling of Lucy?"); //#5
 		System.out.println("Answer: " + ft.isSibling("Stacy", "Lucy"));
@@ -62,7 +62,7 @@ public class FamilyTreeSimulator {
 		
 		System.out.println("PREORDER TRAVERSAL:"); //#9
 		ft.preorderTraversal();
-//		
+		
 		System.out.println("\nPOSTORDER TRAVERSAL:"); //#10
 		ft.postorderTraversal();
 		

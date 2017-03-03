@@ -103,11 +103,24 @@ public class FamTree<T> {
 	 * @return a boolean value denoting if a is an ancestor of b
 	 */
 	public boolean isAncestor(String a, String b){
-		if(isDescendant(b,a) == true){
-			return true;
-		} else {
-			return false;
+		for(GenericNode<String> g : allNodes){
+			if(g.name.equalsIgnoreCase(a)){
+				if(g.children.size() == 0){
+					result = false;
+				} else if(g.children.size() >= 1){
+//					while(g.children.size() >= 1){
+						for(int i = 0; i < g.children.size(); i++){
+							if(g.children.get(i).name.equalsIgnoreCase(b)){
+								result = true;
+							} else {
+								result = false;
+							}
+						}
+//					}
+				}
+			}
 		}
+		return result;
 	}
 
 	/**#4
@@ -245,7 +258,7 @@ public class FamTree<T> {
 	public boolean isOnlyChild(String a){
 		if(getParent(a).children.size() == 1){
 			result = true;
-		} else {
+		} else if (getParent(a).children.size() > 1) {
 			result = false;
 		}
 		return result;
@@ -307,6 +320,7 @@ public class FamTree<T> {
 			for(GenericNode<String> n : gn.children){
 				if(n.name.equalsIgnoreCase(a)){
 					parent = gn;
+					break;
 				}
 			}
 		}
