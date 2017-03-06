@@ -1,0 +1,1402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:scalar="http://scalar.usc.edu/2012/01/scalar-ns#"
+  xmlns:art="http://simile.mit.edu/2003/10/ontologies/artstor#"
+  xmlns:prov="http://www.w3.org/ns/prov#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:ov="http://open.vocab.org/terms/"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:oac="http://www.openannotation.org/ns/">
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://www.criticalcommons.org/Members/ccManager/clips/3d-mapping-technology-in-prometheus/thumbnailImage_thumb"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:31:35-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:44"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>3D mapping technology in Prometheus</dcterms:title>
+    <dcterms:description>An alien cavern is mapped in 3D by means of floating sensors that transmit volumetric data</dcterms:description>
+    <art:url rdf:resource="http://videos.criticalcommons.org/transcoded/http/www.criticalcommons.org/Members/ccManager/clips/3d-mapping-technology-in-prometheus/video_file/mp4-high/prometheus_telemetrygridmodel3dvolumemap-mp4.mp4"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:31:35-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:77"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+    <dcterms:contributor>Ridley Scott</dcterms:contributor>
+    <dcterms:dateSubmitted>2015-01-22T18:40:30Z</dcterms:dateSubmitted>
+    <dcterms:source>Critical Commons</dcterms:source>
+    <art:sourceLocation rdf:resource="http://www.criticalcommons.org/Members/ccManager/clips/3d-mapping-technology-in-prometheus"/>
+    <dcterms:date>2012</dcterms:date>
+    <dcterms:date>10-02-2017</dcterms:date>
+    <dcterms:type>Video</dcterms:type>
+    <dcterms:relation>Prometheus</dcterms:relation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T08:43:17-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:32"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film.11"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film.11"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film.11">
+    <ov:versionnumber>11</ov:versionnumber>
+    <dcterms:title>Braden Cordivari: Photogrammetry with Archival Film</dcterms:title>
+    <dcterms:description>The goal of this tutorial is  to demonstrate some of the strategies for wrangling archival photos into a useful 3D model.</dcterms:description>
+    <sioc:content>&lt;strong&gt;Braden Cordivari&lt;/strong&gt;-Archival &lt;span resource=&quot;linked-media-with-annotation&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;Photogrammetry &lt;/span&gt;Online Tutorial&lt;br /&gt;&lt;br /&gt;We&amp;rsquo;re all familiar with legacy datasets, those dreaded paper records of old finds locked away gathering dust or wasting away in an Excel spreadsheet waiting to be cleaned up and interpreted. But archaeological data is more than just objects or even architecture. For every happening on a dig or survey, there are photos. Photos of individual artifacts, photos of excavation itself, photos of buildings. You name it, someone has photographed it.&lt;br /&gt;&lt;br /&gt;We&amp;rsquo;re all also, at this point, familiar with &lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;right&quot; data-size=&quot;small&quot; resource=&quot;3d-mapping-technology-in-prometheus&quot; href=&quot;http://videos.criticalcommons.org/transcoded/http/www.criticalcommons.org/Members/ccManager/clips/3d-mapping-technology-in-prometheus/video_file/mp4-high/prometheus_telemetrygridmodel3dvolumemap-mp4.mp4&quot;&gt;&lt;/a&gt;&lt;span resource=&quot;media-linking-example&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;photogrammetry&lt;/span&gt;. With the miracle of modern technology you can, with relative ease and a software license, effectively and accurately model in 3D a context, object, space, etc. through the use of overlapping photographs. These you put into a photogrammetry software (&lt;em&gt;e.g. &lt;/em&gt;Agisoft Photoscan), which then reads the metadata off of your digital camera (aperture, shutter speed, image size, etc.) and matches points between photographs based on similar patterns of shadows, hues, etc. So is it possible to combine these two concepts? Can you create models of things photographed on film five years ago, or even fifty? The prospects of this are tantalizing. &lt;span resource=&quot;text-note&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;Imagine being able to see in 3D&lt;/span&gt;, and even measure, things which were photographed decades earlier and which no longer exist physically.&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/desired-final-product&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_DesiredFinalProduct.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;The goal of this tutorial is not to show you how to use Agisoft (there are already good resources for this out there such as on YouTube), but rather to demonstrate some of the strategies for wrangling archival photos into a useful 3D model. Will it work every time? Of course not. Will you become very frustrated with this process? Of course. Is there a better way to do this than the one I&amp;rsquo;m presenting you with? Of course. This is just a starting block, and I welcome criticisms and feedback on how to improve the process. Note: I will assume a basic knowledge of Agisoft from here on.&lt;br /&gt;&lt;br /&gt;As an example, this tutorial will use images taken during the excavation of the Midas Mound, a monumental 8th century tumulus from the site of Gordion in central Turkey. The tomb was excavated in 1957 and inside an intact wooden chamber was found, complete with elaborate grave goods ranging from wooden tables to bronze bowls and cauldrons. Obviously there were a great deal of photos taken during all of this and during the subsequent cataloguing and analysis of the finds. I&amp;rsquo;ll show you some of the steps I took to model portions of the chamber as it was found in 1957.&lt;br /&gt;&lt;br /&gt;So let&amp;rsquo;s get started. Once you&amp;rsquo;ve added your images to workflow, the first real step is to figure out what kinds of photos you are dealing with. Film comes in many different sizes; cameras have different focal lengths depending on the lens, etc. &lt;span resource=&quot;suggestion&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;As I mentioned before, Agisoft imports all this metadata from your digital camera automatically, but in the case of scanned film negatives you will have to input as much as you can manually. To do this, open the &amp;lsquo;Camera Calibration&amp;rsquo; window under &amp;lsquo;Tools.&amp;rsquo;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;left&quot; data-size=&quot;large&quot; resource=&quot;media/navigating-camera-calibration&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;Clicking on &amp;lsquo;Camera Calibration&amp;rsquo; brings you here:&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;left&quot; data-size=&quot;large&quot; resource=&quot;media/navigating-camera-calibration-continued&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration2.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;Let&amp;rsquo;s break down some of what we&amp;rsquo;re looking at here. There are a lot of settings, but we&amp;rsquo;re really only concerned with the three at the top: Camera type, pixel size, and focal length.&lt;br /&gt;&lt;br /&gt;Camera type: There are 4 types: &lt;em&gt;frame&lt;/em&gt; (your standard image-what we&amp;rsquo;re dealing with), &lt;em&gt;fisheye&lt;/em&gt; (pretty self explanatory-typically these will be drone images; not applicable to archival film), &lt;em&gt;spherical&lt;/em&gt; (used for 360 shots-not really applicable to film), and &lt;em&gt;cylindrical&lt;/em&gt; (panoramas-perhaps applicable to film if stitching together several images)&lt;br /&gt;&lt;br /&gt;Pixel size (mm): this is the physical size of the film that the image was captured on. This can be figured out from the dimensions/aspect ratio of a scan if you do not have access to the original film. In the case of the MM images these were all 35mm film, so the dimensions are 36x24.&lt;br /&gt;&lt;br /&gt;Focal length (mm): Basically at what distance the camera is set to focus on an object. Higher focal lengths deal with things further away (e.g. a telephoto lens will be something like 200mm), and a lower one something closer (e.g. 50mm for standard 35mm film), while a wide-angle lens will have a very low focal length (typically less than 35mm). Keep in mind that 35mm film does &lt;em&gt;not &lt;/em&gt;mean 35mm focal length!&lt;br /&gt;&lt;br /&gt;For our purposes, focal length is a bit trickier if you do not know the exact camera/lens combination that was used. 50mm is a safe bet for 35mm film, as it is considered &amp;ldquo;normal&amp;rdquo; but I found that the results were pretty much the same if the &amp;lsquo;focal length&amp;rsquo; field is left unknown. In the case of the images from MM, all of the images are from the same camera (many on the same day), so it seemed a safe bet that before the time of variable zoom lenses the photographer was not changing lenses in between shots or even sessions. Consider things like this when you decide how much information you want to infer about unknown factors.&lt;br /&gt;It helps to input at least one of either pixel size or focal length, but it is not catastrophic if you know neither for the images you are working with (say you found them online and didn&amp;rsquo;t have access to the original film, e.g.), it will just require more work with markers.&lt;br /&gt;&lt;br /&gt;Markers, then. We need to help the software recognize points that are the same between multiple photographs. Like targets for drone photography, you should pick things that are easily identifiable and fixed (i.e. not changing position between photographs). Add a few markers before aligning. It may help to use the mask features to obscure any inconsistencies or undesirable parts of images.&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/markers&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_Markers.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;An example of when to use the mask tool. I don&amp;rsquo;t want this giant wooden support in my model. Note the markers on readily identifiable and consistent features.&lt;br /&gt;&lt;br /&gt;At this point, it would seem like it would be wise to be as precise as possible, placing a dozen markers, using the mask tool to eliminate any inconsistencies between photographs, etc. What I found, on the other hand, was that often it worked fine to just run it with only a marker or two and see what happens. If you get enough matches and can then make a dense cloud that looks coherent, you are in business. If it doesn&amp;rsquo;t work with only a marker or two, add a few more and maybe mask more carefully and try again. There is a point of diminishing return with markers, however. As Agisoft is basically a black box and you cannot see why anything fails when it does, it is &lt;em&gt;not&lt;/em&gt; advisable to go overboard right from the start. It is incredibly frustrating to spend time adding lots of markers and then have &lt;em&gt;fewer &lt;/em&gt;photographs successfully align than when you had only one or two, but it does happen. &lt;em&gt;More markers is not always better.&lt;/em&gt;&lt;br /&gt;&lt;br /&gt;Before you align the photos, it might be worthwhile to use Photoshop to modify the images to have more similar lighting. This is especially true with black and white film, as any significant difference in exposure will make it hard for the software to pair points. It wants to match points based on shadows and changes in light, and with black and white as opposed to color, everything is along the same spectrum. In other words, it is much easier for Agisoft to say that two shades of red are the same point and a green one is not that point than it is for it to sort out three shades of grey.&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;right&quot; data-size=&quot;medium&quot; resource=&quot;media/exposure-and-markers&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_MatchPoints.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;As these images currently are there&amp;rsquo;s no way for the software to recognize that these are the same point, even with gratuitous use of markers.&lt;br /&gt;&lt;br /&gt;Next up: aligning the photos (Again, I am assuming a working knowledge of Agisoft-please consult other resources for this as necessary). Do this on the highest possible setting, and make sure you remember to check &amp;lsquo;constrain features by mask&amp;rsquo; if you masked anything. From here on, the steps are essentially the same for any other photogrammetry, working your way through to a dense cloud, mesh, texture, etc. If all goes according to plan, you get something like this!&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/photogrammetry-video&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden-embeddedVideo.mp4&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;br /&gt;&amp;nbsp;&lt;br /&gt;Caveat: The ability to try this process is contingent on a few things. First, like with photogrammetry from digital cameras, you need solid photo coverage. This is complicated by the fact that we are assuming that you cannot go back and re-photograph, and so there will be instances where you simply cannot make the model work. No matter how many markers you assign, if there is not enough overlap or unique angles, you will get either A) a mess or B) a slightly thicker version of two of the photographs stitched together.&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;left&quot; data-size=&quot;large&quot; resource=&quot;media/ineffective-photogrammetry&quot; class=&quot;inline&quot; name=&quot;scalar-inline-media&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_AMess.png&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;A) A mess.&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot;background-color:#FF0000;&quot;&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;large&quot; resource=&quot;media/photogrammetry-all-in-one-plane&quot; class=&quot;inline&quot; name=&quot;scalar-inline-media&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_NotSoGreat.png&quot;&gt;&lt;/a&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;B) 2000 points: Great! All in one plane: not so great.&lt;br /&gt;&lt;br /&gt;Lastly, this is your friend: &lt;a href=&quot;http://www.agisoft.com/downloads/user-manuals/&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.agisoft.com/downloads/user-manuals/&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.agisoft.com/downloads/user-manuals/&quot;&gt;http://www.agisoft.com/downloads/user-manuals/&lt;/a&gt; (Links to an external site.)&lt;br /&gt;&lt;br /&gt;So equipped with what limited knowledge I have to share, you can now begin your own personal saga of trial and error with Agisoft, hopefully with at least a starting place. Each set of film photographs will be different and will require different techniques, and I encourage anyone to expand upon this very cursory explanation with any discoveries or advice of their own.&lt;br /&gt;&amp;nbsp;</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-14T10:31:11-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:100"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:34:45-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:28"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>A comment</dcterms:title>
+    <dcterms:description>An example of a comment</dcterms:description>
+    <sioc:content>This is an example of a comment. You can comment on media, other user comments, pages, paths, tags, annotations or terms.</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:34:45-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:43"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:reply:43:117">
+    <scalar:urn rdf:resource="urn:scalar:reply:43:117"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/a-comment.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14#datetime=2017-02-09T07:34:45-06:00"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:25:53-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:7"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14">
+    <ov:versionnumber>14</ov:versionnumber>
+    <dcterms:title>Sam Seyler: Photography with Dino-Lite for Photogrammetry</dcterms:title>
+    <dcterms:description>This tutorial will walk you through the process of using a Dino-Lite handheld digital microscope to capture images for processing in a photogrammetry software.</dcterms:description>
+    <sioc:content>&lt;strong&gt;&amp;lt;&lt;span resource=&quot;commentary&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;All tutorials&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;Sam Seyler&lt;/strong&gt; (PhD Student, Anthropology, UPenn)&lt;br /&gt;&lt;br /&gt;This tutorial will walk you through the process of using a &lt;span resource=&quot;dino-lite-model&quot; rev=&quot;scalar:has_note&quot; class=&quot;note&quot;&gt;Dino-Lite handheld digital microscope&lt;/span&gt; to capture images for processing in a photogrammetry software. The Dino-Lite model used in this tutorial is the &lt;a href=&quot;http://www.dino-lite.com/products01.php?index_m1_id=9&quot;&gt;Dino-Lite Premier AM-311S&lt;/a&gt; (USB) with a resolution of 640x480 pixels and a magnification rate of 10x- 200x. The image capturing software I will be using is DinoCapture 2.0, available on the&amp;nbsp;&lt;u&gt;&lt;a href=&quot;http://www.dino-lite.com/products01.php?index_m1_id=9&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.dino-lite.com/download.php&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.dino-lite.com/products01.php?index_m1_id=9&quot;&gt;Dino-Lite website&lt;/a&gt;&amp;nbsp;(Links to an external site.)&lt;/u&gt;. The photogrammetry software I use is&amp;nbsp;&lt;u&gt;&lt;a href=&quot;http://www.agisoft.com/downloads/installer/&quot;&gt;Agisoft PhotoScan&lt;/a&gt;&amp;nbsp;(Links to an external site.)&lt;/u&gt;&amp;nbsp;but this method of image capturing should be applicable to most if not all photogrammetry software.&lt;br /&gt;&lt;br /&gt;This tutorial arose out of a desire to create 3D models of small textile design motifs with areas ranging from 4-12 cm&lt;sup&gt;2&lt;/sup&gt;. While photographs captured with a decent quality camera can reproduce the &lt;a data-caption=&quot;description&quot; data-align=&quot;right&quot; data-size=&quot;small&quot; resource=&quot;media/sam-scan-1&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam1.png#an-annotation&quot;&gt;basic shapes of each design motif&lt;/a&gt;, they are less successful at capturing important details like yarn and weave structures.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/sam-scan-1&quot; class=&quot;inline&quot; name=&quot;scalar-inline-media&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam1.png&quot;&gt;&lt;/a&gt;While the steps throughout this tutorial focus on capturing images for the reconstruction of textile structures, this process should prove useful to anyone attempting to capture smaller and more detailed aspects of archaeological and ethnographic artifacts.&lt;br /&gt;&lt;br /&gt;To preface this tutorial, the Dino-Lite Premier AM-311S ($159.00 on&amp;nbsp;&lt;a href=&quot;https://www.amazon.com/Dino-Lite-Digital-Microscope-10x-Magnification/dp/B0015EQICO&quot;&gt;Amazon (Links to an external site.)&lt;/a&gt;) is on the cheaper end of the spectrum when it comes to Dino-Lite products. It&amp;rsquo;s likely that with some of the more expensive products, users have more control over the camera and light settings in the device. I hope to show with this tutorial, however, that the Dino-Lite Premier AM-311S has the potential to create useful models at an affordable price.&lt;br /&gt;&lt;br /&gt;While I was certain that my Dino-Lite would solve all my problems, I quickly ran into the issue of how to maintain consistent color saturation throughout my photographs. As I moved my Dino-Lite across design motif, the image exposures drastically changed depending on the proportions of colors within the frame. The three images below are successive photos taken as I move across the design motif, an example of the range of exposures captured by my Dino-Lite.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/weave-color-saturation-example-1&quot; class=&quot;inline&quot; name=&quot;scalar-inline-media&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam2.png&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/weave-color-saturation-example-2&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam3.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/weave-color-saturation-example-3&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam4.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;br /&gt;&amp;nbsp;This was an issue for two reasons. First, I wasn&amp;rsquo;t successfully capturing the nature of the design motif. In textile analysis color is important, and I need to be able to distinguish between dark red and bright red yarns when I return to my data later.&amp;nbsp; Second, as I&amp;rsquo;m sure you&amp;rsquo;ve guessed, Agisoft relies on color changes to align photos. A set of photos with drastically different color saturations is basically useless in Agisoft.&lt;br /&gt;&lt;br /&gt;In order to fix this, I began exploring the settings options in the upper right hand corner of the camera display. In this area, there are 5 small boxes with icons in them. The first 3 buttons are of particular interest in this tutorial.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/color-settings-1&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam5.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;The second box, containing a circle with multiple smaller circles surrounding it, control the LED lights. Using this button, it is possible to turn the LED lights ON and OFF. Due to the material and shape of my objects as well as the lab space, it was necessary to have these LED lights ON.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/color-settings-2&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam6.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;I have found in the past, however, that round objects or objects made of reflective materials (glass and metal) are sometimes better captured with more ambient laboratory light and the LED lights OFF. Through the rest of this tutorial I will be providing suggestions for images that use the LED lights, but similar processes of setting experimentation apply to images that do not use the LED lights.&lt;br /&gt;&lt;br /&gt;The Auto Exposure button (box with AE in it) and the Settings button (box with wrench) are going to be the two important buttons for us during this tutorial.&lt;br /&gt;&lt;br /&gt;Let&amp;#39;s go ahead and explore the Settings options first.&amp;nbsp;&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;title&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/color-settings-3&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam7.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;After clicking the Settings button a box will appear that will allow you to make changes that are often available in photo editing software including Brightness, Contrast, Hue, and Color Adjustments. In my case, capturing the correct colors was essential, but this is a good place to experiment with settings to capture textures that might not otherwise be as obvious!&lt;br /&gt;&lt;br /&gt;I found it useful to keep the Gamma setting low, since a low Gamma setting is the most sensitive to changes in color tone (great for later alignment in photogrammetry software!).&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/color-settings-4&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam8.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/color-settings-5&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam9.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;We won&amp;rsquo;t be messing with any of the other settings in this tutorial but it&amp;rsquo;s important to note that with this model of Dino-Lite it is also possible to change the Backlight Compensation, Mirror (direction image is displayed), and AE Detect Region (we&amp;rsquo;ll be getting to this in the next bit), as well as take pictures in Monochrome and Negative within the application.&lt;br /&gt;&lt;br /&gt;Next, lets go to the Auto Exposure button. I found adjusting these settings the most useful in capturing images appropriate for photogrammetry software.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/color-settings-6&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam10.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;The AE setting within the Auto Exposure button is what&amp;rsquo;s causing the color distortions, but before turning this off, we need to adjust the Luma (exposure) settings. This process, once again, will depend on the material and type of object you are photographing but I found a lower Luma was better at capturing the range of colors within the design motifs.&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/color-settings-7&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam11.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/color-settings-8&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam12.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;It&amp;rsquo;s important to note however, that a lower Luma (exposure) will require a steady microscope hand! It&amp;rsquo;s also a good check your Luma (and other) settings against different parts of the object to make sure that your settings are applicable to each area.&lt;br /&gt;&lt;br /&gt;After adjusting the Luma settings, it&amp;#39;s now time to go ahead and turn OFF the AE setting. This setting is what&amp;rsquo;s causing the changes in color saturation as you move across your object. And don&amp;#39;t worry, it will save what ever setting you adjusted your Luma to!&lt;br /&gt;&lt;br /&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/color-settings-9&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam13.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;br /&gt;Once this is done, you should be able to move freely without any drastic changes in color saturation!&lt;br /&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/after-ae-setting-changes-1&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14A.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/after-ae-setting-changes-2&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14B.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;left&quot; data-size=&quot;small&quot; resource=&quot;media/after-ae-setting-changes-3&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14C.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;After this, you just need to take your pictures and pop those images into a photogrammetry software!&lt;br /&gt;&lt;br /&gt;Some advice as you&amp;rsquo;re taking you&amp;rsquo;re images, try to create at least a 66% overlap between successive images. While this can be time consuming, your photogrammetry program will need all of that overlap to align your images.&lt;br /&gt;&lt;br /&gt;Unfortunately I did not do such a great job overlapping my images, but I was able to align small chunks, which demonstrate the potential for using this model of Dino-Lite in the creation of 3D models of really detailed artifacts. In the image below, its possible to see as much detail as the yarn spin!&lt;br /&gt;&lt;a data-caption=&quot;title-and-description&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;media/3d-model&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam15.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&amp;nbsp;</sioc:content>
+    <scalar:defaultView>toc</scalar:defaultView>
+    <scalar:continue_to_content_id>51</scalar:continue_to_content_id>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-22T14:18:54-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:117"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:30:28-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:27"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>An annotation</dcterms:title>
+    <dcterms:description>This is an example of an annotation</dcterms:description>
+    <sioc:content>To make an annotation like this you need to create a new page, designate it as an annotation, and also have Author privileges.</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:30:28-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:42"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:anno:42:19">
+    <scalar:urn rdf:resource="urn:scalar:anno:42:19"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/an-annotation.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1.2#xywh=0,0,0,0"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam1_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:38:50-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:8"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1.2"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1.2"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1.2">
+    <ov:versionnumber>2</ov:versionnumber>
+    <dcterms:title>Sam scan 1</dcterms:title>
+    <dcterms:description>A picture of a weave structure using Dino-Lite</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam1.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:45:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:19"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/sam-scan-1"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T10:26:49-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:50"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background.3"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background.3"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background.3">
+    <ov:versionnumber>3</ov:versionnumber>
+    <dcterms:title>Background</dcterms:title>
+    <art:url rdf:resource="http://3.bp.blogspot.com/-yfqhgjJ6dVo/UFWduUysR-I/AAAAAAAAAIw/e9hD---foLs/s1600/snapshot00.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T10:28:11-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:91"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <scalar:background rdf:resource="http://3.bp.blogspot.com/-yfqhgjJ6dVo/UFWduUysR-I/AAAAAAAAAIw/e9hD---foLs/s1600/snapshot00.png"/>
+    <scalar:banner rdf:resource="http://3.bp.blogspot.com/-yfqhgjJ6dVo/UFWduUysR-I/AAAAAAAAAIw/e9hD---foLs/s1600/snapshot00.png"/>
+    <scalar:customStyle>&lt;title&gt;W3.CSS Template&lt;/title&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/lib/w3.css&quot;&gt;
+&lt;body&gt;
+
+&lt;!-- Navbar (sit on top) --&gt;
+&lt;div class=&quot;w3-top&quot;&gt;
+  &lt;ul class=&quot;w3-navbar w3-white w3-wide w3-padding-8 w3-card-2&quot;&gt;
+    &lt;li&gt;
+      &lt;a href=&quot;#home&quot; class=&quot;w3-margin-left&quot;&gt;&lt;b&gt;BR&lt;/b&gt; Architects&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;!-- Float links to the right. Hide them on small screens --&gt;
+    &lt;li class=&quot;w3-right w3-hide-small&quot;&gt;
+      &lt;a href=&quot;#projects&quot; class=&quot;w3-left&quot;&gt;Projects&lt;/a&gt;
+      &lt;a href=&quot;#about&quot; class=&quot;w3-left&quot;&gt;About&lt;/a&gt;
+      &lt;a href=&quot;#contact&quot; class=&quot;w3-left w3-margin-right&quot;&gt;Contact&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- Header --&gt;
+&lt;header class=&quot;w3-display-container w3-content w3-wide&quot; style=&quot;max-width:1500px;&quot; id=&quot;home&quot;&gt;
+  &lt;img class=&quot;w3-image&quot; src=&quot;/w3images/architect.jpg&quot; alt=&quot;Architecture&quot; width=&quot;1500&quot; height=&quot;800&quot;&gt;
+  &lt;div class=&quot;w3-display-middle w3-margin-top w3-center&quot;&gt;
+    &lt;h1 class=&quot;w3-xxlarge w3-text-white&quot;&gt;&lt;span class=&quot;w3-padding w3-black w3-opacity-min&quot;&gt;&lt;b&gt;BR&lt;/b&gt;&lt;/span&gt; &lt;span class=&quot;w3-hide-small w3-text-light-grey&quot;&gt;Architects&lt;/span&gt;&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;!-- Page content --&gt;
+&lt;div class=&quot;w3-content w3-padding&quot; style=&quot;max-width:1564px&quot;&gt;
+
+  &lt;!-- Project Section --&gt;
+  &lt;div class=&quot;w3-container w3-padding-32&quot; id=&quot;projects&quot;&gt;
+    &lt;h3 class=&quot;w3-border-bottom w3-border-light-grey w3-padding-12&quot;&gt;Projects&lt;/h3&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;w3-row-padding&quot;&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Summer House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house5.jpg&quot; alt=&quot;House&quot; style=&quot;width:100%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Brick House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house2.jpg&quot; alt=&quot;House&quot; style=&quot;width:100%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Renovated&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house3.jpg&quot; alt=&quot;House&quot; style=&quot;width:100%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Barn House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house4.jpg&quot; alt=&quot;House&quot; style=&quot;width:100%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;w3-row-padding&quot;&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Summer House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house2.jpg&quot; alt=&quot;House&quot; style=&quot;width:99%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Brick House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house5.jpg&quot; alt=&quot;House&quot; style=&quot;width:99%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Renovated&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house4.jpg&quot; alt=&quot;House&quot; style=&quot;width:99%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;div class=&quot;w3-display-container&quot;&gt;
+        &lt;div class=&quot;w3-display-topleft w3-black w3-padding&quot;&gt;Barn House&lt;/div&gt;
+        &lt;img src=&quot;/w3images/house3.jpg&quot; alt=&quot;House&quot; style=&quot;width:99%&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- About Section --&gt;
+  &lt;div class=&quot;w3-container w3-padding-32&quot; id=&quot;about&quot;&gt;
+    &lt;h3 class=&quot;w3-border-bottom w3-border-light-grey w3-padding-12&quot;&gt;About&lt;/h3&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+      occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat.
+    &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;w3-row-padding w3-grayscale&quot;&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;img src=&quot;/w3images/team2.jpg&quot; alt=&quot;John&quot; style=&quot;width:100%&quot;&gt;
+      &lt;h3&gt;John Doe&lt;/h3&gt;
+      &lt;p class=&quot;w3-opacity&quot;&gt;CEO &amp; Founder&lt;/p&gt;
+      &lt;p&gt;Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.&lt;/p&gt;
+      &lt;p&gt;&lt;button class=&quot;w3-btn-block&quot;&gt;Contact&lt;/button&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;img src=&quot;/w3images/team1.jpg&quot; alt=&quot;Jane&quot; style=&quot;width:100%&quot;&gt;
+      &lt;h3&gt;Jane Doe&lt;/h3&gt;
+      &lt;p class=&quot;w3-opacity&quot;&gt;Architect&lt;/p&gt;
+      &lt;p&gt;Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.&lt;/p&gt;
+      &lt;p&gt;&lt;button class=&quot;w3-btn-block&quot;&gt;Contact&lt;/button&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;img src=&quot;/w3images/team3.jpg&quot; alt=&quot;Mike&quot; style=&quot;width:100%&quot;&gt;
+      &lt;h3&gt;Mike Ross&lt;/h3&gt;
+      &lt;p class=&quot;w3-opacity&quot;&gt;Architect&lt;/p&gt;
+      &lt;p&gt;Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.&lt;/p&gt;
+      &lt;p&gt;&lt;button class=&quot;w3-btn-block&quot;&gt;Contact&lt;/button&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w3-col l3 m6 w3-margin-bottom&quot;&gt;
+      &lt;img src=&quot;/w3images/team4.jpg&quot; alt=&quot;Dan&quot; style=&quot;width:100%&quot;&gt;
+      &lt;h3&gt;Dan Star&lt;/h3&gt;
+      &lt;p class=&quot;w3-opacity&quot;&gt;Architect&lt;/p&gt;
+      &lt;p&gt;Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.&lt;/p&gt;
+      &lt;p&gt;&lt;button class=&quot;w3-btn-block&quot;&gt;Contact&lt;/button&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Contact Section --&gt;
+  &lt;div class=&quot;w3-container w3-padding-32&quot; id=&quot;contact&quot;&gt;
+    &lt;h3 class=&quot;w3-border-bottom w3-border-light-grey w3-padding-12&quot;&gt;Contact&lt;/h3&gt;
+    &lt;p&gt;Lets get in touch and talk about your and our next project.&lt;/p&gt;
+    &lt;form action=&quot;form.asp&quot; target=&quot;_blank&quot;&gt;
+      &lt;input class=&quot;w3-input&quot; type=&quot;text&quot; placeholder=&quot;Name&quot; required name=&quot;Name&quot;&gt;
+      &lt;input class=&quot;w3-input w3-section&quot; type=&quot;text&quot; placeholder=&quot;Email&quot; required name=&quot;Email&quot;&gt;
+      &lt;input class=&quot;w3-input w3-section&quot; type=&quot;text&quot; placeholder=&quot;Subject&quot; required name=&quot;Subject&quot;&gt;
+      &lt;input class=&quot;w3-input w3-section&quot; type=&quot;text&quot; placeholder=&quot;Comment&quot; required name=&quot;Comment&quot;&gt;
+      &lt;button class=&quot;w3-btn w3-section&quot; type=&quot;submit&quot;&gt;
+        &lt;i class=&quot;fa fa-paper-plane&quot;&gt;&lt;/i&gt; SEND MESSAGE
+      &lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+  
+&lt;!-- End page content --&gt;
+&lt;/div&gt;
+
+&lt;!-- Google Map --&gt;
+&lt;div id=&quot;googleMap&quot; class=&quot;w3-grayscale&quot; style=&quot;width:100%;height:450px;&quot;&gt;&lt;/div&gt;
+
+&lt;!-- Footer --&gt;
+&lt;footer class=&quot;w3-center w3-black w3-padding-16&quot;&gt;
+  &lt;p&gt;Powered by &lt;a href=&quot;http://www.w3schools.com/w3css/default.asp&quot; title=&quot;W3.CSS&quot; target=&quot;_blank&quot; class=&quot;w3-hover-text-green&quot;&gt;w3.css&lt;/a&gt;&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;!-- Add Google Maps --&gt;
+&lt;script&gt;
+function myMap()
+{
+  myCenter=new google.maps.LatLng(41.878114, -87.629798);
+  var mapOptions= {
+    center:myCenter,
+    zoom:12, scrollwheel: false, draggable: false,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById(&quot;googleMap&quot;),mapOptions);
+
+  var marker = new google.maps.Marker({
+    position: myCenter,
+  });
+  marker.setMap(map);
+}
+&lt;/script&gt;
+&lt;script src=&quot;https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&amp;callback=myMap&quot;&gt;&lt;/script&gt;
+&lt;!--
+To use this code on your website, get a free API key from Google.
+Read more at: http://www.w3schools.com/graphics/google_maps_basic.asp
+--&gt;
+
+&lt;/body&gt;</scalar:customStyle>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T10:41:44-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:52"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page.12"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page.12"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page.12">
+    <ov:versionnumber>12</ov:versionnumber>
+    <dcterms:title>Welcome Page</dcterms:title>
+    <sioc:content>&lt;a data-caption=&quot;none&quot; data-align=&quot;center&quot; data-size=&quot;medium&quot; resource=&quot;background&quot; class=&quot;inline&quot; href=&quot;http://3.bp.blogspot.com/-yfqhgjJ6dVo/UFWduUysR-I/AAAAAAAAAIw/e9hD---foLs/s1600/snapshot00.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;</sioc:content>
+    <scalar:defaultView>toc</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-22T14:16:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:114"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page"/>
+    <dcterms:references rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/background"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration2_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:10:48-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:36"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued.2"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued.2"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued.2">
+    <ov:versionnumber>2</ov:versionnumber>
+    <dcterms:title>Navigating Camera Calibration continued</dcterms:title>
+    <dcterms:description>Focusing on camera type, pixel size, and focal length.</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration2.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:11:27-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:64"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration-continued"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_DesiredFinalProduct_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:03:56-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:33"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Desired Final Product</dcterms:title>
+    <dcterms:description>An example of a well defined model</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_DesiredFinalProduct.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:03:56-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:60"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/desired-final-product"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:10:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:35"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Navigating Camera Calibration</dcterms:title>
+    <dcterms:description>Screenshots of this process</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_CameraCalibration.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:10:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:62"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/navigating-camera-calibration"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_Markers_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:18:19-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:37"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Markers</dcterms:title>
+    <dcterms:description>An example of how to use markers effectively</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_Markers.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:18:19-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:65"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/markers"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_MatchPoints_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:19:27-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:38"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Exposure and markers</dcterms:title>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_MatchPoints.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:19:27-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:66"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/exposure-and-markers"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_AMess_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:20:52-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:39"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Ineffective photogrammetry</dcterms:title>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_AMess.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:20:52-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:67"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/ineffective-photogrammetry"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_NotSoGreat_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:21:51-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:40"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Photogrammetry all in one plane</dcterms:title>
+    <dcterms:description>Another attempt to render the image</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden_NotSoGreat.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T09:21:51-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:68"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-all-in-one-plane"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:14:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:41"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Photogrammetry video</dcterms:title>
+    <dcterms:description>A video of what a finished product could look like</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden-embeddedVideo.mp4"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:14:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:72"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/photogrammetry-video"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/commentary">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:25:44-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:6"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/commentary.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/commentary.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/commentary.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Commentary</dcterms:title>
+    <dcterms:description>Some suggestions</dcterms:description>
+    <sioc:content>Here we could link back to the main page or the specific path for these tutorials....</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:25:44-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:15"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/commentary"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/dino-lite-model">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T08:11:35-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:31"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/dino-lite-model.3"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/dino-lite-model.3"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/dino-lite-model.3">
+    <ov:versionnumber>3</ov:versionnumber>
+    <dcterms:title>Dino-lite model</dcterms:title>
+    <dcterms:description>A picture of the model I was using</dcterms:description>
+    <sioc:content>&lt;a name=&quot;cke-scalar-empty-anchor&quot; href=&quot;https://images-na.ssl-images-amazon.com/images/I/71WpeUJTl3L._SX300_.gif&quot;&gt;https://images-na.ssl-images-amazon.com/images/I/71WpeUJTl3L._SX300_.gif&lt;/a&gt;</sioc:content>
+    <scalar:defaultView>vismedia</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T08:14:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:57"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/dino-lite-model"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <scalar:category>commentary</scalar:category>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:42:40-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:29"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example.7"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example.7"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example.7">
+    <ov:versionnumber>7</ov:versionnumber>
+    <dcterms:title>Embedded annotation example</dcterms:title>
+    <dcterms:description>an example of an embedded annotation</dcterms:description>
+    <sioc:content>This also need to be done by someone with author privileges for the book.</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:58:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:50"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example"/>
+    <scalar:category>commentary</scalar:category>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+    <dcterms:contributor>J. Haymaker</dcterms:contributor>
+    <dcterms:dateSubmitted>02/09/2017</dcterms:dateSubmitted>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:commentary:50">
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/embedded-annotation-example.7"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials#datetime=2017-02-09T07:58:34-06:00&amp;type=commentary"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam9_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:03:43-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:16"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 5</dcterms:title>
+    <dcterms:description>Low Gamma setting</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam9.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:03:43-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:29"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-5"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam15_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:13:06-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:24"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>3D model</dcterms:title>
+    <dcterms:description>The final product using the Dino-Lite imagery and photogrammetry software</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam15.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:13:06-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:37"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/3d-model"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam2_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:49:53-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:9"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Weave color saturation example 1</dcterms:title>
+    <dcterms:description>An example of low light exposure</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam2.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:49:53-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:21"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-1"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam10_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:05:09-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:17"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 6</dcterms:title>
+    <dcterms:description>Using the auto-exposure option</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam10.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:05:09-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:30"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-6"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam3_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:51:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:10"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Weave color saturation example 2</dcterms:title>
+    <dcterms:description>An example of the same fabric with greater saturation</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam3.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:51:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:22"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-2"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam11_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:07:42-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:18"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 7</dcterms:title>
+    <dcterms:description>High Luma Setting</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam11.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:07:42-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:31"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-7"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam4_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:51:57-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:11"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Weave color saturation example 3</dcterms:title>
+    <dcterms:description>An example of the same fabric with the most saturation</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam4.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:51:57-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:23"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/weave-color-saturation-example-3"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam12_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:08:04-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:19"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 8</dcterms:title>
+    <dcterms:description>Low Luma Setting</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam12.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:08:04-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:32"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-8"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam5_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:58:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:12"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 1</dcterms:title>
+    <dcterms:description>A screenshot showing how to change the saturation in the software</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam5.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T13:58:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:25"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam13_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:09:00-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:20"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 9</dcterms:title>
+    <dcterms:description>Turning off AE settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam13.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:09:00-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:33"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-9"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam6_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:00:50-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:13"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 2</dcterms:title>
+    <dcterms:description>A screenshot showing how to change LED light settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam6.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:00:50-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:26"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14A_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:10:23-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:21"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>After AE setting changes 1</dcterms:title>
+    <dcterms:description>Shows the noticeable difference after changing the exposure settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14A.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:10:23-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:34"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-1"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam7_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:02:05-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:14"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 3</dcterms:title>
+    <dcterms:description>A screenshot showing how to change exposure settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam7.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:02:05-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:27"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14B_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:10:48-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:22"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>After AE setting changes 2</dcterms:title>
+    <dcterms:description>Shows the noticeable difference after changing the exposure settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14B.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:10:48-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:35"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-2"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam8_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:03:17-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:15"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Color settings 4</dcterms:title>
+    <dcterms:description>High Gamma setting</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam8.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:03:17-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:28"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-4"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Media"/>
+    <scalar:isLive>1</scalar:isLive>
+    <art:thumbnail rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14C_thumb.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:11:28-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:23"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>After AE setting changes 3</dcterms:title>
+    <dcterms:description>Shows the noticeable difference after changing the exposure settings</dcterms:description>
+    <art:url rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam14C.png"/>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-08T14:11:28-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:36"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/after-ae-setting-changes-3"/>
+    <dcterms:isReferencedBy rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:path:117:117:1">
+    <scalar:urn rdf:resource="urn:scalar:path:117:117:1"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14#index=1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <scalar:background rdf:resource="http://3.bp.blogspot.com/-yfqhgjJ6dVo/UFWduUysR-I/AAAAAAAAAIw/e9hD---foLs/s1600/snapshot00.png"/>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T10:37:44-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:51"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8">
+    <ov:versionnumber>8</ov:versionnumber>
+    <dcterms:title>Introduction to Digital Archaeology</dcterms:title>
+    <dcterms:description>The welcome page for the project</dcterms:description>
+    <sioc:content>&lt;h1&gt;&lt;a data-caption=&quot;description&quot; data-align=&quot;center&quot; data-size=&quot;large&quot; resource=&quot;media/photogrammetry-video&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Braden-embeddedVideo.mp4&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt;&lt;/h1&gt;[media]&lt;br /&gt;&lt;br /&gt;[Information about the project and the tutorials]&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a data-caption=&quot;description&quot; data-align=&quot;right&quot; data-size=&quot;small&quot; resource=&quot;media/3d-model&quot; class=&quot;inline&quot; href=&quot;http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/Sam15.png&quot; name=&quot;scalar-inline-media&quot;&gt;&lt;/a&gt; [media]&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;text&lt;br /&gt;&amp;nbsp;&lt;h1&gt;&lt;strong&gt;Background reading:&lt;/strong&gt;&lt;/h1&gt;&lt;a href=&quot;http://&quot;&gt;link&lt;/a&gt; -- description&lt;br /&gt;&lt;a href=&quot;http://&quot;&gt;link&lt;/a&gt; -- description&lt;br /&gt;&lt;a href=&quot;http://&quot;&gt;link&lt;/a&gt; -- description&lt;br /&gt;&lt;br /&gt;&amp;nbsp;&lt;h1&gt;&lt;strong&gt;Tutorials&lt;/strong&gt;:&lt;/h1&gt;[tutorials info]&lt;h1&gt;&lt;strong&gt;Spring Issue (XXVI):&lt;/strong&gt;&lt;/h1&gt;</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-22T14:17:27-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:116"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:path:116:100:1">
+    <scalar:urn rdf:resource="urn:scalar:path:116:100:1"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/braden-cordivari-photogrammetry-with-archival-film.11#index=1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:path:116:117:2">
+    <scalar:urn rdf:resource="urn:scalar:path:116:117:2"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14#index=2"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/linked-media-with-annotation">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:41:46-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:48"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/linked-media-with-annotation.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/linked-media-with-annotation.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/linked-media-with-annotation.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Linked media with annotation</dcterms:title>
+    <dcterms:description>This is an example of the same media linked below, but this version differs in that it has been annotated</dcterms:description>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:41:46-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:86"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/linked-media-with-annotation"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media-linking-example">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:34:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:45"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media-linking-example.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media-linking-example.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media-linking-example.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Media linking example</dcterms:title>
+    <dcterms:description>An example of linking material from Critical Commons</dcterms:description>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:34:34-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:79"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media-linking-example"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:39:21-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:47"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example.3"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example.3"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example.3">
+    <ov:versionnumber>3</ov:versionnumber>
+    <dcterms:title>Photogrammetry stylized example</dcterms:title>
+    <dcterms:description>An hollywood version of the use of photogrammetry</dcterms:description>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:39:31-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:84"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:anno:84:77">
+    <scalar:urn rdf:resource="urn:scalar:anno:84:77"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/photogrammetry-stylized-example.3"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/3d-mapping-technology-in-prometheus.1#t=npt:22,30"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:59:13-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:30"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Some tags</dcterms:title>
+    <dcterms:description>Tags example</dcterms:description>
+    <sioc:content>Keywords: Dino-lite, Anthropology, UPenn, Photogrammetry</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-09T07:59:13-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:51"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:tag:51:117">
+    <scalar:urn rdf:resource="urn:scalar:tag:51:117"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:tag:51:25">
+    <scalar:urn rdf:resource="urn:scalar:tag:51:25"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-1.1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:tag:51:26">
+    <scalar:urn rdf:resource="urn:scalar:tag:51:26"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-2.1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:tag:51:27">
+    <scalar:urn rdf:resource="urn:scalar:tag:51:27"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/some-tags.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/media/color-settings-3.1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:22:53-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:43"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Suggestion</dcterms:title>
+    <dcterms:description>Some ideas..</dcterms:description>
+    <sioc:content>&quot;Maybe place more screenshots of this for the user...&quot; (general commentary)</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-10T09:22:53-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:75"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/5"/>
+    <dcterms:created>2017-02-10T10:03:33-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:49"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>Suggestion</dcterms:title>
+    <sioc:content>Maybe where the three images are place them all horizontally next to each other to save some room.</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/5"/>
+    <dcterms:created>2017-02-10T10:03:33-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:88"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:reply:88:117">
+    <scalar:urn rdf:resource="urn:scalar:reply:88:117"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/suggestion-1.1"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/index.14#datetime=2017-02-10T10:03:33-06:00"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/text-note">
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Composite"/>
+    <scalar:isLive>1</scalar:isLive>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-14T10:31:04-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:content:53"/>
+    <scalar:version rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/text-note.1"/>
+    <dcterms:hasVersion rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/text-note.1"/>
+    <scalar:citation>method=instancesof/content;methodNumNodes=43;</scalar:citation>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/text-note.1">
+    <ov:versionnumber>1</ov:versionnumber>
+    <dcterms:title>text note</dcterms:title>
+    <sioc:content>I am a note! I am text that comments on other text in a page. Scalar thinks I should be used similar to footnotes.</sioc:content>
+    <scalar:defaultView>plain</scalar:defaultView>
+    <prov:wasAttributedTo rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/users/3"/>
+    <dcterms:created>2017-02-14T10:31:04-06:00</dcterms:created>
+    <scalar:urn rdf:resource="urn:scalar:version:99"/>
+    <dcterms:isVersionOf rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/text-note"/>
+    <rdf:type rdf:resource="http://scalar.usc.edu/2012/01/scalar-ns#Version"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="urn:scalar:path:114:116:1">
+    <scalar:urn rdf:resource="urn:scalar:path:114:116:1"/>
+    <oac:hasBody rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/welcome-page.12"/>
+    <oac:hasTarget rdf:resource="http://dev.upenndigitalscholarship.org/scalar/digital-archaeology-tutorials/introduction-to-digital-archaeology.8#index=1"/>
+    <rdf:type rdf:resource="http://www.openannotation.org/ns/Annotation"/>
+  </rdf:Description>
+
+</rdf:RDF>
