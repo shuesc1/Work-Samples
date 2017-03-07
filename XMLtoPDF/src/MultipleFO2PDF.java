@@ -17,7 +17,7 @@
 
 /* $Id: MultipleFO2PDF.java 1356646 2012-07-03 09:46:41Z mehdi $ */
 
-package embedding;
+//package embedding;
 
 // Java
 import java.io.BufferedOutputStream;
