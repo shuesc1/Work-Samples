@@ -3,17 +3,13 @@ import java.util.ArrayList;
 public class GenericNode<T> {
 
 	public T name;
-	public GenericNode<T> child;
+	public GenericNode<T> parent;
 	public ArrayList<GenericNode<T>> children;
-//	public GenericNode<T> left, right;
-
 	
 	public GenericNode(T name){
 		this.name = name;
-		child = null;
+		parent = null;
 		children = new ArrayList<>();
-//		left = null;
-//		right = null;
 	}
 	
 }

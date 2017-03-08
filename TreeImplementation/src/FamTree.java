@@ -355,6 +355,7 @@ public class FamTree<T> {
 				child = new GenericNode<String>(aChild);
 				allNodes.add(child);
 				parent.children.add(child); //adds child to parent node's personal children arraylist
+				child.parent = parent;
 				if(count == 0){
 					root = parent;
 				}

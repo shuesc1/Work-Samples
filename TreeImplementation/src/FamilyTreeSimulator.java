@@ -7,11 +7,13 @@ public class FamilyTreeSimulator {
 		// TODO Auto-generated method stub
 
 		boolean result;
+		GenericNode<String> root = new GenericNode<String>(null);
 		FamTree ft = new FamTree();
 		String filename = "family_tree.txt";
 		ft.parseMembers(filename);
-//		System.out.println("Size:" + ft.size());
-//		System.out.println("Height: " + ft.getHeight());
+		root = ft.getRoot();
+		System.out.println("Size:" + ft.size());
+		System.out.println("Height: " + ft.getHeight(root));
 		
 		System.out.println("**********FAMILY TREE SIMULATOR*********");
 		System.out.println("1a). Is Andrew the parent of Kevin?"); //#1
@@ -30,14 +32,14 @@ public class FamilyTreeSimulator {
 		result = ft.isChild("Adam", "Elisa");
 		System.out.println("Answer: " + result);
 		
-		System.out.println("3a). Is Will the ancestor of Steve?"); //#3
-		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
-		
-		System.out.println("3b). Is Sally the ancestor of Will?");  //#3
-		System.out.println("Answer: " + ft.isAncestor("Sally", "Will"));
-		
-		System.out.println("4a). Is Kevin the descendant of Adam?"); //#4
-		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
+//		System.out.println("3a). Is Will the ancestor of Steve?"); //#3
+//		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
+//		
+//		System.out.println("3b). Is Sally the ancestor of Will?");  //#3
+//		System.out.println("Answer: " + ft.isAncestor("Sally", "Will"));
+//		
+//		System.out.println("4a). Is Kevin the descendant of Adam?"); //#4
+//		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
 		
 		System.out.println("5a). Is Stacy the sibling of Lucy?"); //#5
 		System.out.println("Answer: " + ft.isSibling("Stacy", "Lucy"));
