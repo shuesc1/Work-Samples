@@ -33,7 +33,7 @@ public class PaternityTest {
 		
 		
 		System.out.println("Tree size: " + ft.size());
-		System.out.println("Height: " + ft.getHeight());
+		System.out.println("Height: " + ft.getHeight(root));
 	}
 
 }

@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class FamTree<T> {
+public class FamTreeEC {
+
 
 	private ArrayList<GenericNode<String>> allNodes;
 	private GenericNode<String> parent, child, root;
@@ -13,14 +14,57 @@ public class FamTree<T> {
 	private int count = 0;
 	private Scanner in;
 	private boolean result;
-	private HashMap<String, Integer> nodes;
+	HashMap<String, Integer> nodes;
 
 	/**
 	 * The constructor for the class
 	 * it initializes an arraylist to store the nodes
 	 */
-	public FamTree(){
+	public FamTreeEC(){
 		allNodes = new ArrayList<>();
+	}
+
+	/**
+	 * A method to take in a file representing family members and store them as nodes
+	 * @param filename a .txt file with family relationships
+	 * @throws FileNotFoundException
+	 */
+	public void parseMembers(String filename) throws FileNotFoundException{
+		File file = new File(filename);
+		in = new Scanner(file);
+		in.useDelimiter(",");
+		//while there are more lines in .txt file of family members..
+		while(in.hasNextLine()){
+			StringTokenizer st = new StringTokenizer(in.nextLine());
+			while(st.hasMoreTokens()){
+				aParent = st.nextToken(",").trim(); //gets name which is a string
+				aChild = st.nextToken().trim(); //gets name which is a string
+
+				parent = new GenericNode<String>(aParent);
+				allNodes.add(parent); //add parent node to list of all parent nodes
+				child = new GenericNode<String>(aChild);
+				allNodes.add(child);
+				parent.children.add(child); //adds child to parent node's personal children arraylist
+				if(count == 0){
+					root = parent;
+				}
+			}
+			count++;
+		}
+	}
+
+	/**
+	 * A method to return the number of nodes in a tree
+	 * @param root
+	 * @return
+	 */
+	public int size(){
+		nodes = new HashMap<>();
+		for(GenericNode<String> n : allNodes){
+			nodes.put(n.name, n.children.size());
+		}
+		int size = nodes.size();
+		return size;
 	}
 
 	/**#1
@@ -59,15 +103,24 @@ public class FamTree<T> {
 	 * @param b a string value of a possible descendant
 	 * @return a boolean value denoting if a is an ancestor of b
 	 */
-	public boolean isAncestor(String a, String b){ //"A node u is an ancestor of a node v if u==v or is an ancestor of the parent of v", Data Structs & Algorithms, p. 310
-		String parentName = getParent(b).name;
-		if(a == b){
-			result = true;
-		} else if(isAncestor(a, parentName) == true){
-			result = true;
-		} else {
-			result = false;
-		}		
+	public boolean isAncestor(String a, String b){
+		for(GenericNode<String> g : allNodes){
+			if(g.name.equalsIgnoreCase(a)){
+				if(g.children.size() == 0){
+					result = false;
+				} else if(g.children.size() >= 1){
+					//					while(g.children.size() >= 1){
+					for(int i = 0; i < g.children.size(); i++){
+						if(g.children.get(i).name.equalsIgnoreCase(b)){
+							result = true;
+						} else {
+							result = false;
+						}
+					}
+					//					}
+				}
+			}
+		}
 		return result;
 	}
 
@@ -77,7 +130,7 @@ public class FamTree<T> {
 	 * @param b a string value o a possible ancestor
 	 * @return a boolean if a is a descendant of b
 	 */
-	public boolean isDescendant(String a, String b){//"a node v is a descendant of a node u if u is an ancestor of v", p. 310
+	public boolean isDescendant(String a, String b){
 		if(isAncestor(b,a) == true){
 			return true;
 		} else {
@@ -132,7 +185,7 @@ public class FamTree<T> {
 	 * A method that prints out the height, size, and name of the root node
 	 */
 	public void displayStatistics(){
-		int height = getHeight(root);
+		int height = getHeight();
 		int size = size();
 		System.out.println("Height:" + height + ", number of nodes:" + size + " , Root node: " + getRoot().name);
 	}
@@ -212,21 +265,6 @@ public class FamTree<T> {
 		return result;
 	}
 
-
-	/**
-	 * A method to return the number of nodes in a tree
-	 * @param root
-	 * @return
-	 */
-	public int size(){
-		nodes = new HashMap<>();
-		for(GenericNode<String> n : allNodes){
-			nodes.put(n.name, n.children.size());
-		}
-		int size = nodes.size();
-		return size;
-	}
-
 	/**
 	 * A method that gets the depth of the tree
 	 * "depth of p is the number of ancestors of p, other than p itself", p. 314
@@ -243,14 +281,16 @@ public class FamTree<T> {
 		return depth;
 	}
 
-	/**
+	/**"bad implementation"--worst case O(n^2)
 	 * A method to get the height of the tree
 	 * @return an int height of tree
 	 */
-	public int getHeight(GenericNode<String> p){
+	public int getHeight(){
 		int height = 0;
-		for(GenericNode<String> g : p.children){
-			height = Math.max(height, 1 + getHeight(g));
+		for(GenericNode<String> g : root.children){
+			if(g.children.size() == 0){
+				height = Math.max(height, depth(g.name));
+			}
 		}
 		return height;
 	}
@@ -285,82 +325,18 @@ public class FamTree<T> {
 	 * @return parent a parent node
 	 */
 	public GenericNode<String> getParent(String a){
-//		CharSequence c = (CharSequence) a;
-//		GenericNode<String> tempRoot = root;
-//		boolean found = false;
-//		if(tempRoot.children.toString().contains(a.name)){
-//			parent = root;
-//		} else {
-//			while(found == false){
-//				for(GenericNode<String> gn : tempRoot.children){
-////					getParent(a);
-//					if(gn.children.toString().contains(a.name)){
-//						parent = gn;
-//						found = true;
-//					} else {
-////						getParent(a);
-//						gn = tempRoot;
-//					}
-//				}
-//			}
-//			
-//		}
-//		if(tempRoot.children.toString().contains(a)){
-//			parent = tempRoot;
-//		} else{
-		
 		for(GenericNode<String> gn : allNodes){
-//						for(GenericNode<String> n : gn.children){
-			if(gn.children.toString().contains(a)){
-				parent = gn;
-//			gn = tempRoot;
-//			getParent(a);
-				break;
+			for(GenericNode<String> n : gn.children){
+				if(n.name.equalsIgnoreCase(a)){
+					parent = gn;
+					break;
+				}
 			}
-//						}
 		}
 		return parent;
 	}
 
-	public GenericNode<String> getNode(String a){
-		GenericNode<String> keyNode = null;
-		for(GenericNode<String> g : allNodes){
-			if(g.name.equals(a)){
-				keyNode = g;
-				break;
-			}
-		}
-		return keyNode;
-	}
 
-
-	/**
-	 * A method to take in a file representing family members and store them as nodes
-	 * @param filename a .txt file with family relationships
-	 * @throws FileNotFoundException
-	 */
-	public void parseMembers(String filename) throws FileNotFoundException{
-		File file = new File(filename);
-		in = new Scanner(file);
-		in.useDelimiter(",");
-		//while there are more lines in .txt file of family members..
-		while(in.hasNextLine()){
-			StringTokenizer st = new StringTokenizer(in.nextLine());
-			while(st.hasMoreTokens()){
-				aParent = st.nextToken(",").trim(); //gets name which is a string
-				aChild = st.nextToken().trim(); //gets name which is a string
-
-				parent = new GenericNode<String>(aParent);
-				allNodes.add(parent); //add parent node to list of all parent nodes
-				child = new GenericNode<String>(aChild);
-				allNodes.add(child);
-				parent.children.add(child); //adds child to parent node's personal children arraylist
-				if(count == 0){
-					root = parent;
-				}
-			}
-			count++;
-		}
-	}
-
+	
+	
 }
