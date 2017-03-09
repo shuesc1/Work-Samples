@@ -1,15 +1,13 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class FamilyTreeSimulator {
+public class FamilyTreeSimulatorEC {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
-
+	
 		boolean result;
 		GenericNode<String> root = new GenericNode<String>(null);
-		FamTree ft = new FamTree();
+		FamTreeEC ft = new FamTreeEC();
 		String filename = "family_tree.txt";
 		ft.parseMembers(filename);
 		root = ft.getRoot();
@@ -35,9 +33,6 @@ public class FamilyTreeSimulator {
 
 		System.out.println("3a). Is Will the ancestor of Steve? (yes)"); //#3
 		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
-
-//		System.out.println("3b). Is Steve the ancestor of Camilla? (no)");  //#3
-//		System.out.println("Answer: " + ft.isAncestor("Steve", "Camilla"));
 
 		System.out.println("4a). Is Kevin the descendant of Adam? (yes)"); //#4
 		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
@@ -100,5 +95,5 @@ public class FamilyTreeSimulator {
 			System.out.println(g.name + ",");
 		}
 	}
-
+	
 }

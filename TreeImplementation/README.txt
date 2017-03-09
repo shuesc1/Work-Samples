@@ -2,6 +2,20 @@ Joseph Haymaker
 CIT 594 - HW #3
 Due 03/03/2017
 
+********************
+********************
+03/10 re-submission:
+-fixes faulty methods: isAncestor(), isDescendant(), height(), preorderTraversal(), postorderTraversal(), & isOnlyChild().
+-implements all above methods recursively (save isOnlyChild()) in original FamTree.java class.
+-adds FamTreeEC.java extra credit class
+-fixes serious error in parseMembers() method-- now accounts for repeat parents and adds children to existing parent nodes (previously unaccounted for)
+-eliminates method implementation of methods using ArrayList.size() & ArrayList.toString() due to innacurate reporting.
+-adds further helper methods such as getNode().
+
+********************
+********************
+
+
 ////////////CLASSES\\\\\\\\\\\\\\\\\
 
 *****Implementation classes*****
@@ -12,6 +26,10 @@ Due 03/03/2017
 
 3. FamilyTreeSimulator - contains the main method and tests all methods
 
+<<ADDED 03/10>>: 4. FamTreeEC - same as FamTree, but implements following methods differently: isAncestor(), isDescendant(), 
+				displayStatistics() / height() / size(), preorderTraversal(), postorderTraversal().
+
+<<ADDED 03/10>>: 5. FamilyTreeSimulatorEC - same as FamilyTreeSimulator, now with FamTreeEC object.
 
 ******Additional files**********
 
@@ -43,7 +61,10 @@ Due 03/03/2017
 				this limited the structure to a binary tree, and then added an arraylist
 				to contain all possible children. I specifically chose an arraylist (of nodes)
 				knowing that it would be dynamically sizable and have useful methods such
-				as .get, .add, and .size.
+				as .get, .add, and .size. 
+				
+				<<ADDED 03/10>>: parent genericNode to structure so as to 
+				facilitate data access.
 
 2. FamTree -implements all methods required (12) and implements other helper methods"
 
