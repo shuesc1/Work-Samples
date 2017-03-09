@@ -31,12 +31,17 @@ public class FamTree<T> {
 	 */
 	public boolean isParent(String a, String b){
 		GenericNode<String> parentNode = new GenericNode<String>(null);
-		parentNode = getParent(b);
-		if(parentNode.name.equalsIgnoreCase(a)){
-			return true;
+		if(getNode(b).parent != null){
+			parentNode = getNode(b).parent;
+			if(parentNode.name.equalsIgnoreCase(a)){
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}
+
 	}
 
 	/**#2
@@ -60,10 +65,19 @@ public class FamTree<T> {
 	 * @return a boolean value denoting if a is an ancestor of b
 	 */
 	public boolean isAncestor(String a, String b){ //"A node u is an ancestor of a node v if u==v or is an ancestor of the parent of v", Data Structs & Algorithms, p. 310
-		String parentName = getParent(b).name;
+		//		String parentName = null;
+		//		if(getNode(b).parent.name != null){
+		//			parentName = getNode(b).parent.name;
+		//		} else {
+		//			parentName = "no parent name";
+		//			System.out.println("This family member is the root node");
+		//		}
+
 		if(a == b){
 			result = true;
-		} else if(isAncestor(a, parentName) == true){
+		} else if(isParent(a,b) == true) {
+			result = true;
+		} else if(isAncestor(a, getNode(b).parent.name) == true){
 			result = true;
 		} else {
 			result = false;
@@ -92,7 +106,7 @@ public class FamTree<T> {
 	 * @return a boolean value if a is a sibling of b
 	 */
 	public boolean isSibling(String a, String b){
-		if(getParent(a).name.equalsIgnoreCase(getParent(b).name) ){
+		if(getNode(a).parent.name.equalsIgnoreCase(getNode(b).parent.name) ){
 			//		if(getParent(a) == getParent(b)){
 			return true;
 		} else {
@@ -107,7 +121,7 @@ public class FamTree<T> {
 	 * @return
 	 */
 	public boolean isCousin(String a, String b){
-		if(isSibling(getParent(a).name,getParent(b).name) == true){
+		if(isSibling(getNode(a).parent.name,getNode(b).parent.name) == true){
 			return true;
 		} else {
 			return false;
@@ -121,7 +135,7 @@ public class FamTree<T> {
 	 * @return a boolean true is a is an uncle/aunt of b, false if not
 	 */
 	public boolean isUncle(String a, String b){
-		if(isSibling(a,getParent(b).name) == true){
+		if(isSibling(a,getNode(b).parent.name) == true){
 			return true;
 		} else {
 			return false;
@@ -159,19 +173,22 @@ public class FamTree<T> {
 	/**#10
 	 * A method that traverses all nodes and prints them out according to postorder traversal(Left, Right, Root Node)
 	 */
-	public void postorderTraversal(){
-		if(root == null){	//bc empty
+	public void postorderTraversal(GenericNode<String> h){
+		if(h == null){	//bc empty
 			System.out.println("Tree is empty");
-		} else if(root.children.size() != 0){ //bc children are leaves
-			for(GenericNode<String> g :root.children){
+		} else if(h != null && h.children.isEmpty() == true){
+			System.out.print(h.name);
+		} else if(h.children.isEmpty() == false){ //bc children are leaves
+			for(GenericNode<String> g :h.children){
 				System.out.print(g.name + ", ");
+				postorderTraversal(g);
 			}
-			System.out.println(root.name);	
-		} else if(root.children.get(1).children.size() != 0){ //case of children having children
-			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
-			for(GenericNode<String> g :root.children){
-				postorderTraversal();
-			}
+			System.out.println(h.name);	
+//		} else if(h.children.get(1).children.size() != 0){ //case of children having children
+//			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
+//			for(GenericNode<String> g :root.children){
+//				postorderTraversal();
+//			}
 		}
 	}
 
@@ -204,9 +221,9 @@ public class FamTree<T> {
 	 * @return a boolean true if person is only child, false otherwise
 	 */
 	public boolean isOnlyChild(String a){
-		if(getParent(a).children.size() == 1){
+		if(getNode(a).parent.children.size() == 1){
 			result = true;
-		} else if (getParent(a).children.size() > 1) {
+		} else if (getNode(a).parent.children.size() > 1) {
 			result = false;
 		}
 		return result;
@@ -238,7 +255,7 @@ public class FamTree<T> {
 		if(a.equals(root.name)){
 			depth = 0;
 		} else {
-			depth = 1 + depth(getParent(a).name);
+			depth = 1 + depth(getNode(a).parent.name);
 		}
 		return depth;
 	}
@@ -279,49 +296,6 @@ public class FamTree<T> {
 		root = g;
 	}
 
-	/**
-	 * A getter method for a node's parent
-	 * @param a string name of a child
-	 * @return parent a parent node
-	 */
-	public GenericNode<String> getParent(String a){
-//		CharSequence c = (CharSequence) a;
-//		GenericNode<String> tempRoot = root;
-//		boolean found = false;
-//		if(tempRoot.children.toString().contains(a.name)){
-//			parent = root;
-//		} else {
-//			while(found == false){
-//				for(GenericNode<String> gn : tempRoot.children){
-////					getParent(a);
-//					if(gn.children.toString().contains(a.name)){
-//						parent = gn;
-//						found = true;
-//					} else {
-////						getParent(a);
-//						gn = tempRoot;
-//					}
-//				}
-//			}
-//			
-//		}
-//		if(tempRoot.children.toString().contains(a)){
-//			parent = tempRoot;
-//		} else{
-		
-		for(GenericNode<String> gn : allNodes){
-//						for(GenericNode<String> n : gn.children){
-			if(gn.children.toString().contains(a)){
-				parent = gn;
-//			gn = tempRoot;
-//			getParent(a);
-				break;
-			}
-//						}
-		}
-		return parent;
-	}
-
 	public GenericNode<String> getNode(String a){
 		GenericNode<String> keyNode = null;
 		for(GenericNode<String> g : allNodes){
@@ -357,6 +331,8 @@ public class FamTree<T> {
 				parent.children.add(child); //adds child to parent node's personal children arraylist
 				child.parent = parent;
 				if(count == 0){
+					GenericNode<String> dummy = new GenericNode<String>("null");
+					parent.parent = dummy;
 					root = parent;
 				}
 			}
