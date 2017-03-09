@@ -39,6 +39,8 @@ public class PaternityTest {
 		System.out.println("Height: " + ft.getHeight(root));
 		System.out.print("Postorder traversal: ");
 		ft.postorderTraversal(root);
+		System.out.print("\nPreorder traversal: ");
+		ft.preorderTraversal(root);
 //		int childrensize = ft.getNode("Adam").parent.children.size();
 //		System.out.println("Adam has " + childrensize + " children");
 	}

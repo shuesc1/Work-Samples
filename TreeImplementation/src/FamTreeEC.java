@@ -5,16 +5,21 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+/**
+ * A class that attempts to recreate all methods in FamTree class and, when applicable, implementing methods recursively 
+ * instead of iteratively and viceversa.
+ * @author josephhaymaker
+ *
+ */
 public class FamTreeEC {
-
 
 	private ArrayList<GenericNode<String>> allNodes;
 	private GenericNode<String> parent, child, root;
 	private String aParent, aChild;
 	private int count = 0;
 	private Scanner in;
-	private boolean result;
-	HashMap<String, Integer> nodes;
+	public boolean result;
+	private HashMap<String, Integer> nodes;
 
 	/**
 	 * The constructor for the class
@@ -58,32 +63,36 @@ public class FamTreeEC {
 		}
 	}
 
-	/**#3 (now iterative)
+	/**#3 (now iterative, but not functional)
 	 * A method to see if a is an ancestor of b
 	 * @param a a string value for a possible ancestor
 	 * @param b a string value of a possible descendant
 	 * @return a boolean value denoting if a is an ancestor of b
 	 */
-//	public boolean isAncestor(String a, String b){
-//		for(GenericNode<String> g : allNodes){
-//			if(g.name.equalsIgnoreCase(a)){
-//				if(g.children.size() == 0){
-//					result = false;
-//				} else if(g.children.size() >= 1){
-//					//					while(g.children.size() >= 1){
-//					for(int i = 0; i < g.children.size(); i++){
-//						if(g.children.get(i).name.equalsIgnoreCase(b)){
-//							result = true;
-//						} else {
-//							result = false;
-//						}
-//					}
-//					//					}
-//				}
-//			}
-//		}
-//		return result;
-//	}
+	public boolean isAncestor(String a, String b){
+		result = false;
+		for(GenericNode<String> g : allNodes){ //search list of all nodes
+			if(g.name.equalsIgnoreCase(a)){ //enter if node's name is a
+				if(g.children.isEmpty() == true){ //if it is a leaf we already know result is false
+					result = false;
+				} else { //if node a has children ; we want to see if it has a child b, or grandchild b, or...
+					while(g.children.isEmpty() == false || result == false){ //go until you hit leaves or until you find b as a descendant
+						for(GenericNode<String> x : g.children){ //go over a's children
+							if(x.name.equals(b)){
+								result = true;
+								break;
+							}
+						}
+						if(result = false){
+							g = g.children.get(1);
+						}
+					}
+				}
+			}
+			break;
+		}
+		return result;
+	}
 
 	/**#4 (now iterative)
 	 * A method telling if a is a descendant of b
@@ -91,13 +100,13 @@ public class FamTreeEC {
 	 * @param b a string value o a possible ancestor
 	 * @return a boolean if a is a descendant of b
 	 */
-//	public boolean isDescendant(String a, String b){
-//		if(isAncestor(b,a) == true){
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
+	public boolean isDescendant(String a, String b){
+		if(isAncestor(b,a) == true){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**#5 (iterative -- no change)
 	 * a method denoting if a is a sibling of b
@@ -144,11 +153,11 @@ public class FamTreeEC {
 	/**#8
 	 * A method that prints out the height, size, and name of the root node
 	 */
-//	public void displayStatistics(){
-//		int height = getHeight();
-//		int size = size();
-//		System.out.println("Height:" + height + ", number of nodes:" + size + " , Root node: " + getRoot().name);
-//	}
+	public void displayStatistics(){
+		int height = getHeight();
+		int size = size(root);
+		System.out.println("Height:" + height + ", number of nodes:" + size + " , Root node: " + getRoot().name);
+	}
 
 	/**#8a (now iterative)	
 	 *"bad implementation"--worst case O(n^2)
@@ -158,63 +167,60 @@ public class FamTreeEC {
 	public int getHeight(){
 		int height = 0;
 		for(GenericNode<String> g : root.children){
-			if(g.children.size() == 0){
+			if(isOnlyChild(g.name) == true){
 				height = Math.max(height, depth(g.name));
 			}
 		}
 		return height;
 	}
-	
+
 	/**#8b (now recursive)
 	 * A method to return the number of nodes in a tree
 	 * @param root
 	 * @return
 	 */
-//	public int size(){
-////		nodes = new HashMap<>();
-////		for(GenericNode<String> n : allNodes){
-////			nodes.put(n.name, n.children.size());
-////		}
-////		int size = nodes.size();
-//		return size;
-//	}
-	
-	/**#9 (now iterative)
-	 * A method that traverses all nodes and prints them out according to preorder traversal(Root Node, Left, Right)
-	 */
-	public void preorderTraversal(){
-//		if(root == null){	//bc empty
-//			System.out.println("Tree is empty");
-//		} else if(root.children.size() != 0){ //bc children are leaves
-//			System.out.println(root.name);	
-//			for(GenericNode<String> g :root.children){
-//				System.out.print(g.name + ", ");
-//			}
-//		} else if(root.children.get(1).children.size() != 0){ //case of children having children
-//			for(GenericNode<String> g :root.children){
-//				preorderTraversal();
-//			}
-//		}
-
+	public int size(GenericNode<String> p){
+		int size  = 0;
+		if(root.children.isEmpty()==true){
+			size = 1;
+		} else {
+			for(GenericNode<String> g : p.children){
+				size = 1 + size(g);
+			}
+		}
+		return size;
 	}
 
-	/**#10 (now iterative)
+	/**#9 (didn't have time to change to iterative)
+	 * A method that traverses all nodes and prints them out according to preorder traversal(Root Node, Left, Right)
+	 */
+	public void preorderTraversal(GenericNode<String> s){
+		if(s == null){	//bc empty
+			System.out.println("Tree is empty");
+		} else if(s.children.isEmpty() == true){
+			System.out.print(s.name + ", ");
+		} else if(s != null && s.children.isEmpty() == false){ 
+			System.out.print(s.name + ", ");		
+			for(GenericNode<String> g :s.children){
+				preorderTraversal(g);
+			}
+		}
+	}
+
+	/**#10 (didn't have time to change to iterative)
 	 * A method that traverses all nodes and prints them out according to postorder traversal(Left, Right, Root Node)
 	 */
-	public void postorderTraversal(){
-//		if(root == null){	//bc empty
-//			System.out.println("Tree is empty");
-//		} else if(root.children.size() != 0){ //bc children are leaves
-//			for(GenericNode<String> g :root.children){
-//				System.out.print(g.name + ", ");
-//			}
-//			System.out.println(root.name);	
-//		} else if(root.children.get(1).children.size() != 0){ //case of children having children
-//			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
-//			for(GenericNode<String> g :root.children){
-//				postorderTraversal();
-//			}
-//		}
+	public void postorderTraversal(GenericNode<String> h){
+		if(h == null){	//bc empty
+			System.out.println("Tree is empty");
+		} else if(h != null && h.children.isEmpty() == true){
+			System.out.print(h.name + ", ");
+		} else if(h.children.isEmpty() == false){ //bc children are leaves
+			for(GenericNode<String> g :h.children){
+				postorderTraversal(g);
+			}
+			System.out.print(h.name + ", ");	
+		}
 	}
 
 	/**#11 (iterative -- no change)
@@ -272,7 +278,7 @@ public class FamTreeEC {
 	public GenericNode<String> getRoot(){
 		return root;
 	}
-	
+
 	/**
 	 * A setter method for setting the root (for testing)
 	 * @param g
@@ -280,7 +286,7 @@ public class FamTreeEC {
 	public void setRoot(GenericNode<String> g){
 		root = g;
 	}
-	
+
 	/**
 	 * A method to get the node object associated with a string name
 	 * @param a a string name
@@ -296,7 +302,7 @@ public class FamTreeEC {
 		}
 		return keyNode;
 	}
-	
+
 	/**
 	 * A method to take in a file representing family members and store them as nodes
 	 * @param filename a .txt file with family relationships
@@ -338,7 +344,7 @@ public class FamTreeEC {
 			count++;
 		}
 	}
-	
+
 	/**
 	 * A method that gets the depth of the tree
 	 * "depth of p is the number of ancestors of p, other than p itself", p. 314

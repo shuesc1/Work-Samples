@@ -69,7 +69,7 @@ public class FamilyTreeSimulator {
 		System.out.println("\nPOSTORDER TRAVERSAL:"); //#10
 		ft.postorderTraversal(root);
 
-		System.out.println("11a). Is Mary a girl? (yes)"); //#11
+		System.out.println("\n11a). Is Mary a girl? (yes)"); //#11
 		System.out.println("Answer: " + ft.isFemale("Mary"));
 
 		System.out.println("11b). Is Theodore a girl? (no)"); //#11

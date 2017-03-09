@@ -11,8 +11,8 @@ public class FamilyTreeSimulatorEC {
 		String filename = "family_tree.txt";
 		ft.parseMembers(filename);
 		root = ft.getRoot();
-		System.out.println("Size:" + ft.size());
-		System.out.println("Height: " + ft.getHeight(root));
+		System.out.println("Size:" + ft.size(root));
+		System.out.println("Height: " + ft.getHeight());
 
 		System.out.println("**********FAMILY TREE SIMULATOR*********");
 		System.out.println("1a). Is Andrew the parent of Kevin? (yes)"); //#1
@@ -31,11 +31,11 @@ public class FamilyTreeSimulatorEC {
 		result = ft.isChild("Mary", "Sally");
 		System.out.println("Answer: " + result);
 
-		System.out.println("3a). Is Will the ancestor of Steve? (yes)"); //#3
-		System.out.println("Answer: " + ft.isAncestor("Will", "Steve"));
+		System.out.println("3a). Is Will the ancestor of Theodore? (yes)"); //#3
+		System.out.println("Answer: " + ft.isAncestor("Will", "Theodore"));
 
-		System.out.println("4a). Is Kevin the descendant of Adam? (yes)"); //#4
-		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
+//		System.out.println("4a). Is Kevin the descendant of Adam? (yes)"); //#4
+//		System.out.println("Answer: " + ft.isDescendant("Kevin", "Adam"));
 
 		System.out.println("5a). Is Stacy the sibling of Lucy? (yes)"); //#5
 		System.out.println("Answer: " + ft.isSibling("Stacy", "Lucy"));
@@ -64,7 +64,7 @@ public class FamilyTreeSimulatorEC {
 		System.out.println("\nPOSTORDER TRAVERSAL:"); //#10
 		ft.postorderTraversal(root);
 
-		System.out.println("11a). Is Mary a girl? (yes)"); //#11
+		System.out.println("\n11a). Is Mary a girl? (yes)"); //#11
 		System.out.println("Answer: " + ft.isFemale("Mary"));
 
 		System.out.println("11b). Is Theodore a girl? (no)"); //#11
@@ -88,12 +88,12 @@ public class FamilyTreeSimulatorEC {
 
 		int c4 = ft.getNode("Camilla").parent.children.size();
 		System.out.println("Camilla has " + c4 + " children (should be 0)");
-
-		ArrayList<GenericNode<String>> list = new ArrayList<GenericNode<String>>();
-		list = ft.getNode("Camilla").children;
-		for(GenericNode<String> g : list){
-			System.out.println(g.name + ",");
-		}
+//
+//		ArrayList<GenericNode<String>> list = new ArrayList<GenericNode<String>>();
+//		list = ft.getNode("Camilla").children;
+//		for(GenericNode<String> g : list){
+//			System.out.println(g.name + ",");
+//		}
 	}
 	
 }

@@ -4,10 +4,10 @@ Due 03/03/2017
 
 ********************
 ********************
-03/10 re-submission:
+<<03/10 re-submission>>:
 -fixes faulty methods: isAncestor(), isDescendant(), height(), preorderTraversal(), postorderTraversal(), & isOnlyChild().
 -implements all above methods recursively (save isOnlyChild()) in original FamTree.java class.
--adds FamTreeEC.java extra credit class
+-adds FamTreeEC.java & FamilyTreeSimultorEC.java extra credit classes
 -fixes serious error in parseMembers() method-- now accounts for repeat parents and adds children to existing parent nodes (previously unaccounted for)
 -eliminates method implementation of methods using ArrayList.size() & ArrayList.toString() due to innacurate reporting.
 -adds further helper methods such as getNode().
@@ -70,11 +70,15 @@ Due 03/03/2017
 
 	#1 isParent -- uses a helper method to get the name of b's parent. If is is the same as a's name, then return true.
 
+				<<03/10 MODIFICATION>>: get b's parent's name with helper method, if it equals a return true.
+
 	#2 isChild -- uses above method; if b is a parent of a return true, else return false. 
 
 	#3 isAncestor -- find the node that corresponds to a in list of all nodes. If the size of its children arraylist insn't 0,
 				check all its children's names to see if they match. Needs to run recursively but currently doesn't.
 
+				<<03/10 MODIFICATION>>: base case: if isParent(a,b)== true return true, else recursively call isAncestor on a and b's parent's name.
+	
 	#4 isDescendant -- uses above method; if b is an ancestor of a, then a is a descendant of b.
 
 	#5 isSibling -- get parent's name for a and for b. If they are equal, then return true.
@@ -91,14 +95,21 @@ Due 03/03/2017
 	#9 preorderTraversal (N,L,R) --while node has children print out node's name and then all children's names; supposed
 									to act recursively but fails to do so. 
 
+				<<03/10 MODIFICATION>>: base case: if parameter node is leaf, print out its name, else print out its name and for
+				each of its children recursively call method.
+
 	#10 postorderTraversal (L,R,N)-- same as above, except print out children's names first then parent node's name. Also supposed
 									to run recursively.
+
+				<<03/10 MODIFICATION>>: base case: if parameter node is leaf, print out its name, else for
+				each of its children recursively call method, then print out its name.
 
 	#11 isFemale -- uses a .csv file of ~4000 most common US female names according to census bureau. If name appears in list,
 					return true.
 
 	#12 isOnlyChild -- if the size of the parent's children arraylist is only 1 return true, else return false.
 
+					<<03/10 MODIFICATION>>: iterate over all nodes, is isSibling == true for any, return false, else return true.
 
 3. FamilyTreeSimulator - contains the main method and tests all methods; I tried to provide
 						a true and then a false statement for the more important boolean methods.
@@ -107,8 +118,41 @@ Due 03/03/2017
 						I thought it would be easier to pose a question and then simply answer it
 						to show the efficacy of the implemented methods. 
 
+<<03/10 ADDITION>>:
+4. FamTreeEC -changes to: isAncestor(), isDescendant(), displayStatistics() / height() / size(), preorderTraversal(), 
+				postorderTraversal()
+
+	#1 isParent -- <<no change>>: no way to implement recursively, as you are only concerned with a node and what comes before/below it.
+
+	#2 isChild -- <<no change>>: same as above. 
+
+	#3 isAncestor -- <<03/10 MODIFICATION>>: find a's name in list of all nodes, if it has no children we already know the answer is false.
+					otherwise, iterate over all its children and check their names to see if they match b. If none do, set the parent node
+					 to child node and repeat search process (not functioning).
+				
+	#4 isDescendant -- uses above method; if b is an ancestor of a, then a is a descendant of b.
+
+	#5 isSibling -- <<no change>>: only concerned with 2 generations.
+
+	#6 isCousin -- <<no change>>: only concerned with 2 generations.
+
+	#7 isUncle -- <<no change>>: only concerned with 2 generations.
+
+	#8 displayStatistics -- <<03/10 MODIFICATION>>: height now "bad implementation", now using a for loop over all root's children 
+						and taking advantage of the depth() method.
+	
+						size() -- tried to implement recursively but didn't work.
+
+	#9 preorderTraversal (N,L,R) --<<03/10 MODIFICATION>>: meant to change but didn't have time.
+
+	#10 postorderTraversal (L,R,N)-- <<03/10 MODIFICATION>>: meant to change but didn't have time.
+
+	#11 isFemale -- <<no change>>: only focuses on the node that it takes in, so recursion doesn't make sense.
+
+	#12 isOnlyChild -- <<no change>>: not going back all generations to find answer. 
 
 ///////////USER NOTES:\\\\\\\\\\\\\\\\\
 
 To run the program open the "FamilyTreeSimulator.java" class and simply run the program. 
 The console should display all questions and answers as reported by the implemented methods.
+The same is true for the "FamilyTreeSimulatorEC.java" & "PaternityTest.java" classes.
