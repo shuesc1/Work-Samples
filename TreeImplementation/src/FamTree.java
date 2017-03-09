@@ -157,17 +157,20 @@ public class FamTree<T> {
 	public void preorderTraversal(){
 		if(root == null){	//bc empty
 			System.out.println("Tree is empty");
-		} else if(root.children.size() != 0){ //bc children are leaves
+		} else if(root.children.isEmpty() == true){ //bc children are leaves
 			System.out.println(root.name);	
-			for(GenericNode<String> g :root.children){
-				System.out.print(g.name + ", ");
-			}
-		} else if(root.children.get(1).children.size() != 0){ //case of children having children
+		} else {
+			System.out.println(root.name);	
 			for(GenericNode<String> g :root.children){
 				preorderTraversal();
 			}
-		}
 
+
+			//		} else if(root.children.get(1).children.size() != 0){ //case of children having children
+			//			for(GenericNode<String> g :root.children){
+			//				preorderTraversal();
+			//			}
+		}
 	}
 
 	/**#10
@@ -179,16 +182,18 @@ public class FamTree<T> {
 		} else if(h != null && h.children.isEmpty() == true){
 			System.out.print(h.name);
 		} else if(h.children.isEmpty() == false){ //bc children are leaves
+			System.out.print(h.children.toString());
+			System.out.println(h.name);
 			for(GenericNode<String> g :h.children){
-				System.out.print(g.name + ", ");
+				//				System.out.print(g.name + ", ");
 				postorderTraversal(g);
 			}
 			System.out.println(h.name);	
-//		} else if(h.children.get(1).children.size() != 0){ //case of children having children
-//			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
-//			for(GenericNode<String> g :root.children){
-//				postorderTraversal();
-//			}
+			//		} else if(h.children.get(1).children.size() != 0){ //case of children having children
+			//			//			System.out.println(postorderTraversal(g.left) + "," + postorderTraversal(g.right) + "," + g.name + ","); //theoretical implementation
+			//			for(GenericNode<String> g :root.children){
+			//				postorderTraversal();
+			//			}
 		}
 	}
 
@@ -221,14 +226,16 @@ public class FamTree<T> {
 	 * @return a boolean true if person is only child, false otherwise
 	 */
 	public boolean isOnlyChild(String a){
-		if(getNode(a).parent.children.size() == 1){
-			result = true;
-		} else if (getNode(a).parent.children.size() > 1) {
-			result = false;
+		for(GenericNode<String> g : allNodes){
+			if(isSibling(a, g.name) == true && !a.equals(g.name)){
+				result = false;
+				break;
+			} else {
+				result = true;
+			}
 		}
 		return result;
 	}
-
 
 	/**
 	 * A method to return the number of nodes in a tree
@@ -266,8 +273,12 @@ public class FamTree<T> {
 	 */
 	public int getHeight(GenericNode<String> p){
 		int height = 0;
-		for(GenericNode<String> g : p.children){
-			height = Math.max(height, 1 + getHeight(g));
+		if(p.children.isEmpty() == true){
+			height = 1;
+		} else {
+			for(GenericNode<String> g : p.children){
+				height = Math.max(height, 1 + getHeight(g));
+			}
 		}
 		return height;
 	}
