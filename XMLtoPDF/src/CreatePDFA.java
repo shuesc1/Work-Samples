@@ -14,25 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.pdfbox.examples.pdmodel;
+//package org.apache.pdfbox.examples.pdmodel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.transform.TransformerException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDMetadata;
-import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.graphics.color.PDOutputIntent;
-import org.apache.xmpbox.XMPMetadata;
-import org.apache.xmpbox.schema.DublinCoreSchema;
-import org.apache.xmpbox.schema.PDFAIdentificationSchema;
-import org.apache.xmpbox.type.BadFieldValueException;
-import org.apache.xmpbox.xml.XmpSerializer;
+
 
 /**
  * Creates a simple PDF/A document.

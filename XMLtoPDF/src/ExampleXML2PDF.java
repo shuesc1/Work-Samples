@@ -58,7 +58,7 @@ public class ExampleXML2PDF {
             // Setup input and output files
             File xmlfile = new File(baseDir, "scalar.xml");
 //            File xsltfile = new File(baseDir, "projectteam2fo.xsl");
-            File xsltfile = new File(baseDir, "xml2pdf.xsl");
+            File xsltfile = new File(baseDir, "style.xslt");
             File pdffile = new File(outDir, "ResultXML2PDF.pdf");
 
             System.out.println("Input: XML (" + xmlfile + ")");

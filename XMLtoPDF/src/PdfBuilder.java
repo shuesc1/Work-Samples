@@ -1,12 +1,10 @@
-package edu.xml.to.pdf;
+//package edu.xml.to.pdf;
 
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import sun.font.FontFamily;
-
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;

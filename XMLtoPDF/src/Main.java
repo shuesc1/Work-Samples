@@ -17,7 +17,7 @@
 
 /* $Id: Main.java 679326 2008-07-24 09:35:34Z vhennebert $ */
 
-package org.apache.fop.plan;
+//package org.apache.fop.plan;
 
 import java.io.InputStream;
 import java.io.Writer;

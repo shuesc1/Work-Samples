@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- need to create a reference to the stylesheet we will be using (below)
+This will automatically apply the formatting-->
+<?xml - stylesheet href="style.xsl" type="text/xsl" ?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
   xmlns:scalar="http://scalar.usc.edu/2012/01/scalar-ns#"
   xmlns:art="http://simile.mit.edu/2003/10/ontologies/artstor#"
