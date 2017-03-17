@@ -42,24 +42,11 @@
 
 
 </Description>
-
-
-
 <!-- not relevant for our xml file 
 </html>
 </body>
 -->
-
-
-
-
-
-
-
-
 </xsl:template>
-
-
 <!-- all opening tags must have closing tags -->
 </xsl:stylesheet>
 
