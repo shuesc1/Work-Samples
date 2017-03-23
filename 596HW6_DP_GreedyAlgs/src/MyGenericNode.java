@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * This is our implementation of a Node.
  * Initially we'll use type String for the value.
@@ -7,7 +9,9 @@
  */
 public class MyGenericNode<T> {
 
-	public T value, startTime, endTime;
+	public T value;
+	Date endTime;
+	java.sql.Date startTime;
 	
 	/**
 	 * The constructor for node

@@ -8,7 +8,7 @@ public class Q5Test {
 	//  n   -->  Total number of activities
 	//  s[] -->  An array that contains start time of all activities
 	//  f[] -->  An array that contains finish time of all activities
-	public static void printMaxActivities(int s[], int f[], int n)
+	public static void greedyClassSelection(Date startTime[], Date finishTime[])
 	{
 		int i, j;
 		System.out.print("Following classes can be scheduled: \n");
@@ -28,7 +28,7 @@ public class Q5Test {
 		int f[] =  {2, 4, 6, 7, 9, 9};
 		int n = s.length;
 
-		printMaxActivities(s, f, n);
+		greedyClassSelection(s, f);
 	}
 	
 }
