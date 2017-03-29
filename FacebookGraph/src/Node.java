@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * This is our implementation of a Node.
  * Initially we'll use type String for the value.
@@ -13,9 +15,9 @@ public class Node<T> {
 	
 	//should normally be private
 	public T value;
-	public Node<T> next;
-//	public MyGenericNode<T> prev;
-//	public DoublyLinkedNode<T> prev;
+	public ArrayList<Node<T>> adjacencies;
+	public int start, finish, distance;
+//	public Node<T> next;
 	
 	/**
 	 * The constructor for node
@@ -24,8 +26,11 @@ public class Node<T> {
 //	public MyGenericNode(T value1, T value2) {
 	public Node(T value) {
 		this.value = value;
-		next = null;
-//		prev = null;
+		adjacencies = new ArrayList<>();
+		start = (Integer) null;
+		finish = (Integer) null;
+		distance = (Integer) null;
+//		next = null;
 	}
 
 }
