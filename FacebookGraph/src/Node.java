@@ -27,9 +27,9 @@ public class Node<T> {
 	public Node(T value) {
 		this.value = value;
 		adjacencies = new ArrayList<>();
-		start = (Integer) null;
-		finish = (Integer) null;
-		distance = (Integer) null;
+		start = 0;
+		finish = 0;
+		distance = 0;
 //		next = null;
 	}
 

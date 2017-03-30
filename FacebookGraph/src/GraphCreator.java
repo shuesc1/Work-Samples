@@ -6,60 +6,98 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.sound.sampled.Line;
 
 public class GraphCreator {
-//	private ArrayList<String> neighbors;
-//	private HashMap<Node<String>, String> adjacencies;
-//	private ArrayList<LinkedList> adjacencies;
-	private HashMap<String, Node<String>> seenList;
+	//	private ArrayList<String> neighbors;
+	//	private HashMap<Node<String>, String> adjacencies;
+	//	private ArrayList<LinkedList> adjacencies;
+	private static Map<String, LinkedList<Node<String>>> adjacencyList;
+	private static HashMap<String, Node<String>> seenList;
+	private Node<String> user, friend;
 
-	
+
 	/**
 	 * The constructor for the class
 	 * @param file a valid .txt file name/path
 	 * @throws FileNotFoundException
 	 */
 	public GraphCreator(String file) throws FileNotFoundException{
-//		adjacencies = new ArrayList<>();
+		//		adjacencies = new ArrayList<>();
 		seenList = new HashMap<>();
+		adjacencyList = new HashMap<>();
+		user = new Node("");
+		friend = new Node("");
 		readFile(file);
 	}
 
-/**
- * A method that takes in a .txt file and parses it, creating nodes and an adjacency matrix
- * @param <T>
- * @param filename
- */
+
+
+	/**
+	 * A method that takes in a .txt file and parses it, creating nodes and an adjacency matrix
+	 * @param <T>
+	 * @param filename
+	 */
 	public <T> void readFile(String filename){
 		File file = new File(filename);
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
 			while ((line = br.readLine()) != null) {
+				System.out.println(line);
 				String[] split = line.split(" ");
+				String userName = split[0];
+				String friendName = split[1];
 
-				//either USER NODE is already in adj list & seen list or it isn't
-				if(seenList.containsKey(split[0])){
-					Node<String> user = seenList.get(split[0]); 
-//					Node<Integer> user = seenList.get(split[0]);
-				} else if(!seenList.containsKey(split[0])){
-					Node<String> user =new Node<>(split[0]);
-					seenList.put(user.value, user);
-//					ArrayList<String> neighbors = new ArrayList<String>();
-//					adjacencies.put(user, neighbors);
+				for(String element : split){
+					System.out.println("Split element: " + element);
 				}
-				
-				
-				//either FRIEND NODE is in adj list & seen list or it isn't
-				
-				
-				//need to check if user is already in adj list to avoid repeats
-				//check SEEN 
-				Node<String> user =new Node<String>(split[0]);
-				
-				
-//				for(String element : split){
-//					System.out.println(element);
-//				}
+				//either USER NODE is an existing node or it isn't
+				//				if(adjacencyList.containsKey(userName) || seenList.containsKey(userName)) {
+				if(seenList.containsKey(userName)) {
+					user = seenList.get(userName); 
+					//				} else if(!adjacencyList.containsKey(userName) && !seenList.containsKey(userName)){
+				} else {
+					//					if(!adjacencyList.containsKey(split[0])){
+					user = new Node<>(userName);
+					System.out.println("Just user name: " + user.value);
+					//					seenList.put(user.value, user);
+					adjacencyList.put(user.value, new LinkedList<Node<String>>());
+					//					} else if(!seenList.containsKey(split[0])){
+					//						user = new Node<>(split[0]);
+					seenList.put(user.value, user);
+					//					adjacencyList.put(user.value, new LinkedList<Node<String>>());
+				}
+
+				//either FRIEND NODE is an existent node or it isn't
+				//				if(adjacencyList.containsKey(split[1]) || seenList.containsKey(split[1])) {
+				if(seenList.containsKey(split[1])) {
+					friend = seenList.get(split[1]); 
+					//				} else if(!adjacencyList.containsKey(split[1]) && !seenList.containsKey(split[1])) {
+				} else {
+					//					if(!adjacencyList.containsKey(split[0])){
+					friend = new Node<>(split[1]);
+					//					seenList.put(user.value, user);
+					//				adjacencyList.put(friend.value, new LinkedList<Node<String>>());
+					//					} else if(!seenList.containsKey(split[0])){
+					//						user = new Node<>(split[0]);
+					seenList.put(friend.value, friend);
+					//					adjacencyList.put(user.value, new LinkedList<Node<String>>());
+				}
+
+				if(adjacencyList.containsKey(user.value)){
+					adjacencyList.get(user.value).addLast(friend);
+				} else {
+					adjacencyList.put(user.value, new LinkedList<Node<String>>());
+					adjacencyList.get(user.value).add(friend);
+				}
+				System.out.println("User: " + user.value + " , friend: " + friend.value);
+
+				//				for(String element : split){
+				//					System.out.println(element);
+				//				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -70,13 +108,28 @@ public class GraphCreator {
 
 	}
 
+	public static Map<String, LinkedList<Node<String>>> getAdjacencyList() {
+		return adjacencyList;
+	}
 
-
-
+	public static HashMap<String, Node<String>> getSeenList() {
+		return seenList;
+	}
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		GraphCreator gc = new GraphCreator("facebook_combined.txt");
+		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		LinkedList<Node<String>> one = getAdjacencyList().get(1);
 
+		while(one.isEmpty() == false){
+			System.out.println("One's friends: " + one.peekFirst());
+			one.removeFirst();
+		}
+		//		for(int i = 0; i < 100; i++){
+		//			System.out.println("Adjacency list- value: " + i + " , Key: " + getAdjacencyList().get(i));
+		//		}
+		//		for(int i = 0; i < 100; i++){
+		//			System.out.println("Seen list- value: " + i + " , Key: " + getSeenList().get(i).value);
+		//		}
 	}
 }
