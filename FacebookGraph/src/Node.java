@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class Node<T> {
 	
 	//should normally be private
-	public T value;
-	public ArrayList<Node<T>> adjacencies;
+	public T value, color, predecessor;
+//	public ArrayList<Node<T>> adjacencies;
 	public int start, finish, distance;
 //	public Node<T> next;
 	
@@ -26,10 +26,12 @@ public class Node<T> {
 //	public MyGenericNode(T value1, T value2) {
 	public Node(T value) {
 		this.value = value;
-		adjacencies = new ArrayList<>();
+//		adjacencies = new ArrayList<>();
 		start = 0;
 		finish = 0;
 		distance = 0;
+		color = null;
+		predecessor = null;
 //		next = null;
 	}
 

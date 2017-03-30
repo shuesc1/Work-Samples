@@ -3,15 +3,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
-import javax.sound.sampled.Line;
+public class GraphCreatorWTesting {
 
-public class GraphCreator {
 	//	private ArrayList<String> neighbors;
 	//	private HashMap<Node<String>, String> adjacencies;
 	//	private ArrayList<LinkedList> adjacencies;
@@ -25,7 +22,7 @@ public class GraphCreator {
 	 * @param file a valid .txt file name/path
 	 * @throws FileNotFoundException
 	 */
-	public GraphCreator(String file) throws FileNotFoundException{
+	public GraphCreatorWTesting(String file) throws FileNotFoundException{
 		//		adjacencies = new ArrayList<>();
 		seenList = new HashMap<>();
 		adjacencyList = new HashMap<>();
@@ -37,9 +34,9 @@ public class GraphCreator {
 
 
 	/**
-	 * A method that takes in a .txt file and parses it, creating user nodes and an adjacency list, stored as a Linked List
+	 * A method that takes in a .txt file and parses it, creating nodes and an adjacency matrix
 	 * @param <T>
-	 * @param filename a valid .txt file
+	 * @param filename
 	 */
 	public <T> void readFile(String filename){
 		File file = new File(filename);
@@ -55,36 +52,48 @@ public class GraphCreator {
 					System.out.println("Split element: " + element);
 				}
 				//either USER NODE is an existing node or it isn't
-				//if it is then copy memory location
-				//if not create node and store in AdjList & seenList
 				//				if(adjacencyList.containsKey(userName) || seenList.containsKey(userName)) {
 				if(seenList.containsKey(userName)) {
 					user = seenList.get(userName); 
+					//				} else if(!adjacencyList.containsKey(userName) && !seenList.containsKey(userName)){
 				} else {
+					//					if(!adjacencyList.containsKey(split[0])){
 					user = new Node<>(userName);
 					System.out.println("Just user name: " + user.value);
+					//					seenList.put(user.value, user);
 					adjacencyList.put(user.value, new LinkedList<Node<String>>());
+					//					} else if(!seenList.containsKey(split[0])){
+					//						user = new Node<>(split[0]);
 					seenList.put(user.value, user);
+					//					adjacencyList.put(user.value, new LinkedList<Node<String>>());
 				}
 
 				//either FRIEND NODE is an existent node or it isn't
-				//if it is then copy memory location from seenList
-				//if not then create node and place in seenList
-				if(seenList.containsKey(friendName)){
-					friend = seenList.get(friendName); 
+				//				if(adjacencyList.containsKey(split[1]) || seenList.containsKey(split[1])) {
+				if(seenList.containsKey(split[1])) {
+					friend = seenList.get(split[1]); 
+					//				} else if(!adjacencyList.containsKey(split[1]) && !seenList.containsKey(split[1])) {
 				} else {
-					friend = new Node<>(friendName);
+					//					if(!adjacencyList.containsKey(split[0])){
+					friend = new Node<>(split[1]);
+					//					seenList.put(user.value, user);
+					//				adjacencyList.put(friend.value, new LinkedList<Node<String>>());
+					//					} else if(!seenList.containsKey(split[0])){
+					//						user = new Node<>(split[0]);
 					seenList.put(friend.value, friend);
+					//					adjacencyList.put(user.value, new LinkedList<Node<String>>());
 				}
 
-				//if user node is in adj list get its Linked List of adjacencies and add friend node
-				//if user node not in adjacency list add to list, then add friend node to LL of adjacencies
-				//this is due to the fact that a node can show up in seenList without having been a key in the adjList (b/c it was a friend of some other node)
 				if(adjacencyList.containsKey(user.value)){
 					adjacencyList.get(user.value).addLast(friend);
 				} else {
 					adjacencyList.put(user.value, new LinkedList<Node<String>>());
 					adjacencyList.get(user.value).add(friend);
+				}
+				System.out.println("User: " + user.value + " , friend: " + friend.value);
+
+				for(String element : split){
+					System.out.println(element);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -92,27 +101,40 @@ public class GraphCreator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+
 	}
 
-	/**
-	 *A method to get the adjacency list
-	 * @return a map adjacency list with keys of a string, and value of a linked list of node objects
-	 */
 	public static Map<String, LinkedList<Node<String>>> getAdjacencyList() {
 		return adjacencyList;
 	}
 
-	/**
-	 * A method to get the seenList hashmap
-	 * @return a hashmap of seen/created nodes with keys of strings, and values of Nodes carrying string values.
-	 */
 	public static HashMap<String, Node<String>> getSeenList() {
 		return seenList;
 	}
 
 
 	public static void main(String[] args) throws FileNotFoundException{
-		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
-		//		LinkedList<Node<String>> one = getAdjacencyList().get("1");
+		GraphCreatorWTesting gc = new GraphCreatorWTesting("facebook_combined2.txt");
+		LinkedList<Node<String>> one = getAdjacencyList().get("1");
+
+
+		for(int i = 0; i < 100; i++){
+			System.out.println("Adjacency list- value: " + i + " , Key: " + getAdjacencyList().get(Integer.toString(i)));
+		}
+		for(int i = 0; i < 100; i++){
+			System.out.println("Seen list- value: " + i + " , Key: " + getSeenList().get(Integer.toString(i)).value);
+		}
+
+		LinkedList<Node<String>> oneAdjacents = getAdjacencyList().get("1");
+		while(oneAdjacents.isEmpty() == false){
+			System.out.println("Adj list for '1'- user: 1" + " , friends: " + oneAdjacents.peekFirst().value);
+			oneAdjacents.removeFirst();
+		}
+
+		//		while(one.isEmpty() == false){
+		//			System.out.println("One's friends: " + one.peekFirst().value);
+		//			one.removeFirst();
+		//		}
 	}
 }
