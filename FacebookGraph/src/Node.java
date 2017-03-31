@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class Node<T> {
 	
 	//should normally be private
-	public T value, color, predecessor;
+	public T value, color;
+	Node<String> predecessor;
 //	public ArrayList<Node<T>> adjacencies;
 	public int start, finish, distance;
 //	public Node<T> next;
