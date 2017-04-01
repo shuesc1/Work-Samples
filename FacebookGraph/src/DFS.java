@@ -4,17 +4,13 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class DFS {
 	private Map<String, LinkedList<Node<String>>> adjacencies;
-	private HashMap<String, Node<String>> allNodes;
-	//	private ArrayList<Node<String>> traversedNodes; //essentially 'seenList' once nodes have been popped off queue
-	private int distance;
+	private static HashMap<String, Node<String>> allNodes;
 	private Node<String> startNode = new Node<String>("");
 	private List<Node<String>> list;
 	private int time;
@@ -26,16 +22,17 @@ public class DFS {
 		list = new ArrayList<Node<String>>(graphNodes.values());
 	}
 
-	//	public void runDFS(List<Node<String>> listOfAllNodes){
-	public void runDFS() throws FileNotFoundException{
+	public void runDFS(String start) throws FileNotFoundException{
+		startNode = allNodes.get(start);
 		for(Node<String> node : list){
 			node.color = "white";
 			node.predecessor = null;
 		}
 		time = 0;
 
-		DFSvisit(list, startNode);
-
+		if(startNode != null){
+			DFSvisit(list, startNode);
+		}
 		for(Node<String> node : list){
 			if(node.color.equalsIgnoreCase("white")){
 				DFSvisit(list, node);
@@ -46,7 +43,7 @@ public class DFS {
 
 	//currentNode = 'u' ; thisNode = 'v'
 	public void DFSvisit(List<Node<String>> listOfNodes, Node<String> currentNode) throws FileNotFoundException{
-		time = time++;
+		time = time + 1;
 		currentNode.start = time;
 		currentNode.color = "gray";
 
@@ -69,7 +66,7 @@ public class DFS {
 			}
 		}
 		currentNode.color = "black";
-		time = time++;
+		time = time + 1;
 		currentNode.finish = time;
 	}
 
@@ -82,8 +79,19 @@ public class DFS {
 		startNode = allNodes.get(startLocation);
 	}
 
+
+
+	public static HashMap<String, Node<String>> getAllNodes() {
+		return allNodes;
+	}
+
+	public void setAllNodes(HashMap<String, Node<String>> allNodes) {
+		this.allNodes = allNodes;
+	}
+
 	//**********TESTING**********///////
 	public static void main(String[] args) throws FileNotFoundException{
+		//test graph is example from class-- nodes 1-7
 		GraphCreator gc = new GraphCreator("simple_graph.txt");
 		Map<String, LinkedList<Node<String>>> adjacencyList = gc.getAdjacencyList();
 		HashMap<String, Node<String>> seenList = gc.getSeenList();
@@ -92,22 +100,34 @@ public class DFS {
 		Scanner in = new Scanner(System.in);
 		String userDefinedStart = null;
 
-		System.out.println("What node would you like to start at? (values 0 - 4031):");
-		userDefinedStart = in.next();
-//		do {
-//			try {
-//				System.out.println("What node would you like to start at? (values 0 - 4031):");
-//				userDefinedStart = in.next();
-//			} catch (InputMismatchException e) {
-//				System.out.print("Invalid node value! ");
-//			} catch (NoSuchElementException nsee) {
-//				System.out.print("Invalid node value-- node doesn't exist!! ");
-//			}
-//			in.nextLine(); // clears the buffer
-//		} while (!userDefinedStart.matches("^[0-9]{1,4}$"));
+		do {
+			try {
+				System.out.println("What node would you like to start at? (values 0 - 4031):");
+				userDefinedStart = in.next();
+			} catch (InputMismatchException e) {
+				System.out.print("Invalid node value! ");
+			} catch (NoSuchElementException nsee) {
+				System.out.print("Invalid node value-- node doesn't exist!! ");
+			}
+			in.nextLine(); // clears the buffer
+		} while (!userDefinedStart.matches("^[0-9]{1,4}$"));
 
-		dfs.setStart(userDefinedStart);
-		dfs.runDFS();
+		//		dfs.setStart(userDefinedStart);
+		dfs.runDFS(userDefinedStart);
+		boolean quit = false;
+		do{
+
+			System.out.println("What node would you like to know the start and finish time of?:");
+			Scanner input = new Scanner(System.in);
+			String nodeName = input.next();
+			Node<String> questionNode = getAllNodes().get(nodeName);
+			System.out.println("Node: " + nodeName + " , Start time: " + questionNode.start + " , Finish time: " + questionNode.finish + " , Color: " + questionNode.color);
+			input.nextLine();
+			System.out.println("Would you like to quit? (y/n)");
+			if(input.next().equalsIgnoreCase("y")){
+				quit = true;
+			} 
+		} while (quit == false);
 	}
 
 }
