@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -32,7 +33,8 @@ public class DFS {
 	public DFS(Map<String, LinkedList<Node<String>>> adjacencyList, HashMap<String, Node<String>> graphNodes){
 		adjacencies = adjacencyList;
 		allNodes = graphNodes;
-		list = new ArrayList<Node<String>>(graphNodes.values());
+		list = new ArrayList<Node<String>>();
+		list.addAll(graphNodes.values());
 	}
 
 	/**
@@ -75,23 +77,23 @@ public class DFS {
 		currentNode.color = "gray";
 
 		//need to iterate over all adjacencies to current node
-		LinkedList nodeAdjacencies = adjacencies.get(currentNode.value);
-		//		ListIterator<Node<String>> iterator = nodeAdjacencies.listIterator();
-		//		while(iterator.hasNext()){
-		//			Node<String> thisNode = iterator.next();
-		//			if(thisNode.color.equalsIgnoreCase("white")){
-		//				thisNode.predecessor = currentNode;
-		//				DFSvisit(listOfNodes, thisNode);
-		//			}
-		//		}
+		LinkedList<Node<String>> nodeAdjacencies = adjacencies.get(currentNode.value);
+				ListIterator<Node<String>> iterator = nodeAdjacencies.listIterator();
+				while(iterator.hasNext()){
+					Node<String> thisNode = iterator.next();
+					if(thisNode.color.equalsIgnoreCase("white")){
+						thisNode.predecessor = currentNode;
+						DFSvisit(listOfNodes, thisNode);
+					}
+				}
 
-		for(int i = 0; i < nodeAdjacencies.size(); i++){
-			Node<String> thisNode = (Node<String>) nodeAdjacencies.get(i);
-			if(thisNode.color.equalsIgnoreCase("white")){
-				thisNode.predecessor = currentNode;
-				DFSvisit(listOfNodes, thisNode);
-			}
-		}
+//		for(int i = 0; i < nodeAdjacencies.size(); i++){
+//			Node<String> thisNode = (Node<String>) nodeAdjacencies.get(i);
+//			if(thisNode.color.equalsIgnoreCase("white")){
+//				thisNode.predecessor = currentNode;
+//				DFSvisit(listOfNodes, thisNode);
+//			}
+//		}
 		currentNode.color = "black";
 		time = time + 1;
 		currentNode.finish = time;

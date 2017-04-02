@@ -53,12 +53,12 @@ public class GraphRunner {
 
 		for (int i = 0; i < userChoice.length; i++)
 		{		System.out.println(userChoice[i]); }
-		System.out.println("**Loading**");
 
 		boolean end = false;
 		while (end == false){
 			System.out.println("Which option would you like to choose?:\n");
 			int userSelection = in.nextInt();
+			System.out.println("**Loading**");
 			switch (userSelection){
 			case 1:
 				ArrayList<Node<String>> nodes = bfs.runBFS("75");
@@ -91,13 +91,35 @@ public class GraphRunner {
 				}
 				break;
 			case 3: 
-				//				System.out.println("A whopping " + RittenhousePercent + "% of all trips started in Rittenhouse Square\n");
+				int trial = 1;
+				do{
+					ArrayList<Node<String>> allNodes = bfs.runBFS("0");
+					int max = 0;
+					for (Node<String> node : allNodes) {
+						if (node.distance > max) {
+							max = node.distance;
+						}
+					}
+					System.out.println("Trial " + trial + ", Steps/frontiers needed: " + max);
+					trial = trial + 1;
+				} while(trial < 4);
 				break;
 			case 4: 
 				//				System.out.println("A total of " + roundtripPercent + "% of trips made by Indego30 riders are roundtrip\n");
 				break;
 			case 5: 
-				//				System.out.println("The ID of the bike that has traveled the longest (in terms of duration) is " + longestBikeID + "\n");
+				ArrayList<Node<String>> allNodes = bfs.runBFS("1912");
+				System.out.print("Nodes that are a distance of 3 from node 1912:");
+				ArrayList<Node<String>> distThree = new ArrayList<>();
+				for (Node<String> node : allNodes) {
+					if (node.distance == 3) {
+						System.out.print("node " + node.value + ",");
+						distThree.add(node);
+					}
+				}
+				if(distThree.isEmpty()){
+					System.out.println("no nodes of distance 3 exist!");
+				}
 				break;
 			case 6: 
 				//				System.out.println("On 8/3/16 at 7:00am, there were " + bikeNum + " bikes being used.\n");
