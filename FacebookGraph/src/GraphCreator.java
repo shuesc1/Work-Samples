@@ -19,7 +19,6 @@ public class GraphCreator {
 	private static HashMap<String, Node<String>> seenList;
 	private Node<String> user, friend;
 
-
 	/**
 	 * The constructor for the class
 	 * @param file a valid .txt file name/path
@@ -34,8 +33,6 @@ public class GraphCreator {
 		readFile(file);
 	}
 
-
-
 	/**
 	 * A method that takes in a .txt file and parses it, creating user nodes and an adjacency list, stored as a Linked List
 	 * @param <T>
@@ -46,14 +43,15 @@ public class GraphCreator {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				System.out.println(line);
+//				System.out.println(line);
 				String[] split = line.split(" ");
 				String userName = split[0];
 				String friendName = split[1];
 
-				for(String element : split){
-					System.out.println("Split element: " + element);
-				}
+//				for(String element : split){
+//					System.out.println("Split element: " + element);
+//				}
+				
 				//either USER NODE is an existing node or it isn't
 				//if it is then copy memory location
 				//if not create node and store in AdjList & seenList
@@ -62,7 +60,7 @@ public class GraphCreator {
 					user = seenList.get(userName); 
 				} else {
 					user = new Node<>(userName);
-					System.out.println("Just user name: " + user.value);
+//					System.out.println("Just user name: " + user.value);
 					adjacencyList.put(user.value, new LinkedList<Node<String>>());
 					seenList.put(user.value, user);
 				}

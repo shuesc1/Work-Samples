@@ -66,22 +66,6 @@ public class BFS {
 		return traversedNodes;
 	}
 
-	//	/**
-	//	 * A method to get the distance calculated by BFS
-	//	 * @return
-	//	 */
-	//	public int getDistance() {
-	//		return distance;
-	//	}
-
-	//	/**
-	//	 * 
-	//	 * @param distance
-	//	 */
-	//	public void setDistance(int distance) {
-	//		this.distance = distance;
-	//	}
-
 	/**
 	 * A getter method for the adjacency list
 	 * @return a map with keys of a string and values of linked lists of node objects that are adjacent to the key node

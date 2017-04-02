@@ -8,6 +8,14 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * A class that runs Depth First Search on a graph representation
+ * It takes in a start node and then records start(discovery) time, finish time, and color 
+ * (white= undiscovered, gray = first discovered, black = finished/no longer visitable) 
+ * for each node in a graph.
+ * @author josephhaymaker
+ *
+ */
 public class DFS {
 	private Map<String, LinkedList<Node<String>>> adjacencies;
 	private static HashMap<String, Node<String>> allNodes;
@@ -16,13 +24,24 @@ public class DFS {
 	private int time;
 	private String startLocation;
 
+	/**
+	 * The constructor for the class that initializes the adjacency list, hashmap of all nodes and easily iterable version of said hashmap
+	 * @param adjacencyList a hashmap of the node names and their corresponding linked lists of adjacent nodes
+	 * @param graphNodes a hashmap of the node names and corresponding node objects
+	 */
 	public DFS(Map<String, LinkedList<Node<String>>> adjacencyList, HashMap<String, Node<String>> graphNodes){
 		adjacencies = adjacencyList;
 		allNodes = graphNodes;
 		list = new ArrayList<Node<String>>(graphNodes.values());
 	}
 
-	public void runDFS(String start) throws FileNotFoundException{
+	/**
+	 * The primary method that implements the DFSvisit method
+	 * @param start a string corresponding to the start node value
+	 * @return a list of all nodes with corresponding start & finish times
+	 * @throws FileNotFoundException
+	 */
+	public List<Node<String>> runDFS(String start) throws FileNotFoundException{
 		startNode = allNodes.get(start);
 		for(Node<String> node : list){
 			node.color = "white";
@@ -39,9 +58,17 @@ public class DFS {
 			}
 		}
 		System.out.println("DFS has finished!");
+		return list;
 	}
 
-	//currentNode = 'u' ; thisNode = 'v'
+	/**
+	 * 
+	 * @param listOfNodes
+	 * @param currentNode
+	 * @throws FileNotFoundException
+	 * 
+	 * currentNode = 'u' ; thisNode = 'v'
+	 */
 	public void DFSvisit(List<Node<String>> listOfNodes, Node<String> currentNode) throws FileNotFoundException{
 		time = time + 1;
 		currentNode.start = time;
@@ -78,8 +105,6 @@ public class DFS {
 		startLocation = targetNode;
 		startNode = allNodes.get(startLocation);
 	}
-
-
 
 	public static HashMap<String, Node<String>> getAllNodes() {
 		return allNodes;
