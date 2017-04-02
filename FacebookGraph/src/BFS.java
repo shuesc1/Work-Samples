@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * A class that runs Breadth First Search on a graph representation
@@ -12,19 +13,19 @@ import java.util.Queue;
  *
  */
 public class BFS {
-	private Map<String, LinkedList<Node<String>>> adjacencies;
-	private HashMap<String, Node<String>> allNodes = new HashMap<>();
+	private Map<String, LinkedList<Node<String>>> adjacencies = new HashMap<>();
+	private static HashMap<String, Node<String>> allNodes = new HashMap<>();
 	private Queue<Node<String>> q;
 	private ArrayList<Node<String>> traversedNodes; //essentially 'seenList' once nodes have been popped off queue
-//	private int distance;
-	private Node<String> startNode;
+	private Node<String> startNode = new Node<String>(null);
 
 	/**
 	 * The constructor for the class
 	 * @param adjacencyList a map representation of a graph (adjacency list) with keys of a string, and values of a linked list of adjacent nodes
 	 */
-	public BFS(Map<String, LinkedList<Node<String>>> adjacencyList){
+	public BFS(Map<String, LinkedList<Node<String>>> adjacencyList, HashMap<String, Node<String>> listAllNodes){
 		adjacencies = adjacencyList;
+		allNodes = listAllNodes;
 		q = new LinkedList<>();
 		traversedNodes = new ArrayList<>();
 	}
@@ -36,7 +37,6 @@ public class BFS {
 	 * @return an arraylist of traversed nodes with corresponding internal colors, distances, and predecessors
 	 */
 	public ArrayList<Node<String>> runBFS(String startNodeS){
-//		distance = 0;
 		for(Node<String> nodeName : allNodes.values()){
 			nodeName.color = "white";
 			nodeName.distance = 0;
@@ -51,18 +51,20 @@ public class BFS {
 		while(q.isEmpty() == false){
 			Node<String> u = q.remove();
 			traversedNodes.add(u);
-			ListIterator<Node<String>> iter = adjacencies.get(u).listIterator();
-			while(iter.hasNext()){
-				Node<String> currentNode = iter.next();
-				if(currentNode.color.equals("white")){
-					currentNode.color = "gray";
-					currentNode.distance = u.distance + 1;
-					currentNode.predecessor = u;
-					q.add(currentNode);
-				} 
+			for(LinkedList<Node<String>> ll : adjacencies.values()){
+				for(Node<String> node : ll){
+					Node<String> currentNode = node;
+					if(currentNode.color.equals("white")){
+						currentNode.color = "gray";
+						currentNode.distance = u.distance + 1;
+						currentNode.predecessor = u;
+						q.add(currentNode);
+					}
+				}
 			}
 			u.color = "black";
 		}
+		System.out.println("BFS has finished running!");
 		return traversedNodes;
 	}
 
@@ -78,7 +80,7 @@ public class BFS {
 	 * A getter method for all nodes in the graph
 	 * @return a hashmap: key = node value, value = node itself
 	 */
-	public HashMap<String, Node<String>> getAllNodes() {
+	public static HashMap<String, Node<String>> getAllNodes() {
 		return allNodes;
 	}
 
@@ -89,10 +91,6 @@ public class BFS {
 	public void setAllNodes(HashMap<String, Node<String>> allNodes) {
 		this.allNodes = allNodes;
 	}
-
-	//	public Queue<Node<String>> getQ() {
-	//		return q;
-	//	}
 
 	/**
 	 * a getter method for the arraylist of traversed nodes
@@ -110,17 +108,30 @@ public class BFS {
 		return startNode;
 	}
 
-	
+	//**********TESTING**********///////
 	public static void main(String[] args) throws FileNotFoundException{
-		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		//		GraphCreator gc = new GraphCreator("facebook_combined.txt");
+		//		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		GraphCreator gc = new GraphCreator("simple_graph.txt");
 		Map<String, LinkedList<Node<String>>> adjacencyList = gc.getAdjacencyList();
-		HashMap<String, Node<String>> seenList = null;
+		HashMap<String, Node<String>> seenList = gc.getSeenList();
 
-		BFS bfs = new BFS(adjacencyList);
-		bfs.setAllNodes(seenList);
-		bfs.runBFS("3");
-
+		BFS bfs = new BFS(adjacencyList, seenList);
+		//		bfs.setAllNodes(seenList);
+		bfs.runBFS("1");
+		
+		boolean quit = false;
+		do{
+			System.out.println("What node would you like to know the distance of?:");
+			Scanner input = new Scanner(System.in);
+			String nodeName = input.next();
+			Node<String> questionNode = getAllNodes().get(nodeName);
+			System.out.println("Node: " + nodeName + " , Distance: " + questionNode.distance + " , Color: " + questionNode.color);
+			input.nextLine();
+			System.out.println("Would you like to quit? (y/n)");
+			if(input.next().equalsIgnoreCase("y")){
+				quit = true;
+			} 
+		} while (quit == false);
 	}
-
-
 }

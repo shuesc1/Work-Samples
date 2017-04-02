@@ -118,6 +118,7 @@ public class DFS {
 	public static void main(String[] args) throws FileNotFoundException{
 		//test graph is example from class-- nodes 1-7
 		GraphCreator gc = new GraphCreator("simple_graph.txt");
+//		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
 		Map<String, LinkedList<Node<String>>> adjacencyList = gc.getAdjacencyList();
 		HashMap<String, Node<String>> seenList = gc.getSeenList();
 
@@ -127,7 +128,7 @@ public class DFS {
 
 		do {
 			try {
-				System.out.println("What node would you like to start at? (values 0 - 4031):");
+				System.out.println("What node would you like to start at? (values 1 - 7):");
 				userDefinedStart = in.next();
 			} catch (InputMismatchException e) {
 				System.out.print("Invalid node value! ");
@@ -137,7 +138,6 @@ public class DFS {
 			in.nextLine(); // clears the buffer
 		} while (!userDefinedStart.matches("^[0-9]{1,4}$"));
 
-		//		dfs.setStart(userDefinedStart);
 		dfs.runDFS(userDefinedStart);
 		boolean quit = false;
 		do{
