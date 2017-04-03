@@ -51,14 +51,18 @@ public class BFS {
 		while(q.isEmpty() == false){
 			Node<String> u = q.remove();
 			traversedNodes.add(u);
-			for(LinkedList<Node<String>> ll : adjacencies.values()){
-				for(Node<String> node : ll){
+			LinkedList<Node<String>> linked = adjacencies.get(u.value);
+			if(linked != null){
+				for(Node<String> node : linked){
 					Node<String> currentNode = node;
 					if(currentNode.color.equals("white")){
 						currentNode.color = "gray";
 						currentNode.distance = u.distance + 1;
 						currentNode.predecessor = u;
-						q.add(currentNode);
+//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
+						if(!traversedNodes.contains(currentNode)){
+							q.add(currentNode);
+						}
 					}
 				}
 			}
@@ -110,16 +114,17 @@ public class BFS {
 
 	//**********TESTING**********///////
 	public static void main(String[] args) throws FileNotFoundException{
-		//		GraphCreator gc = new GraphCreator("facebook_combined.txt");
-		//		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
-		GraphCreator gc = new GraphCreator("simple_graph.txt");
+		GraphCreator gc = new GraphCreator("facebook_combined.txt");
+		//						GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		//				GraphCreator gc = new GraphCreator("simple_graph.txt");
+		//		GraphCreator gc = new GraphCreator("dag.txt");
 		Map<String, LinkedList<Node<String>>> adjacencyList = gc.getAdjacencyList();
 		HashMap<String, Node<String>> seenList = gc.getSeenList();
 
 		BFS bfs = new BFS(adjacencyList, seenList);
 		//		bfs.setAllNodes(seenList);
-		bfs.runBFS("1");
-		
+		bfs.runBFS("0");
+
 		boolean quit = false;
 		do{
 			System.out.println("What node would you like to know the distance of?:");

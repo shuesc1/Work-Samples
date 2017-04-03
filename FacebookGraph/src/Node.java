@@ -1,39 +1,28 @@
 import java.util.ArrayList;
 
 /**
- * This is our implementation of a Node.
- * Initially we'll use type String for the value.
- * Later we'll use generics.
- * @author swapneel
+ * An implementation of a node that holds values used in BFS & DFS
+ * @author josephhaymaker
  *
+ * @param <T>
  */
-//public class MyGenericNode<K, V> {
-//extends can mean inheritance or interfaces
-//T super Number
-//public class MyGenericNode<T extends Number> {
 public class Node<T> {
 	
-	//should normally be private
 	public T value, color;
 	Node<String> predecessor;
-//	public ArrayList<Node<T>> adjacencies;
 	public int start, finish, distance;
-//	public Node<T> next;
 	
 	/**
 	 * The constructor for node
 	 * @param value the value of the node.
 	 */
-//	public MyGenericNode(T value1, T value2) {
 	public Node(T value) {
 		this.value = value;
-//		adjacencies = new ArrayList<>();
 		start = 0;
 		finish = 0;
 		distance = 0;
 		color = null;
 		predecessor = null;
-//		next = null;
 	}
 
 }

@@ -51,6 +51,8 @@ public class DFS {
 		}
 		time = 0;
 
+		System.out.println("Start node value: " + startNode.value + ", color:" + startNode.color);
+		System.out.println("1st node in list: " + list.get(1).value);
 		if(startNode != null){
 			DFSvisit(list, startNode);
 		}
@@ -64,9 +66,9 @@ public class DFS {
 	}
 
 	/**
-	 * 
-	 * @param listOfNodes
-	 * @param currentNode
+	 * The recursive method that forms part of the overall DFS running
+	 * @param listOfNodes a list of all node objects in graph
+	 * @param currentNode the node being discovered
 	 * @throws FileNotFoundException
 	 * 
 	 * currentNode = 'u' ; thisNode = 'v'
@@ -77,50 +79,78 @@ public class DFS {
 		currentNode.color = "gray";
 
 		//need to iterate over all adjacencies to current node
-		LinkedList<Node<String>> nodeAdjacencies = adjacencies.get(currentNode.value);
-				ListIterator<Node<String>> iterator = nodeAdjacencies.listIterator();
-				while(iterator.hasNext()){
-					Node<String> thisNode = iterator.next();
-					if(thisNode.color.equalsIgnoreCase("white")){
-						thisNode.predecessor = currentNode;
-						DFSvisit(listOfNodes, thisNode);
-					}
+		if(adjacencies.get(currentNode.value) != null){
+			LinkedList<Node<String>> nodeAdjacencies = adjacencies.get(currentNode.value);
+			ListIterator<Node<String>> iterator = nodeAdjacencies.listIterator();
+			while(iterator.hasNext()){
+				Node<String> thisNode = iterator.next();
+				if(thisNode.color.equalsIgnoreCase("white")){
+					thisNode.predecessor = currentNode;
+					DFSvisit(listOfNodes, thisNode);
 				}
+			}
+		}
 
-//		for(int i = 0; i < nodeAdjacencies.size(); i++){
-//			Node<String> thisNode = (Node<String>) nodeAdjacencies.get(i);
-//			if(thisNode.color.equalsIgnoreCase("white")){
-//				thisNode.predecessor = currentNode;
-//				DFSvisit(listOfNodes, thisNode);
-//			}
-//		}
+		//		for(int i = 0; i < nodeAdjacencies.size(); i++){
+		//			Node<String> thisNode = (Node<String>) nodeAdjacencies.get(i);
+		//			if(thisNode.color.equalsIgnoreCase("white")){
+		//				thisNode.predecessor = currentNode;
+		//				DFSvisit(listOfNodes, thisNode);
+		//			}
+		//		}
 		currentNode.color = "black";
 		time = time + 1;
 		currentNode.finish = time;
 	}
 
+	/**
+	 * A getter method for the start node object
+	 * @return a node to serve as the start node
+	 */
 	public Node<String> getStartNode() {
 		return startNode;
 	}
 
+	/**
+	 * A setter method for setting the start node of the DFS procedure
+	 * @param targetNode a string name of a node
+	 */
 	public void setStart(String targetNode) {
 		startLocation = targetNode;
 		startNode = allNodes.get(startLocation);
 	}
 
+	/**
+	 * A getter method for the hashmap containing all node values of the graph
+	 * @return a hashmap with all graph nodes: key-String name, value - node object
+	 */
 	public static HashMap<String, Node<String>> getAllNodes() {
 		return allNodes;
 	}
 
+	/**
+	 * A setter method for the hashmap containing all node values of the graph
+	 * @param allNodes
+	 */
 	public void setAllNodes(HashMap<String, Node<String>> allNodes) {
 		this.allNodes = allNodes;
+	}
+
+	/**
+	 * A getter method for the list of all nodes
+	 * @return an arraylist of node objects
+	 */
+	public List<Node<String>> getList() {
+		return list;
 	}
 
 	//**********TESTING**********///////
 	public static void main(String[] args) throws FileNotFoundException{
 		//test graph is example from class-- nodes 1-7
-		GraphCreator gc = new GraphCreator("simple_graph.txt");
-//		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		//		GraphCreator gc = new GraphCreator("simple_graph.txt");
+		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		//		GraphCreator gc = new GraphCreator("facebook_combined.txt");
+		//		GraphCreator gc = new GraphCreator("dag.txt");
 		Map<String, LinkedList<Node<String>>> adjacencyList = gc.getAdjacencyList();
 		HashMap<String, Node<String>> seenList = gc.getSeenList();
 
@@ -130,7 +160,9 @@ public class DFS {
 
 		do {
 			try {
-				System.out.println("What node would you like to start at? (values 1 - 7):");
+				System.out.println("What node would you like to start at?:");
+				System.out.println("simple_graph.txt: values 1-7\n facebook_combined2.txt: values 0-100\n "
+						+ "facebook_combined.txt: values 0-4031\n dag.txt: values 0-10\n");
 				userDefinedStart = in.next();
 			} catch (InputMismatchException e) {
 				System.out.print("Invalid node value! ");
@@ -141,6 +173,7 @@ public class DFS {
 		} while (!userDefinedStart.matches("^[0-9]{1,4}$"));
 
 		dfs.runDFS(userDefinedStart);
+		//		dfs.runDFS("0");
 		boolean quit = false;
 		do{
 

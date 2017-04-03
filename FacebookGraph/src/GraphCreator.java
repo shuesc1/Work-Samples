@@ -3,18 +3,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.sound.sampled.Line;
-
 public class GraphCreator {
-	//	private ArrayList<String> neighbors;
-	//	private HashMap<Node<String>, String> adjacencies;
-	//	private ArrayList<LinkedList> adjacencies;
 	private static Map<String, LinkedList<Node<String>>> adjacencyList;
 	private static HashMap<String, Node<String>> seenList;
 	private Node<String> user, friend;
@@ -25,7 +19,6 @@ public class GraphCreator {
 	 * @throws FileNotFoundException
 	 */
 	public GraphCreator(String file) throws FileNotFoundException{
-		//		adjacencies = new ArrayList<>();
 		seenList = new HashMap<>();
 		adjacencyList = new HashMap<>();
 		user = new Node("");
@@ -43,31 +36,31 @@ public class GraphCreator {
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String line;
 			while ((line = br.readLine()) != null) {
-//				System.out.println(line);
+				//				System.out.println(line);
 				String[] split = line.split(" ");
 				String userName = split[0];
 				String friendName = split[1];
 
-//				for(String element : split){
-//					System.out.println("Split element: " + element);
-//				}
-				
-				//either USER NODE is an existing node or it isn't
-				//if it is then copy memory location
-				//if not create node and store in AdjList & seenList
-				//				if(adjacencyList.containsKey(userName) || seenList.containsKey(userName)) {
+				//				for(String element : split){
+				//					System.out.println("Split element: " + element);
+				//				}
+
+				/*LOGIC: either USER NODE is an existing node or it isn't
+				if it is then copy memory location
+				if not create node and store in AdjList & seenList
+				if(adjacencyList.containsKey(userName) || seenList.containsKey(userName)) { */	
 				if(seenList.containsKey(userName)) {
 					user = seenList.get(userName); 
 				} else {
 					user = new Node<>(userName);
-//					System.out.println("Just user name: " + user.value);
+					//					System.out.println("Just user name: " + user.value);
 					adjacencyList.put(user.value, new LinkedList<Node<String>>());
 					seenList.put(user.value, user);
 				}
 
-				//either FRIEND NODE is an existent node or it isn't
-				//if it is then copy memory location from seenList
-				//if not then create node and place in seenList
+				/* either FRIEND NODE is an existent node or it isn't
+				if it is then copy memory location from seenList
+				if not then create node and place in seenList */
 				if(seenList.containsKey(friendName)){
 					friend = seenList.get(friendName); 
 				} else {
@@ -75,9 +68,9 @@ public class GraphCreator {
 					seenList.put(friend.value, friend);
 				}
 
-				//if user node is in adj list get its Linked List of adjacencies and add friend node
-				//if user node not in adjacency list add to list, then add friend node to LL of adjacencies
-				//this is due to the fact that a node can show up in seenList without having been a key in the adjList (b/c it was a friend of some other node)
+				/* if user node is in adj list get its Linked List of adjacencies and add friend node
+				if user node not in adjacency list add to list, then add friend node to LL of adjacencies
+				this is due to the fact that a node can show up in seenList without having been a key in the adjList (b/c it was a friend of some other node) */
 				if(adjacencyList.containsKey(user.value)){
 					adjacencyList.get(user.value).addLast(friend);
 				} else {
@@ -108,9 +101,13 @@ public class GraphCreator {
 		return seenList;
 	}
 
-
+	//*****************TESTING**********************//
 	public static void main(String[] args) throws FileNotFoundException{
 		GraphCreator gc = new GraphCreator("facebook_combined2.txt");
+		List<Node<String>> neighbors = gc.getAdjacencyList().get("1");
+		for(Node<String> neighbor : neighbors){
+			System.out.println("1's Neigbors:" + neighbor.value);
+		}
 		//		LinkedList<Node<String>> one = getAdjacencyList().get("1");
 	}
 }
