@@ -18,11 +18,11 @@ import java.util.Random;
  *
  *
  */
-public class MazeCell<T> {
+public class MazeCell {
 
 	private boolean north, east, south, west;
 	private boolean visited, examined, wallUp;
-	public MazeCell neighborN, neighborE, neighborS, neighborW, next, prev, rep;
+	public MazeCell neighborN, neighborE, neighborS, neighborW, next, prev, rep, current;
 	private Random generator;
 
 
@@ -39,6 +39,7 @@ public class MazeCell<T> {
 		visited = false;
 		examined = false;
 		rep = null;
+		current = new MazeCell();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class MazeCell<T> {
 		this.west = west;
 	}
 
-	/** TODO****FIXED(?)**** - fix this--
+	/** 
 	 *  Returns whether or not this cell has all its walls up.
 	 *  @return <code>true</code> if all walls are up.
 	 */
@@ -169,7 +170,8 @@ public class MazeCell<T> {
 	 */
 	//    public MazeCell[] getNeighbors() {
 	//    	 MazeCell[] neighbors = null;
-	public ArrayList<MazeCell> getNeighbors(MazeCell current) {
+	public ArrayList<MazeCell> getNeighbors() {
+		current = getCurrent();
 		ArrayList<MazeCell> neighbors = null;
 		if(current.neighborE != null){
 			neighbors.add(current.neighborE);
@@ -191,6 +193,20 @@ public class MazeCell<T> {
 	 *                   set in <code>setNeighbors</code>.
 	 */
 	public void knockDownWall(MazeCell neighbor) {
+		neighbor.visit();
+		if(getCurrent().neighborE == neighbor) {
+			getCurrent().east = false;
+			neighbor.west = false;
+		} else if(getCurrent().neighborN == neighbor) {
+			getCurrent().north = false;
+			neighbor.south = false;
+		} else if(getCurrent().neighborS == neighbor) {
+			getCurrent().south = false;
+			neighbor.north = false;
+		} else if(getCurrent().neighborW == neighbor) {
+			getCurrent().west = false;
+			neighbor.east = false;
+		}
 		//TODO - fix this. Remember that any wall that is knocked down
 		// will require you to change values for both this and neighbor.
 	}
@@ -200,10 +216,10 @@ public class MazeCell<T> {
 	 * @return - random choice of one of the neighbours.
 	 */
 	public MazeCell getRandomNeighbor() {
-		//TODO - fix this
-		int num = generator.nextInt(getNeighbors().length);
-		MazeCell[] n = getNeighbors();
-		MazeCell mc = n[num];
+		ArrayList<MazeCell> neighbors = getNeighbors();
+		int num = generator.nextInt(neighbors.size());
+		//		MazeCell[] n = getNeighbors();
+		MazeCell mc = neighbors.get(num);
 		return mc;
 	}
 
@@ -212,8 +228,31 @@ public class MazeCell<T> {
 	 *  @return Neighbor with all its walls intact.
 	 */
 	public MazeCell neighborWithWalls() {
-		//TODO - correct this.
-		return null;
+		MazeCell walled = new MazeCell();
+		ArrayList<MazeCell> neighbors = getNeighbors();
+		for(MazeCell n : neighbors){
+			if(n.hasAllWalls(n.north, n.east, n.south, n.west) == true){
+				walled = n;
+				break;
+			}
+		}
+		return walled;
+	}
+
+	/**
+	 * A setter method for the current cell
+	 * @param currentCell
+	 */
+	public void setCurrent(MazeCell currentCell){
+		current = currentCell;
+	}
+
+	/**
+	 * a getter method for the current cell
+	 * @return current the current cell
+	 */
+	public MazeCell getCurrent(){
+		return current;
 	}
 
 

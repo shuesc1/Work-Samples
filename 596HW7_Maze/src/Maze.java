@@ -202,10 +202,10 @@ public class Maze {
 		// while we haven't reached the end of the maze
 		while(current != endCell) { 
 			visualize(current); // show the progress visually (repaint)
-			MazeCell neighbors[] = current.getNeighbors();
-			int index = generator.nextInt(neighbors.length);
+			ArrayList<MazeCell> neighbors = current.getNeighbors();
+			int index = generator.nextInt(neighbors.size());
 			current.examine();
-			current = neighbors[index];    
+			current = neighbors.get(index);    
 		}
 		visualize(current);
 	}
@@ -220,10 +220,10 @@ public class Maze {
 		// while we haven't reached the end of the maze
 		while(current != endCell) { 
 			visualize(current); // show the progress visually (repaint)
-			MazeCell neighbors[] = current.getNeighbors();
-			int index = generator.nextInt(neighbors.length);
+			ArrayList<MazeCell> neighbors = current.getNeighbors();
+			int index = generator.nextInt(neighbors.size());
 			current.examine();
-			current = neighbors[index];    
+			current = neighbors.get(index);    
 		}
 		visualize(current);
 	}

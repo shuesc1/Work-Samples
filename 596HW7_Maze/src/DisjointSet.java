@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -48,7 +47,7 @@ public class DisjointSet<T> {
 	 * @param cell1
 	 * @param cell2
 	 */
-	public <T> void union(MazeCell<T> cell1, MazeCell<T> cell2){
+	public void union(MazeCell cell1, MazeCell cell2){
 		helper1 = find(cell1); //rep for cell1
 		helper2 = find(cell2); //rep for cell2
 		if(helper1 != helper2){ //if they are in different sets (have a different rep)
