@@ -1,13 +1,11 @@
-import java.util.HashMap;
-import java.util.LinkedList;
 
-//package maze;
-
+/**
+ * A class that creates a disjoint-set forest for the modified Kruskal's algorithm,
+ * and implements the union-by-rank and path compression heuristics outlined in CLRS
+ * @author josephhaymaker
+ *
+ */
 public class DisjointSet {
-	//	private ArrayList<LinkedList<MazeCell>> sets;
-//	private HashMap<MazeCell,LinkedList<MazeCell>> sets;
-//	private LinkedList<MazeCell> disjointSets;
-//	private MazeCell setMember, helper1, helper2;
 	private MazeCell setMember;
 
 
@@ -15,12 +13,7 @@ public class DisjointSet {
 	 * Class constructor
 	 */
 	public DisjointSet(){
-		//		sets = new ArrayList<LinkedList<MazeCell>>();
-//		sets = new HashMap<MazeCell,LinkedList<MazeCell>>();
-//		disjointSets = new LinkedList<MazeCell>();
 		setMember = new MazeCell();
-//		helper1 = new MazeCell();
-//		helper2 = new MazeCell();
 	}
 
 	/**
@@ -33,9 +26,6 @@ public class DisjointSet {
 				setMember = maze[i][j];
 				setMember.parent = setMember;
 				setMember.rank = 0;
-				//				setMember.setRep(setMember); //sets this cell as the representative --LL representation of disjoint sets
-				//				disjointSets.add(setMember);//adds MazeCell to LL
-				//				sets.put(setMember, disjointSets);//adds MazeCell key, LL value to hashmap
 			}
 		}
 	}
@@ -51,25 +41,6 @@ public class DisjointSet {
 	 */
 	public void union(MazeCell cell1, MazeCell cell2){
 		link(findSet(cell1), findSet(cell2));
-
-		//		helper1 = find(cell1); //rep for cell1
-		//		helper2 = find(cell2); //rep for cell2
-
-		//		if(helper1 != helper2){ //if they are in different sets (have a different rep)
-		//			if(sets.get(helper1).size() > sets.get(helper2).size()){ //if set1 larger then append smaller set2 to it (less work)
-		//				for(MazeCell mc : sets.get(helper2)){
-		//					mc.rep = helper1;
-		//				}
-		//				sets.get(helper1).addAll(sets.get(helper2));
-		//				sets.remove(helper2); //remove set since it's already appended to other set
-		//			} else {
-		//				for(MazeCell mc : sets.get(helper1)){
-		//					mc.rep = helper2;
-		//				}
-		//				sets.get(helper2).addAll(sets.get(helper1));
-		//				sets.remove(helper1); //remove set since it's already appended to other set
-		//			}
-		//		}
 	}
 
 	/**

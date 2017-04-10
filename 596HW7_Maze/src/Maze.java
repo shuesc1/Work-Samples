@@ -1,6 +1,7 @@
 //package maze;
 
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ import java.util.*;
  */
 public class Maze {
 
-	private int rows, cols, wallDestructions;
+	private int rows, cols, wallDestructions, time;
 	private MazeCell maze[][];
 	//the UI code is all in MazeViewer.java
 	private MazeViewer viewer;
@@ -46,6 +47,7 @@ public class Maze {
 		allCells = new ArrayList<MazeCell>();
 		q = new LinkedList<>();
 		traversedCells = new ArrayList<MazeCell>();
+		time = 0;
 
 		// Create the maze.     
 		maze = new MazeCell[rows][cols];
@@ -181,9 +183,8 @@ public class Maze {
 		ds.makeSet(maze);
 		current = new MazeCell();
 		//		current = getStartCell();
-		current = maze[0][0];
 		//		current = startCell;
-		//		allCells.put(current, new LinkedList<MazeCell>());
+		current = maze[0][0];
 		allCells.add(current);
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
@@ -197,7 +198,6 @@ public class Maze {
 					int randRow = rand.nextInt(rows - 1);
 					int randCol = rand.nextInt(cols - 1);
 					neighbor = getCell(randRow, randCol);
-
 				}
 			}
 			if(neighbor != null){
@@ -206,24 +206,14 @@ public class Maze {
 				if(allCells.contains(neighbor)){
 					allCells.add(neighbor);
 				}
-				//				allCells.get(current).add(neighbor);
 			} 
-
 			current = neighbor;
-			//			if(!allCells.containsKey(current)){	
-			//			if(!allCells.containsKey(current)){	
-			//
-			//				//			} else {
-			//				allCells.put(current, new LinkedList<MazeCell>());
-			//			}
 			if(allCells.contains(current)){
 				allCells.add(current);
 			}
 			wallDestructions = wallDestructions + 1;
 		}
 	}
-
-
 
 	/**
 	 *  Solve maze.  The input parameter is guaranteed
@@ -275,17 +265,97 @@ public class Maze {
 	public synchronized void solveDFSMaze() {
 		// Start the search at the start cell
 		MazeCell current = startCell;
+		runDFS(current);
+		//				// while we haven't reached the end of the maze
+		//				while(current != endCell) { 
+		//					visualize(current); // show the progress visually (repaint)
+		//					ArrayList<MazeCell> neighbors = current.getNeighbors(current);
+		//					int index = generator.nextInt(neighbors.size());
+		//					current.examine();
+		//					current = neighbors.get(index);    
+		//				}
+		//				visualize(current);
+	}
 
-		// while we haven't reached the end of the maze
+
+
+
+	/**
+	 * The primary method that implements the DFSvisit method
+	 * @param start a MazeCell start value
+	 */
+	public void runDFS(MazeCell start) {
+		//		MazeCell current = startCell;
+		MazeCell current = start;
+		for(MazeCell mc : allCells){
+			mc.color = "white";
+			mc.predecessor = null;
+		}
+		time = 0;
+		if(current != null){
+			visualize(current);
+			current.examine();
+			DFSvisit(allCells, current);
+		}
+		for(MazeCell cell : allCells){
+			if(cell.color.equalsIgnoreCase("white")){
+				DFSvisit(allCells, cell);
+			}
+		}
+		System.out.println("DFS has finished!");
+	}
+
+	/**
+	 * The recursive method that forms part of the overall DFS running
+	 * @param allCells a list of all MazeCell objects in graph
+	 * @param current the current MazeCell being discovered
+	 * 
+	 * current = 'u' ; c = 'v'
+	 */
+	public void DFSvisit(List<MazeCell> listOfCells, MazeCell current) {
+		LinkedList<MazeCell> adjacencies = new LinkedList<>();
+		time = time + 1;
+		current.start = time;
+		current.color = "gray";
+
 		while(current != endCell) { 
 			visualize(current); // show the progress visually (repaint)
 			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
 			int index = generator.nextInt(neighbors.size());
 			current.examine();
-			current = neighbors.get(index);    
+			
+			if(!neighbors.get(index).hasAllWalls(neighbors.get(index)) || !current.sharesWallWith(current, neighbors.get(index))){
+				current = neighbors.get(index);    
+			}
+    
 		}
-		visualize(current);
+
+		if(current.neighborE != null && current.east() == false){
+			adjacencies.add(current.neighborE);
+		} else if (current.neighborN != null && current.north() == false){
+			adjacencies.add(current.neighborN);
+		}else if (current.neighborS != null && current.south() == false){
+			adjacencies.add(current.neighborN);
+		}else if (current.neighborW != null && current.west() == false){
+			adjacencies.add(current.neighborN);
+		}
+
+		//need to iterate over all adjacencies to current cell
+		if(adjacencies != null){
+			for(MazeCell c : adjacencies){
+				if(c != null){
+					if(c.color.equalsIgnoreCase("white")){
+						c.predecessor = current;
+						DFSvisit(allCells, c);
+					}
+				}
+			}
+		}
+		current.color = "black";
+		time = time + 1;
+		current.finish = time;
 	}
+
 
 	/**
 	 *  Solves the maze by breadth first search.
@@ -310,6 +380,16 @@ public class Maze {
 		while(q.isEmpty() == false){
 			MazeCell u = q.remove();
 			u.visit();
+			while(u != endCell) { 
+				visualize(u); // show the progress visually (repaint)
+				ArrayList<MazeCell> neighbors = u.getNeighbors(u);
+				int index = generator.nextInt(neighbors.size());
+				u.examine();
+				if(!neighbors.get(index).hasAllWalls(neighbors.get(index))  || !u.sharesWallWith(u, neighbors.get(index))){
+					u = neighbors.get(index);    
+				}
+			}
+
 			traversedCells.add(u);
 			if(u.neighborE != null && u.east() == false){
 				adjacencies.add(u.neighborE);

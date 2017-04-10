@@ -128,6 +128,25 @@ public class MazeCell {
 		return AllWallsUp;
 	}
 
+	public boolean sharesWallWith(MazeCell x, MazeCell y){
+		boolean wall = false;
+		//		if(x.neighborE == y && x.east == true || y.west == true){
+		if(x.neighborE == y && x.east() || x.neighborE == y && y.west()){
+			wall = true;
+//		} else if (x.neighborN == y && x.north == true || y.south == true){
+		} else if (x.neighborN == y && x.north() || x.neighborN == y && y.south()){
+			wall = true;
+//		} else if (x.neighborS == y && x.south == true || y.north == true){
+		} else if (x.neighborS == y && x.south() || x.neighborS == y && y.north()){
+			wall = true;
+//		}else if (x.neighborW == y && x.west == true || y.east == true){
+		}else if (x.neighborW == y && x.west() || x.neighborW == y && y.east()){
+			wall = true;
+		}
+
+		return wall;
+	}
+
 	/**
 	 *  Returns whether or not this cell has its north wall up.
 	 *  @return <code>true</code> if the cell's north wall is up.
@@ -145,7 +164,7 @@ public class MazeCell {
 		north = upOrDown;
 		return north;
 	}
-	
+
 	public void setNorthFalse(MazeCell e){
 		e.north = false;
 	}
@@ -167,7 +186,7 @@ public class MazeCell {
 		north = upOrDown;
 		return north;
 	}
-	
+
 	public void setSouthFalse(MazeCell e){
 		e.south = false;
 	}
@@ -189,7 +208,7 @@ public class MazeCell {
 		east = upOrDown;
 		return east;
 	}
-	
+
 	public void setEastFalse(MazeCell e){
 		e.east = false;
 	}
@@ -211,7 +230,7 @@ public class MazeCell {
 		west = upOrDown;
 		return west;
 	}
-	
+
 	public void setWestFalse(MazeCell e){
 		e.west = false;
 	}
@@ -247,35 +266,35 @@ public class MazeCell {
 	 *                   set in <code>setNeighbors</code>.
 	 */
 	public void knockDownWall(MazeCell current, MazeCell neighbor) {
-		if(neighbor.visited()){
-			neighbor.examine();
-		} else {
-			neighbor.visit();
-		}
+		//		if(neighbor.visited()){
+		//			neighbor.examine();
+		//		} else {
+		//			neighbor.visit();
+		//		}
 		if(current.neighborE == neighbor) {
 			setEastFalse(current);
 			setWestFalse(neighbor);
-//			current.east = setEast(false);
-//			neighbor.west = setWest(false);
+			//			current.east = setEast(false);
+			//			neighbor.west = setWest(false);
 		} else if(current.neighborN == neighbor) {
 			setNorthFalse(current);
 			setSouthFalse(neighbor);
-//			current.north = setNorth(false);
-//			neighbor.south = setSouth(false);
+			//			current.north = setNorth(false);
+			//			neighbor.south = setSouth(false);
 			//			current.north = false;
 			//			neighbor.south = false;
 		} else if(current.neighborS == neighbor) {
 			setSouthFalse(current);
 			setNorthFalse(neighbor);
-//			current.south = setSouth(false);
-//			neighbor.north = setNorth(false);
+			//			current.south = setSouth(false);
+			//			neighbor.north = setNorth(false);
 			//			current.south = false;
 			//			neighbor.north = false;
 		} else if(current.neighborW == neighbor) {
 			setWestFalse(current);
 			setEastFalse(neighbor);
-//			current.west = setWest(false);
-//			neighbor.east = setEast(false);
+			//			current.west = setWest(false);
+			//			neighbor.east = setEast(false);
 			//			current.west = false;
 			//			neighbor.east = false;
 		}
