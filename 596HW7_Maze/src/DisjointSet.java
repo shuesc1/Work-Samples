@@ -7,7 +7,8 @@ public class DisjointSet {
 	//	private ArrayList<LinkedList<MazeCell>> sets;
 //	private HashMap<MazeCell,LinkedList<MazeCell>> sets;
 //	private LinkedList<MazeCell> disjointSets;
-	private MazeCell setMember, helper1, helper2;
+//	private MazeCell setMember, helper1, helper2;
+	private MazeCell setMember;
 
 
 	/**
@@ -18,8 +19,8 @@ public class DisjointSet {
 //		sets = new HashMap<MazeCell,LinkedList<MazeCell>>();
 //		disjointSets = new LinkedList<MazeCell>();
 		setMember = new MazeCell();
-		helper1 = new MazeCell();
-		helper2 = new MazeCell();
+//		helper1 = new MazeCell();
+//		helper2 = new MazeCell();
 	}
 
 	/**

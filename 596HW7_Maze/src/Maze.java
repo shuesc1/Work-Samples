@@ -23,7 +23,8 @@ public class Maze {
 	private Scanner in;
 	private DisjointSet ds;
 	//	private ArrayList<MazeCell> allCells;
-	private HashMap<MazeCell, LinkedList<MazeCell>> allCells;
+	//	private HashMap<MazeCell, LinkedList<MazeCell>> allCells;
+	private ArrayList<MazeCell> allCells;
 	private Queue<MazeCell> q;
 	private ArrayList<MazeCell> traversedCells; 
 
@@ -41,7 +42,8 @@ public class Maze {
 		wallDestructions = 0;
 		current = new MazeCell();
 		ds = new DisjointSet();
-		allCells = new HashMap<MazeCell, LinkedList<MazeCell>>();
+		//		allCells = new HashMap<MazeCell, LinkedList<MazeCell>>();
+		allCells = new ArrayList<MazeCell>();
 		q = new LinkedList<>();
 		traversedCells = new ArrayList<MazeCell>();
 
@@ -178,142 +180,172 @@ public class Maze {
 	public synchronized void makeKruskalMaze() {
 		ds.makeSet(maze);
 		current = new MazeCell();
-//		current = getStartCell();
-		current = startCell;
-		allCells.put(current, new LinkedList<MazeCell>());
+		//		current = getStartCell();
+		current = maze[0][0];
+		//		current = startCell;
+		//		allCells.put(current, new LinkedList<MazeCell>());
+		allCells.add(current);
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
-		while(wallDestructions < totalCells - 1) {
-			if(current.getRandomNeighbor() != null){
-				neighbor = current.getRandomNeighbor();
+		//		while(wallDestructions < totalCells - 1) {
+		while(current != maze[rows-1][cols-1]) {
+			if(current.getRandomNeighbor(current) != null){
+				neighbor = current.getRandomNeighbor(current);
 			} else {
-				//				while(neighbor == null){
-				Random rand = new Random();
-				int randRow = rand.nextInt(rows - 1);
-				int randCol = rand.nextInt(cols - 1);
-				neighbor = getCell(randRow, randCol);
+				while(neighbor == null){
+					Random rand = new Random();
+					int randRow = rand.nextInt(rows - 1);
+					int randCol = rand.nextInt(cols - 1);
+					neighbor = getCell(randRow, randCol);
+
+				}
 			}
-		
-		if(neighbor != null){
-			ds.union(current, neighbor);
-			current.knockDownWall(current , neighbor);
-			allCells.get(current).add(neighbor);
-		} 
+			if(neighbor != null){
+				ds.union(current, neighbor);
+				current.knockDownWall(current, neighbor);
+				if(allCells.contains(neighbor)){
+					allCells.add(neighbor);
+				}
+				//				allCells.get(current).add(neighbor);
+			} 
 
-		current = neighbor;
-		if(!allCells.containsKey(current)){	
-			//			} else {
-			allCells.put(current, new LinkedList<MazeCell>());
+			current = neighbor;
+			//			if(!allCells.containsKey(current)){	
+			//			if(!allCells.containsKey(current)){	
+			//
+			//				//			} else {
+			//				allCells.put(current, new LinkedList<MazeCell>());
+			//			}
+			if(allCells.contains(current)){
+				allCells.add(current);
+			}
+			wallDestructions = wallDestructions + 1;
 		}
-		wallDestructions = wallDestructions + 1;
 	}
-}
 
 
-/**
- *  Solve maze.  The input parameter is guaranteed
- *  to be one of "dfs", "bfs",  or "random".
- *  @param method The method for solving the maze; one of
- *                "dfs" = depth first search, 
- *                "bfs" = breadth first search, 
- *                "random" = random walk.
- */
-public synchronized void solveMaze(String method) {
-	if(method.contains("dfs") || method.equalsIgnoreCase("dfs")){
-		solveDFSMaze();
-	} else if (method.contains("bfs") || method.equalsIgnoreCase("bfs")){
-		solveBFSMaze();
-	} else if (method.contains("random") || method.equalsIgnoreCase("random")){
-		solveRandomMaze();
-	} else {
-		System.out.println("Please input a valid parameter: 'dfs', 'bfs', or 'random'");
-		in = new Scanner(System.in);
-		String input = in.next();
-		solveMaze(input);
+
+	/**
+	 *  Solve maze.  The input parameter is guaranteed
+	 *  to be one of "dfs", "bfs",  or "random".
+	 *  @param method The method for solving the maze; one of
+	 *                "dfs" = depth first search, 
+	 *                "bfs" = breadth first search, 
+	 *                "random" = random walk.
+	 */
+	public synchronized void solveMaze(String method) {
+		if(method.contains("dfs") || method.equalsIgnoreCase("dfs")){
+			solveDFSMaze();
+		} else if (method.contains("bfs") || method.equalsIgnoreCase("bfs")){
+			solveBFSMaze();
+		} else if (method.contains("random") || method.equalsIgnoreCase("random")){
+			solveRandomMaze();
+		} else {
+			System.out.println("Please input a valid parameter: 'dfs', 'bfs', or 'random'");
+			in = new Scanner(System.in);
+			String input = in.next();
+			solveMaze(input);
+		}
 	}
-}
 
-/**
- *  Solves the maze by randomly choosing a neighboring
- *  cell to explore. This method has been written for you.
- *  Please note this method takes a very long time
- *  to complete.
- */
-public synchronized void solveRandomMaze() {
-	// Start the search at the start cell
-	MazeCell current = startCell;
+	/**
+	 *  Solves the maze by randomly choosing a neighboring
+	 *  cell to explore. This method has been written for you.
+	 *  Please note this method takes a very long time
+	 *  to complete.
+	 */
+	public synchronized void solveRandomMaze() {
+		// Start the search at the start cell
+		MazeCell current = startCell;
 
-	// while we haven't reached the end of the maze
-	while(current != endCell) { 
-		visualize(current); // show the progress visually (repaint)
-		ArrayList<MazeCell> neighbors = current.getNeighbors();
-		int index = generator.nextInt(neighbors.size());
-		current.examine();
-		current = neighbors.get(index);    
+		// while we haven't reached the end of the maze
+		while(current != endCell) { 
+			visualize(current); // show the progress visually (repaint)
+			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
+			int index = generator.nextInt(neighbors.size());
+			current.examine();
+			current = neighbors.get(index);    
+		}
+		visualize(current);
 	}
-	visualize(current);
-}
 
-/**
- *  Solves the maze by depth first search.
- */
-public synchronized void solveDFSMaze() {
-	// Start the search at the start cell
-	MazeCell current = startCell;
+	/**
+	 *  Solves the maze by depth first search.
+	 */
+	public synchronized void solveDFSMaze() {
+		// Start the search at the start cell
+		MazeCell current = startCell;
 
-	// while we haven't reached the end of the maze
-	while(current != endCell) { 
-		visualize(current); // show the progress visually (repaint)
-		ArrayList<MazeCell> neighbors = current.getNeighbors();
-		int index = generator.nextInt(neighbors.size());
-		current.examine();
-		current = neighbors.get(index);    
+		// while we haven't reached the end of the maze
+		while(current != endCell) { 
+			visualize(current); // show the progress visually (repaint)
+			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
+			int index = generator.nextInt(neighbors.size());
+			current.examine();
+			current = neighbors.get(index);    
+		}
+		visualize(current);
 	}
-	visualize(current);
-}
 
-/**
- *  Solves the maze by breadth first search.
- *  starts at the start vertex and stops when bfs
- *  discovers the end vertex
- */
-public synchronized void solveBFSMaze() {
-	//TODO - do a BFS implementation
+	/**
+	 *  Solves the maze by breadth first search.
+	 *  starts at the start vertex and stops when bfs
+	 *  discovers the end vertex
+	 */
+	public synchronized void solveBFSMaze() {
+		//TODO - do a BFS implementation
+		LinkedList<MazeCell> adjacencies = new LinkedList<>();
 
-	for(MazeCell cellName : allCells.keySet()) { //might need to change this
-		cellName.color = "white";
-		cellName.distance = 0;
-		cellName.predecessor = null;
-	}
-	//		startCell = allCells.get(startCell);
-	startCell.color = "white";
-	startCell.distance = 0;
-	startCell.predecessor = null;
+		for(MazeCell cellName : allCells) { //might need to change this
+			cellName.color = "white";
+			cellName.distance = 0;
+			cellName.predecessor = null;
+		}
+		//		startCell = allCells.get(startCell);
+		startCell.color = "white";
+		startCell.distance = 0;
+		startCell.predecessor = null;
 
-	q.add(startCell);
-	while(q.isEmpty() == false){
-		MazeCell u = q.remove();
-		traversedCells.add(u);
-		LinkedList<MazeCell> linked = allCells.get(u);
-		//			LinkedList<MazeCell> linked = adjacencies.get(u.value);
-		if(linked != null){
-			for(MazeCell cell : linked){
-				MazeCell currentCell = cell;
-				if(currentCell.color.equals("white")){
-					currentCell.color = "gray";
-					currentCell.distance = u.distance + 1;
-					currentCell.predecessor = u;
-					//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
-					if(!traversedCells.contains(currentCell)){
-						q.add(currentCell);
+		q.add(startCell);
+		while(q.isEmpty() == false){
+			MazeCell u = q.remove();
+			u.visit();
+			traversedCells.add(u);
+			if(u.neighborE != null && u.east() == false){
+				adjacencies.add(u.neighborE);
+			} else if (u.neighborN != null && u.north() == false){
+				adjacencies.add(u.neighborN);
+			}else if (u.neighborS != null && u.south() == false){
+				adjacencies.add(u.neighborN);
+			}else if (u.neighborW != null && u.west() == false){
+				adjacencies.add(u.neighborN);
+			}
+
+
+			//		LinkedList<MazeCell> linked = allCells.get(u);
+			if(adjacencies != null){
+				for(MazeCell cell : adjacencies){
+					if(cell != null){
+						MazeCell currentCell = new MazeCell();
+						currentCell = cell;
+						if(currentCell.color.equals("white")){
+							currentCell.color = "gray";
+							currentCell.distance = u.distance + 1;
+							currentCell.predecessor = u;
+							//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
+							if(!traversedCells.contains(currentCell)){
+								q.add(currentCell);
+							}
+						}
+						adjacencies.remove(cell);
 					}
 				}
 			}
+			u.color = "black";
+			u.examine();
 		}
-		u.color = "black";
+		System.out.println("BFS has finished running!");	
 	}
-	System.out.println("BFS has finished running!");	
-}
 
 
 }
