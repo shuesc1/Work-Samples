@@ -22,11 +22,11 @@ public class MazeCell {
 
 	private boolean north, east, south, west;
 	private boolean visited, examined, wallUp;
-	public MazeCell neighborN, neighborE, neighborS, neighborW, next, prev, rep, current;
+	public MazeCell neighborN, neighborE, neighborS, neighborW, rep, parent, current;
 	private Random generator;
 	public String color;
 	public MazeCell predecessor;
-	public int start, finish, distance;
+	public int start, finish, distance, rank;
 
 	/** 
 	 *  Sets all the walls to <code>true</code> and initializes
@@ -41,7 +41,8 @@ public class MazeCell {
 		visited = false;
 		examined = false;
 		rep = null;
-		current = new MazeCell();
+		parent = null;
+		rank = 0;
 	}
 
 	/**
@@ -175,13 +176,13 @@ public class MazeCell {
 	public ArrayList<MazeCell> getNeighbors() {
 		current = getCurrent();
 		ArrayList<MazeCell> neighbors = null;
-		if(current.neighborE != null && current.neighborE.visited == false){
+		if(current.neighborE != null){
 			neighbors.add(current.neighborE);
-		} if(current.neighborN != null && current.neighborN.visited == false){
+		} if(current.neighborN != null){
 			neighbors.add(current.neighborN);
-		}if(current.neighborS != null && current.neighborS.visited == false){
+		}if(current.neighborS != null){
 			neighbors.add(current.neighborS);
-		}if(current.neighborW != null && current.neighborW.visited == false){
+		}if(current.neighborW != null){
 			neighbors.add(current.neighborW);
 		}
 		return neighbors;

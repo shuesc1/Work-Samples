@@ -5,8 +5,8 @@ import java.util.LinkedList;
 
 public class DisjointSet {
 	//	private ArrayList<LinkedList<MazeCell>> sets;
-	private HashMap<MazeCell,LinkedList<MazeCell>> sets;
-	private LinkedList<MazeCell> disjointSets;
+//	private HashMap<MazeCell,LinkedList<MazeCell>> sets;
+//	private LinkedList<MazeCell> disjointSets;
 	private MazeCell setMember, helper1, helper2;
 
 
@@ -15,8 +15,8 @@ public class DisjointSet {
 	 */
 	public DisjointSet(){
 		//		sets = new ArrayList<LinkedList<MazeCell>>();
-		sets = new HashMap<MazeCell,LinkedList<MazeCell>>();
-		disjointSets = new LinkedList<MazeCell>();
+//		sets = new HashMap<MazeCell,LinkedList<MazeCell>>();
+//		disjointSets = new LinkedList<MazeCell>();
 		setMember = new MazeCell();
 		helper1 = new MazeCell();
 		helper2 = new MazeCell();
@@ -30,10 +30,11 @@ public class DisjointSet {
 		for(int i = 0; i < maze.length; i++) {
 			for(int j = 0; j < maze.length; j++) {
 				setMember = maze[i][j];
-				setMember.setRep(setMember); //sets this cell as the representative
-				disjointSets.add(setMember);//adds MazeCell to LL
-				//				sets.add(disjointSets);
-				sets.put(setMember, disjointSets);//adds MazeCell key, LL value to hashmap
+				setMember.parent = setMember;
+				setMember.rank = 0;
+				//				setMember.setRep(setMember); //sets this cell as the representative --LL representation of disjoint sets
+				//				disjointSets.add(setMember);//adds MazeCell to LL
+				//				sets.put(setMember, disjointSets);//adds MazeCell key, LL value to hashmap
 			}
 		}
 	}
@@ -48,23 +49,53 @@ public class DisjointSet {
 	 * @param cell2
 	 */
 	public void union(MazeCell cell1, MazeCell cell2){
-		helper1 = find(cell1); //rep for cell1
-		helper2 = find(cell2); //rep for cell2
-		if(helper1 != helper2){ //if they are in different sets (have a different rep)
-			if(sets.get(helper1).size() > sets.get(helper2).size()){ //if set1 larger then append smaller set2 to it (less work)
-				for(MazeCell mc : sets.get(helper2)){
-					mc.rep = helper1;
-				}
-				sets.get(helper1).addAll(sets.get(helper2));
-				sets.remove(helper2); //remove set since it's already appended to other set
-			} else {
-				for(MazeCell mc : sets.get(helper1)){
-					mc.rep = helper2;
-				}
-				sets.get(helper2).addAll(sets.get(helper1));
-				sets.remove(helper1); //remove set since it's already appended to other set
-			}
+		link(findSet(cell1), findSet(cell2));
+
+		//		helper1 = find(cell1); //rep for cell1
+		//		helper2 = find(cell2); //rep for cell2
+
+		//		if(helper1 != helper2){ //if they are in different sets (have a different rep)
+		//			if(sets.get(helper1).size() > sets.get(helper2).size()){ //if set1 larger then append smaller set2 to it (less work)
+		//				for(MazeCell mc : sets.get(helper2)){
+		//					mc.rep = helper1;
+		//				}
+		//				sets.get(helper1).addAll(sets.get(helper2));
+		//				sets.remove(helper2); //remove set since it's already appended to other set
+		//			} else {
+		//				for(MazeCell mc : sets.get(helper1)){
+		//					mc.rep = helper2;
+		//				}
+		//				sets.get(helper2).addAll(sets.get(helper1));
+		//				sets.remove(helper1); //remove set since it's already appended to other set
+		//			}
+		//		}
+	}
+
+	/**
+	 * A helper method for union(x,y)
+	 * @param x
+	 * @param y
+	 */
+	public void link(MazeCell x, MazeCell y){
+		if (x.rank > y.rank){
+			y.parent = x;
+		} else if (x.rank < y.rank){
+			x.parent = y;
+		} else if (x.rank == y.rank){
+			y.rank = y.rank + 1;
 		}
+	}
+
+	/**
+	 * a method to achieve path compression and speed up running time of union method
+	 * @param x
+	 * @return
+	 */
+	public MazeCell findSet(MazeCell x){
+		if(x != x.parent){
+			x.parent = findSet(x.parent);
+		}
+		return x.parent;
 	}
 
 	/**
