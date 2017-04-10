@@ -130,20 +130,15 @@ public class MazeCell {
 
 	public boolean sharesWallWith(MazeCell x, MazeCell y){
 		boolean wall = false;
-		//		if(x.neighborE == y && x.east == true || y.west == true){
-		if(x.neighborE == y && x.east() || x.neighborE == y && y.west()){
+		if(x.neighborE==y && x.east() || x.neighborE == y && y.west()){
 			wall = true;
-//		} else if (x.neighborN == y && x.north == true || y.south == true){
 		} else if (x.neighborN == y && x.north() || x.neighborN == y && y.south()){
 			wall = true;
-//		} else if (x.neighborS == y && x.south == true || y.north == true){
 		} else if (x.neighborS == y && x.south() || x.neighborS == y && y.north()){
 			wall = true;
-//		}else if (x.neighborW == y && x.west == true || y.east == true){
 		}else if (x.neighborW == y && x.west() || x.neighborW == y && y.east()){
 			wall = true;
 		}
-
 		return wall;
 	}
 

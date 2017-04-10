@@ -188,7 +188,7 @@ public class Maze {
 		allCells.add(current);
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
-		//		while(wallDestructions < totalCells - 1) {
+		//				while(wallDestructions < totalCells - 1) {
 		while(current != maze[rows-1][cols-1]) {
 			if(current.getRandomNeighbor(current) != null){
 				neighbor = current.getRandomNeighbor(current);
@@ -322,12 +322,19 @@ public class Maze {
 			visualize(current); // show the progress visually (repaint)
 			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
 			int index = generator.nextInt(neighbors.size());
-			current.examine();
-			
-			if(!neighbors.get(index).hasAllWalls(neighbors.get(index)) || !current.sharesWallWith(current, neighbors.get(index))){
+
+			if(current.visited() == false){
+				current.visit();
+			} else {
+				current.examine();
+			}
+
+			if(neighbors.get(index).hasAllWalls(neighbors.get(index))==false  
+					&& current.sharesWallWith(current, neighbors.get(index))==false 
+					&& neighbors.get(index).examined()==false){
 				current = neighbors.get(index);    
 			}
-    
+
 		}
 
 		if(current.neighborE != null && current.east() == false){
@@ -363,15 +370,12 @@ public class Maze {
 	 *  discovers the end vertex
 	 */
 	public synchronized void solveBFSMaze() {
-		//TODO - do a BFS implementation
 		LinkedList<MazeCell> adjacencies = new LinkedList<>();
-
-		for(MazeCell cellName : allCells) { //might need to change this
+		for(MazeCell cellName : allCells) { 
 			cellName.color = "white";
 			cellName.distance = 0;
 			cellName.predecessor = null;
 		}
-		//		startCell = allCells.get(startCell);
 		startCell.color = "white";
 		startCell.distance = 0;
 		startCell.predecessor = null;
@@ -379,13 +383,18 @@ public class Maze {
 		q.add(startCell);
 		while(q.isEmpty() == false){
 			MazeCell u = q.remove();
-			u.visit();
+
 			while(u != endCell) { 
 				visualize(u); // show the progress visually (repaint)
 				ArrayList<MazeCell> neighbors = u.getNeighbors(u);
 				int index = generator.nextInt(neighbors.size());
-				u.examine();
-				if(!neighbors.get(index).hasAllWalls(neighbors.get(index))  || !u.sharesWallWith(u, neighbors.get(index))){
+				if(u.visited() == false){
+					u.visit();
+				} else {
+					u.examine();
+				}
+
+				if(neighbors.get(index).hasAllWalls(neighbors.get(index))==false  && u.sharesWallWith(u, neighbors.get(index))==false && neighbors.get(index).examined()==false){
 					u = neighbors.get(index);    
 				}
 			}
