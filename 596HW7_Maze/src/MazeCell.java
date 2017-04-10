@@ -24,7 +24,9 @@ public class MazeCell {
 	private boolean visited, examined, wallUp;
 	public MazeCell neighborN, neighborE, neighborS, neighborW, next, prev, rep, current;
 	private Random generator;
-
+	public String color;
+	public MazeCell predecessor;
+	public int start, finish, distance;
 
 	/** 
 	 *  Sets all the walls to <code>true</code> and initializes
@@ -110,9 +112,9 @@ public class MazeCell {
 	 *  Returns whether or not this cell has all its walls up.
 	 *  @return <code>true</code> if all walls are up.
 	 */
-	public boolean hasAllWalls(boolean north, boolean east, boolean south, boolean west) {
+	public boolean hasAllWalls(MazeCell m) {
 		boolean AllWallsUp = false;
-		if(north == true && east == true && south == true && west == true){
+		if(m.north == true && m.east == true && m.south == true && m.west == true){
 			AllWallsUp = true;
 		}
 		return AllWallsUp;
@@ -173,13 +175,13 @@ public class MazeCell {
 	public ArrayList<MazeCell> getNeighbors() {
 		current = getCurrent();
 		ArrayList<MazeCell> neighbors = null;
-		if(current.neighborE != null){
+		if(current.neighborE != null && current.neighborE.visited == false){
 			neighbors.add(current.neighborE);
-		} if(current.neighborN != null){
+		} if(current.neighborN != null && current.neighborN.visited == false){
 			neighbors.add(current.neighborN);
-		}if(current.neighborS != null){
+		}if(current.neighborS != null && current.neighborS.visited == false){
 			neighbors.add(current.neighborS);
-		}if(current.neighborW != null){
+		}if(current.neighborW != null && current.neighborW.visited == false){
 			neighbors.add(current.neighborW);
 		}
 		return neighbors;
@@ -192,19 +194,19 @@ public class MazeCell {
 	 *  @param neighbor  The neighboring cell; must be one of the neighbors
 	 *                   set in <code>setNeighbors</code>.
 	 */
-	public void knockDownWall(MazeCell neighbor) {
+	public void knockDownWall(MazeCell current, MazeCell neighbor) {
 		neighbor.visit();
-		if(getCurrent().neighborE == neighbor) {
-			getCurrent().east = false;
+		if(current.neighborE == neighbor) {
+			current.east = false;
 			neighbor.west = false;
-		} else if(getCurrent().neighborN == neighbor) {
-			getCurrent().north = false;
+		} else if(current.neighborN == neighbor) {
+			current.north = false;
 			neighbor.south = false;
-		} else if(getCurrent().neighborS == neighbor) {
-			getCurrent().south = false;
+		} else if(current.neighborS == neighbor) {
+			current.south = false;
 			neighbor.north = false;
-		} else if(getCurrent().neighborW == neighbor) {
-			getCurrent().west = false;
+		} else if(current.neighborW == neighbor) {
+			current.west = false;
 			neighbor.east = false;
 		}
 		//TODO - fix this. Remember that any wall that is knocked down
@@ -228,10 +230,11 @@ public class MazeCell {
 	 *  @return Neighbor with all its walls intact.
 	 */
 	public MazeCell neighborWithWalls() {
-		MazeCell walled = new MazeCell();
+		MazeCell walled = null;
+		//		MazeCell walled = new MazeCell();
 		ArrayList<MazeCell> neighbors = getNeighbors();
 		for(MazeCell n : neighbors){
-			if(n.hasAllWalls(n.north, n.east, n.south, n.west) == true){
+			if(hasAllWalls(n) == true){
 				walled = n;
 				break;
 			}

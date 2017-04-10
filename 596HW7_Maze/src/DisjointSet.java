@@ -3,7 +3,7 @@ import java.util.LinkedList;
 
 //package maze;
 
-public class DisjointSet<T> {
+public class DisjointSet {
 	//	private ArrayList<LinkedList<MazeCell>> sets;
 	private HashMap<MazeCell,LinkedList<MazeCell>> sets;
 	private LinkedList<MazeCell> disjointSets;

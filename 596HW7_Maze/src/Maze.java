@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class Maze {
 
-	private int rows, cols;
+	private int rows, cols, wallDestructions;
 	private MazeCell maze[][];
 	//the UI code is all in MazeViewer.java
 	private MazeViewer viewer;
@@ -19,7 +19,14 @@ public class Maze {
 	private Random generator;
 	private MazeCell startCell;
 	private MazeCell endCell;
+	private MazeCell current;
 	private Scanner in;
+	private DisjointSet ds;
+	//	private ArrayList<MazeCell> allCells;
+	private HashMap<MazeCell, LinkedList<MazeCell>> allCells;
+	private Queue<MazeCell> q;
+	private ArrayList<MazeCell> traversedCells; 
+
 
 	/**
 	 *  Creates a maze that has the given number of rows and columns.
@@ -31,6 +38,12 @@ public class Maze {
 		this.rows = rows;
 		this.cols = cols;
 		generator = new Random();
+		wallDestructions = 0;
+		current = new MazeCell();
+		ds = new DisjointSet();
+		allCells = new HashMap<MazeCell, LinkedList<MazeCell>>();
+		q = new LinkedList<>();
+		traversedCells = new ArrayList<MazeCell>();
 
 		// Create the maze.     
 		maze = new MazeCell[rows][cols];
@@ -59,6 +72,7 @@ public class Maze {
 				maze[i][j].setNeighbors(n,e,s,w);
 			}
 		}
+
 	}
 
 
@@ -143,7 +157,7 @@ public class Maze {
 	 *  @param cell Current cell, that the viewer will color.
 	 */
 	public synchronized void visualize(MazeCell cell) {
-		//TODO - call the appropriate method from MazeViewer to visualize
+		viewer.visualize(cell);
 	}
 
 	/**
@@ -162,7 +176,33 @@ public class Maze {
 	 *  Forms the maze via Kruskal's algorithm.
 	 */
 	public synchronized void makeKruskalMaze() {
-		//TODO - use a modified version of Kruskal's algorithm to make the maze
+		ds.makeSet(maze);
+		current = new MazeCell();
+		current = getStartCell();
+		allCells.put(current, new LinkedList<MazeCell>());
+		MazeCell neighbor = new MazeCell();
+		int totalCells = (getRows() * getCols());
+		while(wallDestructions < totalCells - 1) {
+			neighbor = current.getRandomNeighbor();
+			if(neighbor != null){
+				ds.union(current, neighbor);
+				current.knockDownWall(current , neighbor);
+				allCells.get(current).add(neighbor);
+			} else {
+				while(neighbor == null){
+					Random rand = new Random();
+					int randRow = rand.nextInt(rows - 1);
+					int randCol = rand.nextInt(cols - 1);
+					neighbor = getCell(randRow, randCol);
+				}
+			}
+			current = neighbor;
+			if(!allCells.containsKey(current)){	
+				//			} else {
+				allCells.put(current, new LinkedList<MazeCell>());
+			}
+			wallDestructions = wallDestructions + 1;
+		}
 	}
 
 
@@ -235,6 +275,40 @@ public class Maze {
 	 */
 	public synchronized void solveBFSMaze() {
 		//TODO - do a BFS implementation
+
+		for(MazeCell cellName : allCells.keySet()) { //might need to change this
+			cellName.color = "white";
+			cellName.distance = 0;
+			cellName.predecessor = null;
+		}
+		//		startCell = allCells.get(startCell);
+		startCell.color = "white";
+		startCell.distance = 0;
+		startCell.predecessor = null;
+
+		q.add(startCell);
+		while(q.isEmpty() == false){
+			MazeCell u = q.remove();
+			traversedCells.add(u);
+			LinkedList<MazeCell> linked = allCells.get(u);
+			//			LinkedList<MazeCell> linked = adjacencies.get(u.value);
+			if(linked != null){
+				for(MazeCell cell : linked){
+					MazeCell currentCell = cell;
+					if(currentCell.color.equals("white")){
+						currentCell.color = "gray";
+						currentCell.distance = u.distance + 1;
+						currentCell.predecessor = u;
+						//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
+						if(!traversedCells.contains(currentCell)){
+							q.add(currentCell);
+						}
+					}
+				}
+			}
+			u.color = "black";
+		}
+		System.out.println("BFS has finished running!");	
 	}
 
 
