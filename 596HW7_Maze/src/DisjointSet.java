@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * A class that creates a disjoint-set forest for the modified Kruskal's algorithm,
@@ -7,6 +8,7 @@
  */
 public class DisjointSet {
 	private MazeCell setMember;
+	private ArrayList<MazeCell> allSetMembers;
 
 
 	/**
@@ -14,6 +16,7 @@ public class DisjointSet {
 	 */
 	public DisjointSet(){
 		setMember = new MazeCell();
+		allSetMembers = new ArrayList<>();
 	}
 
 	/**
@@ -26,6 +29,7 @@ public class DisjointSet {
 				setMember = maze[i][j];
 				setMember.parent = setMember;
 				setMember.rank = 0;
+				allSetMembers.add(setMember);
 			}
 		}
 	}
@@ -83,4 +87,8 @@ public class DisjointSet {
 		return representative;
 	}
 
+	public ArrayList<MazeCell> getAllSetMembers(){
+		return allSetMembers;
+	}
+	
 }

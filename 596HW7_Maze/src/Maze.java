@@ -181,17 +181,64 @@ public class Maze {
 	 */
 	public synchronized void makeKruskalMaze() {
 		ds.makeSet(maze);
+		boolean neighborWWall = false;
+		ArrayList<MazeCell> allCellSets = ds.getAllSetMembers();
+		ArrayList<MazeCell> neighbors = new ArrayList<MazeCell>();
+		int round = 1;
 		current = new MazeCell();
-		//		current = getStartCell();
-		//		current = startCell;
 		current = maze[0][0];
-		allCells.add(current);
+		//		allCells.add(current);
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
-		//				while(wallDestructions < totalCells - 1) {
-		while(current != maze[rows-1][cols-1]) {
-			if(current.getRandomNeighbor(current) != null){
+		while(wallDestructions < totalCells - 1) {
+			if(round > 1) {
+				int bound = allCellSets.size();
+				int index = generator.nextInt(bound);
+				current = allCellSets.get(index);
+				//				allCellSets.remove(current);
+			}
+
+			//			if(!allCells.contains(current)){
+			//				allCells.add(current);
+			//			}
+
+			neighbors = current.getNeighbors(current);
+			for(MazeCell adj : neighbors){
+				if(adj.sharesWallWith(adj, current)){
+					neighbor = adj;
+					neighborWWall = true;
+					break;
+				}
+			}
+
+			if(neighborWWall == true){
+				if(ds.findSet(current) != ds.findSet(neighbor)){
+					ds.union(current, neighbor);
+					current.knockDownWall(current, neighbor);
+					//					if(!allCells.contains(neighbor)){
+					//						allCells.add(neighbor);
+					//					}
+					wallDestructions = wallDestructions + 1;
+				}
+			}
+			/*
+			if(current.getRandomNeighbor(current) != null 
+					&& current.getRandomNeighbor(current).sharesWallWith(current, current.getRandomNeighbor(current))){
 				neighbor = current.getRandomNeighbor(current);
+			}
+			 */
+
+			/*
+			do{
+				neighbor = current.getRandomNeighbor(current);
+			} while (current.sharesWallWith(current, neighbor) == false);
+			 */
+
+			/*
+			neighbor = current.neighborWithWalls(current);
+			 */
+
+			/* 
 			} else {
 				while(neighbor == null){
 					Random rand = new Random();
@@ -201,17 +248,16 @@ public class Maze {
 				}
 			}
 			if(neighbor != null){
-				ds.union(current, neighbor);
-				current.knockDownWall(current, neighbor);
-				if(allCells.contains(neighbor)){
-					allCells.add(neighbor);
-				}
-			} 
+			 */
+
+			/*
 			current = neighbor;
-			if(allCells.contains(current)){
+			if(!allCells.contains(current)){
 				allCells.add(current);
-			}
-			wallDestructions = wallDestructions + 1;
+			} 
+			 */
+			round = round + 1;
+			neighborWWall = false;
 		}
 	}
 
@@ -287,6 +333,7 @@ public class Maze {
 	public void runDFS(MazeCell start) {
 		//		MazeCell current = startCell;
 		MazeCell current = start;
+		allCells = ds.getAllSetMembers();
 		for(MazeCell mc : allCells){
 			mc.color = "white";
 			mc.predecessor = null;
@@ -371,6 +418,7 @@ public class Maze {
 	 */
 	public synchronized void solveBFSMaze() {
 		LinkedList<MazeCell> adjacencies = new LinkedList<>();
+		allCells = ds.getAllSetMembers();
 		for(MazeCell cellName : allCells) { 
 			cellName.color = "white";
 			cellName.distance = 0;
