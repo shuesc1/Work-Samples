@@ -189,23 +189,23 @@ public class Maze {
 		current = maze[0][0];
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
-		
+
 		//start of modified Kruskal's algorithm
 		while(wallDestructions < totalCells - 1) {
-//			if(round > 1) {
-				int bound = allCellSets.size();
-				int index = generator.nextInt(bound);
-				current = allCellSets.get(index); //choose random current cell
-				//				allCellSets.remove(current);
-//			}
+			//			if(round > 1) {
+			int bound = allCellSets.size();
+			int index = generator.nextInt(bound);
+			current = allCellSets.get(index); //choose random current cell
+			//				allCellSets.remove(current);
+			//			}
 
 			/* Neighbor we want has ALL walls up?? No
 			if(current.neighborWithWalls(current) != null){ //get neighbor with ALL walls up
 				neighbor = current.neighborWithWalls(current);
 				neighborWWall = true;
 			}
-			*/
-			
+			 */
+
 			neighbors = current.getNeighbors(current);
 			for(MazeCell adj : neighbors){
 				if(current.sharesWallWith(current, adj)){ //choose random neighbor of current w/ wall btwn it and current
@@ -215,7 +215,7 @@ public class Maze {
 						current.knockDownWall(current, neighbor);
 						wallDestructions = wallDestructions + 1;
 					}
-//					neighborWWall = true; //set flag true that operation completed
+					//					neighborWWall = true; //set flag true that operation completed
 					break;
 				}
 			}
@@ -228,8 +228,8 @@ public class Maze {
 					wallDestructions = wallDestructions + 1;
 				}
 			}
-			*/
-			
+			 */
+
 			/* Get random neighbor and if they share a wall set them to neighbor
 			if(current.getRandomNeighbor(current) != null 
 					&& current.getRandomNeighbor(current).sharesWallWith(current, current.getRandomNeighbor(current))){
@@ -321,11 +321,15 @@ public class Maze {
 			mc.predecessor = null;
 		}
 		time = 0;
+
+		//visualize -- necessary?
 		if(current != null){
 			visualize(current);
 			current.examine();
 			DFSvisit(allCells, current);
 		}
+		//visualize DFS
+
 		for(MazeCell cell : allCells){
 			if(cell.color.equalsIgnoreCase("white")){
 				DFSvisit(allCells, cell);
@@ -347,15 +351,16 @@ public class Maze {
 		current.start = time;
 		current.color = "gray";
 
+		//start visualize DFS
 		while(current != endCell) { 
 			visualize(current); // show the progress visually (repaint)
 			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
 			int index = generator.nextInt(neighbors.size());
 
 			if(current.visited() == false){
-				current.visit();
+				current.visit(); //first touched/visited
 			} else {
-				current.examine();
+				current.examine(); //last visited (finished/black)
 			}
 
 			if(neighbors.get(index).hasAllWalls(neighbors.get(index))==false  
@@ -363,8 +368,8 @@ public class Maze {
 					&& neighbors.get(index).examined()==false){
 				current = neighbors.get(index);    
 			}
-
 		}
+		//end visualize DFS
 
 		if(current.neighborE != null && current.east() == false){
 			adjacencies.add(current.neighborE);
@@ -430,7 +435,7 @@ public class Maze {
 				}
 			}
 			//end BFS visualize
-			
+
 			traversedCells.add(u);
 			if(u.neighborE != null && u.east() == false){
 				adjacencies.add(u.neighborE);
