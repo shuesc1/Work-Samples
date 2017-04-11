@@ -59,6 +59,7 @@ public class DisjointSet {
 			x.parent = y;
 		} else if (x.rank == y.rank){
 			y.rank = y.rank + 1;
+			x.parent = y;
 		}
 	}
 
