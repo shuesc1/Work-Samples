@@ -10,7 +10,6 @@ public class DisjointSet {
 	private MazeCell setMember;
 	private ArrayList<MazeCell> allSetMembers;
 
-
 	/**
 	 * Class constructor
 	 */
@@ -88,6 +87,10 @@ public class DisjointSet {
 //		return representative;
 //	}
 
+	/**
+	 * A getter method for all MazeCell objects
+	 * @return an arraylist of all MazeCell objects
+	 */
 	public ArrayList<MazeCell> getAllSetMembers(){
 		return allSetMembers;
 	}

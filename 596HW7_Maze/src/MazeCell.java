@@ -1,8 +1,6 @@
 //package maze;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -34,25 +32,25 @@ public class MazeCell {
 	 *  the random number generator.
 	 */
 	public MazeCell() {
-		north = true;
-		east  = true;
-		south = true;
-		west  = true;
+		north = true; //MazeCell trait
+		east  = true; //MazeCell trait
+		south = true; //MazeCell trait
+		west  = true; //MazeCell trait
 		generator = new Random();
-		visited = false;
-		examined = false;
-		rep = null;
-		parent = null;
-		rank = 0;
-		color = "white";
-		distance = 0;
+		visited = false; //used for visualization
+		examined = false; //used for visualization
+		rep = null; //only used for LL implementation of disjoint set
+		parent = null; //for path compression/disjoint sets
+		rank = 0; //for path compression/disjoint sets
+		color = "white"; //for BFS & DFS
+		distance = 0; //BFS
 		predecessor = null;
-		start = 0;
-		finish = 0;
+		start = 0;//DFS (time)
+		finish = 0;//DFS (time)
 
 	}
 
-	/**
+	/** Visited means first reached/colored white for our purposes
 	 *  Sets the visited flag to <code>true</code>.
 	 */
 	public void visit() {
@@ -67,7 +65,7 @@ public class MazeCell {
 		return visited;
 	}
 
-	/**
+	/**Examined means blacked out/no longer reacheable for our purposes
 	 *  Sets the examined flag to <code>true</code>.
 	 */
 	public void examine() {
@@ -128,6 +126,12 @@ public class MazeCell {
 		return AllWallsUp;
 	}
 
+	/**
+	 * A method that checks if adjacent cells share a wall or not
+	 * @param x a mazecell with a neighbor y
+	 * @param y a mazecell with a neighbor x
+	 * @return
+	 */
 	public boolean sharesWallWith(MazeCell x, MazeCell y){
 		boolean wall = false;
 		if (x.neighborE==y && x.east() || x.neighborE == y && y.west()){
@@ -155,15 +159,6 @@ public class MazeCell {
 		return wallUp;
 	}
 
-	public boolean setNorth(boolean upOrDown){
-		north = upOrDown;
-		return north;
-	}
-
-	public void setNorthFalse(MazeCell e){
-		e.north = false;
-	}
-
 	/**
 	 *  Returns whether or not this cell has its south wall up.
 	 *  @return <code>true</code> if the cell's south wall is up.
@@ -175,15 +170,6 @@ public class MazeCell {
 			wallUp = false;
 		}
 		return wallUp;
-	}
-
-	public boolean setSouth(boolean upOrDown){
-		north = upOrDown;
-		return north;
-	}
-
-	public void setSouthFalse(MazeCell e){
-		e.south = false;
 	}
 
 	/**
@@ -199,15 +185,6 @@ public class MazeCell {
 		return wallUp;
 	}
 
-	public boolean setEast(boolean upOrDown){
-		east = upOrDown;
-		return east;
-	}
-
-	public void setEastFalse(MazeCell e){
-		e.east = false;
-	}
-
 	/**
 	 *  Returns whether or not this cell has its west wall up.
 	 *  @return <code>true</code> if the cell's west wall is up.
@@ -219,15 +196,6 @@ public class MazeCell {
 			wallUp = false;
 		}
 		return wallUp;
-	}
-
-	public boolean setWest(boolean upOrDown){
-		west = upOrDown;
-		return west;
-	}
-
-	public void setWestFalse(MazeCell e){
-		e.west = false;
 	}
 
 	/**
@@ -259,42 +227,19 @@ public class MazeCell {
 	 *                   set in <code>setNeighbors</code>.
 	 */
 	public void knockDownWall(MazeCell current, MazeCell neighbor) {
-		//		if(neighbor.visited()){
-		//			neighbor.examine();
-		//		} else {
-		//			neighbor.visit();
-		//		}
 		if(current.neighborE == neighbor) {
 			current.east = false;
 			neighbor.west = false;
-			//			setEastFalse(current);
-			//			setWestFalse(neighbor);
-			//			current.east = setEast(false);
-			//			neighbor.west = setWest(false);
 		} else if(current.neighborN == neighbor) {
-			//			setNorthFalse(current);
-			//			setSouthFalse(neighbor);
-			//			current.north = setNorth(false);
-			//			neighbor.south = setSouth(false);
 			current.north = false;
 			neighbor.south = false;
 		} else if(current.neighborS == neighbor) {
-			//			setSouthFalse(current);
-			//			setNorthFalse(neighbor);
-			//			current.south = setSouth(false);
-			//			neighbor.north = setNorth(false);
 			current.south = false;
 			neighbor.north = false;
 		} else if(current.neighborW == neighbor) {
-			//			setWestFalse(current);
-			//			setEastFalse(neighbor);
-			//			current.west = setWest(false);
-			//			neighbor.east = setEast(false);
 			current.west = false;
 			neighbor.east = false;
 		}
-		//TODO - fix this. Remember that any wall that is knocked down
-		// will require you to change values for both this and neighbor.
 	}
 
 	/**

@@ -3,8 +3,6 @@
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
-import java.awt.event.*;
-import java.util.Random;
 
 /**
  *  Visualization panel for the maze.  Contains the 

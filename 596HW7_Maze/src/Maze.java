@@ -1,7 +1,3 @@
-//package maze;
-
-
-import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -11,24 +7,14 @@ import java.util.*;
  *
  */
 public class Maze {
-
-	private int rows, cols, wallDestructions, time;
-	private MazeCell maze[][];
-	//the UI code is all in MazeViewer.java
-	private MazeViewer viewer;
-	//This is just for random number generation
-	private Random generator;
-	private MazeCell startCell;
-	private MazeCell endCell;
-	private MazeCell current;
 	private Scanner in;
+	private Random generator;
+	private int rows, cols, wallDestructions, time;
+	private ArrayList<MazeCell> allCells, traversedCells;
+	private MazeViewer viewer;
+	private MazeCell startCell, endCell, current, maze[][];
 	private DisjointSet ds;
-	//	private ArrayList<MazeCell> allCells;
-	//	private HashMap<MazeCell, LinkedList<MazeCell>> allCells;
-	private ArrayList<MazeCell> allCells;
 	private Queue<MazeCell> q;
-	private ArrayList<MazeCell> traversedCells; 
-
 
 	/**
 	 *  Creates a maze that has the given number of rows and columns.
@@ -43,11 +29,8 @@ public class Maze {
 		wallDestructions = 0;
 		current = new MazeCell();
 		ds = new DisjointSet();
-		//		allCells = new HashMap<MazeCell, LinkedList<MazeCell>>();
 		allCells = new ArrayList<MazeCell>();
-		q = new LinkedList<>();
 		traversedCells = new ArrayList<MazeCell>();
-		time = 0;
 
 		// Create the maze.     
 		maze = new MazeCell[rows][cols];
@@ -181,7 +164,6 @@ public class Maze {
 	 */
 	public synchronized void makeKruskalMaze() {
 		ds.makeSet(maze);
-		boolean neighborWWall = false;
 		ArrayList<MazeCell> allCellSets = ds.getAllSetMembers();
 		ArrayList<MazeCell> neighbors = new ArrayList<MazeCell>();
 		int round = 1;
@@ -192,21 +174,12 @@ public class Maze {
 
 		//start of modified Kruskal's algorithm
 		while(wallDestructions < totalCells - 1) {
-			//			if(round > 1) {
-			int bound = allCellSets.size();
-			int index = generator.nextInt(bound);
-			current = allCellSets.get(index); //choose random current cell
-			//				allCellSets.remove(current);
-			//			}
-
-			/* Neighbor we want has ALL walls up?? No
-			if(current.neighborWithWalls(current) != null){ //get neighbor with ALL walls up
-				neighbor = current.neighborWithWalls(current);
-				neighborWWall = true;
+			if(round > 1) { //first iteration we use starting point maze[0][0], after choose random cell
+				int bound = allCellSets.size();
+				int index = generator.nextInt(bound);
+				current = allCellSets.get(index); //choose random current cell
 			}
-			 */
-
-			neighbors = current.getNeighbors(current);
+			neighbors = current.getNeighbors(current); //get list of current's neighbors
 			for(MazeCell adj : neighbors){
 				if(current.sharesWallWith(current, adj)){ //choose random neighbor of current w/ wall btwn it and current
 					neighbor = adj;
@@ -215,35 +188,12 @@ public class Maze {
 						current.knockDownWall(current, neighbor);
 						wallDestructions = wallDestructions + 1;
 					}
-					//					neighborWWall = true; //set flag true that operation completed
 					break;
 				}
 			}
 
-			/* If such a neighbor exists section moved outside create neighbor section
-			if(neighborWWall == true){ //if above neighbor/cell actually exists
-				if(ds.findSet(current) != ds.findSet(neighbor)){
-					ds.union(current, neighbor);
-					current.knockDownWall(current, neighbor);
-					wallDestructions = wallDestructions + 1;
-				}
-			}
-			 */
-
-			/* Get random neighbor and if they share a wall set them to neighbor
-			if(current.getRandomNeighbor(current) != null 
-					&& current.getRandomNeighbor(current).sharesWallWith(current, current.getRandomNeighbor(current))){
-				neighbor = current.getRandomNeighbor(current);
-			}
-			 */
-
-			/* set neighbor cell to one with all walls
-			neighbor = current.neighborWithWalls(current);
-			 */
-
 			round = round + 1;
-			neighborWWall = false;
-		}
+		} //end of Min Spanning Tree forming algorithm/Kruskal's modification
 	}
 
 	/**
@@ -290,55 +240,42 @@ public class Maze {
 		visualize(current);
 	}
 
-	/**
+	/**<<<<<<<MAIN DFS>>>>>>>>
 	 *  Solves the maze by depth first search.
 	 */
 	public synchronized void solveDFSMaze() {
-		// Start the search at the start cell
 		MazeCell current = startCell;
 		runDFS(current);
-		//				// while we haven't reached the end of the maze
-		//				while(current != endCell) { 
-		//					visualize(current); // show the progress visually (repaint)
-		//					ArrayList<MazeCell> neighbors = current.getNeighbors(current);
-		//					int index = generator.nextInt(neighbors.size());
-		//					current.examine();
-		//					current = neighbors.get(index);    
-		//				}
-		//				visualize(current);
 	}
 
-	/**
+	/**<<<<<<<DFS>>>>>>>>>
 	 * The primary method that implements the DFSvisit method
 	 * @param start a MazeCell start value
 	 */
 	public void runDFS(MazeCell start) {
-		//		MazeCell current = startCell;
 		MazeCell current = start;
 		allCells = ds.getAllSetMembers();
 		for(MazeCell mc : allCells){
-			mc.color = "white";
+			//			mc.color = "white";
 			mc.predecessor = null;
 		}
 		time = 0;
 
-		//visualize -- necessary?
 		if(current != null){
 			visualize(current);
 			current.examine();
 			DFSvisit(allCells, current);
 		}
-		//visualize DFS
 
 		for(MazeCell cell : allCells){
-			if(cell.color.equalsIgnoreCase("white")){
+			if(cell.visited() == false){ //!cell.visited() == !color.equals("white")
 				DFSvisit(allCells, cell);
 			}
 		}
 		System.out.println("DFS has finished!");
 	}
 
-	/**
+	/**<<<<<<<DFS RECURSIVE CALL>>>>>
 	 * The recursive method that forms part of the overall DFS running
 	 * @param allCells a list of all MazeCell objects in graph
 	 * @param current the current MazeCell being discovered
@@ -346,64 +283,52 @@ public class Maze {
 	 * current = 'u' ; c = 'v'
 	 */
 	public void DFSvisit(List<MazeCell> listOfCells, MazeCell current) {
-		LinkedList<MazeCell> adjacencies = new LinkedList<>();
 		time = time + 1;
 		current.start = time;
-		current.color = "gray";
+		//		current.color = "gray";
+		current.visit(); //paint yellow
 
-		//start visualize DFS
-		while(current != endCell) { 
-			visualize(current); // show the progress visually (repaint)
-			ArrayList<MazeCell> neighbors = current.getNeighbors(current);
-			int index = generator.nextInt(neighbors.size());
-
-			if(current.visited() == false){
-				current.visit(); //first touched/visited
-			} else {
-				current.examine(); //last visited (finished/black)
-			}
-
-			if(neighbors.get(index).hasAllWalls(neighbors.get(index))==false  
-					&& current.sharesWallWith(current, neighbors.get(index))==false 
-					&& neighbors.get(index).examined()==false){
-				current = neighbors.get(index);    
-			}
-		}
-		//end visualize DFS
-
-		if(current.neighborE != null && current.east() == false){
-			adjacencies.add(current.neighborE);
-		} else if (current.neighborN != null && current.north() == false){
-			adjacencies.add(current.neighborN);
-		}else if (current.neighborS != null && current.south() == false){
-			adjacencies.add(current.neighborN);
-		}else if (current.neighborW != null && current.west() == false){
-			adjacencies.add(current.neighborN);
+		if (current != endCell) { 
+			visualize(current); 
 		}
 
-		//need to iterate over all adjacencies to current cell
-		if(adjacencies != null){
-			for(MazeCell c : adjacencies){
-				if(c != null){
-					if(c.color.equalsIgnoreCase("white")){
-						c.predecessor = current;
-						DFSvisit(allCells, c);
-					}
+		ArrayList<MazeCell> neighbors = current.getNeighbors(current);
+		for(MazeCell unVecino : neighbors){
+			if (current.sharesWallWith(current, unVecino) == false){
+				if (unVecino.visited() == false){
+					unVecino.predecessor = current;
+					DFSvisit(allCells, unVecino);
 				}
 			}
 		}
-		current.color = "black";
+
+		//original CLRS implementation (part)
+		//need to iterate over all adjacencies to current cell
+		//		if(adjacencies != null){
+		//			for(MazeCell c : adjacencies){
+		//				if(c != null){
+		//					if(c.color.equalsIgnoreCase("white")){
+		//						c.predecessor = current;
+		//						DFSvisit(allCells, c);
+		//					}
+		//				}
+		//			}
+		//		}
+		//		current.color = "black";
+
+		current.examine();
 		time = time + 1;
 		current.finish = time;
 	}
 
 
-	/**
+	/** <<<<<<<<BFS>>>>>>>>>>>>>>
 	 *  Solves the maze by breadth first search.
 	 *  starts at the start vertex and stops when bfs
 	 *  discovers the end vertex
 	 */
 	public synchronized void solveBFSMaze() {
+		q = new LinkedList<>();
 		LinkedList<MazeCell> adjacencies = new LinkedList<>();
 		allCells = ds.getAllSetMembers();
 		for(MazeCell cellName : allCells) { 
@@ -415,28 +340,26 @@ public class Maze {
 		startCell.distance = 0;
 		startCell.predecessor = null;
 
+		MazeCell u = startCell;
 		q.add(startCell);
-		while(q.isEmpty() == false){
-			MazeCell u = q.remove();
 
-			//visualize BFS process
-			while(u != endCell) { 
-				visualize(u); // show the progress visually (repaint)
-				ArrayList<MazeCell> neighbors = u.getNeighbors(u);
-				int index = generator.nextInt(neighbors.size());
-				if(u.visited() == false){
-					u.visit();
-				} else {
-					u.examine();
-				}
-
-				if(neighbors.get(index).hasAllWalls(neighbors.get(index))==false  && u.sharesWallWith(u, neighbors.get(index))==false && neighbors.get(index).examined()==false){
-					u = neighbors.get(index);    
+		while(q.isEmpty() == false && u != endCell){
+			u = q.remove();
+			visualize(u); // show the progress visually (repaint)
+			ArrayList<MazeCell> neighbors = u.getNeighbors(u);
+			for(MazeCell vecino : neighbors){
+				if(!u.sharesWallWith(u, vecino) && !traversedCells.contains(vecino)){
+					//				if(!u.sharesWallWith(u, vecino)){
+					q.add(vecino);
+				} else if (traversedCells.contains(vecino)){
+					vecino.examine();
 				}
 			}
-			//end BFS visualize
-
+			u.visit();
 			traversedCells.add(u);
+
+			//ORIGINAL CLRS implementation of BFS
+			/*
 			if(u.neighborE != null && u.east() == false){
 				adjacencies.add(u.neighborE);
 			} else if (u.neighborN != null && u.north() == false){
@@ -446,27 +369,32 @@ public class Maze {
 			}else if (u.neighborW != null && u.west() == false){
 				adjacencies.add(u.neighborN);
 			}
+			 */
 
-			if(adjacencies != null){
-				for(MazeCell cell : adjacencies){
-					if(cell != null){
-						MazeCell currentCell = new MazeCell();
-						currentCell = cell;
-						if(currentCell.color.equals("white")){
-							currentCell.color = "gray";
-							currentCell.distance = u.distance + 1;
-							currentCell.predecessor = u;
-							//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
-							if(!traversedCells.contains(currentCell)){
-								q.add(currentCell);
-							}
-						}
-						adjacencies.remove(cell);
-					}
-				}
-			}
-			u.color = "black";
-			u.examine();
+			//			if(!traversedCells.contains(currentCell)){
+			//				q.add(currentCell);
+			//			}
+
+			//			if(adjacencies != null){
+			//				for(MazeCell cell : adjacencies){
+			//					if(cell != null){
+			//						MazeCell currentCell = new MazeCell();
+			//						currentCell = cell;
+			//						if(currentCell.color.equals("white")){
+			//							currentCell.color = "gray";
+			//							currentCell.distance = u.distance + 1;
+			//							currentCell.predecessor = u;
+			//							//						System.out.println("node: " + currentNode.value + ", node distance:" + currentNode.distance + " , predecessor: " + currentNode.predecessor.value);
+			//							if(!traversedCells.contains(currentCell)){
+			//								q.add(currentCell);
+			//							}
+			//						}
+			//						adjacencies.remove(cell);
+			//					}
+			//				}
+			//			}
+			//			u.color = "black";
+			//			u.examine();
 		}
 		System.out.println("BFS has finished running!");	
 	}
