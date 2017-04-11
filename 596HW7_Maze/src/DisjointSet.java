@@ -74,18 +74,18 @@ public class DisjointSet {
 		return x.parent;
 	}
 
-	/**
-	 * Find the set that the cell is a part of.
-	 * While finding the set, do the path compression as well.
-	 * 
-	 * @param cell
-	 * @return
-	 */
-	public MazeCell find(MazeCell cell){
-		MazeCell representative = new MazeCell();
-		representative = cell.rep;
-		return representative;
-	}
+//	/**
+//	 * Find the set that the cell is a part of.
+//	 * While finding the set, do the path compression as well.
+//	 * 
+//	 * @param cell
+//	 * @return
+//	 */
+//	public MazeCell find(MazeCell cell){
+//		MazeCell representative = new MazeCell();
+//		representative = cell.rep;
+//		return representative;
+//	}
 
 	public ArrayList<MazeCell> getAllSetMembers(){
 		return allSetMembers;

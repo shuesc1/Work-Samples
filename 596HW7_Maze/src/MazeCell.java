@@ -130,7 +130,7 @@ public class MazeCell {
 
 	public boolean sharesWallWith(MazeCell x, MazeCell y){
 		boolean wall = false;
-		if(x.neighborE==y && x.east() || x.neighborE == y && y.west()){
+		if (x.neighborE==y && x.east() || x.neighborE == y && y.west()){
 			wall = true;
 		} else if (x.neighborN == y && x.north() || x.neighborN == y && y.south()){
 			wall = true;
@@ -149,7 +149,7 @@ public class MazeCell {
 	public boolean north() {
 		if(north == true){
 			wallUp = true;
-		} else {
+		} else if (north == false){
 			wallUp = false;
 		}
 		return wallUp;
@@ -171,7 +171,7 @@ public class MazeCell {
 	public boolean south() {
 		if(south == true){
 			wallUp = true;
-		} else {
+		} else if (south == false) {
 			wallUp = false;
 		}
 		return wallUp;
@@ -193,7 +193,7 @@ public class MazeCell {
 	public boolean east() {
 		if(east == true){
 			wallUp = true;
-		} else {
+		} else if (east == false) {
 			wallUp = false;
 		}
 		return wallUp;
@@ -215,7 +215,7 @@ public class MazeCell {
 	public boolean west() {
 		if(west == true){
 			wallUp = true;
-		} else {
+		} else if (west == false) {
 			wallUp = false;
 		}
 		return wallUp;
@@ -236,8 +236,6 @@ public class MazeCell {
 	 *  is the number of neighbors this cell has.
 	 *  @return  An array with the neighbors contained within it.
 	 */
-	//    public MazeCell[] getNeighbors() {
-	//    	 MazeCell[] neighbors = null;
 	public ArrayList<MazeCell> getNeighbors(MazeCell b) {
 		current = b;
 		neighborList = new ArrayList<MazeCell>();
@@ -267,31 +265,33 @@ public class MazeCell {
 		//			neighbor.visit();
 		//		}
 		if(current.neighborE == neighbor) {
-			setEastFalse(current);
-			setWestFalse(neighbor);
+			current.east = false;
+			neighbor.west = false;
+			//			setEastFalse(current);
+			//			setWestFalse(neighbor);
 			//			current.east = setEast(false);
 			//			neighbor.west = setWest(false);
 		} else if(current.neighborN == neighbor) {
-			setNorthFalse(current);
-			setSouthFalse(neighbor);
+			//			setNorthFalse(current);
+			//			setSouthFalse(neighbor);
 			//			current.north = setNorth(false);
 			//			neighbor.south = setSouth(false);
-			//			current.north = false;
-			//			neighbor.south = false;
+			current.north = false;
+			neighbor.south = false;
 		} else if(current.neighborS == neighbor) {
-			setSouthFalse(current);
-			setNorthFalse(neighbor);
+			//			setSouthFalse(current);
+			//			setNorthFalse(neighbor);
 			//			current.south = setSouth(false);
 			//			neighbor.north = setNorth(false);
-			//			current.south = false;
-			//			neighbor.north = false;
+			current.south = false;
+			neighbor.north = false;
 		} else if(current.neighborW == neighbor) {
-			setWestFalse(current);
-			setEastFalse(neighbor);
+			//			setWestFalse(current);
+			//			setEastFalse(neighbor);
 			//			current.west = setWest(false);
 			//			neighbor.east = setEast(false);
-			//			current.west = false;
-			//			neighbor.east = false;
+			current.west = false;
+			neighbor.east = false;
 		}
 		//TODO - fix this. Remember that any wall that is knocked down
 		// will require you to change values for both this and neighbor.
@@ -304,7 +304,6 @@ public class MazeCell {
 	public MazeCell getRandomNeighbor(MazeCell c) {
 		ArrayList<MazeCell> neighbors = getNeighbors(c);
 		int num = generator.nextInt(neighbors.size());
-		//		MazeCell[] n = getNeighbors();
 		MazeCell mc = neighbors.get(num);
 		return mc;
 	}
@@ -315,7 +314,6 @@ public class MazeCell {
 	 */
 	public MazeCell neighborWithWalls(MazeCell m) {
 		MazeCell walled = null;
-		//		MazeCell walled = new MazeCell();
 		ArrayList<MazeCell> neighbors = getNeighbors(m);
 		for(MazeCell n : neighbors){
 			if(hasAllWalls(n) == true){

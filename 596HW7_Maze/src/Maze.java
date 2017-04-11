@@ -187,75 +187,60 @@ public class Maze {
 		int round = 1;
 		current = new MazeCell();
 		current = maze[0][0];
-		//		allCells.add(current);
 		MazeCell neighbor = new MazeCell();
 		int totalCells = (getRows() * getCols());
+		
+		//start of modified Kruskal's algorithm
 		while(wallDestructions < totalCells - 1) {
-			if(round > 1) {
+//			if(round > 1) {
 				int bound = allCellSets.size();
 				int index = generator.nextInt(bound);
-				current = allCellSets.get(index);
+				current = allCellSets.get(index); //choose random current cell
 				//				allCellSets.remove(current);
+//			}
+
+			/* Neighbor we want has ALL walls up?? No
+			if(current.neighborWithWalls(current) != null){ //get neighbor with ALL walls up
+				neighbor = current.neighborWithWalls(current);
+				neighborWWall = true;
 			}
-
-			//			if(!allCells.contains(current)){
-			//				allCells.add(current);
-			//			}
-
+			*/
+			
 			neighbors = current.getNeighbors(current);
 			for(MazeCell adj : neighbors){
-				if(adj.sharesWallWith(adj, current)){
+				if(current.sharesWallWith(current, adj)){ //choose random neighbor of current w/ wall btwn it and current
 					neighbor = adj;
-					neighborWWall = true;
+					if(ds.findSet(current) != ds.findSet(neighbor)){
+						ds.union(current, neighbor);
+						current.knockDownWall(current, neighbor);
+						wallDestructions = wallDestructions + 1;
+					}
+//					neighborWWall = true; //set flag true that operation completed
 					break;
 				}
 			}
 
-			if(neighborWWall == true){
+			/* If such a neighbor exists section moved outside create neighbor section
+			if(neighborWWall == true){ //if above neighbor/cell actually exists
 				if(ds.findSet(current) != ds.findSet(neighbor)){
 					ds.union(current, neighbor);
 					current.knockDownWall(current, neighbor);
-					//					if(!allCells.contains(neighbor)){
-					//						allCells.add(neighbor);
-					//					}
 					wallDestructions = wallDestructions + 1;
 				}
 			}
-			/*
+			*/
+			
+			/* Get random neighbor and if they share a wall set them to neighbor
 			if(current.getRandomNeighbor(current) != null 
 					&& current.getRandomNeighbor(current).sharesWallWith(current, current.getRandomNeighbor(current))){
 				neighbor = current.getRandomNeighbor(current);
 			}
 			 */
 
-			/*
-			do{
-				neighbor = current.getRandomNeighbor(current);
-			} while (current.sharesWallWith(current, neighbor) == false);
-			 */
-
-			/*
+			/* set neighbor cell to one with all walls
 			neighbor = current.neighborWithWalls(current);
 			 */
 
-			/* 
-			} else {
-				while(neighbor == null){
-					Random rand = new Random();
-					int randRow = rand.nextInt(rows - 1);
-					int randCol = rand.nextInt(cols - 1);
-					neighbor = getCell(randRow, randCol);
-				}
-			}
-			if(neighbor != null){
-			 */
-
-			/*
-			current = neighbor;
-			if(!allCells.contains(current)){
-				allCells.add(current);
-			} 
-			 */
 			round = round + 1;
 			neighborWWall = false;
 		}
@@ -322,9 +307,6 @@ public class Maze {
 		//				}
 		//				visualize(current);
 	}
-
-
-
 
 	/**
 	 * The primary method that implements the DFSvisit method
@@ -432,6 +414,7 @@ public class Maze {
 		while(q.isEmpty() == false){
 			MazeCell u = q.remove();
 
+			//visualize BFS process
 			while(u != endCell) { 
 				visualize(u); // show the progress visually (repaint)
 				ArrayList<MazeCell> neighbors = u.getNeighbors(u);
@@ -446,7 +429,8 @@ public class Maze {
 					u = neighbors.get(index);    
 				}
 			}
-
+			//end BFS visualize
+			
 			traversedCells.add(u);
 			if(u.neighborE != null && u.east() == false){
 				adjacencies.add(u.neighborE);
@@ -458,8 +442,6 @@ public class Maze {
 				adjacencies.add(u.neighborN);
 			}
 
-
-			//		LinkedList<MazeCell> linked = allCells.get(u);
 			if(adjacencies != null){
 				for(MazeCell cell : adjacencies){
 					if(cell != null){
