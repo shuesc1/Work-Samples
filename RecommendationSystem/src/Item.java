@@ -11,9 +11,9 @@ public interface Item {
 	
 	public void setRating(double rating);
 	
-	public int getID();
+	public String getID();
 	
-	public void setID(int id);
+	public void setID(String id);
 	
 	public String getName();
 	

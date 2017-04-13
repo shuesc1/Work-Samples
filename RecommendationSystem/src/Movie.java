@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Movie implements Item {
 
-	public int id;
+	public String id;
 	public double rating;
 	public String name;
 	public int indexLocation;
@@ -25,12 +25,12 @@ public class Movie implements Item {
 	}
 
 	@Override
-	public int getID() {
+	public String getID() {
 		return id;
 	}
 
 	@Override
-	public void setID(int number) {
+	public void setID(String number) {
 		id = number;
 	}
 

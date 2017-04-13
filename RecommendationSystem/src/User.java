@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class User implements Client {
 
-	public int id;
+	public String id;
 	public int indexLocation;
 	public String title;
 	//	public ArrayList<Movie> ratedMovies;
@@ -17,12 +17,12 @@ public class User implements Client {
 	}
 
 	@Override
-	public int getIdentifier() {
+	public String getIdentifier() {
 		return id;
 	}
 
 	@Override
-	public void setIdentifier(int id) {
+	public void setIdentifier(String id) {
 		this.id = id;		
 	}
 

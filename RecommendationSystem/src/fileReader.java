@@ -13,8 +13,8 @@ public class fileReader {
 	private String file;
 	private BufferedReader br;
 	private RatingMatrixCreator matrix;
-	private Item movie;
-	private Client user;
+	private Movie movie, current;
+	private User user;
 	HashMap <String, Movie> movieList;
 	HashMap <String, User> userList;
 
@@ -48,22 +48,48 @@ public class fileReader {
 				String movieID = split[1];
 				String userRating = split[2];
 				int counter = 0;
-				for(String element : split){
-//					String header = "";
-//					if(counter == 0){
-//						header = "User id: ";
-//					} else if (counter == 1){
-//						header = "Movie id: ";
-//					} else if (counter == 2){
-//						header = "User rating: ";
-//					} else if (counter == 3) {
-//						header = "Timestamp: ";
-//					}
-//					System.out.println(header + "" + element);
-					counter++;
+
+				//step 1. check if movie object already exists or not
+				if(!movieList.containsKey(movieID)) {
+					current = new Movie(); //if doesn't exist, create new movie object
+					current.id = movieID;
+					movieList.put(current.id, current); //store new movie object in list of all movies
+				} else if (movieList.containsKey(movieID)){
+					current = movieList.get(movieID); //get existant Movie object
 				}
 
+				//step 2. check to see if user object already created
+				if (!userList.containsKey(userID)) {
+					user = new User();
+					user.id = userID;
+					user.indexLocation = counter;
+					userList.put(userID, user);
+				} else if (userList.containsKey(userID)){
+					user = userList.get(userID);
+				}
+
+				//step 3. add current movie/rating to user's list of rated movies
+				double parsedDouble = Double.parseDouble(userRating);
+				user.ratedMovies.put(current.id, parsedDouble);
+
+				/* <<<<<<TESTING>>>>>>>>>		
+				for(String element : split){
+					String header = "";
+					if(counter == 0){
+						header = "User id: ";
+					} else if (counter == 1){
+						header = "Movie id: ";
+					} else if (counter == 2){
+						header = "User rating: ";
+					} else if (counter == 3) {
+						header = "Timestamp: ";
+					}
+					System.out.println(header + "" + element);
+				 */
+				counter++;
 			}
+
+			//			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -85,15 +111,15 @@ public class fileReader {
 		System.out.println(lnr.getLineNumber() + 1);
 		lnr.close();
 		return lnr.getLineNumber()+1;
-		
+
 	}
-	
-	
-	
-//****************TESTING********************
+
+
+
+	//****************TESTING********************
 	public static void main(String[] args) throws IOException{
 		fileReader fr = new fileReader("rating_condensed.txt");
 		fr.countLines();
-//		fr.readFile();
+		//		fr.readFile();
 	}
 }

@@ -7,9 +7,9 @@ import java.util.HashMap;
  */
 public interface Client {
 
-	public int getIdentifier();
+	public String getIdentifier();
 	
-	public void setIdentifier(int id);
+	public void setIdentifier(String id);
 	
 	public HashMap<String,Double> getRatings();
 	
