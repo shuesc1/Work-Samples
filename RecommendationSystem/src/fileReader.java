@@ -42,35 +42,39 @@ public class fileReader {
 			br = new BufferedReader(new FileReader(f));
 			String line;
 			while ((line = br.readLine()) != null) {
-				//				System.out.println(line);
+				//				System.out.println(line); //TESTING
 				String[] split = line.split("::");
 				String userID = split[0];
 				String movieID = split[1];
 				String userRating = split[2];
 				int counter = 0;
 
-				//step 1. check if movie object already exists or not
-				if(!movieList.containsKey(movieID)) {
+				//Step 1. check if movie object already exists or not
+				if(!movieList.containsKey(movieID)) { //if not in list of all movies
 					current = new Movie(); //if doesn't exist, create new movie object
-					current.id = movieID;
+					current.id = movieID; //change ID
 					movieList.put(current.id, current); //store new movie object in list of all movies
-				} else if (movieList.containsKey(movieID)){
-					current = movieList.get(movieID); //get existant Movie object
+				} else if (movieList.containsKey(movieID)){ //if movie object is in list of all movies
+					current = movieList.get(movieID); //get existent Movie object/set to current
 				}
 
-				//step 2. check to see if user object already created
-				if (!userList.containsKey(userID)) {
-					user = new User();
-					user.id = userID;
-					user.indexLocation = counter;
-					userList.put(userID, user);
+				//Step 2. check to see if user object already created
+				if (!userList.containsKey(userID)) { //if user obj not in list of all users
+					user = new User(); //create new user obj
+					user.id = userID; // change id to current id
+					user.indexLocation = counter; //add index value (for possible future implementation of matrix)
+					userList.put(userID, user); //add user to list of all users
+					counter++; //increase index counter
 				} else if (userList.containsKey(userID)){
-					user = userList.get(userID);
+					user = userList.get(userID); //set current user to existent user
 				}
 
-				//step 3. add current movie/rating to user's list of rated movies
-				double parsedDouble = Double.parseDouble(userRating);
-				user.ratedMovies.put(current.id, parsedDouble);
+				//Step 3. add current movie/rating to user's list of rated movies
+				double parsedDouble = Double.parseDouble(userRating); //parse String rating of this movie for this user
+				user.ratedMovies.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
+
+
+
 
 				/* <<<<<<TESTING>>>>>>>>>		
 				for(String element : split){
@@ -86,7 +90,6 @@ public class fileReader {
 					}
 					System.out.println(header + "" + element);
 				 */
-				counter++;
 			}
 
 			//			}
