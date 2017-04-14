@@ -117,6 +117,38 @@ public class fileReader {
 
 	}
 
+	/**
+	 * A getter method for the list of all movie objects
+	 * @return a HM with string keys and Movie obj values
+	 */
+	public HashMap<String, Movie> getMovieList() {
+		return movieList;
+	}
+
+	/**
+	 * A setter method for the list of all movies
+	 * @param movieList a HM with String keys and Movie object values
+	 */
+	public void setMovieList(HashMap<String, Movie> movieList) {
+		this.movieList = movieList;
+	}
+
+	/**
+	 * A getter method for the list of all users
+	 * @return a HM with String keys, and User object values
+	 */
+	public HashMap<String, User> getUserList() {
+		return userList;
+	}
+
+	/**
+	 * A setter method for the list of all users
+	 * @param userList
+	 */
+	public void setUserList(HashMap<String, User> userList) {
+		this.userList = userList;
+	}
+
 
 
 	//****************TESTING********************

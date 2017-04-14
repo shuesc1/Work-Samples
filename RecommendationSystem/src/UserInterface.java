@@ -4,11 +4,13 @@ import java.util.Scanner;
 public class UserInterface {
 
 	public static void main(String[] args) throws IOException {
-		int userID, movieID;
+		int userID = 0;
+		int movieID, threshhold;
 		Scanner in = new Scanner(System.in);
+		PredictionCalculator pc;
+		SimilarityCalculator sc;
+		
 		System.out.println("What file would you like to use?:");
-
-		//		File file = new File(in.next());
 		fileReader fr = new fileReader(in.next());
 		//		int lines = fr.countLines();
 		//		RatingMatrixCreator matrix = new RatingMatrixCreator(lines, lines);
@@ -36,6 +38,7 @@ public class UserInterface {
 			System.out.println("**Loading**");
 			switch (userSelection){
 
+			//<<<<<<<<<<1ST CHOICE>>>>>>>>>>
 			case 1:
 				System.out.println("Which user would you like to choose?:\n");
 				while (valid == false) {
@@ -58,12 +61,37 @@ public class UserInterface {
 						valid = false;
 					}
 				}	
+				sc = new SimilarityCalculator();
+				sc.calcAverage(fr.getUserList());
+				sc.calcSimilarity(fr.getUserList().get(userID), fr.getUserList());
+				pc = new PredictionCalculator(userID, movieID);
+				
+				
 				break;
 
-				
+				//<<<<<<2ND CHOICE>>>>>>>>
 			case 2: 
-
-
+				System.out.println("Which user would you like to choose?:\n");
+				while (valid == false) {
+					if (in.hasNextInt()) {
+						userID = in.nextInt();
+						valid = true;
+					} else {
+						System.out.println("Invalid input type-- please enter a numerical ID for a user :" + in.next());
+						valid = false;
+					}
+				}	
+				System.out.println("And what threshhold would you like to set?:");
+				valid = false;
+				while (valid == false) {
+					if (in.hasNextInt()) {
+						threshhold = in.nextInt();
+						valid = true;
+					} else {
+						System.out.println("Invalid input type-- please enter a numerical ID for a movie :" + in.next());
+						valid = false;
+					}
+				}	
 				break;
 
 				
