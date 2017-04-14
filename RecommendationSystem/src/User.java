@@ -1,7 +1,11 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * An interface for a user
+ * @author josephhaymaker
+ *
+ */
 public class User implements Client {
 
 	public String id;
@@ -9,9 +13,12 @@ public class User implements Client {
 	public String title;
 	//	public ArrayList<Movie> ratedMovies;
 	public HashMap<String, Double> ratedMovies;
-	public double ratingAvg;
-	public double correlation;
+	public double ratingAvg, correlation, deviation;
 
+	public User(){
+		ratedMovies = new HashMap<String, Double>();
+	}
+	
 
 	@Override
 	public HashMap<String, Double> getRatings() {

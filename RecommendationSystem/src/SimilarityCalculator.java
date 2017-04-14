@@ -32,12 +32,16 @@ public class SimilarityCalculator {
 			User userV = userVIterator.next();
 			HashMap<String, Double> ratingsUserV = userV.ratedMovies;
 			userV.correlation = 0;
-			for(String movieKey : u.ratedMovies.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
-				if(ratingsUserV.containsKey(movieKey)){ //if target user and currently examined user have both rated same movie
-					indivSimilarity = calcIndivSimilarity(u, userV, movieKey);
-					correlation = correlation + indivSimilarity;
+
+			if(u.ratedMovies.keySet() != null){
+				for(String movieKey : u.ratedMovies.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
+					if(ratingsUserV.containsKey(movieKey)){ //if target user and currently examined user have both rated same movie
+						indivSimilarity = calcIndivSimilarity(u, userV, movieKey);
+						correlation = correlation + indivSimilarity;
+					}
 				}
 			}
+
 			userV.correlation = correlation;
 		}
 		return allOtherUsers;
@@ -58,6 +62,8 @@ public class SimilarityCalculator {
 
 		deviationU = u.ratedMovies.get(movieI) - u.ratingAvg;
 		deviationV = v.ratedMovies.get(movieI) - v.ratingAvg;
+
+		v.deviation = deviationV;
 
 		numerator = deviationU * deviationV;
 		denominator = (Math.sqrt(deviationU * deviationU)) * (Math.sqrt(deviationV * deviationV));
@@ -96,5 +102,5 @@ public class SimilarityCalculator {
 		}
 		return userList;
 	}
-	
+
 }

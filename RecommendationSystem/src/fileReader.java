@@ -4,16 +4,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.Reader;
 import java.util.HashMap;
-import java.util.Scanner;
 
+/**
+ * a class that reads in a file and parses data
+ * @author josephhaymaker
+ *
+ */
 public class fileReader {
 
 	private String file;
 	private BufferedReader br;
-	private RatingMatrixCreator matrix;
-	private Movie movie, current;
+	//	private RatingMatrixCreator matrix;
+	private Movie current;
 	private User user;
 	HashMap <String, Movie> movieList;
 	HashMap <String, User> userList;
@@ -25,7 +28,7 @@ public class fileReader {
 	public fileReader(String filename){
 		file = filename;
 		br = null;
-		movie = new Movie();
+		new Movie();
 		user = new User();
 		movieList = new HashMap<String, Movie>();
 		userList = new HashMap<String, User>();
@@ -76,8 +79,6 @@ public class fileReader {
 					user.ratedMovies.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
 				}
 
-
-
 				/* <<<<<<TESTING>>>>>>>>>		
 				for(String element : split){
 					String header = "";
@@ -93,15 +94,12 @@ public class fileReader {
 					System.out.println(header + "" + element);
 				 */
 			}
-
 			//			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
 	}
 
 	/**
@@ -157,6 +155,7 @@ public class fileReader {
 	public static void main(String[] args) throws IOException{
 		fileReader fr = new fileReader("rating_condensed.txt");
 		fr.countLines();
-		//		fr.readFile();
+		fr.readFile();
+		System.out.println(fr.getUserList().get("2").id);
 	}
 }

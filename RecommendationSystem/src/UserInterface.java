@@ -56,6 +56,7 @@ public class UserInterface {
 				}	
 				System.out.println("And what movie ID would you like to know the rating for?:");
 				valid = false;
+				movieID = 0;
 				while (valid == false) {
 					if (in.hasNextInt()) {
 						movieID = in.nextInt();
@@ -65,13 +66,20 @@ public class UserInterface {
 						valid = false;
 					}
 				}	
+				
+				double prediction = 0;
+				HashMap<String, User> neighborhood = new HashMap<String, User>();
 				Collection<User> usersWAvgsAndPearson = new ArrayList<User>();
 				sc = new SimilarityCalculator();
 				usersWAvgsAndPearson = sc.calcAggSimilarity(fr.getUserList().get(userID), sc.calcAverage(fr.getUserList())); 
 				nc = new NeighborhoodCalculator(usersWAvgsAndPearson);
+				neighborhood = nc.createNeighborhood();
+				pc = new PredictionCalculator();
+				prediction = pc.calculatePrediction(fr.getUserList().get(userID), neighborhood);
 				
-//				pc = new PredictionCalculator(userID, movieID);
 				
+				System.out.println("For user " + userID + " the predicted rating for item " 
+				+ movieID + " is: " + prediction);
 				
 				break;
 
