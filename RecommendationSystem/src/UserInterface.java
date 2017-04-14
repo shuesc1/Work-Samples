@@ -62,9 +62,11 @@ public class UserInterface {
 					}
 				}	
 				sc = new SimilarityCalculator();
-				sc.calcAverage(fr.getUserList());
-				sc.calcSimilarity(fr.getUserList().get(userID), fr.getUserList());
-				pc = new PredictionCalculator(userID, movieID);
+				sc.calcAverage(fr.getUserList()); //get average rating and add to all user objects
+				sc.calcAggSimilarity(fr.getUserList().get(userID), fr.getUserList()); //calc all Pearson correlations for user u and all other users
+				
+				
+//				pc = new PredictionCalculator(userID, movieID);
 				
 				
 				break;

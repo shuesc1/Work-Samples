@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -14,11 +16,12 @@ public class SimilarityCalculator {
 	private HashMap<String, Double> correlations;
 	private HashMap<String, User> usersList;
 	private User user;
-//	private double average;
+	double numerator, numHelper, denominator, denomHelper, similarity;
+	//	private double average;
 
-	
+
 	public SimilarityCalculator(){
-//		user = targetUser;
+		//		user = targetUser;
 		correlations = new HashMap<String, Double>();
 		usersList = new HashMap<String, User>();
 	}
@@ -28,27 +31,48 @@ public class SimilarityCalculator {
 	 * @param u a target user
 	 * @param usersWRatings a HM of all users with their corresponding ratings
 	 */
-	public ArrayList<Double> calcSimilarity(User u, HashMap<String, User> usersWRatings){
+	public ArrayList<Double> calcAggSimilarity(User u, HashMap<String, User> usersWRatings){
 		ArrayList<Double> allCorrelations = new ArrayList<Double>();
-		double numerator = 0;
-		double denominator = 0;
-		for(double ratings : u.ratedMovies.values()){
-			for(double otherRating : userWRatings)
+		Collection<User> allOtherUsers = usersWRatings.values();
+		Iterator<User> userVIterator = allOtherUsers.iterator();
+		double correlation = 0;
+		double indivSimilarity = 0;
+
+		while(userVIterator.hasNext()){ //iterate over all other users
+			User userV = userVIterator.next();
+			HashMap<String, Double> ratingsUserV = userV.ratedMovies;
+			for(String movieKey : u.ratedMovies.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
+				if(ratingsUserV.containsKey(movieKey)){ //if target user and currently examined user have both rated same movie
+					indivSimilarity = calcIndivSimilarity(u, userV, movieKey);
+					correlation = correlation + indivSimilarity;
+				}
+			}
 		}
-		
-		
-		
 		return allCorrelations;
-		
-		
 	}
 
+	public double calcIndivSimilarity(User u, User v, String movieI){
+		numerator = 0;
+		numHelper = 0;
+		denominator = 0;
+		denomHelper = 0;
+		similarity = 0;
+
+
+
+		if(denominator != 0){
+			similarity = (numerator / denominator);
+		} else {
+			similarity = 0;
+		}
+
+		return similarity;
+	}
 
 
 	/**
 	 * A helper method for the Pearson correlation 
 	 * @param usersWRatings
-	 * @return
 	 */
 	public void calcAverage(HashMap<String, User> usersWRatings){
 		usersList = usersWRatings;

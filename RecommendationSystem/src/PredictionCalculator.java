@@ -15,4 +15,7 @@ public class PredictionCalculator {
 		user = userID;
 	}
 	
+	
+	
+	
 }
