@@ -15,10 +15,13 @@ public class User implements Client {
 	public HashMap<String, Double> ratedMovies;
 	public double ratingAvg, correlation, deviation;
 
+	/**
+	 * The constructor for the class
+	 * It initializes the HM of rated movies
+	 */
 	public User(){
 		ratedMovies = new HashMap<String, Double>();
 	}
-	
 
 	@Override
 	public HashMap<String, Double> getRatings() {
