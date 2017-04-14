@@ -10,6 +10,7 @@ public class User implements Client {
 	//	public ArrayList<Movie> ratedMovies;
 	public HashMap<String, Double> ratedMovies;
 	public double ratingAvg;
+	public double correlation;
 
 
 	@Override

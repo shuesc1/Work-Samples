@@ -62,6 +62,7 @@ public class fileReader {
 				if (!userList.containsKey(userID)) { //if user obj not in list of all users
 					user = new User(); //create new user obj
 					user.id = userID; // change id to current id
+					user.ratedMovies = new HashMap<>();
 					user.indexLocation = counter; //add index value (for possible future implementation of matrix)
 					userList.put(userID, user); //add user to list of all users
 					counter++; //increase index counter
@@ -71,8 +72,9 @@ public class fileReader {
 
 				//Step 3. add current movie/rating to user's list of rated movies
 				double parsedDouble = Double.parseDouble(userRating); //parse String rating of this movie for this user
-				user.ratedMovies.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
-
+				if(current.id != null && parsedDouble != 0){
+					user.ratedMovies.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
+				}
 
 
 

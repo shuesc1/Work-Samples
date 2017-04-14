@@ -1,8 +1,6 @@
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * A class that calculates a Pearson correlation between two users' common ratings to determine their similarity
@@ -13,17 +11,10 @@ import java.util.List;
  */
 public class SimilarityCalculator {
 
-	private HashMap<String, Double> correlations;
-	private HashMap<String, User> usersList;
-	private User user;
-	double numerator, numHelper, denominator, denomHelper, similarity;
-	//	private double average;
-
+	private double numerator, denominator, similarity, deviationU, deviationV;
+	private HashMap<String, User> userList;
 
 	public SimilarityCalculator(){
-		//		user = targetUser;
-		correlations = new HashMap<String, Double>();
-		usersList = new HashMap<String, User>();
 	}
 
 	/**
@@ -31,8 +22,7 @@ public class SimilarityCalculator {
 	 * @param u a target user
 	 * @param usersWRatings a HM of all users with their corresponding ratings
 	 */
-	public ArrayList<Double> calcAggSimilarity(User u, HashMap<String, User> usersWRatings){
-		ArrayList<Double> allCorrelations = new ArrayList<Double>();
+	public Collection<User> calcAggSimilarity(User u, HashMap<String, User> usersWRatings){
 		Collection<User> allOtherUsers = usersWRatings.values();
 		Iterator<User> userVIterator = allOtherUsers.iterator();
 		double correlation = 0;
@@ -41,24 +31,36 @@ public class SimilarityCalculator {
 		while(userVIterator.hasNext()){ //iterate over all other users
 			User userV = userVIterator.next();
 			HashMap<String, Double> ratingsUserV = userV.ratedMovies;
+			userV.correlation = 0;
 			for(String movieKey : u.ratedMovies.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
 				if(ratingsUserV.containsKey(movieKey)){ //if target user and currently examined user have both rated same movie
 					indivSimilarity = calcIndivSimilarity(u, userV, movieKey);
 					correlation = correlation + indivSimilarity;
 				}
 			}
+			userV.correlation = correlation;
 		}
-		return allCorrelations;
+		return allOtherUsers;
 	}
 
+	/**
+	 * A helper method that calculates a single data point/similarity for users u & v given they have both rated item i
+	 * @param u our target user
+	 * @param v any other user not target user
+	 * @param movieI a String ID of a movie that both users have rated
+	 * @return
+	 */
 	public double calcIndivSimilarity(User u, User v, String movieI){
-		numerator = 0;
-		numHelper = 0;
 		denominator = 0;
-		denomHelper = 0;
 		similarity = 0;
+		deviationU = 0;
+		deviationV = 0;
 
+		deviationU = u.ratedMovies.get(movieI) - u.ratingAvg;
+		deviationV = v.ratedMovies.get(movieI) - v.ratingAvg;
 
+		numerator = deviationU * deviationV;
+		denominator = (Math.sqrt(deviationU * deviationU)) * (Math.sqrt(deviationV * deviationV));
 
 		if(denominator != 0){
 			similarity = (numerator / denominator);
@@ -74,13 +76,13 @@ public class SimilarityCalculator {
 	 * A helper method for the Pearson correlation 
 	 * @param usersWRatings
 	 */
-	public void calcAverage(HashMap<String, User> usersWRatings){
-		usersList = usersWRatings;
+	public HashMap<String, User> calcAverage(HashMap<String, User> usersWRatings){
+		userList = usersWRatings;
 		double sum = 0;
 		int numOfRatings = 0;
 		double average = 0;
 
-		for(User individual : usersWRatings.values()){ //iterate over all user objects
+		for(User individual : userList.values()){ //iterate over all user objects
 			for(double rating : individual.ratedMovies.values()){ //then iterate over all ratings of each user
 				sum = sum + rating;
 				numOfRatings++;
@@ -92,6 +94,7 @@ public class SimilarityCalculator {
 			}
 			individual.ratingAvg = average;
 		}
+		return userList;
 	}
-
+	
 }

@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -9,6 +12,7 @@ public class UserInterface {
 		Scanner in = new Scanner(System.in);
 		PredictionCalculator pc;
 		SimilarityCalculator sc;
+		NeighborhoodCalculator nc;
 		
 		System.out.println("What file would you like to use?:");
 		fileReader fr = new fileReader(in.next());
@@ -61,10 +65,10 @@ public class UserInterface {
 						valid = false;
 					}
 				}	
+				Collection<User> usersWAvgsAndPearson = new ArrayList<User>();
 				sc = new SimilarityCalculator();
-				sc.calcAverage(fr.getUserList()); //get average rating and add to all user objects
-				sc.calcAggSimilarity(fr.getUserList().get(userID), fr.getUserList()); //calc all Pearson correlations for user u and all other users
-				
+				usersWAvgsAndPearson = sc.calcAggSimilarity(fr.getUserList().get(userID), sc.calcAverage(fr.getUserList())); 
+				nc = new NeighborhoodCalculator(usersWAvgsAndPearson);
 				
 //				pc = new PredictionCalculator(userID, movieID);
 				
