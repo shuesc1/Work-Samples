@@ -14,24 +14,29 @@ public class UserInterface {
 		SimilarityCalculator sc;
 		NeighborhoodCalculator nc;
 
-		System.out.println("What file would you like to use?:");
-		fileReader fr = new fileReader(in.next());
-		//		int lines = fr.countLines();
-		//		RatingMatrixCreator matrix = new RatingMatrixCreator(lines, lines);
-		fr.readFile();
-		in.nextLine();
 		boolean movieAnalysis;
 		System.out.println("Do you wish to use:"
-				+ " 1. 10m movielens file with cosine similarity, OR"
-				+ " , 2. Book Crossing file with the Baseline Predictor");
+				+ " \n1. 10m movielens file with Cosine Similarity, \nOR"
+				+ " , \n2. Book Crossing file with the Baseline Predictor");
 		if(in.next().contains("1")){
 			movieAnalysis = true;
 		} else if(in.next().contains("2")){
 			movieAnalysis = false;
 		}
-				
-				
-				
+
+		if(movieAnalysis == true){
+			fileReader fr = new fileReader(in.next());
+			fr.readFile();
+		} else if(movieAnalysis == false){
+			fileReader2 fr2 = new fileReader2(in.next());
+			fr2.readFile();
+		}
+
+		in.nextLine();
+
+
+
+
 		System.out.println("What would you like to know? Select from the following options: ");
 
 		//user input prompt/selection
@@ -125,7 +130,7 @@ public class UserInterface {
 						notYetSeenList.put(movie.id, movie);
 					}
 				}
-				
+
 				Collection<User> userWPearsonAndAvg = new ArrayList<User>();
 
 
