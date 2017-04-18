@@ -45,13 +45,15 @@ public class fileReader {
 			br = new BufferedReader(new FileReader(f));
 			String line;
 			while ((line = br.readLine()) != null) {
-				//				System.out.println(line); //TESTING
+								System.out.println(line); //TESTING
 				String[] split = line.split("::");
 				String userID = split[0];
 				String movieID = split[1];
 				String userRating = split[2];
 				int counter = 0;
-
+				System.out.println("User: " + userID + " , movie id: " + movieID + " , rating:" + userRating);
+				
+				
 				//Step 1. check if movie object already exists or not
 				if(!movieList.containsKey(movieID)) { //if not in list of all movies
 					current = new Movie(); //if doesn't exist, create new movie object

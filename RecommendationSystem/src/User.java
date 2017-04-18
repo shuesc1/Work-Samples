@@ -13,6 +13,7 @@ public class User implements Client {
 	public String title;
 	//	public ArrayList<Movie> ratedMovies;
 	public HashMap<String, Double> ratedMovies;
+	public HashMap<String, Double> ratedBooks;
 	public double ratingAvg, correlation, deviation;
 
 	/**

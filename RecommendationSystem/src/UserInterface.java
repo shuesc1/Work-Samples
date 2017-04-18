@@ -13,13 +13,25 @@ public class UserInterface {
 		PredictionCalculator pc;
 		SimilarityCalculator sc;
 		NeighborhoodCalculator nc;
-		
+
 		System.out.println("What file would you like to use?:");
 		fileReader fr = new fileReader(in.next());
 		//		int lines = fr.countLines();
 		//		RatingMatrixCreator matrix = new RatingMatrixCreator(lines, lines);
 		fr.readFile();
 		in.nextLine();
+		boolean movieAnalysis;
+		System.out.println("Do you wish to use:"
+				+ " 1. 10m movielens file with cosine similarity, OR"
+				+ " , 2. Book Crossing file with the Baseline Predictor");
+		if(in.next().contains("1")){
+			movieAnalysis = true;
+		} else if(in.next().contains("2")){
+			movieAnalysis = false;
+		}
+				
+				
+				
 		System.out.println("What would you like to know? Select from the following options: ");
 
 		//user input prompt/selection
@@ -66,7 +78,7 @@ public class UserInterface {
 						valid = false;
 					}
 				}	
-				
+
 				double prediction = 0;
 				HashMap<String, User> neighborhood = new HashMap<String, User>();
 				Collection<User> usersWAvgsAndPearson = new ArrayList<User>();
@@ -76,11 +88,11 @@ public class UserInterface {
 				neighborhood = nc.createNeighborhood();
 				pc = new PredictionCalculator();
 				prediction = pc.calculatePrediction(fr.getUserList().get(userID), neighborhood);
-				
-				
+
+
 				System.out.println("For user " + userID + " the predicted rating for item " 
-				+ movieID + " is: " + prediction);
-				
+						+ movieID + " is: " + prediction);
+
 				break;
 
 				//<<<<<<2ND CHOICE>>>>>>>>
@@ -106,10 +118,21 @@ public class UserInterface {
 						valid = false;
 					}
 				}	
+
+				HashMap<String, Movie> notYetSeenList = new HashMap<String, Movie>();
+				for(Movie movie : fr.getMovieList().values()){
+					if(!fr.userList.get(userID).ratedMovies.containsKey(movie.id)){
+						notYetSeenList.put(movie.id, movie);
+					}
+				}
+				
+				Collection<User> userWPearsonAndAvg = new ArrayList<User>();
+
+
 				break;
 
-				
-				
+
+
 			default: 
 				end = true;
 				break;		
