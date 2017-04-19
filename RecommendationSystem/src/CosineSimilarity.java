@@ -1,14 +1,12 @@
-import java.util.HashMap;
 
 /**
  * A class that calculates similarity via a vector-space approach based on linear algebra
+ * formula: << http://files.grouplens.org/papers/FnT%20CF%20Recsys%20Survey.pdf >>
  * @author josephhaymaker
  *
  */
 public class CosineSimilarity {
-
-	private double numerator, denominator, similarity, denomU, denomV, indivDenom;
-	private HashMap<String, User> userList;
+	private double numerator, denominator, similarity, indivDenom;
 	private User u,v;
 
 	/**
@@ -28,10 +26,10 @@ public class CosineSimilarity {
 	 * @return a double numerical value representing similarity between 2 users
 	 */
 	public double calculateSimilarity(){
-		for(String i : u.ratedMovies.keySet()){
-			for(String j : v.ratedMovies.keySet()){
-				if(u.ratedMovies.containsKey(j)){
-					numerator = numerator + (u.ratedMovies.get(j) * v.ratedMovies.get(j));
+		for(String i : u.ratedItems.keySet()){
+			for(String j : v.ratedItems.keySet()){
+				if(u.ratedItems.containsKey(j)){
+					numerator = numerator + (u.ratedItems.get(j) * v.ratedItems.get(j));
 				}
 			}
 		}
@@ -51,7 +49,7 @@ public class CosineSimilarity {
 		indivDenom = 0;
 		double sumSquares = 0;
 
-		for(Double d : x.ratedMovies.values()){
+		for(Double d : x.ratedItems.values()){
 			sumSquares = sumSquares + (d * d);
 		}
 		indivDenom = Math.sqrt(sumSquares);

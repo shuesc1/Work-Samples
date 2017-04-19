@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 /**
  * A class that generates a rating prediction for an item i that isn't yet rated by user u
+ * formula: << http://files.grouplens.org/papers/FnT%20CF%20Recsys%20Survey.pdf >>
  * @author josephhaymaker
  *
  */

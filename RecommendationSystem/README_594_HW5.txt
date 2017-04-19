@@ -1,7 +1,7 @@
 J. Haymaker
 CIT 594
-HW #5, Milestone 2 -- Movie Recommendation Implementation
-Due 04/14/2017
+HW #5, Milestone 3 -- Movie Recommendation Implementation w/ Modifications
+Due 04/19/2017
 
 
 ***********<<<<<<<<<<<<<MILESTONE 1 SUBMISSION>>>>>>>>>>>************************************
@@ -113,3 +113,28 @@ rating for a (presumably) unrated item and a user of their choosing. The second 
 are the n highest predicted preferences for that user. 
 
 USER INSTRUCTION: run UserInterface.java class and provide a valid text file, then choose one of the two options providing valid input.
+
+
+***********<<<<<<<<<<<<<MILESTONE 3 SUBMISSION — 04/19>>>>>>>>>>>************************************
+
+CLASS ADDITIONS:
+
+1. Book.java — accommodates new data set.
+
+2. CosineSimilarity.java — calculates the similarity between 2 users
+
+3. fileReader2.java — accounts for the differing formatting in the Book Crossing file
+
+4. BaselinePredictor.java — encapsulated all calculations in calculateBaseline() method, comprised of 3 separate methods to get the overall average (getAggRatingAvg()), user bias(biasUser()), and item bias(biasItem()).
+
+
+
+CLASS MODIFICATION:
+
+1. UserInterface.java — now accounts for 2 options: 1. use 10m movielens file with cosine similarity, or 2. use Book Crossing file with Baseline Predictor
+
+2. User.java — changed instance variable HM from seen movies to more general seen items.
+
+
+Part 2c — which is best: i.Baseline Predictor, ii.kNN with Pearson Correlation, or kNN with Cosine Similarity?:
+EquationTester.java creates 5 users and 5 movies and attempts to compare estimated versus actual values (not fully implemented).

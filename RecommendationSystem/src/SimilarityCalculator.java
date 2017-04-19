@@ -6,6 +6,7 @@ import java.util.Iterator;
  * A class that calculates a Pearson correlation between two users' common ratings to determine their similarity
  * The aggregate results also determine what users are most apt to comprise a target user's neighborhood 
  * in order to calculate a possible rating for an unrated item. 
+ * formula: << http://files.grouplens.org/papers/FnT%20CF%20Recsys%20Survey.pdf >>
  * @author josephhaymaker
  *
  */
@@ -30,11 +31,11 @@ public class SimilarityCalculator {
 
 		while(userVIterator.hasNext()){ //iterate over all other users
 			User userV = userVIterator.next();
-			HashMap<String, Double> ratingsUserV = userV.ratedMovies;
+			HashMap<String, Double> ratingsUserV = userV.ratedItems;
 			userV.correlation = 0;
 
-			if(u.ratedMovies.keySet() != null){
-				for(String movieKey : u.ratedMovies.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
+			if(u.ratedItems.keySet() != null){
+				for(String movieKey : u.ratedItems.keySet()){ //iterate over all movies u has rated to see if current user has also rated them
 					if(ratingsUserV.containsKey(movieKey)){ //if target user and currently examined user have both rated same movie
 						indivSimilarity = calcIndivSimilarity(u, userV, movieKey);
 						correlation = correlation + indivSimilarity;
@@ -60,8 +61,8 @@ public class SimilarityCalculator {
 		deviationU = 0;
 		deviationV = 0;
 
-		deviationU = u.ratedMovies.get(movieI) - u.ratingAvg;
-		deviationV = v.ratedMovies.get(movieI) - v.ratingAvg;
+		deviationU = u.ratedItems.get(movieI) - u.ratingAvg;
+		deviationV = v.ratedItems.get(movieI) - v.ratingAvg;
 
 		v.deviation = deviationV;
 
@@ -89,7 +90,7 @@ public class SimilarityCalculator {
 		double average = 0;
 
 		for(User individual : userList.values()){ //iterate over all user objects
-			for(double rating : individual.ratedMovies.values()){ //then iterate over all ratings of each user
+			for(double rating : individual.ratedItems.values()){ //then iterate over all ratings of each user
 				sum = sum + rating;
 				numOfRatings++;
 			}

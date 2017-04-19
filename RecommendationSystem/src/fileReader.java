@@ -15,7 +15,6 @@ public class fileReader {
 
 	private String file;
 	private BufferedReader br;
-	//	private RatingMatrixCreator matrix;
 	private Movie current;
 	private User user;
 	HashMap <String, Movie> movieList;
@@ -45,13 +44,13 @@ public class fileReader {
 			br = new BufferedReader(new FileReader(f));
 			String line;
 			while ((line = br.readLine()) != null) {
-								System.out.println(line); //TESTING
+//								System.out.println(line); //TESTING
 				String[] split = line.split("::");
 				String userID = split[0];
 				String movieID = split[1];
 				String userRating = split[2];
 				int counter = 0;
-				System.out.println("User: " + userID + " , movie id: " + movieID + " , rating:" + userRating);
+//				System.out.println("User: " + userID + " , movie id: " + movieID + " , rating:" + userRating);
 				
 				
 				//Step 1. check if movie object already exists or not
@@ -67,7 +66,7 @@ public class fileReader {
 				if (!userList.containsKey(userID)) { //if user obj not in list of all users
 					user = new User(); //create new user obj
 					user.id = userID; // change id to current id
-					user.ratedMovies = new HashMap<>();
+					user.ratedItems = new HashMap<>();
 					user.indexLocation = counter; //add index value (for possible future implementation of matrix)
 					userList.put(userID, user); //add user to list of all users
 					counter++; //increase index counter
@@ -78,7 +77,7 @@ public class fileReader {
 				//Step 3. add current movie/rating to user's list of rated movies
 				double parsedDouble = Double.parseDouble(userRating); //parse String rating of this movie for this user
 				if(current.id != null && parsedDouble != 0){
-					user.ratedMovies.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
+					user.ratedItems.put(current.id, parsedDouble); //add movie id and rating in user's HM of rated movies
 				}
 
 				/* <<<<<<TESTING>>>>>>>>>		

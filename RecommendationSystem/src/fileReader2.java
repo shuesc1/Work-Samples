@@ -60,7 +60,7 @@ public class fileReader2 {
 				if (!userList.containsKey(userID)) { //if user obj not in list of all users
 					user = new User(); //create new user obj
 					user.id = userID; // change id to current id
-					user.ratedBooks = new HashMap<>();
+					user.ratedItems = new HashMap<>();
 					user.indexLocation = counter; //add index value (for possible future implementation of matrix)
 					userList.put(userID, user); //add user to list of all users
 					counter++; //increase index counter
@@ -71,7 +71,7 @@ public class fileReader2 {
 				//Step 3. add current book/rating to user's list of rated books
 				double parsedDouble = Double.parseDouble(userRating); //parse String rating of this book for this user
 				if(current.id != null && parsedDouble != 0){
-					user.ratedBooks.put(current.id, parsedDouble); //add book id and rating in user's HM of rated books
+					user.ratedItems.put(current.id, parsedDouble); //add book id and rating in user's HM of rated books
 				}
 			}
 		} catch (FileNotFoundException e) {

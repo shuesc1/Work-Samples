@@ -12,8 +12,9 @@ public class User implements Client {
 	public int indexLocation;
 	public String title;
 	//	public ArrayList<Movie> ratedMovies;
-	public HashMap<String, Double> ratedMovies;
-	public HashMap<String, Double> ratedBooks;
+//	public HashMap<String, Double> ratedMovies;
+//	public HashMap<String, Double> ratedBooks;
+	public HashMap<String, Double> ratedItems;
 	public double ratingAvg, correlation, deviation;
 
 	/**
@@ -21,12 +22,12 @@ public class User implements Client {
 	 * It initializes the HM of rated movies
 	 */
 	public User(){
-		ratedMovies = new HashMap<String, Double>();
+		ratedItems = new HashMap<String, Double>();
 	}
 
 	@Override
 	public HashMap<String, Double> getRatings() {
-		return ratedMovies;
+		return ratedItems;
 	}
 
 	@Override
