@@ -15,11 +15,12 @@ admin = Admin(app, name='microblog', template_mode='bootstrap3')
 
 #add admin views here
 
-app.run()
+#app.run()
 
 @app.route('/')
 def home():
-  return render_template('home.html')
+#  return render_template('home.html')
+  return render_template('layouts.html')
 
 @app.route('/about')
 def about():

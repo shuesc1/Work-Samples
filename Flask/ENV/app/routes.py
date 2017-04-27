@@ -19,7 +19,8 @@ admin = Admin(app, name='microblog', template_mode='bootstrap3')
 
 @app.route('/')
 def home():
-  return render_template('home.html')
+#  return render_template('home.html')
+  return render_template('homes.html')
 
 @app.route('/about')
 def about():
