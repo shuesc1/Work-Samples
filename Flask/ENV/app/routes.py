@@ -8,6 +8,8 @@ from sqlalchemy.ext.declarative import declarative_base
 #from models import Post
 
 app = Flask(__name__)      
+#from app import views
+#imports the view module
  
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
 #admin.add_view(ModelView(User, db.session))
