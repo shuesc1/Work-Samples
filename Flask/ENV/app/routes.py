@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from sqlalchemy import create_engine
@@ -21,8 +21,10 @@ admin = Admin(app, name='microblog', template_mode='bootstrap3')
 
 @app.route('/')
 def home():
+#def home():
 #  return render_template('home.html')
-  return render_template('homes.html')
+#  return render_template('homes.html')
+  return render_template('index.html')
 
 @app.route('/about')
 def about():
