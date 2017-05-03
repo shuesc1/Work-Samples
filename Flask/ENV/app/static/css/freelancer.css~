@@ -225,9 +225,8 @@ section.success {
   margin-top: -12px;
   color: white;
 }
-
 #portfolio .portfolio-item .portfolio-link .caption .caption-content i {
-margin-top: -12px;
+  margin-top: -12px;
 }
 #portfolio .portfolio-item .portfolio-link .caption .caption-content h3,
 #portfolio .portfolio-item .portfolio-link .caption .caption-content h4 {
