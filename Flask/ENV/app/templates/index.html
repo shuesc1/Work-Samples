@@ -60,6 +60,9 @@
                     <li class="page-scroll">
                         <a href="#contact">Contact</a>
                     </li>
+		    <!--ADMIN link--><li class="page-scroll">
+		      <a href="/admin" role="button" onclick="openMenu();">Admin</a>  
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -83,7 +86,8 @@
         </div>
     </header>
 
-    <!-- Portfolio Grid Section -->
+
+    <!-- TREATMENT GRID SECTION -->
     <section id="portfolio">
         <div class="container">
             <div class="row">
@@ -92,75 +96,94 @@
                     <hr class="star-primary">
                 </div>
             </div>
+
+<!--START row class-->
             <div class="row">
-                <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
-                        <div class="caption">
-                            <div class="caption-content">
-                                <i class="fa fa-search-plus fa-3x"></i>
-                            </div>
-                        </div>
-<!--IMAGE 1 -->
-                        <img src="/static/img/portfolio/addiction.jpg" class="img-responsive" alt="Cabin">
-<!--IMAGE 1 -->               
-		    </a>
+                <div class="col-md-6 portfolio-item">
+		  <a href="/addiction" role="button" onclick="openMenu();">
+		    <!--IMAGE 1 --><img src="/static/img/portfolio/addiction.jpg" class="img-responsive" alt="Cabin">
+		  </a>  
                 </div>
-                <div class="col-sm-4 portfolio-item">
+
+		<!--class def 2 -->
+                <div class="col-md-6 portfolio-item">
+		   <a href="/smoking">
+                    <!--IMAGE 2 --> <img src="/static/img/portfolio/smoking.jpg" class="img-responsive" alt="Slice of cake">
+                  </a>
+<!--
                     <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                             </div>
                         </div>
-<!--IMAGE 2 -->
+--IMAGE 2 -
                         <img src="/static/img/portfolio/smoking.jpg" class="img-responsive" alt="Slice of cake">
-                    </a>
+                    </a> -->
                 </div>
-                <div class="col-sm-4 portfolio-item">
+	    </div>
+
+               <!--class def 3 -->
+	    <div class="row">
+	       <div class="col-md-6 portfolio-item">
+		  <a href="/obesity" role="button" onclick="openMenu();">
+                    <!--IMAGE 3 --> <img src="/static/img/portfolio/obesity.jpg" class="img-responsive" alt="Circus tent"> 
+                  </a>
+
+<!--
                     <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                             </div>
                         </div>
-<!--IMAGE 3 -->
+--IMAGE 3 -
                         <img src="/static/img/portfolio/obesity.jpg" class="img-responsive" alt="Circus tent">
                     </a>
+-->
                 </div>
-                <div class="col-sm-4 portfolio-item">
+
+                <!--class def 4 -->
+		<div class="col-md-6 portfolio-item">
+                  <a href="/mental_health" role="button" onclick="openMenu();">
+                    <!--IMAGE 4 --> <img src="/static/img/portfolio/mental_health.jpg" class="img-responsive" alt="Game controller"> 
+                  </a>
+<!--
                     <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                             </div>
                         </div>
-<!--IMAGE 4 -->
+--IMAGE 4 --
                         <img src="/static/img/portfolio/mental_health.jpg" class="img-responsive" alt="Game controller">
                     </a>
+-->
+
                 </div>
-                <div class="col-sm-4 portfolio-item">
+<!--                <div class="col-sm-4 portfolio-item">
                     <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                             </div>
                         </div>
-<!--IMAGE 5 -->
+--IMAGE 5 -
                         <img src="/static/img/portfolio/bh.jpg" class="img-responsive" alt="Safe">
                     </a>
                 </div>
-                <div class="col-sm-4 portfolio-item">
+<!--                <div class="col-sm-4 portfolio-item">
                     <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
                         <div class="caption">
                             <div class="caption-content">
                                 <i class="fa fa-search-plus fa-3x"></i>
                             </div>
                         </div>
-<!--IMAGE 6 -->
+--IMAGE 6 --
                         <img src="/static/img/portfolio/cp.php" class="img-responsive" alt="Submarine">
                     </a>
                 </div>
-            </div>
+-->            </div>
         </div>
     </section>
 

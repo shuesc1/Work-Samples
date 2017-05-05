@@ -26,9 +26,33 @@ def home():
 #  return render_template('homes.html')
   return render_template('index.html')
 
+@app.route('/index')
+def home2():                                                                                                               
+  return render_template('index.html')
+
 @app.route('/about')
 def about():
   return render_template('about.html')
+
+@app.route('/smoking')
+def smoking():
+  return render_template('smoking.html')
+
+@app.route('/obesity')
+def obesity():
+  return render_template('obesity.html')
+
+@app.route('/addiction')
+def addiction():
+  return render_template('addiction.html')
+
+@app.route('/mental_health')
+def mental_health():
+  return render_template('mental_health.html')
  
+@app.route('/admin')
+def admin():
+  return render_template('adm.html')
+
 if __name__ == '__main__':
   app.run(debug=True)

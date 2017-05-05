@@ -1,0 +1,13 @@
+# /usr/bin/env python
+# Download the twilio-python library from http://twilio.com/docs/libraries
+import os
+from twilio.rest import Client
+
+# Find these values at https://twilio.com/user/account
+account_sid = "AC425c9f4582af05a90c8dfaf7956fb442"
+auth_token = "be64a62df4055598bc494232c4a0a881"
+client = Client(account_sid, auth_token)
+
+message = client.api.account.messages.create(to="+16104289159",
+                                             from_="+15555555555",
+                                             body="Hello there!")
