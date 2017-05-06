@@ -50,5 +50,9 @@ def addiction():
 def mental_health():
   return render_template('mental_health.html')
  
+@app.route('/admin')
+def admin():
+  return render_template('adm.html')
+
 if __name__ == '__main__':
   app.run(debug=True)

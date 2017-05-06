@@ -52,7 +52,8 @@ def mental_health():
  
 @app.route('/admin')
 def admin():
-  return render_template('adm.html')
+#  return render_template('adm.html')
+  return render_template('index.html')
 
 if __name__ == '__main__':
   app.run(debug=True)
