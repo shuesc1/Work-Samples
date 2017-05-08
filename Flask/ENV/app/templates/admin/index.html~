@@ -1,0 +1,109 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>HTML4</title>
+<style>
+body {
+    font-family: Verdana,sans-serif;
+    font-size: 0.9em;
+}
+
+div#header, div#footer {
+    padding: 10px;
+    color: white;
+    background-color: black;
+}
+
+div#content {
+    margin: 5px;
+    padding: 10px;
+    background-color: lightgrey;
+}
+
+div.article {
+    margin: 5px;
+    padding: 10px;
+    background-color: white;
+}
+
+div#menu ul {
+    padding: 0;
+}
+
+div#menu ul li {
+    display: inline;
+    margin: 5px;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+<h1><center>Welcome to Admin Page</center></h1>
+</div>
+
+
+<div id="content">
+<h2>Login Credentials</h2>
+<div class="article">
+<h4>Username</h4>
+<p>connecttocare.penn@gmail.com</p>
+</div>
+<div class="article">
+<h4>Password</h4>
+<p>connectToCare</p>
+</div>
+
+
+
+<div id="content">
+<h2>Smoking</h2>
+<div class="article">
+<h4><a href= "https://docs.google.com/forms/d/1Az5HMEoyjgUbpRtAhwr0aPAKgMYqoguLslN1AffLiB4/edit">Edit Form</a></h4>
+</div>
+<div class="article">
+<h4><a href="https://docs.google.com/spreadsheets/d/1NnmsO-U0vhXYi14MbJCJwmY5YX5qK1FvLZUNRi2_YiY/edit#gid=1706971598">View Responses</a></h4>
+</div>
+</div>
+
+<div id="content">
+<h2>Drug-Use</h2>
+<div class="article">
+<h4><a href= "https://docs.google.com/forms/d/1vJc0FPIke3smKHIljYE5asGhZp4AlTGtCaTZnOpEk2Q/edit?usp=drive_web">Edit Form</a></h4>
+</div>
+<div class="article">
+<h4><a href="https://docs.google.com/spreadsheets/d/1IAKI06TnmDwY4L6xU9kivqf3bew1R3vWsyYHeN5wXTs/edit#gid=2003597956">View Responses</a></h4>
+</div>
+</div>
+
+<div id="content">
+<h2>Diabetes</h2>
+<div class="article">
+<h4><a href= "https://docs.google.com/forms/d/1CFjJzf-d2hMYGNI4j9WaSUFheSdKDCaGPF3LqS2KqCI/edit?usp=drive_web">Edit Form</a></h4>
+</div>
+<div class="article">
+<h4><a href="https://docs.google.com/spreadsheets/d/1Tfq8Oh0lBORxhqVlsNIy4yF_XfHQBWPsJ7BH-fUDRZE/edit">View Responses</a></h4>
+</div>
+</div>
+<div id="content">
+<h2>Mental Health</h2>
+<div class="article">
+<h4><a href= "https://docs.google.com/forms/d/1DPPd-sqjA-5Macb5w1FreMNaoeBRrEUEuFBXYl81HFI/edit?usp=drive_web">Edit Form</a></h4>
+</div>
+<div class="article">
+<h4><a href="https://docs.google.com/spreadsheets/d/16mdlZyXFIbqjEsVD8jJBd0_LcNs9lPiwptOt7yRDzks/edit">View Responses</a></h4>
+</div>
+</div>
+
+<div id="footer">
+<p>&copy; 2017 ConnectToCare@Penn. All rights reserved.</p>
+</div>
+
+</body>
+</html>
+
+{% endblock %}
