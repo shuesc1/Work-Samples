@@ -19,5 +19,19 @@ int main(){
   char vowels[] = {'a', 'e', 'i', 'o', 'u'};
   printf("The third vowel is %c\n", vowels[2]);
 
+  char vowel_matrix[][5] = {
+    {'A', 'E', 'I', 'O', 'U'},
+    {'a', 'e', 'i', 'o', 'u'}
+  };
+
+  int i, j;
+
+  for(i = 0; i < 2; i++){
+    for(j = 0; j < 5; j++){
+      printf("Address of vowels[%d][%d]: %s\n", i, j, &vowel_matrix[i][j]);
+    }
+    printf("\n");
+  }
+
   return 0;
 }
