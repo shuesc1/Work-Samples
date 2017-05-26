@@ -14,8 +14,8 @@ int main(){
 //function fully implemented
 void print_big(int arg){
   if(arg <= 10){
-    printf("%d is small!\n", arg);
+    printf("%d is small!", arg);
   } else {
-    printf("%d is big!\n", arg);
+    printf("%d is big!", arg);
   }
 }
