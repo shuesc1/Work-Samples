@@ -1,0 +1,24 @@
+body
+{
+  padding:      0;
+  margin:       12px;
+  font-family:  "Trebuchet MS", "Verdana", "Arial", sans-serif;
+  font-size:    12pt;
+  line-height:  150%;
+  width:        30em;
+  color: 		gray;
+}
+
+h1, h2
+{
+  color:           #0066cc;
+  font-style:      italic;
+}
+
+h1
+{
+  border-bottom:   1px solid #cccccc;
+  padding-bottom:  5px;
+  display:         list-item;
+  list-style-type: square;
+}
