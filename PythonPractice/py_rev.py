@@ -111,7 +111,80 @@ print my_dict
 #create a dict by passing a list of tuples
 pairs = [("one", 1), ("two", 2)]
 as_dict = dict(pairs)
+# can create a list of tuples by calling the items() method on a dictionary
 same_as_pairs = as_dict.items()
 print same_as_pairs
+
+# sets -- like a dict with only 'keys' and NO 'values'
+# stores a collection of uniqeu objects that are of atomic types
+# mutable -- can add elements to set
+s = set()
+print 5 in s
+s.add(5)
+print 5 in s
+s.add(5) # does nothing-- 5 already present
+print s
+
+#defining functions
+def func(x):
+  y = x+1
+  x_sqrd = y*y
+  return x_sqrd
+
+five_plus_one_sqrd = func(5)
+print "5 plus 1 squared is " + str(five_plus_one_sqrd)
+
+# function with optional arguments
+def raises(x, n=2):
+  return pow(x,n)
+
+two_sqrd = raises(2)
+print two_sqrd
+two_cubed = raises(2, n=3)
+print two_cubed
+
+# func definition with lambda expression
+sqr = lambda x : x*x
+five_sqrd = sqr(5)
+
+#another example
+def apply_to_evens(a_list, a_func):
+  return [a_func(x) for x in a_list if x%2==0]
+my_list = [1,2,3,4,5]
+sqrs_of_evens = apply_to_evens(my_list, lambda x:x*x)
+print sqrs_of_evens
+
+# 'for' loops
+for x in my_list:
+  print "the number is ", x
+
+for key, value in my_dict.items():
+  print "the value for ", key, " is ", value
+
+# conditionals
+i = 0
+if i < 3:
+ print "i is less than three"
+elif i < 5: print "i is between 3 and 5"
+else: print "i is greater than 5"
+
+
+while i < 5:
+  print "i is still less than 5"
+  i = i + 1
+
+# exception handling
+try:
+  lines = input_text.split("\n")
+  print "tenth line was: ", lines[9]
+except:
+  print "There were < 10 lines"
+
+#importing existing libraries
+# from my_lib import f1, f2 # f1 & f2 in namespace
+# import other_lib as ol # ol.f1 is the f1 func
+# from other_lib import * #f1 is in namespace
+
+
 
 
