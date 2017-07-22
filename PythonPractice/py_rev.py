@@ -185,6 +185,31 @@ except:
 # import other_lib as ol # ol.f1 is the f1 func
 # from other_lib import * #f1 is in namespace
 
+# creating your own classes
+class Dog:
+  def __init__(self, name): #a special function that gets called when an instance of the class is created
+    self.name = name
+  def respond_to_command(self, command):
+    if command == self.name: self.speak()
+  def speak(self):
+    print "bark bark!!"
+
+fido = Dog("fido")
+fido.respond_to_command("spot") #does nothing
+fido.respond_to_command("fido") #prints bark bark
+
+# hashable types -- low level data types, instances of them are immutable; ints, floats, strings, tuples, etc.
+# unhashable types -- lists, dicts, libraries; generally for larger, more complex objs; have internal struct that can be modified
+
+#ex:
+a = 5 # a is a hashable int
+b = a # b points to a COPY of a
+a = a + 1
+print b # b hasn't bee incremented
+A = [] # A is an UNhashable list
+B = A # B points to the same list as A
+A.append(5)
+print B # should be [5]
 
 
 
