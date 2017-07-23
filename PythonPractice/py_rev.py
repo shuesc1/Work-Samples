@@ -207,9 +207,16 @@ b = a # b points to a COPY of a
 a = a + 1
 print b # b hasn't bee incremented
 A = [] # A is an UNhashable list
-B = A # B points to the same list as A
+B = A # B points to the same list as A NOT a copy
 A.append(5)
 print B # should be [5]
+
+# to make a true copy of A
+# B = [x for x in A]
+Q = [{}, {}] # list of dicts
+R = [x for x in Q]
+Q[0]["name"] = "bob"
+print R[0]["name"] # should be 'bob'
 
 
 
