@@ -2,7 +2,8 @@
 
 <p align="center">
 <b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b>
-<br>
+</p>
+<p align="center">
 <img src="upenn.jpg" width="80%" height="80%" />
 </br>
 </p>
@@ -22,4 +23,6 @@ __Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Mark
  My final project for my introduction to programming class. I used the __Watson API__ to stream tweets from __Twitter__ that mentioned a target product. 
  
  
- <p style="text-align:center;"><img src="penn_seas.png" width="30%" height="30%" />
+ <p align="center">
+ <img src="penn_seas.png" width="30%" height="30%" />
+ </p>
