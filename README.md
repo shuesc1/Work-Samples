@@ -16,11 +16,26 @@ __Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Mark
 
 
 ## Highlights
- 
+
+### 596HW7_Maze:
+
+A project that creates a visual representation (as a maze) of a __minimum-spanning-tree (MST)__ using __Kruskal's algorithm__. This is accomplished via the __path compression__ and __union-by-rank__ heuristics outlined in CLRS. Lastly, the `mazeviewer.java` class allows you to see the maze traversal either by __breadth first search (BFS)__ or __depth-first search (DFS)__. 
+
+### Bikeshare\_Data\_Analysis:
+
+I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored as a __CSV file__). The project parses the data and offers a __user interface__ that provides several statistics given the data (number of trips in a year, longest distance of a trip, the day when usage was highest, etc.).
+
+### PythonPractice:
+
+
+### RecommendationSystem:
+
+### Tech\_Writing\_Samples:
+
 
 ### Twitter\_Streaming\_Product\_Tracking:
  
- My final project for my introduction to programming class. I used the __Watson API__ to stream tweets from __Twitter__ that mentioned a target product. 
+ My final project for my introduction to programming class. I used __Twitter4J__ and the __Watson API__ to stream tweets from __Twitter__ that mentioned a target product. I then attempted to striate tweets based on target characteristics (location, sentiment, date, etc.).
  
  
  <p align="center">
