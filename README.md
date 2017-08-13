@@ -1,11 +1,8 @@
 <h1 align="center">Work-Samples</h1>
 
-<p style="text-align:center;"><img src="upenn.jpg" width="80%" height="80%" />
-
-<center><img src="upenn.jpg" width="80%" height="80%" /></center>
-
 <center><b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b></center>
 
+<p style="text-align:center;"><img src="upenn.jpg" width="80%" height="80%" />
 
 Welcome to my GitHub page! 
 
