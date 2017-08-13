@@ -51,7 +51,7 @@ Now you are ready to play!
 
 ## Rules & playing the game
 
-####Basic rules:
+#### Basic rules:
 
 1. Player 1 and player 2 take turns.
 >**_tip_**: the easiest way to decide who goes first is to [flip a coin](https://en.wikipedia.org/wiki/Coin_flipping) and the winner goes first.
@@ -73,12 +73,12 @@ Some examples of tie situations:
 ## Playing strategically
 
 
-###1. Mark spaces offensively and defensively: 
+### 1. Mark spaces offensively and defensively: 
 
 + Anticipate the other player's next move and mark _your_ space accordingly; __block possible winning moves__. 
 + Similarly, choose to mark spaces with later options in mind. Mark spaces that set you up for a multiple future choices leading to a win (if possible); __use your turn to mark a space that you know can lead you to a win or at *least* a tie__.
 
-###2. Choose your _first_ move wisely:
+### 2. Choose your _first_ move wisely:
 
 + The __center square__ and the __top or bottom corner squares__ offer the most in terms of future options -- __*avoid the outer center squares*__.
 
@@ -92,6 +92,6 @@ Some examples of tie situations:
 
 
 
-##Have fun!
+## Have fun!
 
 + It's just a game after all. <img src="https://www.tes.com/sites/default/files/styles/news_article_hero/public/news_article_images/emoji.jpg?itok=kew_ndmU" width="8%" height="8%" />
