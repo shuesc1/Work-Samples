@@ -23,14 +23,13 @@ A project that creates a visual representation (as a maze) of a __minimum-spanni
 
 ### Bikeshare\_Data\_Analysis:
 
-I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored as a __CSV file__). The project parses the data and offers a __user interface__ that provides several statistics given the data (number of trips in a year, longest distance of a trip, the day when usage was highest, etc.).
+I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored as a __CSV file__). The project parses the data and offers a __user interface__ (`IndegoUserInterface.java`) that provides several statistics given the data (number of trips in a year, longest distance of a trip, the day when usage was highest, etc.).
 
 ### PythonPractice:
 
 
 ### RecommendationSystem:
 
-### Tech\_Writing\_Samples:
 
 
 ### Twitter\_Streaming\_Product\_Tracking:
