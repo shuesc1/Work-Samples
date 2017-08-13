@@ -2,7 +2,9 @@
 
 <p style="text-align:center;"><img src="upenn.jpg" width="80%" height="80%" />
 
-<p style="text-align:center;"><b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b>
+<center><img src="upenn.jpg" width="80%" height="80%" /></center>
+
+<center><b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b></center>
 
 
 Welcome to my GitHub page! 
