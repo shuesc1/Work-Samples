@@ -2,7 +2,9 @@
 
 <center><b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b></center>
 
+<br>
 <p style="text-align:center;"><img src="upenn.jpg" width="80%" height="80%" />
+</br>
 
 Welcome to my GitHub page! 
 
