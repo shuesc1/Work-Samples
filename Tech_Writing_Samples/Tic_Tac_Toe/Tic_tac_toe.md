@@ -51,7 +51,7 @@ Now you are ready to play!
 
 ## Rules & playing the game
 
-####Basic rules:
+#### Basic rules:
 
 1. Player 1 and player 2 take turns.
 >**_tip_**: the easiest way to decide who goes first is to [flip a coin](https://en.wikipedia.org/wiki/Coin_flipping) and the winner goes first.
