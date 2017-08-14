@@ -12,7 +12,7 @@ Welcome to my GitHub page!
 
 This repo shows off code samples from classes I completed at the University of Pennsylvania and also personal projects I am working on.
 
-__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, Bootstrap, HTML/CSS, Apache FOP, Twitter4J
+__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, NumPy, Bootstrap, HTML/CSS, Apache FOP, Twitter4J
 
 
 ## Highlights
@@ -28,9 +28,11 @@ I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored 
 
 ### Connect\_to\_care\_app:
 
+This is a final project for a data structures and software design. I worked in a group with two other team members to create a web app for [Penn Medicine](https://www.pennmedicine.org/) patients to connect them with behavioral health resources in the network. I chose to focus on front-end development, and consequently relied heavily on __Flask__ (Python microframework), __Bootstrap__, and __HTML/CSS__. Our team worked together to divide the work under a project manager and Penn Medicine liason.
 
 ### PythonPractice:
 
+A series of .py files that review general Python syntax as well as exercises of data analysis and manipulation based on Field Cady's textbook _[The Data Science Handbook](http://www.wiley.com/WileyCDA/WileyTitle/productCd-1119092949.html)_ using __Python Image Library__, __Pandas__, __SciKit-Learn__, __NumPy__, and __Matplotlib__.
 
 ### RecommendationSystem:
 
