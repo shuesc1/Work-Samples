@@ -30,6 +30,7 @@ I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored 
 
 ### RecommendationSystem:
 
+This project is an implementation of a recommendation system using __Collaborative Filtering (CF)__ with the [MovieLens 10M dataset](http://grouplens.org/datasets/movielens/10m/) in milestone 2 and the [Book-Crossing community dataset](http://www2.informatik.uni-freiburg.de/%7Ecziegler/BX/) in milestone 3. I completed this project in three steps (milestones) emphasizing code design and extensibility. Consequently, this folder contains several initial __UML diagrams__ I designed for the various classes and processes. Moreover, the algorithm approach to obtaining reasonable recommendations centered around [Collaborative Filtering Recommender Systems](http://files.grouplens.org/papers/FnT%20CF%20Recsys%20Survey.pdf), an academic paper by Ekstrand, Riedl, and Konstan. Means of calculating predictions included: __baseline prediction__, user-user CF using __Pearson correlation__ and __cosine similarity__, and __k-nearest neighbors__ calculations.
 
 
 ### Twitter\_Streaming\_Product\_Tracking:
