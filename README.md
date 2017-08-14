@@ -12,7 +12,7 @@ Welcome to my GitHub page!
 
 This repo shows off code samples from classes I completed at the University of Pennsylvania and also personal projects I am working on.
 
-__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, Apache FOP, Twitter4J
+__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, Bootstrap, HTML/CSS, Apache FOP, Twitter4J
 
 
 ## Highlights
@@ -24,6 +24,10 @@ A project that creates a visual representation (as a maze) of a __minimum-spanni
 ### Bikeshare\_Data\_Analysis:
 
 I used a __dataset__ from Philadelphia's bicycle sharing program Indego (stored as a __CSV file__). The project parses the data and offers a __user interface__ (`IndegoUserInterface.java`) that provides several statistics given the data (number of trips in a year, longest distance of a trip, the day when usage was highest, etc.).
+
+
+### Connect\_to\_care\_app:
+
 
 ### PythonPractice:
 
