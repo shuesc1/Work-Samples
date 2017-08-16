@@ -67,7 +67,7 @@ Now you are ready to play!
 
 Some examples of tie situations:
 
-<p style="text-align:center;"><img src="http://www.old-computers.com/museum/software/fairchild_channelf_morpion_s4.png" width="20%" height="20%" />  <img src="ttt.jpg" width="20%" height="20%" />  <img src="http://wonderopolis.org/wp-content/uploads//2013/11/dreamstime_xl_31847009-Custom.jpg" width="20%" height="20%" />
+<p style="text-align:center;"><img src="http://www.old-computers.com/museum/software/fairchild_channelf_morpion_s4.png" width="20%" height="20%" />  <img src=ttt.jpg width="20%" height="20%" />  <img src="http://wonderopolis.org/wp-content/uploads//2013/11/dreamstime_xl_31847009-Custom.jpg" width="20%" height="20%" />
 
 
 ## Playing strategically
