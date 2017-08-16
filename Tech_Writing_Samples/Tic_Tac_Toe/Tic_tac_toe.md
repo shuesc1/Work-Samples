@@ -10,7 +10,7 @@
 2. Have fun! 
 3. Win! (maybe)
  
-###Time to complete: 	
+### Time to complete: 	
 + < 5 minutes
 
 ## Tic-tac-what now? 
@@ -67,7 +67,7 @@ Now you are ready to play!
 
 Some examples of tie situations:
 
-<p style="text-align:center;"><img src="http://www.old-computers.com/museum/software/fairchild_channelf_morpion_s4.png" width="20%" height="20%" />  <img src="https://lh6.ggpht.com/RJwBpdk73WAPhr3m3QBjECM9n1IE4OdcyyDrffqFM1S_9kQjpHN2lrenVdWhMawsNg=w300" width="20%" height="20%" />  <img src="http://wonderopolis.org/wp-content/uploads//2013/11/dreamstime_xl_31847009-Custom.jpg" width="20%" height="20%" />
+<p style="text-align:center;"><img src="http://www.old-computers.com/museum/software/fairchild_channelf_morpion_s4.png" width="20%" height="20%" />  <img src="ttt.jpg" width="20%" height="20%" />  <img src="http://wonderopolis.org/wp-content/uploads//2013/11/dreamstime_xl_31847009-Custom.jpg" width="20%" height="20%" />
 
 
 ## Playing strategically
