@@ -17,7 +17,7 @@ __Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Mark
 
 ## Highlights
 
-### 596HW7_Maze:
+### [596HW7_Maze:](https://github.com/shuesc1/Work-Samples/tree/master/596HW7_Maze)
 
 A project that creates a visual representation (as a maze) of a __minimum-spanning-tree (MST)__ using __Kruskal's algorithm__. This is accomplished via the __path compression__ and __union-by-rank__ heuristics outlined in CLRS. Lastly, the `mazeviewer.java` class allows you to see the maze traversal either by __breadth first search (BFS)__ or __depth-first search (DFS)__. 
 
