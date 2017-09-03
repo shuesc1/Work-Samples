@@ -12,7 +12,7 @@ Welcome to my GitHub page!
 
 This repo shows off code samples from classes I completed at the University of Pennsylvania and also personal projects I am working on.
 
-__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, NumPy, Bootstrap, HTML/CSS, Apache FOP, Twitter4J
+__Languages/frameworks/tools__: Java (_primary_), Python, C, Flask, Django, Markdown, SciKit-Learn, Matplotlib, Pandas, NumPy, Bootstrap, HTML/CSS, Apache FOP, Twitter4J, LaTex
 
 
 ## Highlights
