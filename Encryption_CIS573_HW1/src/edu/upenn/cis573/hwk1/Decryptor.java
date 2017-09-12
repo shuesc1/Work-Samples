@@ -64,8 +64,8 @@ public class Decryptor {
 				currentEncryptedChar = in.next();
 				System.out.println(currentEncryptedChar) ;
 				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
-				//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
-					//TODO: append decrypted character [encryptedCharWithKey.get(currentEncryptedChar)] to output file
+					//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
+					//TODO: append swapped/decrypted character [encryptedCharWithKey.get(currentEncryptedChar)] to output file
 				}
 				//TODO: append /n to current line in output file so that a new line is created before reading in/out the next one
 			}
@@ -94,10 +94,9 @@ public class Decryptor {
 		}
 
 		decryptedFilename = prefix + "DECRYPTED." + extension ;
-		System.out.println("Prefix: " + prefix);
-		System.out.println("Extension: " + extension);
-		System.out.println(decryptedFilename);
-
+		//		System.out.println("Prefix: " + prefix);
+		//		System.out.println("Extension: " + extension);
+		//		System.out.println(decryptedFilename);
 		return decryptedFilename;
 	}
 
@@ -140,11 +139,12 @@ public class Decryptor {
 	public static void main(String[] args) {
 
 		char[] baseSet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'} ;
-		char[] decryptionKeys = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26} ;
+		char[] decryptionKeys = {'z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a'} ;
 
 		Decryptor d = new Decryptor(baseSet, decryptionKeys);
 		//		d.decrypt("test_file.txt");
-		d.nameDecryptedFile("test_fileENCRYPTED.txt") ;
+		d.decrypt("encrypted_test_file.txt");
+		//		d.nameDecryptedFile("test_fileENCRYPTED.txt") ;
 
 	}
 
