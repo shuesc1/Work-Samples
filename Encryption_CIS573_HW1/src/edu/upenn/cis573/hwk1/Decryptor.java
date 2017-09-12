@@ -17,7 +17,14 @@ public class Decryptor {
 	private char[] encryptionKeysByFreq;
 	private Scanner in;
 	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
+	private String currentEncryptedChar;
 
+	/**
+	 * The constructor for the class
+	 * It sets instance variables and creates a HashMap of cipher keys matched with their character values
+	 * @param baseCharsByFreq
+	 * @param encryptionKeysByFreq
+	 */
 	public Decryptor(char[] baseCharsByFreq, char[] encryptionKeysByFreq) {
 		this.baseCharsByFreq = baseCharsByFreq;
 		this.encryptionKeysByFreq = encryptionKeysByFreq;
@@ -40,14 +47,13 @@ public class Decryptor {
 		while(in.hasNextLine()) {
 			//iterate over all tokens (characters)
 			while(in.hasNext()) {
-				String currentEncryptedChar = in.next();
+				currentEncryptedChar = in.next();
 				System.out.println(currentEncryptedChar) ;
-				if(baseCharsByFreq.toString().contains(currentEncryptedChar)) { 
+				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
 					//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
-
-					//write out to file all chars swa
-
+					//TODO: append decrypted character [encryptedCharWithKey.get(currentEncryptedChar)] to output file
 				}
+				//TODO: append /n to current line in output file so that a new line is created before reading in/out the next one
 			}
 		}
 		in.close();
@@ -97,10 +103,6 @@ public class Decryptor {
 
 		Decryptor d = new Decryptor(baseSet, decryptionKeys);
 		d.decrypt("test_file.txt");
-
-
 	}
-
-
 
 }
