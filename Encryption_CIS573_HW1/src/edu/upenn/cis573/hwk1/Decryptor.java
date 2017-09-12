@@ -1,9 +1,15 @@
 package edu.upenn.cis573.hwk1;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A class that takes in a cipher list sorted by frequency and an original character list also sorted by frequency
@@ -18,6 +24,7 @@ public class Decryptor {
 	private Scanner in;
 	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
 	private String currentEncryptedChar;
+	private PrintWriter out;
 
 	/**
 	 * The constructor for the class
@@ -37,6 +44,13 @@ public class Decryptor {
 	 */
 	public void decrypt(String encryptedFilename){
 		File file = new File(encryptedFilename) ;
+
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(nameDecryptedFile(encryptedFilename))));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
 		try {
 			in = new Scanner(file).useDelimiter("");
 		} catch (FileNotFoundException e) {
@@ -50,15 +64,42 @@ public class Decryptor {
 				currentEncryptedChar = in.next();
 				System.out.println(currentEncryptedChar) ;
 				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
-					//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
+				//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
 					//TODO: append decrypted character [encryptedCharWithKey.get(currentEncryptedChar)] to output file
 				}
 				//TODO: append /n to current line in output file so that a new line is created before reading in/out the next one
 			}
 		}
 		in.close();
+		out.flush();
+		out.close();
 	}
 
+	/**
+	 * A method that names the decrypted file that is to be written out
+	 * @param encryptedFilename a string of the encrypted filename in the form (prefix)ENCRYPTED.(extension)
+	 * @return decryptedFilename a string of the decrypted filename in the form (prefix)DECRYPTED.(extension)
+	 */
+	public String nameDecryptedFile(String encryptedFilename) {
+		String prefix = "" ;
+		String extension = encryptedFilename.substring(encryptedFilename.lastIndexOf(".") + 1);
+		String decryptedFilename = "" ;
+		String namePattern = "[ \\w-]+?(?=ENCRYPTED\\.)";
+		Pattern p1 = Pattern.compile(namePattern);
+		Matcher m = p1.matcher(encryptedFilename);
+		if (m.find( )) {
+			prefix = m.group(0) ; 
+		}else {
+			System.out.println("No encrypted file match found!");
+		}
+
+		decryptedFilename = prefix + "DECRYPTED." + extension ;
+		System.out.println("Prefix: " + prefix);
+		System.out.println("Extension: " + extension);
+		System.out.println(decryptedFilename);
+
+		return decryptedFilename;
+	}
 
 	/**
 	 * A method that creates a HashMap with keys of ciphers and values of their corresponding original
@@ -102,7 +143,9 @@ public class Decryptor {
 		char[] decryptionKeys = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26} ;
 
 		Decryptor d = new Decryptor(baseSet, decryptionKeys);
-		d.decrypt("test_file.txt");
+		//		d.decrypt("test_file.txt");
+		d.nameDecryptedFile("test_fileENCRYPTED.txt") ;
+
 	}
 
 }
