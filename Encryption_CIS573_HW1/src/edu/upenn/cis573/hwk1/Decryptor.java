@@ -25,6 +25,7 @@ public class Decryptor {
 	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
 	private String currentEncryptedChar;
 	private PrintWriter out;
+	private boolean encrypt;
 
 	/**
 	 * The constructor for the class
@@ -50,7 +51,6 @@ public class Decryptor {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
 		try {
 			in = new Scanner(file).useDelimiter("");
 		} catch (FileNotFoundException e) {
@@ -59,16 +59,23 @@ public class Decryptor {
 		}
 		//iterate over all lines in encrypted file
 		while(in.hasNextLine()) {
+			String currentLine = "";
 			//iterate over all tokens (characters)
 			while(in.hasNext()) {
 				currentEncryptedChar = in.next();
-				System.out.println(currentEncryptedChar) ;
+//				System.out.println(currentEncryptedChar) ;
 				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
 					//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
-					//TODO: append swapped/decrypted character [encryptedCharWithKey.get(currentEncryptedChar)] to output file
+					//swap it for the (supposedly) original letter
+					currentEncryptedChar = encryptedCharWithKey.get(currentEncryptedChar).toString() ;
 				}
-				//TODO: append /n to current line in output file so that a new line is created before reading in/out the next one
+				currentLine = currentLine + currentEncryptedChar ;
 			}
+			//the fully converted line to be appended to the file
+			currentLine = currentLine + "/n" ;
+//			out.
+			out.write(currentLine);
+			//TODO: append swapped/decrypted LINE [encryptedCharWithKey.get(currentEncryptedChar)] to output file
 		}
 		in.close();
 		out.flush();
@@ -132,6 +139,21 @@ public class Decryptor {
 		this.encryptedCharWithKey = encryptedCharWithKey;
 	}
 
+	/**
+	 * A getter method for the boolean denoting if the file is to be encrypted (T) or decrypted (F)
+	 * @return encrypt a boolean T if the file is to be encrypted
+	 */
+	public boolean outTypeEncrypt() {
+		return encrypt;
+	}
+
+	/**
+	 * A setter for the boolean encrypt that denotes if the file is to be encrypted (T) or decrypted (F)
+	 * @param encrypt a boolean T if the file is to be encrypted or F if the file is to be decrypted
+	 */
+	public void setOutTypeToEncrypt(boolean encrypt) {
+		this.encrypt = encrypt;
+	}
 
 	/*=========================================
 	 * TESTING
