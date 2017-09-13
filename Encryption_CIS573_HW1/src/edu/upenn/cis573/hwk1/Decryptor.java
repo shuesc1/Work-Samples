@@ -84,7 +84,7 @@ public class Decryptor {
 	}
 
 	/**
-	 * A method that names the decrypted file that is to be written out
+	 * A helper method that names the decrypted file that is to be written out
 	 * @param encryptedFilename a string of the encrypted filename in the form (prefix)ENCRYPTED.(extension)
 	 * @return decryptedFilename a string of the decrypted filename in the form (prefix)DECRYPTED.(extension)
 	 */
