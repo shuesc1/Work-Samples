@@ -11,6 +11,34 @@ public class Main {
 		double accuracy = 0;
 		FileEncryptor fe = new FileEncryptor();
 		FrequencyCalculator fc = new FrequencyCalculator();
+		String corpusDir, absoluteCorpusDir, relativeCorpusDir;
+
+		//=======OBTAIN RUNTIME ARGUMENT-ABSOLUTE OR RELATIVE PATH=========
+		//		boolean validPath = false;
+
+		//		while(validPath == false) {
+		// Accounts for: 1. the number of runtime arguments isn't correct
+		if (args.length != 1) {
+			throw new IllegalArgumentException("Exactly 1 runtime argument ('{filepath}') required!");
+		}
+
+		corpusDir = args[0] ;
+		
+//		try {
+//			corpusDir = args[0] ;
+//
+//		} catch() {
+//			System.err.print("Please enter a *valid* runtime argument specifying an absolute or relative path to the target corpus;") ;
+//			System.err.println("Argument '" + args[0] + "' must be valid string.");
+//			System.exit(1);
+//		}
+		
+
+		//		}
+
+
+
+		//=============================================================
 
 		//
 		//get array of all files in target directory
@@ -29,7 +57,7 @@ public class Main {
 			accuracy = totalCorrect / (totalCorrect + totalIncorrect) ;
 		} else {
 			System.out.println("Can't compute accuracy -- dividing correct number by all characters changed"
-					+ "would lead to division by 0") ;
+					+ " would lead to division by 0") ;
 		}
 
 		System.out.println("\n" + "Total: " + totalCorrect + " correct, " + totalIncorrect + " incorrect") ;
