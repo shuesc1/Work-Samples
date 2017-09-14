@@ -55,7 +55,7 @@ public class Decryptor {
 		while(in.hasNextLine()) {
 			String currentLine = "";
 			while(in.hasNext()) {
-				currentEncryptedChar = in.next();
+				currentEncryptedChar = in.next().toLowerCase();
 				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
 					currentEncryptedChar = encryptedCharWithKey.get(currentEncryptedChar).toString() ;
 				}

@@ -9,7 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
+/**
+ * A class that counts the instances of letter occurrences in a text file
+ * @author josephhaymaker
+ *
+ */
 public class FrequencyCalculator {
 
 	private Map<String, Integer> freqMappingCharToFreq ;
@@ -38,6 +44,7 @@ public class FrequencyCalculator {
 		String thisChar = "" ;
 		while (in.hasNextLine()) {
 			while (in.hasNext()) {
+				thisChar = in.next().toLowerCase();
 				if (freqMappingCharToFreq.containsKey(thisChar)) { //if char is in freqMappingCharToFreq ==> get current freq count, ++, then store key and value again
 					freq = freqMappingCharToFreq.get(thisChar) + 1;
 					freqMappingCharToFreq.put(thisChar, freq) ;
@@ -82,4 +89,18 @@ public class FrequencyCalculator {
 		}
 		return sortedfreqMappingCharToFreq;
 	}
+	
+	/**
+	 * A helper method that takes the sorted maps and makes an array of their key elements (Strings of chars)
+	 * @param sortedMap
+	 * @return
+	 */
+	public String[] sortedMapToSortedArray(Map<String, Integer> sortedMap) {
+		Set<String> keys = sortedMap.keySet() ;
+		String[] sortedArray =  (String[]) keys.toArray();
+		
+		return sortedArray ;
+	}
 }
+
+

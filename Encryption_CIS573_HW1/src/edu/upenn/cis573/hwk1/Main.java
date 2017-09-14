@@ -27,15 +27,16 @@ public class Main {
 		//======================================================================================
 		//=================OBTAIN RUNTIME ARGUMENT-ABSOLUTE OR RELATIVE PATH====================
 		//======================================================================================
-		File argFilePath = new File(args[0]);
-
 		//TODO change all if statements to just the error condition.
 		//CHECKS IF: 1. the number of runtime arguments isn't correct
 		if (args.length != 1) {
 			throw new IllegalArgumentException("Exactly 1 runtime argument ('{filepath}') required!");
 		}
+		File argFilePath = new File(args[0]);
+
 		//CHECKS IF PATH IS DIRECTORY
-		if (argFilePath.isDirectory()) { //TODO does this check absolute and relative filepaths?
+		//TODO does this check absolute and relative filepaths?
+		if (argFilePath.isDirectory()) { 
 			System.out.println("Filepath given is a directory.") ;
 		} else {
 			throw new IllegalArgumentException("Pathname specified is not a directory!") ;
@@ -54,13 +55,13 @@ public class Main {
 		}
 
 		//==>FILEPATH PASSES ALL CHECKS -- NOW DETERMINE IF IT IS RELATIVE OR ABSOLUTE<==
-		//TODO does this even need to be done if the info is already saved as a File object?
 		if (argFilePath.isAbsolute()) {
 			corpusDir = args[0] ;
 		} else {
 			corpusDir = argFilePath.getPath();
 			System.out.println("Relative to absolute path?:" + corpusDir) ;
 			//			corpusDir = argFilePath.getParent() + arg[0]; ??
+			//TODO make sure this is formatting relative filepaths correctly
 		}
 		//======================================================================================
 		//========================END ASSESS RUNTIME ARGUMENT SECTION===========================
@@ -97,7 +98,7 @@ public class Main {
 					}
 					fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir, corpusFiles[j]) ;
 					if (origFreqMappingCharToFreq.isEmpty()) {
-						fc.generateInitialMapping(baseSet) ; //sets char keys and values of instances as 0
+						fc.generateInitialMapping(baseSet) ; //sets base char keys and values of instances as 0
 					}
 					String currentFileFreqCount = corpusFiles[j] ;
 					origFreqMappingCharToFreq = fc.generateFreqMapping(currentFileFreqCount);
@@ -105,25 +106,35 @@ public class Main {
 			}
 			origFreqMappingCharToFreq = fc.orderMap() ;//last step-- order final resulting map
 
-			//for encyrpted file get letter frequency
+			//for encrypted file get letter frequency
 			Map<String, Integer> encryptedFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
 			fc = new FrequencyCalculator(encryptedFreqMappingCharToFreq, corpusDir, encryptedFilename) ;
-			fc.generateInitialMapping(decryptionKeys) ;
+			fc.generateInitialMapping(decryptionKeys) ; //using the encryption keys here, not the base characters
 			encryptedFreqMappingCharToFreq = fc.generateFreqMapping(encryptedFilename) ;
 			encryptedFreqMappingCharToFreq = fc.orderMap() ;
 
-			//TODO now that we have freq list for corpus files AND encrypted file time to create one mapping based on their respective character frequencies
-			//			fc.calculateFreq(encryptedFilename) ; //get a freq list for the newly encrypted file (old_fileENCRYPTED.txt)
-
+			//now that we have freq list for corpus files AND encrypted file time to create one mapping based on their respective character frequencies
+			//both arrays are sorted in ascending order--Decryptor class takes advantage of this fact
+			String[] sortedBaseCharArray = fc.sortedMapToSortedArray(origFreqMappingCharToFreq) ;
+			String[] sortedCipherCharArray = fc.sortedMapToSortedArray(encryptedFreqMappingCharToFreq) ;
 
 			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS=====================
-			//TODO decrypt files using the generated freq list(s)
-			//			Decryptor dec = new Decryptor(origCharsWFreqs, cipherCharsWFreqs, corpusFiles); //takes in map? of origchars and cipher chars with freqs and filepath
-
+			Decryptor decrypt = new Decryptor(sortedBaseCharArray, sortedCipherCharArray, corpusDir); 
+			decrypt.decrypt(encryptedFilename);
+			String decryptedFilename = decrypt.getDecryptedFilename() ;
 
 			//=================4. COMPARE DECRYPTED CIPHERTEXT TO ORIGINAL TEXT==============
-			//TODO call filecomparator
-
+			int currentFileCorrect = 0;
+			int currentFileIncorrect = 0;
+			FileComparator comparator = new FileComparator(currentFile, decryptedFilename) ; 
+			comparator.compare(sortedBaseCharArray) ;
+			currentFileCorrect = comparator.getCorrectChars() ;
+			currentFileIncorrect = comparator.getIncorrectChars() ;
+			
+			System.out.println(currentFile + ": " + currentFileCorrect + " correct, " + currentFileIncorrect + " incorrect");
+			
+			totalCorrect = totalCorrect + currentFileCorrect ;
+			totalIncorrect = totalIncorrect + currentFileIncorrect ;
 			//TODO: while loop logic for every single individual file {
 			//1. encrypt file and save new encrypted output file
 			//2. create frequency lists --from remaining texts and from newly encrypted text
@@ -132,8 +143,6 @@ public class Main {
 			//5. print out "'filename' + ": " + correctNum + " correct, " + incorrectNum + " incorrect"
 			//6. store correctNum and incorrectNum for final tally
 			// }
-
-
 		}
 		//======================================================================================
 		//========================END ALGORITHM IMPLEMENTATION SECTION==========================
