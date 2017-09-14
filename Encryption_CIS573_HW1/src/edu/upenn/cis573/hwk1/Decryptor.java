@@ -18,24 +18,26 @@ import java.util.regex.Pattern;
  *
  */
 public class Decryptor {
-
 	private char[] baseCharsByFreq;
 	private char[] encryptionKeysByFreq;
 	private Scanner in;
 	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
 	private String currentEncryptedChar;
 	private PrintWriter out;
-	private boolean encrypt;
-
+	private File encryptedFile, decryptedFile ;
+	private String filepath;
+	
+	//TODO reconcile the data struct inconsistencies with how the frequency calcs are stored
 	/**
 	 * The constructor for the class
 	 * It sets instance variables and creates a HashMap of cipher keys matched with their character values
 	 * @param baseCharsByFreq
 	 * @param encryptionKeysByFreq
 	 */
-	public Decryptor(char[] baseCharsByFreq, char[] encryptionKeysByFreq) {
-		this.baseCharsByFreq = baseCharsByFreq;
-		this.encryptionKeysByFreq = encryptionKeysByFreq;
+	public Decryptor(char[] baseCharsByFreq, char[] encryptionKeysByFreq, String filepath) {
+		this.baseCharsByFreq = baseCharsByFreq ;
+		this.encryptionKeysByFreq = encryptionKeysByFreq ;
+		this.filepath = filepath ;
 		setEncryptedCharWithKey(createDecryptionKey());
 	}
 
@@ -44,43 +46,45 @@ public class Decryptor {
 	 * @param encryptedFilename a valid name of a file encrypted using a substitution cipher
 	 */
 	public void decrypt(String encryptedFilename){
-		//TODO port over all useful printwriter code to this section
-		File file = new File(encryptedFilename) ;
-
+		//=======READ IN ENCRYPTED FILE==============
 		try {
-			out = new PrintWriter(new BufferedWriter(new FileWriter(nameDecryptedFile(encryptedFilename))));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			in = new Scanner(file).useDelimiter("");
+			encryptedFile = new File(filepath, encryptedFilename) ;
+			in = new Scanner(encryptedFile).useDelimiter("");
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!") ;
 			e.printStackTrace();
 		}
-		//iterate over all lines in encrypted file
 		while(in.hasNextLine()) {
 			String currentLine = "";
-			//iterate over all tokens (characters)
 			while(in.hasNext()) {
 				currentEncryptedChar = in.next();
-//				System.out.println(currentEncryptedChar) ;
 				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
-					//if current char is part of the encrypted char set sorted by frequency (if it is in fact a letter)
-					//swap it for the (supposedly) original letter
 					currentEncryptedChar = encryptedCharWithKey.get(currentEncryptedChar).toString() ;
 				}
 				currentLine = currentLine + currentEncryptedChar ;
 			}
-			//the fully converted line to be appended to the file
 			currentLine = currentLine + "/n" ;
-//			out.
-			out.write(currentLine);
-			//TODO: append swapped/decrypted LINE [encryptedCharWithKey.get(currentEncryptedChar)] to output file
+			//TODO check if this is adding a newline correctly
+			//============GENERATED STRING OF 1 LINE OF ENCRYPTED FILE============
+
+			//===========CREATE DECRYPTED FILE OR APPEND LINE TO EXISTING FILE=====================	
+			try {
+				File decryptedFile = new File(filepath, nameDecryptedFile(encryptedFilename));
+				if (!decryptedFile.exists()) {
+					decryptedFile.createNewFile();
+				}
+				out = new PrintWriter(new BufferedWriter(new FileWriter(decryptedFile.getAbsoluteFile(), true)));
+				out.write(currentLine);
+				//				System.out.println("Done");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (out != null)
+					out.close();
+				//==========CLOSE PRINTWRITER=====================
+			}
 		}
 		in.close();
-		out.flush();
-		out.close();
 	}
 
 	/**
@@ -140,22 +144,6 @@ public class Decryptor {
 		this.encryptedCharWithKey = encryptedCharWithKey;
 	}
 
-	/**
-	 * A getter method for the boolean denoting if the file is to be encrypted (T) or decrypted (F)
-	 * @return encrypt a boolean T if the file is to be encrypted
-	 */
-	public boolean outTypeEncrypt() {
-		return encrypt;
-	}
-
-	/**
-	 * A setter for the boolean encrypt that denotes if the file is to be encrypted (T) or decrypted (F)
-	 * @param encrypt a boolean T if the file is to be encrypted or F if the file is to be decrypted
-	 */
-	public void setOutTypeToEncrypt(boolean encrypt) {
-		this.encrypt = encrypt;
-	}
-
 	/*=========================================
 	 * TESTING
     ======================================== */
@@ -164,7 +152,7 @@ public class Decryptor {
 		char[] baseSet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'} ;
 		char[] decryptionKeys = {'z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a'} ;
 
-		Decryptor d = new Decryptor(baseSet, decryptionKeys);
+		Decryptor d = new Decryptor(baseSet, decryptionKeys, "/Users/josephhaymaker/desktop");
 		//		d.decrypt("test_file.txt");
 		d.decrypt("encrypted_test_file.txt");
 		//		d.nameDecryptedFile("test_fileENCRYPTED.txt") ;

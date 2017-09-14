@@ -26,6 +26,7 @@ public class Main {
 		//=================OBTAIN RUNTIME ARGUMENT-ABSOLUTE OR RELATIVE PATH====================
 		//======================================================================================
 		File argFilePath = new File(args[0]);
+		
 		//TODO change all if statements to just the error condition.
 		//CHECKS IF: 1. the number of runtime arguments isn't correct
 		if (args.length != 1) {
@@ -106,7 +107,7 @@ public class Main {
 			
 			
 			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS==============
-			
+			Decryptor dec = new Decryptor(origCharsWFreqs, cipherCharsWFreqs, corpusFiles); //takes in map? of origchars and cipher chars with freqs and filepath
 			
 			
 			//=================4. COMPARE DECRYPTED CIPHERTEXT TO ORIGINAL TEXT==============
