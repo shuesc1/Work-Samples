@@ -32,6 +32,10 @@ public class FrequencyCalculator {
 		this.filepath = filepath ;
 		this.currentFilename = currentFilename ;
 	}
+	
+	public FrequencyCalculator() {
+		
+	}
 
 	/**
 	 * A method that reads in a file and counts the frequency of the target characters
@@ -97,7 +101,11 @@ public class FrequencyCalculator {
 	 */
 	public String[] sortedMapToSortedArray(Map<String, Integer> sortedMap) {
 		Set<String> keys = sortedMap.keySet() ;
-		String[] sortedArray =  (String[]) keys.toArray();
+		String[] sortedArray =  keys.toArray(new String[0]);
+//		String[] sortedArray = new String[keys.size()] ;
+//		for (String thisKey : keys) {
+//			
+//		}
 		
 		return sortedArray ;
 	}

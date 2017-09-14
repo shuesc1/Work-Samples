@@ -36,6 +36,7 @@ public class Main {
 
 		//CHECKS IF PATH IS DIRECTORY
 		//TODO does this check absolute and relative filepaths?
+		//TODO comment out print statements
 		if (argFilePath.isDirectory()) { 
 			System.out.println("Filepath given is a directory.") ;
 		} else {
@@ -86,24 +87,31 @@ public class Main {
 
 			//===2. USE NON-CURRENT FILES AND NON-ENCRYPTED FILES TO CREATE FREQ LISTS=========
 			//letter freq list for just corpus files
-			FrequencyCalculator fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir, corpusFiles[j]) ;
+			FrequencyCalculator fc = new FrequencyCalculator() ;
+			origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
+			int x = 0 ;
 			for (int j = 0; j < corpusFiles.length; j++) {
-				if (corpusFiles[j].equalsIgnoreCase(currentFile)){
-					break;
-				} else if (corpusFiles[j].equalsIgnoreCase(encryptedFilename)){
-					break;
-				} else { //file is not original file and isn't encrypted file
+				//TODO fix this mess -- find a way to exclude the original and encrypted files
+				
+//				if (corpusFiles[j].equalsIgnoreCase(currentFile)){
+//					break;
+//				} else if (corpusFiles[j].equalsIgnoreCase(encryptedFilename)){
+//					break;
+//				} else { //file is not original file and isn't encrypted file
 					//TODO make sure this logic works for iterating over all files and not erasing the occurrences
-					if (origFreqMappingCharToFreq == null) {
-						origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
-					}
-					
-					if (origFreqMappingCharToFreq.isEmpty()) {
-						fc.generateInitialMapping(baseSet) ; //sets base char keys and values of instances as 0
+//					if (origFreqMappingCharToFreq == null) {
+//						origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
+//					}
+					x++;
+					fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir, corpusFiles[j]) ;
+//					if (origFreqMappingCharToFreq.isEmpty()) {
+					if (x == 1) {
+						origFreqMappingCharToFreq = fc.generateInitialMapping(baseSet) ; //sets base char keys and values of instances as 0
+						System.out.println("I have been reached!");
 					}
 					String currentFileFreqCount = corpusFiles[j] ;
 					origFreqMappingCharToFreq = fc.generateFreqMapping(currentFileFreqCount);
-				}
+//				}
 			}
 			origFreqMappingCharToFreq = fc.orderMap() ;//last step-- order final resulting map
 
@@ -120,6 +128,7 @@ public class Main {
 			String[] sortedCipherCharArray = fc.sortedMapToSortedArray(encryptedFreqMappingCharToFreq) ;
 
 			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS=====================
+			System.out.println("Decryption section reached")
 			Decryptor decrypt = new Decryptor(sortedBaseCharArray, sortedCipherCharArray, corpusDir); 
 			decrypt.decrypt(encryptedFilename);
 			String decryptedFilename = decrypt.getDecryptedFilename() ;
@@ -154,7 +163,7 @@ public class Main {
 		//=========================CALCULATE ACCURACY AND PRINT OUT=============================
 		//======================================================================================
 		if((totalCorrect + totalIncorrect) != 0) {
-			accuracy = totalCorrect / (totalCorrect + totalIncorrect) ;
+			accuracy = (totalCorrect / (totalCorrect + totalIncorrect)) * 100 ;
 		} else {
 			System.out.println("Can't compute accuracy -- dividing correct number by all characters changed"
 					+ " would lead to division by 0") ;
