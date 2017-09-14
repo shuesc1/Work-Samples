@@ -18,15 +18,13 @@ import java.util.regex.Pattern;
  *
  */
 public class Decryptor {
-	private char[] baseCharsByFreq;
-	private char[] encryptionKeysByFreq;
-	private Scanner in;
+	private char[] baseCharsByFreq, encryptionKeysByFreq;
+	private File encryptedFile, decryptedFile;
 	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
-	private String currentEncryptedChar;
 	private PrintWriter out;
-	private File encryptedFile, decryptedFile ;
-	private String filepath;
-	
+	private Scanner in;
+	private String currentEncryptedChar, filepath, decryptedFilename;
+
 	//TODO reconcile the data struct inconsistencies with how the frequency calcs are stored
 	/**
 	 * The constructor for the class
@@ -69,6 +67,7 @@ public class Decryptor {
 
 			//===========CREATE DECRYPTED FILE OR APPEND LINE TO EXISTING FILE=====================	
 			try {
+				decryptedFilename = nameDecryptedFile(encryptedFilename) ;
 				File decryptedFile = new File(filepath, nameDecryptedFile(encryptedFilename));
 				if (!decryptedFile.exists()) {
 					decryptedFile.createNewFile();
@@ -120,10 +119,11 @@ public class Decryptor {
 	public HashMap<Character, Character> createDecryptionKey(){
 		HashMap<Character, Character> ciphersWithOrigChars = new HashMap<>();
 		for(int i = 0; i < baseCharsByFreq.length; i++) {
-			//add key of cipher with value of original correct character
-			//			if(encryptionKeysByFreq[i] != null && baseCharsByFreq[i] != null) { //trying to catch possible OOB error
-			ciphersWithOrigChars.put(encryptionKeysByFreq[i], baseCharsByFreq[i]) ;
-			//			}
+			try {
+				ciphersWithOrigChars.put(encryptionKeysByFreq[i], baseCharsByFreq[i]) ;
+			} catch(ArrayIndexOutOfBoundsException aioobe){
+				System.err.println("Error: number of cipher characters doesn't match number of base characters!");
+			}
 		}
 		return ciphersWithOrigChars;
 	}
@@ -144,6 +144,14 @@ public class Decryptor {
 		this.encryptedCharWithKey = encryptedCharWithKey;
 	}
 
+	/**
+	 * A getter method for the decrypted file's name
+	 * @return decryptedFilename a string of the decrypted file's name
+	 */
+	public String getDecryptedFilename() {
+		return decryptedFilename;
+	}
+	
 	/*=========================================
 	 * TESTING
     ======================================== */

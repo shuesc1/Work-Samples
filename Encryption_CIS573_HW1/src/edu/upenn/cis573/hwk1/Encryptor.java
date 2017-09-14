@@ -1,4 +1,5 @@
 package edu.upenn.cis573.hwk1;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,21 +11,24 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A class that takes an original file and uses cipher substitution to create an encrypted version of the file
+ * @author josephhaymaker
+ *
+ */
 public class Encryptor {
-	private char[] baseChars;
-	private char[] encryptionKeys;
+	private char[] baseChars, encryptionKeys;
 	private Scanner in;
 	private HashMap<Character, Character> origCharsWithCiphers = new HashMap<>();
-	private String currentEncryptedChar;
+	private String currentBaseChar, filepath, encryptedFilename;
 	private PrintWriter out;
-	private File encryptedFile, decryptedFile ;
-	private String filepath;
+	private File encryptedFile, originalFile;
 
 	/**
 	 * The constructor for the class
 	 * It sets instance variables and creates a HashMap of character values matched with their cipher keys
-	 * @param baseChars
-	 * @param encryptionKeys
+	 * @param baseChars a char array of the original characters to be encrypted
+	 * @param encryptionKeys a char array of the cipher characters that correspond to the original characters
 	 * @param filepath the filepath to the corpus files
 	 */
 	public Encryptor(char[] baseChars, char[] encryptionKeys, String filepath) {
@@ -34,16 +38,15 @@ public class Encryptor {
 		setCharWithCipher(createEncryptionKey());
 	}
 
-	//TODO flip all this so it is encrypting the target file
 	/**
-	 * A method that decrypts a file and writes out the correctly decoded original content
-	 * @param encryptedFilename a valid name of a file encrypted using a substitution cipher
+	 * A method that encrypts a file and writes out the correctly encoded content
+	 * @param origFilesName a valid name of a file encrypted using a substitution cipher
 	 */
-	public void decrypt(String encryptedFilename){
-		//=======READ IN ENCRYPTED FILE==============
+	public void encrypt(String origFilesName){
+		//=======READ IN ORIGINAL FILE==============
 		try {
-			encryptedFile = new File(filepath, encryptedFilename) ;
-			in = new Scanner(encryptedFile).useDelimiter("");
+			originalFile = new File(filepath, origFilesName) ;
+			in = new Scanner(originalFile).useDelimiter("");
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found!") ;
 			e.printStackTrace();
@@ -51,11 +54,11 @@ public class Encryptor {
 		while(in.hasNextLine()) {
 			String currentLine = "";
 			while(in.hasNext()) {
-				currentEncryptedChar = in.next();
-				if(origCharsWithCiphers.containsKey(currentEncryptedChar)) { 	
-					currentEncryptedChar = origCharsWithCiphers.get(currentEncryptedChar).toString() ;
+				currentBaseChar = in.next();
+				if(origCharsWithCiphers.containsKey(currentBaseChar)) { 	
+					currentBaseChar = origCharsWithCiphers.get(currentBaseChar).toString() ;
 				}
-				currentLine = currentLine + currentEncryptedChar ;
+				currentLine = currentLine + currentBaseChar ;
 			}
 			currentLine = currentLine + "/n" ;
 			//TODO check if this is adding a newline correctly
@@ -63,11 +66,12 @@ public class Encryptor {
 
 			//===========CREATE DECRYPTED FILE OR APPEND LINE TO EXISTING FILE=====================	
 			try {
-				File decryptedFile = new File(filepath, nameEncryptedFile(encryptedFilename));
-				if (!decryptedFile.exists()) {
-					decryptedFile.createNewFile();
+				encryptedFilename = nameEncryptedFile(origFilesName) ;
+				File encryptedFile = new File(filepath, nameEncryptedFile(origFilesName));
+				if (!encryptedFile.exists()) {
+					encryptedFile.createNewFile();
 				}
-				out = new PrintWriter(new BufferedWriter(new FileWriter(decryptedFile.getAbsoluteFile(), true)));
+				out = new PrintWriter(new BufferedWriter(new FileWriter(encryptedFile.getAbsoluteFile(), true)));
 				out.write(currentLine);
 				//				System.out.println("Done");
 			} catch (IOException e) {
@@ -113,7 +117,11 @@ public class Encryptor {
 	public HashMap<Character, Character> createEncryptionKey(){
 		HashMap<Character, Character> baseCharsWithCiphers = new HashMap<>();
 		for(int i = 0; i < baseChars.length; i++) {
-			baseCharsWithCiphers.put(baseChars[i], encryptionKeys[i]) ;
+			try {
+				baseCharsWithCiphers.put(baseChars[i], encryptionKeys[i]) ;
+			} catch(ArrayIndexOutOfBoundsException aioobe){
+				System.err.println("Error: number of base characters doesn't match number of cipher characters!");
+			}
 		}
 		return baseCharsWithCiphers;
 	}
@@ -132,6 +140,22 @@ public class Encryptor {
 	 */
 	public void setCharWithCipher(HashMap<Character, Character> encryptedCharWithKey) {
 		this.origCharsWithCiphers = encryptedCharWithKey;
+	}
+	
+	/**
+	 * A getter method for the encrypted file's name
+	 * @return
+	 */
+	public String getEncryptedFilename() {
+		return encryptedFilename;
+	}
+
+	/**
+	 * A setter method for the encrypted file's name
+	 * @param decryptedFilename
+	 */
+	public void setEncryptedFilename(String decryptedFilename) {
+		this.encryptedFilename = decryptedFilename;
 	}
 
 }
