@@ -20,7 +20,7 @@ public class Main {
 		Map<Integer, String> freqMappingFiles = new HashMap<Integer, String>();
 		Map<Integer, String> encryptedFileMapping = new HashMap<Integer, String>();
 		String corpusDir, absoluteCorpusDir, relativeCorpusDir;
-		FrequencyCalculator fc = null ;
+		//		FrequencyCalculator fc = null ;
 		String[] baseSet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"} ;
 		String[] decryptionKeys = {"z","y","x","w","v","u","t","s","r","q","p","o","n","m","l","k","j","i","h","g","f","e","d","c","b","a"} ;
 
@@ -86,6 +86,7 @@ public class Main {
 
 			//===2. USE NON-CURRENT FILES AND NON-ENCRYPTED FILES TO CREATE FREQ LISTS=========
 			//letter freq list for just corpus files
+			FrequencyCalculator fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir, corpusFiles[j]) ;
 			for (int j = 0; j < corpusFiles.length; j++) {
 				if (corpusFiles[j].equalsIgnoreCase(currentFile)){
 					break;
@@ -93,10 +94,10 @@ public class Main {
 					break;
 				} else { //file is not original file and isn't encrypted file
 					//TODO make sure this logic works for iterating over all files and not erasing the occurrences
-					if (origFreqMappingCharToFreq.isEmpty()) {
+					if (origFreqMappingCharToFreq == null) {
 						origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
 					}
-					fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir, corpusFiles[j]) ;
+					
 					if (origFreqMappingCharToFreq.isEmpty()) {
 						fc.generateInitialMapping(baseSet) ; //sets base char keys and values of instances as 0
 					}
@@ -130,9 +131,9 @@ public class Main {
 			comparator.compare(sortedBaseCharArray) ;
 			currentFileCorrect = comparator.getCorrectChars() ;
 			currentFileIncorrect = comparator.getIncorrectChars() ;
-			
+
 			System.out.println(currentFile + ": " + currentFileCorrect + " correct, " + currentFileIncorrect + " incorrect");
-			
+
 			totalCorrect = totalCorrect + currentFileCorrect ;
 			totalIncorrect = totalIncorrect + currentFileIncorrect ;
 			//TODO: while loop logic for every single individual file {
