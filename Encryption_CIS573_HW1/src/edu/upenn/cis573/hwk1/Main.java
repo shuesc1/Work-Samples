@@ -80,7 +80,7 @@ public class Main {
 			
 			//============================>>>>ALGORITHM<<<<<<===================================
 			//====1. READ CURRENT FILE IN, ENCRYPT IT, AND SAVE TO SAME DIR=====================
-		    readWriteFiles encrypt = new readWriteFiles(String filepath, char[] baseChars, char[] cipherChars) ;
+		    ReadWriteFiles encrypt = new ReadWriteFiles(String filepath, char[] baseChars, char[] cipherChars) ;
 			encrypt.setEncryptFile(True) ;
 			encrypt.readAndWrite();
 			String encryptedFilename = encrypt.nameOutputFile(currentFile);
@@ -105,11 +105,11 @@ public class Main {
 			fc.calculateFreq(encryptedFilename) ; //get a freq list for the newly encrypted file (old_fileENCRYPTED.txt)
 			
 			
-			
 			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS==============
 			
 			
 			
+			//=================4. COMPARE DECRYPTED CIPHERTEXT TO ORIGINAL TEXT==============
 			
 			//TODO: while loop logic for every single individual file {
 			//1. encrypt file and save new encrypted output file
