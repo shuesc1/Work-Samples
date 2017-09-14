@@ -54,9 +54,9 @@ public class Encryptor {
 		while(in.hasNextLine()) {
 			String currentLine = "";
 			while(in.hasNext()) {
-				currentBaseChar = in.next();
+				currentBaseChar = in.next().toLowerCase();
 				if(origCharsWithCiphers.containsKey(currentBaseChar)) { 	
-					currentBaseChar = origCharsWithCiphers.get(currentBaseChar).toString() ;
+					currentBaseChar = origCharsWithCiphers.get(currentBaseChar) ;
 				}
 				currentLine = currentLine + currentBaseChar ;
 			}
@@ -156,6 +156,18 @@ public class Encryptor {
 	 */
 	public void setEncryptedFilename(String decryptedFilename) {
 		this.encryptedFilename = decryptedFilename;
+	}
+	
+	/**
+	 * A helper method that assures that all characters are lowercase so they are sure to be matched
+	 * @param keyChars
+	 * @return 
+	 */
+	public String[] charsToLowercase(String[] keyChars) {
+		for (int i =0; i < keyChars.length; i++) {
+			keyChars[i] = keyChars[i].toLowerCase() ;
+		}
+		return keyChars;
 	}
 
 }

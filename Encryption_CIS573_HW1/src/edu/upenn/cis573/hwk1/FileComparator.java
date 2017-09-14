@@ -39,10 +39,10 @@ public class FileComparator {
 		while (in1.hasNextLine()) {
 			while(in2.hasNextLine()) {
 				while(in1.hasNext()) {
-					currentOrigChar = in1.next();
+					currentOrigChar = in1.next().toLowerCase();
 				}
 				while(in2.hasNext()) {
-					currentDecrypChar = in2.next() ;
+					currentDecrypChar = in2.next().toLowerCase() ;
 				}
 				//now on same line and same character position in texts
 				//want to only consider 'correct' chars as ones that were encrypted then decrypted

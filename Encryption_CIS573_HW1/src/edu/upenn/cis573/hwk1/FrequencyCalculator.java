@@ -1,5 +1,6 @@
 package edu.upenn.cis573.hwk1;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,38 +8,47 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class FrequencyCalculator {
-	
+
 	private Map<String, Integer> freqMappingCharToFreq ;
-	private String filepath ;
+	private String filepath, currentFilename ;
+	private Scanner in;
 
 	/**
 	 * The constructor for the class.
 	 * It initializes the instance variable map.
 	 * @param freqMappingCharToFreq
 	 */
-	public FrequencyCalculator(Map<String, Integer> freqMappingCharToFreq, String filepath) {
+	public FrequencyCalculator(Map<String, Integer> freqMappingCharToFreq, String filepath, String currentFilename) {
 		this.freqMappingCharToFreq = freqMappingCharToFreq;
 		this.filepath = filepath ;
+		this.currentFilename = currentFilename ;
 	}
-	
+
 	/**
 	 * A method that reads in a file and counts the frequency of the target characters
 	 * @param currentFile
-	 * @return
+	 * @return freqMappingCharToFreq the mapping of characters to their frequencies, now updated with the current file's occurrences
 	 */
 	public Map<String, Integer> generateFreqMapping(String currentFile){
-		//TODO read in file and iterate over chars
-		//TODO if char is in freqMappingCharToFreq ==> get current freq count, ++, then store key and value again
-		//int freq = freqMappingCharToFreq.get(char) + 1;
-		//freqMappingCharToFreq.put(char, freq) ;
-		
-	
+		in = new Scanner(currentFile).useDelimiter("") ;
+		int freq = 0 ;
+		String thisChar = "" ;
+		while (in.hasNextLine()) {
+			while (in.hasNext()) {
+				if (freqMappingCharToFreq.containsKey(thisChar)) { //if char is in freqMappingCharToFreq ==> get current freq count, ++, then store key and value again
+					freq = freqMappingCharToFreq.get(thisChar) + 1;
+					freqMappingCharToFreq.put(thisChar, freq) ;
+				}
+			}
+		}
+		in.close();
 		
 		return freqMappingCharToFreq;
 	}
-	
+
 	/**
 	 * A method that creates the initial mapping with strings of the characters and values of 0
 	 * @param characters
@@ -50,26 +60,26 @@ public class FrequencyCalculator {
 		}
 		return freqMappingCharToFreq;
 	}
-	
-	
+
+
 	/** 
 	 * A method that sorts a map based on natural ordering of values (frequencies) in ascending order
 	 * Algorithm source: https://www.mkyong.com/java/how-to-sort-a-map-in-java/
 	 * @return 
 	 */
 	public Map<String, Integer> orderMap(){
-        List<Map.Entry<String, Integer>> mapToList = new LinkedList<Map.Entry<String, Integer>>(freqMappingCharToFreq.entrySet());
-        Collections.sort(mapToList, new Comparator<Map.Entry<String, Integer>>() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2) {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
+		List<Map.Entry<String, Integer>> mapToList = new LinkedList<Map.Entry<String, Integer>>(freqMappingCharToFreq.entrySet());
+		Collections.sort(mapToList, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> o1,
+					Map.Entry<String, Integer> o2) {
+				return (o1.getValue()).compareTo(o2.getValue());
+			}
+		});
 
-        Map<String, Integer> sortedfreqMappingCharToFreq = new LinkedHashMap<String, Integer>() ;
-        for (Map.Entry<String, Integer> thisMapEntry : mapToList) {
-            sortedfreqMappingCharToFreq.put(thisMapEntry.getKey(), thisMapEntry.getValue());
-        }
-        return sortedfreqMappingCharToFreq;
+		Map<String, Integer> sortedfreqMappingCharToFreq = new LinkedHashMap<String, Integer>() ;
+		for (Map.Entry<String, Integer> thisMapEntry : mapToList) {
+			sortedfreqMappingCharToFreq.put(thisMapEntry.getKey(), thisMapEntry.getValue());
+		}
+		return sortedfreqMappingCharToFreq;
 	}
 }

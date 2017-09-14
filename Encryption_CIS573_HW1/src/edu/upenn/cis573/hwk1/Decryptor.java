@@ -112,7 +112,7 @@ public class Decryptor {
 	}
 
 	/**
-	 * A method that creates a HashMap with keys of ciphers and values of their corresponding original
+	 * A helper method that creates a HashMap with keys of ciphers and values of their corresponding original
 	 * characters based on frequency representations.
 	 * @return
 	 */
