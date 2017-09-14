@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
  *
  */
 public class Encryptor {
-	private char[] baseChars, encryptionKeys;
+	private String[] baseChars, encryptionKeys;
 	private Scanner in;
-	private HashMap<Character, Character> origCharsWithCiphers = new HashMap<>();
+	private HashMap<String, String> origCharsWithCiphers = new HashMap<>();
 	private String currentBaseChar, filepath, encryptedFilename;
 	private PrintWriter out;
 	private File encryptedFile, originalFile;
@@ -31,7 +31,7 @@ public class Encryptor {
 	 * @param encryptionKeys a char array of the cipher characters that correspond to the original characters
 	 * @param filepath the filepath to the corpus files
 	 */
-	public Encryptor(char[] baseChars, char[] encryptionKeys, String filepath) {
+	public Encryptor(String[] baseChars, String[] encryptionKeys, String filepath) {
 		this.baseChars = baseChars ;
 		this.encryptionKeys = encryptionKeys ;
 		this.filepath = filepath ;
@@ -114,8 +114,8 @@ public class Encryptor {
 	 * A method that creates a HashMap with keys of original characters and values of their corresponding ciphers
 	 * @return baseCharsWithCiphers a HashMap of chars mapped to ciphers
 	 */
-	public HashMap<Character, Character> createEncryptionKey(){
-		HashMap<Character, Character> baseCharsWithCiphers = new HashMap<>();
+	public HashMap<String, String> createEncryptionKey(){
+		HashMap<String, String> baseCharsWithCiphers = new HashMap<>();
 		for(int i = 0; i < baseChars.length; i++) {
 			try {
 				baseCharsWithCiphers.put(baseChars[i], encryptionKeys[i]) ;
@@ -130,7 +130,7 @@ public class Encryptor {
 	 * A getter method for the hashmap used to decode the text
 	 * @return
 	 */
-	public HashMap<Character, Character> getCharWithCipher() {
+	public HashMap<String, String> getCharWithCipher() {
 		return origCharsWithCiphers;
 	}
 
@@ -138,7 +138,7 @@ public class Encryptor {
 	 * A setter method for the HashMap used to decode the text
 	 * @param encryptedCharWithKey
 	 */
-	public void setCharWithCipher(HashMap<Character, Character> encryptedCharWithKey) {
+	public void setCharWithCipher(HashMap<String, String> encryptedCharWithKey) {
 		this.origCharsWithCiphers = encryptedCharWithKey;
 	}
 	

@@ -18,9 +18,9 @@ public class Main {
 		double accuracy = 0;
 		Map<Integer, String> freqMappingFiles = new HashMap<Integer, String>();
 		Map<Integer, String> encryptedFileMapping = new HashMap<Integer, String>();
-		FileEncryptor fe = new FileEncryptor();
-		FrequencyCalculator fc;
 		String corpusDir, absoluteCorpusDir, relativeCorpusDir;
+		String[] baseSet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"} ;
+		String[] decryptionKeys = {"z","y","x","w","v","u","t","s","r","q","p","o","n","m","l","k","j","i","h","g","f","e","d","c","b","a"} ;
 
 		//======================================================================================
 		//=================OBTAIN RUNTIME ARGUMENT-ABSOLUTE OR RELATIVE PATH====================
@@ -69,29 +69,21 @@ public class Main {
 		//======================================================================================
 		//==================START ITERATING OVER ALL FILES IN DIR AND EXECUTE ALGORITHM=========
 		//======================================================================================
-		String[] corpusFiles = argFilePath.list() ;
-		//TODO maybe store filenames as dynam array so certain filenames can be removed or added as needed
-//		ArrayList<String> corpusFilesDyn = argFilePath.list() ;
-		
-		//TODO create mapping from original chars to instance
-		
+		String[] corpusFiles = argFilePath.list() ;		
 		for (int i = 0; i < corpusFiles.length; i++) {
 			String currentFile = corpusFiles[i];
 		
-			
 			//============================>>>>ALGORITHM<<<<<<===================================
 			//====1. READ CURRENT FILE IN, ENCRYPT IT, AND SAVE TO SAME DIR=====================
-		    ReadWriteFiles encrypt = new ReadWriteFiles(String filepath, char[] baseChars, char[] cipherChars) ;
-			encrypt.setEncryptFile(True) ;
-			encrypt.readAndWrite();
-			String encryptedFilename = encrypt.nameOutputFile(currentFile);
+		    Encryptor encrypt = new Encryptor(baseSet, decryptionKeys, corpusDir) ;
+		    encrypt.encrypt(currentFile);
+		    String encryptedFilename = encrypt.getEncryptedFilename() ;
 			
-			//===2. USE NON-CURRENT FILES AND NON-ENCRYPTED FILES TO CREATE FREQ LISTS==
-			//freq list for just 
-			fc = new FrequencyCalculator(freqMappingFiles) ;
-			
-			//freq list for encrypted file
-			fc = new FrequencyCalculator(encryptedFileMapping) ;
+			//===2. USE NON-CURRENT FILES AND NON-ENCRYPTED FILES TO CREATE FREQ LISTS=========
+			//freq list for just corpus files
+		    Map<String, Integer> origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
+		    FrequencyCalculator fc = new FrequencyCalculator(origFreqMappingCharToFreq, corpusDir) ;
+		    fc.generateInitialMapping(baseSet) ; //sets char keys and values of instances as 0
 			
 			//for all remaining files get a representation of the letter frequency
 			for (int j = 0; j < corpusFiles.length; j++) {
@@ -100,17 +92,31 @@ public class Main {
 				} else if (corpusFiles[j].equalsIgnoreCase(encryptedFilename)){
 					break;
 				} else { //file is not original file and isn't encrypted file
-					
+					//TODO take in current corpusFile, add its frequencies to existent freq list map
+					String currentFileFreqCount = corpusFiles[j] ;
+					origFreqMappingCharToFreq = fc.generateFreqMapping(currentFileFreqCount);
 				}
 			}
-			fc.calculateFreq(encryptedFilename) ; //get a freq list for the newly encrypted file (old_fileENCRYPTED.txt)
+			origFreqMappingCharToFreq = fc.orderMap() ;//last step-- order final resulting map
+			
+			//for encyrpted file get letter frequency
+			Map<String, Integer> encryptedFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
+		    fc = new FrequencyCalculator(encryptedFreqMappingCharToFreq, corpusDir) ;
+		    fc.generateInitialMapping(decryptionKeys) ;
+		    encryptedFreqMappingCharToFreq = fc.generateFreqMapping(encryptedFilename) ;
+		    encryptedFreqMappingCharToFreq = fc.orderMap() ;
+		    
+		    //TODO now that we have freq list for corpus files AND encrypted file time to create one mapping based on their respective character frequencies
+//			fc.calculateFreq(encryptedFilename) ; //get a freq list for the newly encrypted file (old_fileENCRYPTED.txt)
 			
 			
-			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS==============
-			Decryptor dec = new Decryptor(origCharsWFreqs, cipherCharsWFreqs, corpusFiles); //takes in map? of origchars and cipher chars with freqs and filepath
+			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS=====================
+		    //TODO decrypt files using the generated freq list(s)
+//			Decryptor dec = new Decryptor(origCharsWFreqs, cipherCharsWFreqs, corpusFiles); //takes in map? of origchars and cipher chars with freqs and filepath
 			
 			
 			//=================4. COMPARE DECRYPTED CIPHERTEXT TO ORIGINAL TEXT==============
+			//TODO call filecomparator
 			
 			//TODO: while loop logic for every single individual file {
 			//1. encrypt file and save new encrypted output file
@@ -120,6 +126,8 @@ public class Main {
 			//5. print out "'filename' + ": " + correctNum + " correct, " + incorrectNum + " incorrect"
 			//6. store correctNum and incorrectNum for final tally
 			// }
+		    
+		    
 		}
 		//======================================================================================
 		//========================END ALGORITHM IMPLEMENTATION SECTION==========================

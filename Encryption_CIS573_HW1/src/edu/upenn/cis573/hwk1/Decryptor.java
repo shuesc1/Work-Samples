@@ -18,9 +18,9 @@ import java.util.regex.Pattern;
  *
  */
 public class Decryptor {
-	private char[] baseCharsByFreq, encryptionKeysByFreq;
+	private String[] baseCharsByFreq, encryptionKeysByFreq;
 	private File encryptedFile, decryptedFile;
-	private HashMap<Character, Character> encryptedCharWithKey = new HashMap<>();
+	private HashMap<String, String> encryptedCharWithKey = new HashMap<>();
 	private PrintWriter out;
 	private Scanner in;
 	private String currentEncryptedChar, filepath, decryptedFilename;
@@ -32,7 +32,7 @@ public class Decryptor {
 	 * @param baseCharsByFreq
 	 * @param encryptionKeysByFreq
 	 */
-	public Decryptor(char[] baseCharsByFreq, char[] encryptionKeysByFreq, String filepath) {
+	public Decryptor(String[] baseCharsByFreq, String[] encryptionKeysByFreq, String filepath) {
 		this.baseCharsByFreq = baseCharsByFreq ;
 		this.encryptionKeysByFreq = encryptionKeysByFreq ;
 		this.filepath = filepath ;
@@ -116,8 +116,8 @@ public class Decryptor {
 	 * characters based on frequency representations.
 	 * @return
 	 */
-	public HashMap<Character, Character> createDecryptionKey(){
-		HashMap<Character, Character> ciphersWithOrigChars = new HashMap<>();
+	public HashMap<String, String> createDecryptionKey(){
+		HashMap<String, String> ciphersWithOrigChars = new HashMap<>();
 		for(int i = 0; i < baseCharsByFreq.length; i++) {
 			try {
 				ciphersWithOrigChars.put(encryptionKeysByFreq[i], baseCharsByFreq[i]) ;
@@ -132,7 +132,7 @@ public class Decryptor {
 	 * A getter method for the hashmap used to decode the text
 	 * @return
 	 */
-	public HashMap<Character, Character> getEncryptedCharWithKey() {
+	public HashMap<String, String> getEncryptedCharWithKey() {
 		return encryptedCharWithKey;
 	}
 
@@ -140,7 +140,7 @@ public class Decryptor {
 	 * A setter method for the HashMap used to decode the text
 	 * @param encryptedCharWithKey
 	 */
-	public void setEncryptedCharWithKey(HashMap<Character, Character> encryptedCharWithKey) {
+	public void setEncryptedCharWithKey(HashMap<String, String> encryptedCharWithKey) {
 		this.encryptedCharWithKey = encryptedCharWithKey;
 	}
 
@@ -157,8 +157,8 @@ public class Decryptor {
     ======================================== */
 	public static void main(String[] args) {
 
-		char[] baseSet = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'} ;
-		char[] decryptionKeys = {'z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a'} ;
+		String[] baseSet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"} ;
+		String[] decryptionKeys = {"z","y","x","w","v","u","t","s","r","q","p","o","n","m","l","k","j","i","h","g","f","e","d","c","b","a"} ;
 
 		Decryptor d = new Decryptor(baseSet, decryptionKeys, "/Users/josephhaymaker/desktop");
 		//		d.decrypt("test_file.txt");

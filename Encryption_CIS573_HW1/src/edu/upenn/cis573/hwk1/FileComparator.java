@@ -30,7 +30,7 @@ public class FileComparator {
 	 * decoded.
 	 * @param origChars a char array of the original characters that were encrypted then decrypted
 	 */
-	public void compare(char[] origChars) {
+	public void compare(String[] origChars) {
 		in1 = new Scanner(originalFile).useDelimiter("") ;
 		in2 = new Scanner(decryptedFile).useDelimiter("") ;
 		correctChars = 0;
