@@ -84,7 +84,6 @@ public class Encryptor {
 				}
 			}
 
-
 			//				System.out.println("Done");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -110,12 +109,9 @@ public class Encryptor {
 		Matcher m = p1.matcher(originalFilename);
 		if (m.find( )) {
 			prefix = m.group(0) ; 
-
 		}else {
 			//			System.out.println("No encrypted file match found!");
 		}
-
-
 		encryptedFilename = prefix + "ENCRYPTED." + extension ;
 
 		//		System.out.println("Prefix: " + prefix);
