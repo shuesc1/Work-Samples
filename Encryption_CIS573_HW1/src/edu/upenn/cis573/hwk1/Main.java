@@ -93,7 +93,7 @@ public class Main {
 			origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
 			int x = 0 ;
 			for (int j = 0; j < corpusFiles.length; j++) {
-				//TODO fix this mess -- find a way to exclude the original and encrypted files
+				//TODO fix this mess -- find a way to exclude the original and encrypted files when generating freq lists
 				
 //				if (corpusFiles[j].equalsIgnoreCase(currentFile)){
 //					break;
@@ -148,7 +148,8 @@ public class Main {
 
 			totalCorrect = totalCorrect + currentFileCorrect ;
 			totalIncorrect = totalIncorrect + currentFileIncorrect ;
-			//TODO: while loop logic for every single individual file {
+			
+			//TODO: while loop logic for every single individual file logic {
 			//1. encrypt file and save new encrypted output file
 			//2. create frequency lists --from remaining texts and from newly encrypted text
 			//3. use frequency list to decrypt the target ciphertext

@@ -53,16 +53,16 @@ public class Decryptor {
 			e.printStackTrace();
 		}
 		while(in.hasNextLine()) {
-//			String currentLine = "";
-//			while(in.hasNext()) {
-//				currentEncryptedChar = in.next().toLowerCase();
-//				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
-//					currentEncryptedChar = encryptedCharWithKey.get(currentEncryptedChar).toString() ;
-//				}
-//				currentLine = currentLine + currentEncryptedChar ;
-//			}
-//			currentEncryptedChar = currentEncryptedChar + "/n" ;
-//			currentLine = currentLine + "/n" ;
+			//			String currentLine = "";
+			//			while(in.hasNext()) {
+			//				currentEncryptedChar = in.next().toLowerCase();
+			//				if(encryptedCharWithKey.containsKey(currentEncryptedChar)) { 	
+			//					currentEncryptedChar = encryptedCharWithKey.get(currentEncryptedChar).toString() ;
+			//				}
+			//				currentLine = currentLine + currentEncryptedChar ;
+			//			}
+			//			currentEncryptedChar = currentEncryptedChar + "/n" ;
+			//			currentLine = currentLine + "/n" ;
 			//TODO check if this is adding a newline correctly
 			//============GENERATED STRING OF 1 LINE OF ENCRYPTED FILE============
 
@@ -74,7 +74,7 @@ public class Decryptor {
 					decryptedFile.createNewFile();
 				}
 				out = new PrintWriter(new BufferedWriter(new FileWriter(decryptedFile.getAbsoluteFile(), true)));
-				
+
 				while(in.hasNextLine()) {
 					String currentLine = "";
 					while(in.hasNext()) {
@@ -85,10 +85,10 @@ public class Decryptor {
 						out.write(currentEncryptedChar);
 					}
 				}
-				
-				
-				
-//				out.write(currentEncryptedChar);
+
+
+
+				//				out.write(currentEncryptedChar);
 				//				System.out.println("Done");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -97,7 +97,7 @@ public class Decryptor {
 					out.close();
 				//==========CLOSE PRINTWRITER=====================
 			}
-//			}
+			//			}
 		}
 		in.close();
 	}
@@ -114,17 +114,15 @@ public class Decryptor {
 		String namePattern = "[ \\w-]+?(?=ENCRYPTED\\.)";
 		Pattern p1 = Pattern.compile(namePattern);
 		Matcher m = p1.matcher(encryptedFilename);
-		if (m.find( )) {
+		if (m.find()) {
 			prefix = m.group(0) ; 
 		}else {
-//			System.out.println("No encrypted file match found!");
+			//			System.out.println("No encrypted file match found!");
 		}
-
 		decryptedFilename = prefix + "DECRYPTED." + extension ;
-	
-		//		System.out.println("Prefix: " + prefix);
-		//		System.out.println("Extension: " + extension);
-		//		System.out.println(decryptedFilename);
+		//				System.out.println("Prefix: " + prefix);
+		//				System.out.println("Extension: " + extension);
+		//				System.out.println(decryptedFilename);
 		return decryptedFilename;
 	}
 
@@ -168,7 +166,7 @@ public class Decryptor {
 	public String getDecryptedFilename() {
 		return decryptedFilename;
 	}
-	
+
 	/*=========================================
 	 * TESTING
     ======================================== */

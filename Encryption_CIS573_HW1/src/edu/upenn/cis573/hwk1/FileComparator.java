@@ -36,26 +36,25 @@ public class FileComparator {
 		correctChars = 0;
 		incorrectChars = 0;
 
-		while (in1.hasNextLine()) {
-			while(in2.hasNextLine()) {
-				while(in1.hasNext()) {
-					currentOrigChar = in1.next().toLowerCase();
-				}
-				while(in2.hasNext()) {
-					currentDecrypChar = in2.next().toLowerCase() ;
-				}
-				//now on same line and same character position in texts
-				//want to only consider 'correct' chars as ones that were encrypted then decrypted
-				if (origChars.toString().contains(currentOrigChar)) {
-					if (currentDecrypChar.equalsIgnoreCase(currentOrigChar)) {
-						correctChars++;
-					} else {
-						incorrectChars++;
-					}
+		while (in1.hasNextLine() && in2.hasNextLine()) {
+			while(in1.hasNext()) {
+				currentOrigChar = in1.next().toLowerCase();
+			}
+			while(in2.hasNext()) {
+				currentDecrypChar = in2.next().toLowerCase() ;
+			}
+			//now on same line and same character position in texts
+			//want to only consider 'correct' chars as ones that were encrypted then decrypted
+			if (origChars.toString().contains(currentOrigChar) || origChars.toString().contains(currentDecrypChar)) {
+				if (currentDecrypChar.equalsIgnoreCase(currentOrigChar)) {
+					correctChars++;
+				} else {
+					incorrectChars++;
 				}
 			}
 		}
 	}
+
 
 	/**
 	 * A getter method for the number of correctly decrypted characters
