@@ -38,19 +38,19 @@ public class Main {
 		//TODO does this check absolute and relative filepaths?
 		//TODO comment out print statements
 		if (argFilePath.isDirectory()) { 
-			System.out.println("Filepath given is a directory.") ;
+//			System.out.println("Filepath given is a directory.") ;
 		} else {
 			throw new IllegalArgumentException("Pathname specified is not a directory!") ;
 		}
 		//CHECKS IF PATH EXISTS
 		if (argFilePath.exists()) {
-			System.out.println("The path indicated by the filepath does exist.") ;
+//			System.out.println("The path indicated by the filepath does exist.") ;
 		} else if (!argFilePath.exists()) {
 			throw new InvalidPathException("Filepath does not exist!:", args[0]) ;
 		}
 		//CHECKS IF PATH IS READABLE/WRITABLE
 		if (argFilePath.canWrite() && argFilePath.canRead()) {
-			System.out.println("Specified directory is readable and writeable.") ;
+//			System.out.println("Specified directory is readable and writeable.") ;
 		} else {
 			throw new AccessDeniedException("You don't have permission to read/write to this directory!") ;
 		}
@@ -79,6 +79,7 @@ public class Main {
 
 			//============================>>>>ALGORITHM<<<<<<===================================
 			//====1. READ CURRENT FILE IN, ENCRYPT IT, AND SAVE TO SAME DIR=====================
+//			System.out.println("1. Encryption section reached") ;
 			Encryptor encrypt = new Encryptor(baseSet, decryptionKeys, corpusDir) ;
 			baseSet = encrypt.charsToLowercase(baseSet);
 			decryptionKeys = encrypt.charsToLowercase(decryptionKeys) ;
@@ -87,6 +88,7 @@ public class Main {
 
 			//===2. USE NON-CURRENT FILES AND NON-ENCRYPTED FILES TO CREATE FREQ LISTS=========
 			//letter freq list for just corpus files
+//			System.out.println("2. Frequency list section reached") ;
 			FrequencyCalculator fc = new FrequencyCalculator() ;
 			origFreqMappingCharToFreq = new HashMap<String, Integer>() ; //this is the Map to be used by all the corpus files
 			int x = 0 ;
@@ -107,7 +109,7 @@ public class Main {
 //					if (origFreqMappingCharToFreq.isEmpty()) {
 					if (x == 1) {
 						origFreqMappingCharToFreq = fc.generateInitialMapping(baseSet) ; //sets base char keys and values of instances as 0
-						System.out.println("I have been reached!");
+//						System.out.println("I have been reached!");
 					}
 					String currentFileFreqCount = corpusFiles[j] ;
 					origFreqMappingCharToFreq = fc.generateFreqMapping(currentFileFreqCount);
@@ -128,12 +130,13 @@ public class Main {
 			String[] sortedCipherCharArray = fc.sortedMapToSortedArray(encryptedFreqMappingCharToFreq) ;
 
 			//=================3. DECRYPT ENCRYPTED FILE USING FREQ LISTS=====================
-			System.out.println("Decryption section reached")
+//			System.out.println("3. Decryption section reached") ;
 			Decryptor decrypt = new Decryptor(sortedBaseCharArray, sortedCipherCharArray, corpusDir); 
 			decrypt.decrypt(encryptedFilename);
 			String decryptedFilename = decrypt.getDecryptedFilename() ;
 
 			//=================4. COMPARE DECRYPTED CIPHERTEXT TO ORIGINAL TEXT==============
+//			System.out.println("4. Compare section reached") ;
 			int currentFileCorrect = 0;
 			int currentFileIncorrect = 0;
 			FileComparator comparator = new FileComparator(currentFile, decryptedFilename) ; 

@@ -99,11 +99,14 @@ public class Encryptor {
 		Matcher m = p1.matcher(originalFilename);
 		if (m.find( )) {
 			prefix = m.group(0) ; 
+			
 		}else {
-			System.out.println("No encrypted file match found!");
+//			System.out.println("No encrypted file match found!");
 		}
 
-		encryptedFilename = prefix + "ENCRYPTED." + extension ;
+
+			encryptedFilename = prefix + "ENCRYPTED." + extension ;
+
 		//		System.out.println("Prefix: " + prefix);
 		//		System.out.println("Extension: " + extension);
 		//		System.out.println(decryptedFilename);
@@ -141,7 +144,7 @@ public class Encryptor {
 	public void setCharWithCipher(HashMap<String, String> encryptedCharWithKey) {
 		this.origCharsWithCiphers = encryptedCharWithKey;
 	}
-	
+
 	/**
 	 * A getter method for the encrypted file's name
 	 * @return
@@ -157,7 +160,7 @@ public class Encryptor {
 	public void setEncryptedFilename(String decryptedFilename) {
 		this.encryptedFilename = decryptedFilename;
 	}
-	
+
 	/**
 	 * A helper method that assures that all characters are lowercase so they are sure to be matched
 	 * @param keyChars
