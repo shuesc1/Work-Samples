@@ -206,12 +206,12 @@ public class GameView extends View {
             }
 
             else { //if you didn't find the shortest calculated path
-                attempt++;
+//                attempt++;
                 // after the 3rd failed attempt, show the solution
-                if (attempt >= 6) {
+                if (attempt >= 3) { //should probably switch this section to after "Your path is about xx% too big now that I moved attempt++ there
 //                    attempt++;
                     // draw the solution
-                    for (int i = 0; i < shortestPath.size() - 1; i++) { //TODO this is where the bug must be
+                    for (int i = 0; i < shortestPath.size() - 1; i++) {
                         Point a = shortestPath.get(i);
                         Point b = shortestPath.get(i + 1);
                         paint.setColor(Color.YELLOW);
@@ -225,6 +225,7 @@ public class GameView extends View {
                     canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
 
                     Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();
+                    invalidate();
                 }
                 else {
                     int offset = (int) (Math.abs(diff) / shortestPathLength * 100);
@@ -233,11 +234,9 @@ public class GameView extends View {
                         offset = 1;
                     }
                     Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
-//                    if(isValidStroke) {
-//                        attempt++;
-//                    }
+                        attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
                 }
-//                attempt++;
+//                attempt++; //moved into "Nope, not quite!" section
             }
         }
         else if (segments.size() == mapPoints.length && !isCircuit) {
@@ -254,7 +253,6 @@ public class GameView extends View {
         Point p = new Point();
         p.x = ((int)event.getX());
         p.y = ((int)event.getY());
-//        isValidStroke = false; //trying to see if this changes the logic
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) { //action_down == initial touch event
 
@@ -271,7 +269,8 @@ public class GameView extends View {
                     xCoords.add(p.x);
                     yCoords.add(p.y);
                     firstPoint = p;
-                    isValidStroke = true;
+                    isValidStroke = true; //within reasonable limit (30 pixels) to a point on the map
+                    invalidate();
                     break;
                 }
             }
@@ -280,6 +279,7 @@ public class GameView extends View {
             if (isValidStroke) {
                 xCoords.add(p.x);
                 yCoords.add(p.y);
+                invalidate();
             }
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
@@ -302,21 +302,20 @@ public class GameView extends View {
                         if (firstPoint.x != p.x && firstPoint.y != p.y) {
                             segments.add(points); //TODO verify -- number of point objs in segments should be
                         }
+                        invalidate();
                         break;
                     }
                 }
             }
-//            isValidStroke = false; //TODO should this be moved to beginning of the method-- if it's false before this won't change that fact
+            isValidStroke = false; //TODO should this be moved to beginning of the method-- if it's false before this won't change that fact
         }
-//        else if(event.getAction()) {
+        else {
             return false;
-            invalidate();
-//            return true ;
-//        }
+        }
 
             // forces a redraw of the View
-//        invalidate();
-//        return false ;
+//        invalidate(); //took this out and moved the forced redraw into each DOWN, MOVE, and UP section
+        //per Android documentation you should try and limit excessive use of invalidate()/reDraw when possible
             return true;
 
     }
