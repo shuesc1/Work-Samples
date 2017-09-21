@@ -205,37 +205,38 @@ public class GameView extends View {
                 attempt = 0;
             }
 
-            else { //if you didn't find the shortest calculated path
-//                attempt++;
+            else { //if you made a circuit but didn't find the shortest calculated path
                 // after the 3rd failed attempt, show the solution
-                if (attempt >= 3) { //should probably switch this section to after "Your path is about xx% too big now that I moved attempt++ there
-//                    attempt++;
-                    // draw the solution
-                    for (int i = 0; i < shortestPath.size() - 1; i++) {
-                        Point a = shortestPath.get(i);
-                        Point b = shortestPath.get(i + 1);
-                        paint.setColor(Color.YELLOW);
-                        paint.setStrokeWidth(10);
-                        canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
-                    }
-                    Point a = shortestPath.get(shortestPath.size()-1);
-                    Point b = shortestPath.get(0);
-                    paint.setColor(Color.YELLOW);
-                    paint.setStrokeWidth(10);
-                    canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
+//                if (attempt >= 3) { //should probably switch this section to after "Your path is about xx% too big now that I moved attempt++ there
+                  if (attempt < 3) {
+                      int offset = (int) (Math.abs(diff) / shortestPathLength * 100);
+                      // so that we don't say that the path is 0% too long
+                      if (offset == 0) {
+                          offset = 1;
+                      }
+                      Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
+                      attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
 
-                    Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();
-                    invalidate();
                 }
-                else {
-                    int offset = (int) (Math.abs(diff) / shortestPathLength * 100);
-                    // so that we don't say that the path is 0% too long
-                    if (offset == 0) {
-                        offset = 1;
+
+                    if (attempt >= 3){
+                      // draw the solution
+                      for (int i = 0; i < shortestPath.size() - 1; i++) {
+                          Point a = shortestPath.get(i);
+                          Point b = shortestPath.get(i + 1);
+                          paint.setColor(Color.YELLOW);
+                          paint.setStrokeWidth(10);
+                          canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
+                      }
+                      Point a = shortestPath.get(shortestPath.size()-1);
+                      Point b = shortestPath.get(0);
+                      paint.setColor(Color.YELLOW);
+                      paint.setStrokeWidth(10);
+                      canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
+
+                      Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();
+                      invalidate();
                     }
-                    Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
-                        attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
-                }
 //                attempt++; //moved into "Nope, not quite!" section
             }
         }
