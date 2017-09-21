@@ -108,8 +108,8 @@ public class GameView extends View {
      */
     protected void onDraw(Canvas canvas) {
         Paint paint = new Paint();
-
-        // draws the stroke
+//        Toast.makeText(getContext(), "onDraw reached again", Toast.LENGTH_LONG).show();
+        // draws the stroke in yellow whilst still drawing
         if (isValidStroke) {
             if (yCoords.size() > 1) {
                 for (int i = 0; i < xCoords.size()-1; i++) {
@@ -135,24 +135,29 @@ public class GameView extends View {
 
         // draws the points on the map
         paint.setColor(Color.RED);
-
+        //// TODO: 9/19/17 what is this doing
         for (int i = 0; i < mapPoints.length; i++) {
             int x = mapPoints[i].x;
             int y = mapPoints[i].y;
             canvas.drawRect(x, y, x+20, y+20, paint);
         }
 
+        //=================BUG SECTION========================
         // detects whether the segments form a circuit - but there's a bug!
-        boolean isCircuit = true;
-        HashMap<Point, Integer> connections = new HashMap<Point, Integer>();
-        for (Point[] pair : segments) {
+        // bug activated by single action_down and immediate action_up after recieving the "Nope, not quite! Your path is about.." message
+        //assumes circuit
+//        boolean isCircuit = true;
+        boolean isCircuit = false;
+        HashMap<Point, Integer> connections = new HashMap<Point, Integer>(); //keeps track of the degrees of the nodes
+
+        for (Point[] pair : segments) { //number of Point objs in segments should be # of nodes exactly for circuit to exist
             Point p1 = pair[0];
             Point p2 = pair[1];
             Integer value = connections.get(p1);
             if (value == null)
                 value = 0;
             value++;
-            connections.put(p1, value);
+            connections.put(p1, value); //updates value of 1st indexed value (Point) in segments
 
             value = connections.get(p2);
             if (value == null)
@@ -165,9 +170,11 @@ public class GameView extends View {
             isCircuit = false;
         } else {
             for (int v : connections.values()) {
-                if (v != 2) {
+                if (v != 2) { //uses fact that node degree must be 2 and only 2 for a circuit to exist
                     isCircuit = false;
                     break;
+                } else {
+                    isCircuit = true;
                 }
             }
         }
@@ -190,17 +197,21 @@ public class GameView extends View {
 
             Log.v("RESULT", "Shortest path length is " + shortestPathLength + "; my path is " + myPathLength);
 
+            //compare shortest path and the one at hand
+            //if they are the same win message displays
             double diff = shortestPathLength - myPathLength;
             if (Math.abs(diff) < 0.01) {
                 Toast.makeText(getContext(), "You found the shortest path!", Toast.LENGTH_LONG).show();
                 attempt = 0;
             }
-            else {
+
+            else { //if you didn't find the shortest calculated path
                 attempt++;
                 // after the 3rd failed attempt, show the solution
-                if (attempt >= 3) {
+                if (attempt >= 6) {
+//                    attempt++;
                     // draw the solution
-                    for (int i = 0; i < shortestPath.size() - 1; i++) {
+                    for (int i = 0; i < shortestPath.size() - 1; i++) { //TODO this is where the bug must be
                         Point a = shortestPath.get(i);
                         Point b = shortestPath.get(i + 1);
                         paint.setColor(Color.YELLOW);
@@ -222,7 +233,11 @@ public class GameView extends View {
                         offset = 1;
                     }
                     Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
+//                    if(isValidStroke) {
+//                        attempt++;
+//                    }
                 }
+//                attempt++;
             }
         }
         else if (segments.size() == mapPoints.length && !isCircuit) {
@@ -239,8 +254,9 @@ public class GameView extends View {
         Point p = new Point();
         p.x = ((int)event.getX());
         p.y = ((int)event.getY());
+//        isValidStroke = false; //trying to see if this changes the logic
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) { //action_down == initial touch event
 
             // only add the segment if the touch point is within 30 of any of the other points
             for (int i = 0; i < mapPoints.length; i++) {
@@ -260,13 +276,13 @@ public class GameView extends View {
                 }
             }
         }
-        else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move occurs after action_down and BEFORE action_up
             if (isValidStroke) {
                 xCoords.add(p.x);
                 yCoords.add(p.y);
             }
         }
-        else if (event.getAction() == MotionEvent.ACTION_UP) {
+        else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
             if (isValidStroke) {
 
                 xCoords.clear();
@@ -282,24 +298,27 @@ public class GameView extends View {
                         p.y = mapPoints[i].y + 10;
                         Point[] points = {firstPoint, p};
 
+                        //adds 2 Point objects - start point and end point (nodes) to 'segments'
                         if (firstPoint.x != p.x && firstPoint.y != p.y) {
-                            segments.add(points);
+                            segments.add(points); //TODO verify -- number of point objs in segments should be
                         }
                         break;
                     }
                 }
             }
-            isValidStroke = false;
+//            isValidStroke = false; //TODO should this be moved to beginning of the method-- if it's false before this won't change that fact
         }
-        else {
+//        else if(event.getAction()) {
             return false;
-        }
+            invalidate();
+//            return true ;
+//        }
 
+            // forces a redraw of the View
+//        invalidate();
+//        return false ;
+            return true;
 
-        // forces a redraw of the View
-        invalidate();
-
-        return true;
     }
 
 
