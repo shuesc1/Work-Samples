@@ -35,12 +35,16 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onButtonClick(View button) {
         //TODO maybe create an instance of GameActivity, use a setter method to set numLoc, then pass it to Intent
+        GameActivity ga = new GameActivity(); //step 1 -- high delegation
+        ga.setNumLocations(numLocations); //step 1 -- high delegation
+//        Intent i = new Intent(this, ga.getClass());
         Intent i = new Intent(this, GameActivity.class);
+        i.putExtra("Number of locations", numLocations) ;
         startActivity(i);
     }
 
     /*
-    This method is called when the user chooses something from the Spinner
+    This method is called when the user chooses something from the Spinner -- sets number of locations
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         int numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());

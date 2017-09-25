@@ -50,9 +50,9 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
         init();
-        MainActivity ma = new MainActivity() ;
+//        MainActivity ma = new MainActivity() ;
 //        ga = new GameActivity();
-        spinnerNum = ma.getNumLocations();
+//        spinnerNum = ma.getNumLocations();
     }
 
     public GameView(Context context, AttributeSet attributeSet) {
