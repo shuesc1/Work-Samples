@@ -23,10 +23,11 @@ public class GameView extends View {
     private Point firstPoint;
     protected Point[] mapPoints;
     protected int spinnerNum;
+    public int numLocations;
     protected int attempt = 0;
     protected boolean isValidStroke = false;
     protected static final Point[] mapPositions;
-    private GameActivity ga ;
+//    private GameActivity ga ;
 
     // these points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
@@ -57,9 +58,9 @@ public class GameView extends View {
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         init();
-        MainActivity ma = new MainActivity() ;
+//        MainActivity ma = new MainActivity() ;
 //        ga = new GameActivity();
-        spinnerNum = ma.getNumLocations();
+//        spinnerNum = ma.getNumLocations();
     }
 
     public static double calculatePathDistance(ArrayList<Point> points) {
@@ -84,19 +85,18 @@ public class GameView extends View {
         total += dist;
 
         return total;
-
     }
 
+    /**
+     * A method that sets the background resource png and populates mapPoints (array of Point objs) randomly with all locations
+     */
     protected void init() {
-
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
-
         Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
-
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
-
         Set set = new HashSet(); //creates new hashset to store randomNum variables
         Random rn = new Random(); //creates a new Random object
+
         for (int i = 0; i < spinnerNum; i++) { //iterates up to num of locations chosen
             int randomNum = rn.nextInt(mapPositions.length); //gets random int of value 0 to (mapPositions.length -1)
             while (set.contains(randomNum)) { //while set contains this new random int
@@ -113,8 +113,7 @@ public class GameView extends View {
      */
     protected void onDraw(Canvas canvas) {
         Paint paint = new Paint();
-//        Toast.makeText(getContext(), "onDraw reached again", Toast.LENGTH_LONG).show();
-        // draws the stroke in yellow whilst still drawing
+        // draws the stroke in yellow while still drawing
         if (isValidStroke) {
             if (yCoords.size() > 1) {
                 for (int i = 0; i < xCoords.size()-1; i++) {
@@ -327,5 +326,8 @@ public class GameView extends View {
     }
 
 
+    public void setNumLocations(int spinnerNum){
+        numLocations = spinnerNum ;
+    }
 
 }

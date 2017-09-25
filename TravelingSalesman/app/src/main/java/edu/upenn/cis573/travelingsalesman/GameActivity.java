@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 public class GameActivity extends ActionBarActivity {
 
-    MainActivity ma = new MainActivity();
-    public int numLocations = ma.getNumLocations() ;
+    public int numLocations;
+//    private GameView gv;
+    //TODO create GameView obj, wrap gv.setNumLocations() method in method in this class, call in MainActivity class
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public class GameActivity extends ActionBarActivity {
 
     public int getNumLocations(){
         return numLocations ;
+    }
+
+    public void setNumLocations(int spinnerNum){
+        numLocations = spinnerNum;
     }
 
 }
