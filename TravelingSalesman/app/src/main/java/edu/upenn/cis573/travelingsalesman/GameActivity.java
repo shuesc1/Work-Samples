@@ -11,6 +11,8 @@ import android.widget.Toast;
 public class GameActivity extends ActionBarActivity {
 
     public int numLocations; //step 1 -- high delegation
+    Bundle extras;
+    GameView gv ;
     //TODO create GameView obj, wrap gv.setNumLocations() method in method in this class, call in MainActivity class
 
     @Override
@@ -19,13 +21,18 @@ public class GameActivity extends ActionBarActivity {
         setContentView(R.layout.play_game);
 
         if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
-            Bundle extras = getIntent().getExtras();
+            extras = getIntent().getExtras();
             if(extras != null){
                 numLocations = extras.getInt("Number of locations");
             }
         }else{
             numLocations = (int) savedInstanceState.getSerializable("Number of locations");
         }
+//        GameView.spinnerNum = numLocations ;
+        //        gv = new GameView(GameActivity.this); //step 1 attempt 1
+
+//        GameView gv =new GameView(GameActivity.this); //step 1 attempt 2
+//        gv.setData(new Bundle());
     }
 
 
@@ -44,8 +51,11 @@ public class GameActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_clear) {
-            GameView gv = (GameView)findViewById(R.id.gameView);
-            gv.setNumLocations(numLocations); //step 1 -- high delegation
+//            GameView gv = (GameView)findViewById(R.id.gameView);
+            gv = (GameView)findViewById(R.id.gameView);
+//            gv = new GameView(GameActivity.this);
+//            gv.setNumLocations(numLocations); //step 1 -- high delegation
+            gv.setData(extras);
             gv.segments.clear();
             gv.invalidate();
             return true;
@@ -54,8 +64,11 @@ public class GameActivity extends ActionBarActivity {
             finish();
             return true;
         } else if (id == R.id.menu_undo) {
-            GameView gv = (GameView)findViewById(R.id.gameView);
-            gv.setNumLocations(numLocations); //step 1 -- high delegation
+//            GameView gv = (GameView)findViewById(R.id.gameView);
+            gv = (GameView)findViewById(R.id.gameView);
+            gv.setData(extras);
+//            gv = new GameView(GameActivity.this);
+//            gv.setNumLocations(numLocations); //step 1 -- high delegation
             if (gv.segments.size() > 0) {
                 gv.segments.remove(gv.segments.get(gv.segments.size() - 1));
             } else {

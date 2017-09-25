@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,14 +23,15 @@ public class GameView extends View {
     protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
     private Point firstPoint;
     protected Point[] mapPoints;
-    protected int spinnerNum;
+    public int spinnerNum;
     public int numLocations;
     protected int attempt = 0;
     protected boolean isValidStroke = false;
     protected static final Point[] mapPositions;
-//    private GameActivity ga ;
+    private Context context;
+//    protected Bundle bundle = new Bundle();
 
-    // these points are all hardcoded to fit the UPenn campus map on a Nexus 5
+    // These points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
         mapPositions = new Point[13];
         mapPositions[0] = new Point(475, 134);
@@ -49,6 +51,8 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+//        spinnerNum = getContext() ;
+//        this.context = context ;
         init();
 //        MainActivity ma = new MainActivity() ;
 //        ga = new GameActivity();
@@ -89,6 +93,7 @@ public class GameView extends View {
 
     /**
      * A method that sets the background resource png and populates mapPoints (array of Point objs) randomly with all locations
+     * mapPositions values all hardcoded above
      */
     protected void init() {
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
@@ -250,6 +255,12 @@ public class GameView extends View {
 
     }
 
+
+    public void setData(Bundle data) {
+        Bundle bundle = data;
+    }
+
+
     /*
      * This method is automatically called when the user touches the screen.
      */
@@ -326,8 +337,8 @@ public class GameView extends View {
     }
 
 
-    public void setNumLocations(int spinnerNum){
-        numLocations = spinnerNum ;
-    }
+//    public void setNumLocations(int spinnerNum){
+//        numLocations = spinnerNum ;
+//    }
 
 }

@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         int numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
+//        GameView.spinnerNum = numLocations ;
     }
 
     /**
