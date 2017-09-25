@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 public class GameActivity extends ActionBarActivity {
 
+    MainActivity ma = new MainActivity();
+    public int numLocations = ma.getNumLocations() ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,10 @@ public class GameActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getNumLocations(){
+        return numLocations ;
     }
 
 }

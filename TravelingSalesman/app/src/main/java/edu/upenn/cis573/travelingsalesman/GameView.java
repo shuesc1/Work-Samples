@@ -26,6 +26,7 @@ public class GameView extends View {
     protected int attempt = 0;
     protected boolean isValidStroke = false;
     protected static final Point[] mapPositions;
+    private GameActivity ga ;
 
     // these points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
@@ -48,11 +49,17 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
         init();
+        MainActivity ma = new MainActivity() ;
+//        ga = new GameActivity();
+        spinnerNum = ma.getNumLocations();
     }
 
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         init();
+        MainActivity ma = new MainActivity() ;
+//        ga = new GameActivity();
+        spinnerNum = ma.getNumLocations();
     }
 
     public static double calculatePathDistance(ArrayList<Point> points) {
@@ -81,24 +88,22 @@ public class GameView extends View {
     }
 
     protected void init() {
-        spinnerNum = MainActivity.numLocations;
 
-        setBackgroundResource(R.drawable.campus);
+        setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
 
-        Log.v("GAME VIEW", "init");
+        Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
 
-        mapPoints = new Point[spinnerNum];
+        mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
 
-        // yeah, I don't know what's going on here
-        Set set = new HashSet();
-        Random rn = new Random();
-        for (int i = 0; i < spinnerNum; i++) {
-            int randomNum = rn.nextInt(mapPositions.length);
-            while (set.contains(randomNum)) {
-                randomNum = rn.nextInt(mapPositions.length);
+        Set set = new HashSet(); //creates new hashset to store randomNum variables
+        Random rn = new Random(); //creates a new Random object
+        for (int i = 0; i < spinnerNum; i++) { //iterates up to num of locations chosen
+            int randomNum = rn.nextInt(mapPositions.length); //gets random int of value 0 to (mapPositions.length -1)
+            while (set.contains(randomNum)) { //while set contains this new random int
+                randomNum = rn.nextInt(mapPositions.length); //reset the value until the random int is a new number
             }
-            set.add(randomNum);
-            mapPoints[i] = mapPositions[randomNum];
+            set.add(randomNum); //then add random int to set
+            mapPoints[i] = mapPositions[randomNum]; // sets random Point object in mapPositions to mapPoints obj at index i
         }
     }
 

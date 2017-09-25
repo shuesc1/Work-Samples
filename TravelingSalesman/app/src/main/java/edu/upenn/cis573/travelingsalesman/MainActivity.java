@@ -13,7 +13,8 @@ import android.widget.AdapterView;
 public class MainActivity extends ActionBarActivity implements OnItemSelectedListener {
 
     // represents the number of locations in the game map
-    protected static int numLocations = 4;
+//    protected static int numLocations = 4;
+    public int numLocations = 4 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
     This method is called when the user clicks the "Play" button
      */
     public void onButtonClick(View button) {
+        //TODO maybe create an instance of GameActivity, use a setter method to set numLoc, then pass it to Intent
         Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
     }
@@ -41,7 +43,15 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
     This method is called when the user chooses something from the Spinner
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
+        int numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
+    }
+
+    /**
+     * A simple getter method for the number of locations to render from the spinner input
+     * @return an integer of the number of locations
+     */
+    public int getNumLocations(){
+        return numLocations ;
     }
 
     /*
