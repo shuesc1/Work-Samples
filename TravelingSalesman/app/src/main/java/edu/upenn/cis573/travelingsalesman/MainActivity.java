@@ -18,8 +18,8 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState); //saves state if orientation changes for ex
+        setContentView(R.layout.activity_main); //layout resource defining UI to be inflated
 
         // this is all the stuff necessary to create the spinner (drop-down list)
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        GameView gv = new GameView(MainActivity.this) ;
     }
 
     /*
@@ -40,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
 //        Intent i = new Intent(this, ga.getClass());
         Intent i = new Intent(this, GameActivity.class);
         i.putExtra("Number of locations", numLocations) ;
+//        Bundle b = new Bundle();
         startActivity(i);
     }
 

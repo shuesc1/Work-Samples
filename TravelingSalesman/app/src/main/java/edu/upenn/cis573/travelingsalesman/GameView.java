@@ -23,7 +23,7 @@ public class GameView extends View {
     protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
     private Point firstPoint;
     protected Point[] mapPoints;
-    public int spinnerNum;
+    protected int spinnerNum;
     public int numLocations;
     protected int attempt = 0;
     protected boolean isValidStroke = false;
@@ -61,6 +61,7 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+//        spinnerNum = attributeSet. ;
         init();
 //        MainActivity ma = new MainActivity() ;
 //        ga = new GameActivity();
@@ -96,6 +97,9 @@ public class GameView extends View {
      * mapPositions values all hardcoded above
      */
     protected void init() {
+//        spinnerNum = MainActivity.numLocations ; //TODO find a way to transform this line using Intents and putExtras
+
+
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
         Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
@@ -337,8 +341,13 @@ public class GameView extends View {
     }
 
 
-//    public void setNumLocations(int spinnerNum){
-//        numLocations = spinnerNum ;
-//    }
+    public void setNumLocations(int spinnerNum){
+        numLocations = spinnerNum ;
+    }
+
+    public void setSpinnerNum(int spinnerNum) {
+        this.spinnerNum = spinnerNum;
+    }
+
 
 }

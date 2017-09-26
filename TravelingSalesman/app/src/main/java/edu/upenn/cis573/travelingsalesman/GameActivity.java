@@ -1,6 +1,7 @@
 package edu.upenn.cis573.travelingsalesman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,22 +13,31 @@ public class GameActivity extends ActionBarActivity {
 
     public int numLocations; //step 1 -- high delegation
     private Bundle extras;
-    private GameView gv ;
+//    private GameView gv ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_game);
-        numLocations = getIntent().getIntExtra("Number of locations", 4) ;
+        //=========way 1====================
+//        numLocations = getIntent().getIntExtra("Number of locations", 4) ; step 1 - way 1
 
-//        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
-//            extras = getIntent().getExtras();
-//            if(extras != null){
-//                numLocations = extras.getInt("Number of locations");
-//            }
-//        }else{
-//            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
-//        }
+
+        //=========way 2=====================
+        Intent i = getIntent() ; //step 1 - way 2
+        numLocations = i.getIntExtra("Number of locations", 4) ; //step 1 -- way 2
+        GameView gv = (GameView)findViewById(R.id.gameView);
+        gv.setSpinnerNum(numLocations);
+
+        //==========way 3=====================
+        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
+            extras = getIntent().getExtras();
+            if(extras != null){
+                numLocations = extras.getInt("Number of locations");
+            }
+        }else{
+            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
+        }
 
 //        GameView.spinnerNum = numLocations ;
         //        gv = new GameView(GameActivity.this); //step 1 attempt 1
@@ -52,11 +62,13 @@ public class GameActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_clear) {
-//            GameView gv = (GameView)findViewById(R.id.gameView);
-            gv = (GameView)findViewById(R.id.gameView);
+            GameView gv = (GameView)findViewById(R.id.gameView);
+//            gv = (GameView)findViewById(R.id.gameView);
 //            gv = new GameView(GameActivity.this);
 //            gv.setNumLocations(numLocations); //step 1 -- high delegation
-            gv.setData(extras);
+//            gv.setData(extras);
+//            gv.setSpinnerNum(numLocations);
+//            gv.init();
             gv.segments.clear();
             gv.invalidate();
             return true;
@@ -65,9 +77,11 @@ public class GameActivity extends ActionBarActivity {
             finish();
             return true;
         } else if (id == R.id.menu_undo) {
-//            GameView gv = (GameView)findViewById(R.id.gameView);
-            gv = (GameView)findViewById(R.id.gameView);
-            gv.setData(extras);
+            GameView gv = (GameView)findViewById(R.id.gameView);
+//            gv.setSpinnerNum(numLocations);
+//            gv.init();
+//            gv = (GameView)findViewById(R.id.gameView);
+//            gv.setData(extras);
 //            gv = new GameView(GameActivity.this);
 //            gv.setNumLocations(numLocations); //step 1 -- high delegation
             if (gv.segments.size() > 0) {
