@@ -13,7 +13,6 @@ public class GameActivity extends ActionBarActivity {
 
     public int numLocations; //step 1 -- high delegation
     private Bundle extras;
-//    private GameView gv ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
@@ -21,32 +20,23 @@ public class GameActivity extends ActionBarActivity {
         setContentView(R.layout.play_game);
         //=========way 1====================
 //        numLocations = getIntent().getIntExtra("Number of locations", 4) ; step 1 - way 1
-
-
         //=========way 2=====================
-        Intent i = getIntent() ; //step 1 - way 2
-        numLocations = i.getIntExtra("Number of locations", 4) ; //step 1 -- way 2
+//        Intent i = getIntent() ; //step 1 - way 2
+//        numLocations = i.getIntExtra("Number of locations", 4) ; //step 1 -- way 2
+        //==========way 3=====================
+        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation- way 3
+            extras = getIntent().getExtras();
+            if(extras != null){
+                numLocations = extras.getInt("Number of locations");
+            }
+        }else{
+            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
+        }
         GameView gv = (GameView)findViewById(R.id.gameView); //gets the View that was created above by setContentView
         gv.setSpinnerNum(numLocations);
         gv.drawPoints();
 
-        //==========way 3=====================
-//        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
-//            extras = getIntent().getExtras();
-//            if(extras != null){
-//                numLocations = extras.getInt("Number of locations");
-//            }
-//        }else{
-//            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
-//        }
-
-//        GameView.spinnerNum = numLocations ;
-        //        gv = new GameView(GameActivity.this); //step 1 attempt 1
-
-//        GameView gv =new GameView(GameActivity.this); //step 1 attempt 2
-//        gv.setData(new Bundle());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

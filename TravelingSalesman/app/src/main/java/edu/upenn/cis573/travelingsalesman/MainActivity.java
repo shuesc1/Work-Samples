@@ -21,27 +21,21 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
         super.onCreate(savedInstanceState); //saves state if orientation changes for ex
         setContentView(R.layout.activity_main); //layout resource defining UI to be inflated
 
-        // this is all the stuff necessary to create the spinner (drop-down list)
+        // Code to create the spinner (drop-down list)
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        GameView gv = new GameView(MainActivity.this) ;
     }
 
     /*
     This method is called when the user clicks the "Play" button
      */
     public void onButtonClick(View button) {
-        //TODO maybe create an instance of GameActivity, use a setter method to set numLoc, then pass it to Intent
-//        GameActivity ga = new GameActivity(); //step 1 -- high delegation
-//        ga.setNumLocations(numLocations); //step 1 -- high delegation
-//        Intent i = new Intent(this, ga.getClass());
         Intent i = new Intent(this, GameActivity.class);
         i.putExtra("Number of locations", numLocations) ;
-//        Bundle b = new Bundle();
         startActivity(i);
     }
 
@@ -53,18 +47,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
 //        Intent intent1 = new Intent() ;//step 1
 //        intent1.putExtra("Number of locations", numLocations) ;//step 1
 //        setResult(RESULT_OK, intent1);//step 1
-//        finish();
-
-//        GameView.spinnerNum = numLocations ;//step 1
     }
-
-//    /**
-//     * A simple getter method for the number of locations to render from the spinner input
-//     * @return an integer of the number of locations
-//     */
-//    public int getNumLocations(){
-//        return numLocations ;
-//    }
 
     /*
     Not used but need it for the interface.

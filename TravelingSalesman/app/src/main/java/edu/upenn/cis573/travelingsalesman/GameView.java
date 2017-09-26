@@ -212,7 +212,6 @@ public class GameView extends View {
             }
         }
 
-
         // see if user has solved the problem
         if ((segments.size() == mapPoints.length) && isCircuit) {
             ArrayList<Point> shortestPath = ShortestPath.shortestPath(mapPoints);
@@ -278,7 +277,6 @@ public class GameView extends View {
         }
 
     }
-
 
     public void setData(Bundle data) {
         Bundle bundle = data;
