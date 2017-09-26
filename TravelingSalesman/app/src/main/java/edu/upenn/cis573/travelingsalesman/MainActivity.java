@@ -35,8 +35,8 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onButtonClick(View button) {
         //TODO maybe create an instance of GameActivity, use a setter method to set numLoc, then pass it to Intent
-        GameActivity ga = new GameActivity(); //step 1 -- high delegation
-        ga.setNumLocations(numLocations); //step 1 -- high delegation
+//        GameActivity ga = new GameActivity(); //step 1 -- high delegation
+//        ga.setNumLocations(numLocations); //step 1 -- high delegation
 //        Intent i = new Intent(this, ga.getClass());
         Intent i = new Intent(this, GameActivity.class);
         i.putExtra("Number of locations", numLocations) ;
@@ -48,16 +48,21 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         int numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
-//        GameView.spinnerNum = numLocations ;
+//        Intent intent1 = new Intent() ;//step 1
+//        intent1.putExtra("Number of locations", numLocations) ;//step 1
+//        setResult(RESULT_OK, intent1);//step 1
+//        finish();
+
+//        GameView.spinnerNum = numLocations ;//step 1
     }
 
-    /**
-     * A simple getter method for the number of locations to render from the spinner input
-     * @return an integer of the number of locations
-     */
-    public int getNumLocations(){
-        return numLocations ;
-    }
+//    /**
+//     * A simple getter method for the number of locations to render from the spinner input
+//     * @return an integer of the number of locations
+//     */
+//    public int getNumLocations(){
+//        return numLocations ;
+//    }
 
     /*
     Not used but need it for the interface.

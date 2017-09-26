@@ -11,23 +11,24 @@ import android.widget.Toast;
 public class GameActivity extends ActionBarActivity {
 
     public int numLocations; //step 1 -- high delegation
-    Bundle extras;
-    GameView gv ;
-    //TODO create GameView obj, wrap gv.setNumLocations() method in method in this class, call in MainActivity class
+    private Bundle extras;
+    private GameView gv ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_game);
+        numLocations = getIntent().getIntExtra("Number of locations", 4) ;
 
-        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
-            extras = getIntent().getExtras();
-            if(extras != null){
-                numLocations = extras.getInt("Number of locations");
-            }
-        }else{
-            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
-        }
+//        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
+//            extras = getIntent().getExtras();
+//            if(extras != null){
+//                numLocations = extras.getInt("Number of locations");
+//            }
+//        }else{
+//            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
+//        }
+
 //        GameView.spinnerNum = numLocations ;
         //        gv = new GameView(GameActivity.this); //step 1 attempt 1
 
@@ -81,12 +82,12 @@ public class GameActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public int getNumLocations(){
-        return numLocations ;
-    }
+//    public int getNumLocations(){
+//        return numLocations ;
+//    }
 
-    public void setNumLocations(int spinnerNumber){ //step 1 -- high delegation
-        numLocations = spinnerNumber;
-    }
+//    public void setNumLocations(int spinnerNumber){ //step 1 -- high delegation
+//        numLocations = spinnerNumber;
+//    }
 
 }
