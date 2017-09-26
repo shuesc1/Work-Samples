@@ -14,7 +14,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
 
     // represents the number of locations in the game map
 //    protected static int numLocations = 4;
-    public int numLocations = 4 ;
+    public int numLocations ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
     This method is called when the user chooses something from the Spinner -- sets number of locations
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        int numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
+        numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
 //        Intent intent1 = new Intent() ;//step 1
 //        intent1.putExtra("Number of locations", numLocations) ;//step 1
 //        setResult(RESULT_OK, intent1);//step 1

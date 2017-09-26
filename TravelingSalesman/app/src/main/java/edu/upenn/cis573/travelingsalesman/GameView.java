@@ -102,6 +102,24 @@ public class GameView extends View {
 
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
         Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
+//        mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
+//        Set set = new HashSet(); //creates new hashset to store randomNum variables
+//        Random rn = new Random(); //creates a new Random object
+//
+//        for (int i = 0; i < spinnerNum; i++) { //iterates up to num of locations chosen
+//            int randomNum = rn.nextInt(mapPositions.length); //gets random int of value 0 to (mapPositions.length -1)
+//            while (set.contains(randomNum)) { //while set contains this new random int
+//                randomNum = rn.nextInt(mapPositions.length); //reset the value until the random int is a new number
+//            }
+//            set.add(randomNum); //then add random int to set
+//            mapPoints[i] = mapPositions[randomNum]; // sets random Point object in mapPositions to mapPoints obj at index i
+//        }
+    }
+
+    /**
+     * A helper method to establish the initial location points based on the number specified by the user
+     */
+    public void drawPoints(){
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
         Set set = new HashSet(); //creates new hashset to store randomNum variables
         Random rn = new Random(); //creates a new Random object
@@ -115,6 +133,8 @@ public class GameView extends View {
             mapPoints[i] = mapPositions[randomNum]; // sets random Point object in mapPositions to mapPoints obj at index i
         }
     }
+
+
 
     /*
      * This method is automatically invoked when the View is displayed.
@@ -341,9 +361,9 @@ public class GameView extends View {
     }
 
 
-    public void setNumLocations(int spinnerNum){
-        numLocations = spinnerNum ;
-    }
+//    public void setNumLocations(int spinnerNum){
+//        numLocations = spinnerNum ;
+//    }
 
     public void setSpinnerNum(int spinnerNum) {
         this.spinnerNum = spinnerNum;

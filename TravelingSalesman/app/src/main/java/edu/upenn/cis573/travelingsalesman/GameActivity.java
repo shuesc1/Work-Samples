@@ -26,18 +26,19 @@ public class GameActivity extends ActionBarActivity {
         //=========way 2=====================
         Intent i = getIntent() ; //step 1 - way 2
         numLocations = i.getIntExtra("Number of locations", 4) ; //step 1 -- way 2
-        GameView gv = (GameView)findViewById(R.id.gameView);
+        GameView gv = (GameView)findViewById(R.id.gameView); //gets the View that was created above by setContentView
         gv.setSpinnerNum(numLocations);
+        gv.drawPoints();
 
         //==========way 3=====================
-        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
-            extras = getIntent().getExtras();
-            if(extras != null){
-                numLocations = extras.getInt("Number of locations");
-            }
-        }else{
-            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
-        }
+//        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation
+//            extras = getIntent().getExtras();
+//            if(extras != null){
+//                numLocations = extras.getInt("Number of locations");
+//            }
+//        }else{
+//            numLocations = (int) savedInstanceState.getSerializable("Number of locations");
+//        }
 
 //        GameView.spinnerNum = numLocations ;
         //        gv = new GameView(GameActivity.this); //step 1 attempt 1
