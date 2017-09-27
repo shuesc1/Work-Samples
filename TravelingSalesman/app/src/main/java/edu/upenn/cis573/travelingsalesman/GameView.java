@@ -21,7 +21,9 @@ public class GameView extends View {
     protected boolean isValidStroke = false;
     private Stroke stroke; //step 4
 
-    protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
+//    protected ArrayList<Point[]> segments = new ArrayList<Point[]>(); //step 5
+//    protected ArrayList<Segments> segments = new ArrayList<Point[]>(); //step 5
+
     private Point firstPoint;
     protected Point[] mapPoints;
     protected int spinnerNum;
@@ -192,12 +194,14 @@ public class GameView extends View {
             }
         }
 
-        // see if user has solved the problem
+        // see if user has solved the problem ==> if there are no more points to connect AND there exists a circuit
         if ((segments.size() == mapPoints.length) && isCircuit) {
             ArrayList<Point> shortestPath = ShortestPath.shortestPath(mapPoints);
             double shortestPathLength = calculatePathDistance(shortestPath);
 
             double myPathLength = 0;
+
+            //get the length of the current path as to be able to compare it to the shortest path
             for (Point[] pair : segments) {
                 Point p1 = pair[0];
                 Point p2 = pair[1];
