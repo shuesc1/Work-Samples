@@ -17,8 +17,8 @@ import java.util.*;
 
 public class GameView extends View {
 
-    protected ArrayList<Integer> xCoords = new ArrayList<Integer>();
-    protected ArrayList<Integer> yCoords = new ArrayList<Integer>();
+//    protected ArrayList<Integer> xCoords = new ArrayList<Integer>();
+//    protected ArrayList<Integer> yCoords = new ArrayList<Integer>();
     protected ArrayList<Point> strokePoints = new ArrayList<Point>() ; //Step 3
 
     protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
@@ -30,7 +30,6 @@ public class GameView extends View {
     protected boolean isValidStroke = false;
     protected static final Point[] mapPositions;
     private Context context;
-//    protected Bundle bundle = new Bundle();
 
     // These points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
@@ -53,20 +52,11 @@ public class GameView extends View {
     public GameView(Context context) {
         super(context);
         init();
-//        spinnerNum = getContext() ;
-//        this.context = context ;
-//        MainActivity ma = new MainActivity() ;
-//        ga = new GameActivity();
-//        spinnerNum = ma.getNumLocations();
     }
 
     public GameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-//        spinnerNum = attributeSet. ;
         init();
-//        MainActivity ma = new MainActivity() ;
-//        ga = new GameActivity();
-//        spinnerNum = ma.getNumLocations();
     }
 
     public static double calculatePathDistance(ArrayList<Point> points) {
@@ -130,12 +120,18 @@ public class GameView extends View {
         Paint paint = new Paint();
         // draws the stroke in yellow while still drawing
         if (isValidStroke) {
-            if (yCoords.size() > 1) {
-                for (int i = 0; i < xCoords.size()-1; i++) {
-                    int x1 = xCoords.get(i);
-                    int y1 = yCoords.get(i);
-                    int x2 = xCoords.get(i+1);
-                    int y2 = yCoords.get(i+1);
+            if (strokePoints. size() > 1) { //step 3
+//            if (yCoords.size() > 1) {
+//                for (int i = 0; i < xCoords.size()-1; i++) {
+//                    int x1 = xCoords.get(i);
+//                    int y1 = yCoords.get(i);
+//                    int x2 = xCoords.get(i+1);
+//                    int y2 = yCoords.get(i+1);
+                for (int i = 0; i < strokePoints.size()-1; i++){
+                    int x1 = strokePoints.get(i).x ;
+                    int y1 = strokePoints.get(i).y ;
+                    int x2 = strokePoints.get(i+1).x ;
+                    int y2 = strokePoints.get(i+1).y ; //step 3
 
                     paint.setColor(Color.YELLOW);
                     paint.setStrokeWidth(10);
@@ -154,7 +150,6 @@ public class GameView extends View {
 
         // draws the points on the map
         paint.setColor(Color.RED);
-        //// TODO: 9/19/17 what is this doing
         for (int i = 0; i < mapPoints.length; i++) {
             int x = mapPoints[i].x;
             int y = mapPoints[i].y;
@@ -234,7 +229,6 @@ public class GameView extends View {
                       }
                       Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
                       attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
-
                 }
 
                     if (attempt >= 3){
@@ -290,8 +284,11 @@ public class GameView extends View {
                     // upper-left corner of the little red box but we want the center
                     p.x = mapPoints[i].x+10;
                     p.y = mapPoints[i].y+10;
-                    xCoords.add(p.x);
-                    yCoords.add(p.y);
+
+                    strokePoints.add(p) ; //step 3
+//                    xCoords.add(p.x);
+//                    yCoords.add(p.y);
+
                     firstPoint = p;
                     isValidStroke = true; //within reasonable limit (30 pixels) to a point on the map
                     invalidate();
@@ -301,16 +298,25 @@ public class GameView extends View {
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move occurs after action_down and BEFORE action_up
             if (isValidStroke) {
-                xCoords.add(p.x);
-                yCoords.add(p.y);
+
+//                Point p_move = new Point(); //step 3
+//                p_move.x = ((int)event.getX());
+//                p_move.y = ((int)event.getY());
+
+                strokePoints.add(p) ; //step 3
+//                xCoords.add(p.x);
+//                yCoords.add(p.y);
+
                 invalidate();
             }
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
             if (isValidStroke) {
 
-                xCoords.clear();
-                yCoords.clear();
+                strokePoints.clear(); //step 3
+//                xCoords.clear();
+//                yCoords.clear();
+
                 // only add the segment if the release point is within 30 of any of the other points
                 for (int i = 0; i < mapPoints.length; i++) {
                     double dx = p.x - mapPoints[i].x;
@@ -324,30 +330,24 @@ public class GameView extends View {
 
                         //adds 2 Point objects - start point and end point (nodes) to 'segments'
                         if (firstPoint.x != p.x && firstPoint.y != p.y) {
-                            segments.add(points); //TODO verify -- number of point objs in segments should be
+                            segments.add(points);
                         }
                         invalidate();
                         break;
                     }
                 }
             }
-            isValidStroke = false; //TODO should this be moved to beginning of the method-- if it's false before this won't change that fact
+            isValidStroke = false;
         }
         else {
             return false;
         }
-
-            // forces a redraw of the View
-//        invalidate(); //took this out and moved the forced redraw into each DOWN, MOVE, and UP section
+        // forces a redraw of the View
+        //invalidate(); //took this out and moved the forced redraw into each DOWN, MOVE, and UP section
         //per Android documentation you should try and limit excessive use of invalidate()/reDraw when possible
             return true;
 
     }
-
-
-//    public void setNumLocations(int spinnerNum){
-//        numLocations = spinnerNum ;
-//    }
 
     public void setSpinnerNum(int spinnerNum) {
         this.spinnerNum = spinnerNum;
