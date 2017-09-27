@@ -19,6 +19,7 @@ public class GameView extends View {
 
     protected ArrayList<Integer> xCoords = new ArrayList<Integer>();
     protected ArrayList<Integer> yCoords = new ArrayList<Integer>();
+    protected ArrayList<Point> strokePoints = new ArrayList<Point>() ; //Step 3
 
     protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
     private Point firstPoint;
@@ -51,9 +52,9 @@ public class GameView extends View {
 
     public GameView(Context context) {
         super(context);
+        init();
 //        spinnerNum = getContext() ;
 //        this.context = context ;
-        init();
 //        MainActivity ma = new MainActivity() ;
 //        ga = new GameActivity();
 //        spinnerNum = ma.getNumLocations();
@@ -98,26 +99,13 @@ public class GameView extends View {
      */
     protected void init() {
 //        spinnerNum = MainActivity.numLocations ; //TODO find a way to transform this line using Intents and putExtras
-
-
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
         Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
-//        mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
-//        Set set = new HashSet(); //creates new hashset to store randomNum variables
-//        Random rn = new Random(); //creates a new Random object
-//
-//        for (int i = 0; i < spinnerNum; i++) { //iterates up to num of locations chosen
-//            int randomNum = rn.nextInt(mapPositions.length); //gets random int of value 0 to (mapPositions.length -1)
-//            while (set.contains(randomNum)) { //while set contains this new random int
-//                randomNum = rn.nextInt(mapPositions.length); //reset the value until the random int is a new number
-//            }
-//            set.add(randomNum); //then add random int to set
-//            mapPoints[i] = mapPositions[randomNum]; // sets random Point object in mapPositions to mapPoints obj at index i
-//        }
     }
 
     /**
-     * A helper method to establish the initial location points based on the number specified by the user
+     * A helper method to establish the initial location points to be drawn based on the number specified by the user
+     * Method is called once when view is first rendered
      */
     public void drawPoints(){
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
@@ -133,8 +121,6 @@ public class GameView extends View {
             mapPoints[i] = mapPositions[randomNum]; // sets random Point object in mapPositions to mapPoints obj at index i
         }
     }
-
-
 
     /*
      * This method is automatically invoked when the View is displayed.
