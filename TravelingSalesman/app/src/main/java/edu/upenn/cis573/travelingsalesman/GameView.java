@@ -17,9 +17,9 @@ import java.util.*;
 
 public class GameView extends View {
 
-//    protected ArrayList<Integer> xCoords = new ArrayList<Integer>();
-//    protected ArrayList<Integer> yCoords = new ArrayList<Integer>();
-    protected ArrayList<Point> strokePoints = new ArrayList<Point>() ; //Step 3
+//    protected ArrayList<Point> strokePoints = new ArrayList<Point>() ; //Step 3
+    protected boolean isValidStroke = false;
+    private Stroke stroke; //step 4
 
     protected ArrayList<Point[]> segments = new ArrayList<Point[]>();
     private Point firstPoint;
@@ -27,9 +27,9 @@ public class GameView extends View {
     protected int spinnerNum;
     public int numLocations;
     protected int attempt = 0;
-    protected boolean isValidStroke = false;
     protected static final Point[] mapPositions;
     private Context context;
+
 
     // These points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
@@ -88,16 +88,18 @@ public class GameView extends View {
      * mapPositions values all hardcoded above
      */
     protected void init() {
-//        spinnerNum = MainActivity.numLocations ; //TODO find a way to transform this line using Intents and putExtras
+//        spinnerNum = MainActivity.numLocations ; //step 1
         setBackgroundResource(R.drawable.campus); //use and set the capmus.png resource as background
         Log.v("GAME VIEW", "init"); //creates a log with the tag "GAME VIEW", and msg "init"
+        stroke = new Stroke();
+        isValidStroke = stroke.getValidStroke() ;
     }
 
     /**
      * A helper method to establish the initial location points to be drawn based on the number specified by the user
      * Method is called once when view is first rendered
      */
-    public void drawPoints(){
+    public void drawInitialPoints(){
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
         Set set = new HashSet(); //creates new hashset to store randomNum variables
         Random rn = new Random(); //creates a new Random object
@@ -117,25 +119,20 @@ public class GameView extends View {
      * It is also called after you call "invalidate" on this object.
      */
     protected void onDraw(Canvas canvas) {
-        Paint paint = new Paint();
+//        Paint paint = new Paint(); //becomes fully encapsulated in step 4 (Stroke class)
+
         // draws the stroke in yellow while still drawing
         if (isValidStroke) {
-            if (strokePoints. size() > 1) { //step 3
-//            if (yCoords.size() > 1) {
-//                for (int i = 0; i < xCoords.size()-1; i++) {
-//                    int x1 = xCoords.get(i);
-//                    int y1 = yCoords.get(i);
-//                    int x2 = xCoords.get(i+1);
-//                    int y2 = yCoords.get(i+1);
-                for (int i = 0; i < strokePoints.size()-1; i++){
-                    int x1 = strokePoints.get(i).x ;
-                    int y1 = strokePoints.get(i).y ;
-                    int x2 = strokePoints.get(i+1).x ;
-                    int y2 = strokePoints.get(i+1).y ; //step 3
-
-                    paint.setColor(Color.YELLOW);
-                    paint.setStrokeWidth(10);
-                    canvas.drawLine(x1, y1, x2, y2, paint);
+            if (stroke.strokePoints.size() > 1) { //step 3
+                for (int i = 0; i < stroke.strokePoints.size()-1; i++){
+                    int x1 = stroke.strokePoints.get(i).x ;
+                    int y1 = stroke.strokePoints.get(i).y ;
+                    int x2 = stroke.strokePoints.get(i+1).x ;
+                    int y2 = stroke.strokePoints.get(i+1).y ; //step 3
+                    stroke.setColorAndWidth(Color.YELLOW, 10); //step 4
+//                    paint.setColor(Color.YELLOW); //step 4
+//                    paint.setStrokeWidth(10); //step 4
+                    canvas.drawLine(x1, y1, x2, y2, stroke.getPaint());
                 }
             }
         }
@@ -143,17 +140,19 @@ public class GameView extends View {
         // draws the line segments
         for (int i = 0; i < segments.size(); i++) {
             Point[] points = segments.get(i);
-            paint.setColor(Color.RED);
-            paint.setStrokeWidth(10);
-            canvas.drawLine(points[0].x, points[0].y, points[1].x, points[1].y, paint);
+            stroke.setColorAndWidth(Color.RED, 10); //step 4
+//            paint.setColor(Color.RED); //step 4
+//            paint.setStrokeWidth(10); //step 4
+            canvas.drawLine(points[0].x, points[0].y, points[1].x, points[1].y, stroke.getPaint());
         }
 
         // draws the points on the map
-        paint.setColor(Color.RED);
+//        paint.setColor(Color.RED); //step 4
+        stroke.setColorAndWidth(Color.RED, 10); //step 4
         for (int i = 0; i < mapPoints.length; i++) {
             int x = mapPoints[i].x;
             int y = mapPoints[i].y;
-            canvas.drawRect(x, y, x+20, y+20, paint);
+            canvas.drawRect(x, y, x+20, y+20, stroke.getPaint());
         }
 
         //=================BUG SECTION========================
@@ -236,15 +235,17 @@ public class GameView extends View {
                       for (int i = 0; i < shortestPath.size() - 1; i++) {
                           Point a = shortestPath.get(i);
                           Point b = shortestPath.get(i + 1);
-                          paint.setColor(Color.YELLOW);
-                          paint.setStrokeWidth(10);
-                          canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
+                          stroke.setColorAndWidth(Color.YELLOW, 10);
+//                          paint.setColor(Color.YELLOW);
+//                          paint.setStrokeWidth(10);
+                          canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, stroke.getPaint());
                       }
                       Point a = shortestPath.get(shortestPath.size()-1);
                       Point b = shortestPath.get(0);
-                      paint.setColor(Color.YELLOW);
-                      paint.setStrokeWidth(10);
-                      canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, paint);
+                      stroke.setColorAndWidth(Color.YELLOW, 10);
+//                      paint.setColor(Color.YELLOW);
+//                      paint.setStrokeWidth(10);
+                      canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, stroke.getPaint());
 
                       Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();
                       invalidate();
@@ -285,11 +286,11 @@ public class GameView extends View {
                     p.x = mapPoints[i].x+10;
                     p.y = mapPoints[i].y+10;
 
-                    strokePoints.add(p) ; //step 3
-//                    xCoords.add(p.x);
-//                    yCoords.add(p.y);
+                    stroke.strokePoints.add(p) ; //step 3
 
                     firstPoint = p;
+
+//                    stroke.setValidStroke(true);
                     isValidStroke = true; //within reasonable limit (30 pixels) to a point on the map
                     invalidate();
                     break;
@@ -299,13 +300,7 @@ public class GameView extends View {
         else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move occurs after action_down and BEFORE action_up
             if (isValidStroke) {
 
-//                Point p_move = new Point(); //step 3
-//                p_move.x = ((int)event.getX());
-//                p_move.y = ((int)event.getY());
-
-                strokePoints.add(p) ; //step 3
-//                xCoords.add(p.x);
-//                yCoords.add(p.y);
+                stroke.strokePoints.add(p) ; //step 3
 
                 invalidate();
             }
@@ -313,9 +308,7 @@ public class GameView extends View {
         else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
             if (isValidStroke) {
 
-                strokePoints.clear(); //step 3
-//                xCoords.clear();
-//                yCoords.clear();
+                stroke.strokePoints.clear(); //step 3
 
                 // only add the segment if the release point is within 30 of any of the other points
                 for (int i = 0; i < mapPoints.length; i++) {

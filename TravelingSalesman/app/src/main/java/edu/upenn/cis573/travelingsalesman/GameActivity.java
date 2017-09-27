@@ -34,7 +34,7 @@ public class GameActivity extends ActionBarActivity {
         }
         GameView gv = (GameView)findViewById(R.id.gameView); //gets the View that was created above by setContentView
         gv.setSpinnerNum(numLocations);
-        gv.drawPoints();
+        gv.drawInitialPoints();
     }
 
     @Override
