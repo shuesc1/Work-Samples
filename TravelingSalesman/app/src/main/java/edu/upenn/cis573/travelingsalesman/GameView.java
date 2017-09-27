@@ -21,8 +21,9 @@ public class GameView extends View {
     protected boolean isValidStroke = false;
     private Stroke stroke; //step 4
 
-//    protected ArrayList<Point[]> segments = new ArrayList<Point[]>(); //step 5
+    protected ArrayList<Point[]> segments = new ArrayList<Point[]>(); //step 5
 //    protected ArrayList<Segments> segments = new ArrayList<Point[]>(); //step 5
+//    protected Segments allSegments ;
 
     private Point firstPoint;
     protected Point[] mapPoints;
@@ -132,8 +133,6 @@ public class GameView extends View {
                     int x2 = stroke.strokePoints.get(i+1).x ;
                     int y2 = stroke.strokePoints.get(i+1).y ; //step 3
                     stroke.setColorAndWidth(Color.YELLOW, 10); //step 4
-//                    paint.setColor(Color.YELLOW); //step 4
-//                    paint.setStrokeWidth(10); //step 4
                     canvas.drawLine(x1, y1, x2, y2, stroke.getPaint());
                 }
             }
@@ -143,13 +142,10 @@ public class GameView extends View {
         for (int i = 0; i < segments.size(); i++) {
             Point[] points = segments.get(i);
             stroke.setColorAndWidth(Color.RED, 10); //step 4
-//            paint.setColor(Color.RED); //step 4
-//            paint.setStrokeWidth(10); //step 4
             canvas.drawLine(points[0].x, points[0].y, points[1].x, points[1].y, stroke.getPaint());
         }
 
         // draws the points on the map
-//        paint.setColor(Color.RED); //step 4
         stroke.setColorAndWidth(Color.RED, 10); //step 4
         for (int i = 0; i < mapPoints.length; i++) {
             int x = mapPoints[i].x;
@@ -157,6 +153,7 @@ public class GameView extends View {
             canvas.drawRect(x, y, x+20, y+20, stroke.getPaint());
         }
 
+        //TODO get rid of all this with detectCircuit method
         //=================BUG SECTION========================
         // detects whether the segments form a circuit - but there's a bug!
         // bug activated by single action_down and immediate action_up after recieving the "Nope, not quite! Your path is about.." message
@@ -193,6 +190,7 @@ public class GameView extends View {
                 }
             }
         }
+        //TODO cut out all above and replace with segments.detectCircuit()
 
         // see if user has solved the problem ==> if there are no more points to connect AND there exists a circuit
         if ((segments.size() == mapPoints.length) && isCircuit) {
@@ -240,15 +238,11 @@ public class GameView extends View {
                           Point a = shortestPath.get(i);
                           Point b = shortestPath.get(i + 1);
                           stroke.setColorAndWidth(Color.YELLOW, 10);
-//                          paint.setColor(Color.YELLOW);
-//                          paint.setStrokeWidth(10);
                           canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, stroke.getPaint());
                       }
                       Point a = shortestPath.get(shortestPath.size()-1);
                       Point b = shortestPath.get(0);
                       stroke.setColorAndWidth(Color.YELLOW, 10);
-//                      paint.setColor(Color.YELLOW);
-//                      paint.setStrokeWidth(10);
                       canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, stroke.getPaint());
 
                       Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();

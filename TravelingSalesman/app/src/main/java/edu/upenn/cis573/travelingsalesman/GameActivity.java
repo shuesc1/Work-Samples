@@ -53,13 +53,7 @@ public class GameActivity extends ActionBarActivity {
 
         if (id == R.id.menu_clear) {
             GameView gv = (GameView)findViewById(R.id.gameView);
-//            gv = (GameView)findViewById(R.id.gameView);
-//            gv = new GameView(GameActivity.this);
-//            gv.setNumLocations(numLocations); //step 1 -- high delegation
-//            gv.setData(extras);
-//            gv.setSpinnerNum(numLocations);
-//            gv.init();
-            gv.segments.clear();
+            gv.segments.clear(); //segments = arraylist of 2 point array
             gv.invalidate();
             return true;
         }
@@ -68,12 +62,6 @@ public class GameActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.menu_undo) {
             GameView gv = (GameView)findViewById(R.id.gameView);
-//            gv.setSpinnerNum(numLocations);
-//            gv.init();
-//            gv = (GameView)findViewById(R.id.gameView);
-//            gv.setData(extras);
-//            gv = new GameView(GameActivity.this);
-//            gv.setNumLocations(numLocations); //step 1 -- high delegation
             if (gv.segments.size() > 0) {
                 gv.segments.remove(gv.segments.get(gv.segments.size() - 1));
             } else {
@@ -85,13 +73,5 @@ public class GameActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-//    public int getNumLocations(){
-//        return numLocations ;
-//    }
-
-//    public void setNumLocations(int spinnerNumber){ //step 1 -- high delegation
-//        numLocations = spinnerNumber;
-//    }
 
 }
