@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -59,32 +58,20 @@ public class GameView extends View {
     }
 
 
-    //TODO ========================implement dist method====================
     public static double calculatePathDistance(ArrayList<Point> points) {
 
         double total = 0;
         // get the distance between the intermediate points
         for (int i = 0; i < points.size() - 1; i++) {
-            //TODO ========================implement dist method====================
             Point p1 = points.get(i);
             Point p2 = points.get(i + 1);
-            double dx = p1.x - p2.x;
-            double dy = p1.y - p2.y;
-            double dist = Math.sqrt(dx * dx + dy * dy);
-            //TODO ========================implement dist method====================
+            double dist = distance(p1, p2); // step 6
             total += dist;
         }
-
         // then need to go back to the beginning
-        //TODO ========================implement dist method====================
         Point p1 = points.get(points.size() - 1);
         Point p2 = points.get(0);
-
-        double dist = this.calcDistance(p1, p2) ;
-//        double dx = p1.x - p2.x;
-//        double dy = p1.y - p2.y;
-//        double dist = Math.sqrt(dx * dx + dy * dy);
-        //TODO ========================implement dist method====================
+        double dist = distance(p1, p2); // step 6
         total += dist;
 
         return total;
@@ -127,6 +114,7 @@ public class GameView extends View {
      * It is also called after you call "invalidate" on this object.
      */
     protected void onDraw(Canvas canvas) {
+        //================== user still drawing stroke ========================================
         // draws the stroke in yellow while still drawing/making a stroke
         if (isValidStroke) {
             if (stroke.strokePoints.size() > 1) { //step 3
@@ -140,7 +128,8 @@ public class GameView extends View {
                 }
             }
         }
-        // draws the line segments
+        //===================== rendering in red valid stroke ================================
+        // draws the line segments in red when finished
         for (int i = 0; i < segments.lineSegments.size(); i++) { //step 5
             LineSegment ls = segments.lineSegments.get(i); //step 5
             stroke.setColorAndWidth(Color.RED, 10); //step 4
@@ -154,10 +143,10 @@ public class GameView extends View {
             canvas.drawRect(x, y, x + 20, y + 20, stroke.getPaint());
         }
 
+        //========================= examine user input when # segments == # points==================
         // detects whether the segments form a circuit - but there's a bug!
         boolean isCircuit = false;
         isCircuit = segments.detectCircuit();
-
         // see if user has solved the problem ==> if there are no more points to connect AND there exists a circuit
         if ((segments.lineSegments.size() == mapPoints.length) && isCircuit) {
             ArrayList<Point> shortestPath = ShortestPath.shortestPath(mapPoints);
@@ -166,18 +155,19 @@ public class GameView extends View {
 
             //get the length of the current path as to be able to compare it to the shortest path
             for (LineSegment ls : segments.lineSegments) { //step 5
-                double dist = ls.calculateDistance(); //step 5
+//                double dist = ls.calculateDistance(); //step 5
+                double dist = distance(ls.getFinishPoint(), ls.getStartPoint()) ; //step 6
                 myPathLength += dist; //step 5
             }
             Log.v("RESULT", "Shortest path length is " + shortestPathLength + "; my path is " + myPathLength);
-
             //compare shortest path and the one at hand--if they are the same win message displays
             double diff = shortestPathLength - myPathLength;
+            //======================user drew correct answer/circuit================================
             if (Math.abs(diff) < 0.01) {
                 Toast.makeText(getContext(), "You found the shortest path!", Toast.LENGTH_LONG).show();
                 attempt = 0;
-            } else { //if you made a circuit but didn't find the shortest calculated path
-                // after the 3rd failed attempt, show the solution
+            } else { //if you made a CIRCUIT but DIDN't find the shortest calculated path
+                // ======================user drew circuit but not shortest=======================
                 if (attempt < 3) {
                     int offset = (int) (Math.abs(diff) / shortestPathLength * 100);
                     // so that we don't say that the path is 0% too long
@@ -187,8 +177,9 @@ public class GameView extends View {
                     Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
                     attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
                 }
+                //================3rd attempt - visualize solution in yellow========================
                 if (attempt >= 3) {
-                    // draw the solution
+                    // draw the solution in yellow after 3 incorrect attempts
                     for (int i = 0; i < shortestPath.size() - 1; i++) {
                         Point a = shortestPath.get(i);
                         Point b = shortestPath.get(i + 1);
@@ -203,12 +194,18 @@ public class GameView extends View {
                     invalidate();
                 }
             }
+            // ===============================user input not a circuit==================================
         } else if (segments.lineSegments.size() == mapPoints.length && !isCircuit) {
             Toast.makeText(getContext(), "That's not a circuit! Select Clear from the menu and start over", Toast.LENGTH_LONG).show();
         }
 
     }
 
+    /**
+     * A method used to pass information from activity to activity via Bundle/Intent
+     *
+     * @param data
+     */
     public void setData(Bundle data) {
         Bundle bundle = data;
     }
@@ -221,14 +218,12 @@ public class GameView extends View {
         Point p = new Point();
         p.x = ((int) event.getX());
         p.y = ((int) event.getY());
+        //==================================== DOWN touch event ====================================
         if (event.getAction() == MotionEvent.ACTION_DOWN) { //action_down == initial touch event
             // only add the segment if the touch point is within 30 of any of the other points
             for (int i = 0; i < mapPoints.length; i++) {
-                //TODO ========================implement dist method====================
-                double dx = p.x - mapPoints[i].x;
-                double dy = p.y - mapPoints[i].y;
-                double dist = Math.sqrt(dx * dx + dy * dy);
-                //TODO ========================implement dist method====================
+
+                double dist = distance(p, mapPoints[i]); // step 6
                 if (dist < 30) {
                     // the "+10" part is a bit of a fudge factor because the point itself is the
                     // upper-left corner of the little red box but we want the center
@@ -236,27 +231,25 @@ public class GameView extends View {
                     p.y = mapPoints[i].y + 10;
                     stroke.strokePoints.add(p); //step 3
                     firstPoint = p;
-//                    stroke.setValidStroke(true);
                     isValidStroke = true; //within reasonable limit (30 pixels) to a point on the map
                     invalidate();
                     break;
                 }
             }
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move occurs after action_down and BEFORE action_up
+            //==================================== MOVE touch event ====================================
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move-- after action_down && BEFORE action_up
             if (isValidStroke) {
                 stroke.strokePoints.add(p); //step 3
                 invalidate();
             }
+            //==================================== UP touch event ====================================
         } else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
             if (isValidStroke) {
                 stroke.strokePoints.clear(); //step 3
                 // only add the segment if the release point is within 30 of any of the other points
                 for (int i = 0; i < mapPoints.length; i++) {
-                    //TODO ========================implement dist method====================
-                    double dx = p.x - mapPoints[i].x;
-                    double dy = p.y - mapPoints[i].y;
-                    double dist = Math.sqrt(dx * dx + dy * dy);
-                    //TODO ========================implement dist method====================
+                    double dist = distance(p, mapPoints[i]) ; // step 6
+
                     if (dist < 30) {
                         p.x = mapPoints[i].x + 10;
                         p.y = mapPoints[i].y + 10;
@@ -280,16 +273,28 @@ public class GameView extends View {
         return true;
     }
 
+    /**
+     * A setter method for the user defined spinner number/number of locations
+     *
+     * @param spinnerNum
+     */
     public void setSpinnerNum(int spinnerNum) {
         this.spinnerNum = spinnerNum;
     }
 
-    public double calcDistance(Point end, Point start){
+    /**
+     * A helper method used to calculate distance
+     *
+     * @param end   Point object end of a line segment
+     * @param start Point object beginning of a line segment
+     * @return a double of the distance between the two points
+     */
+    public static double distance(Point end, Point start) {
         double dx = end.x - start.x;
         double dy = end.y - start.y;
         double dist = Math.sqrt(dx * dx + dy * dy);
 
-        return dist ;
+        return dist;
     }
 
 }
