@@ -17,7 +17,6 @@ public class GameActivity extends ActionBarActivity {
     private Bundle extras;
     private ArrayList<LineSegment> segArr;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
         super.onCreate(savedInstanceState);

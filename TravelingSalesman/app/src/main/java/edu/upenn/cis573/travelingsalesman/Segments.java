@@ -76,7 +76,6 @@ public class Segments {
         connections.put(currentPoint, val);
     }
 
-
     /**
      * A method that visits all line segments to detect if a true single Hamiltonian cycle exists
      * @param
