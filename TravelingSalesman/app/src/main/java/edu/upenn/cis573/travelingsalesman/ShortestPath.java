@@ -16,7 +16,6 @@ public class ShortestPath {
 
         // get the permutations of the indices
         ArrayList<ArrayList<Integer>> indices = permute(points.length);
-
         double shortest = Double.MAX_VALUE;
         ArrayList<Integer> shortestPathIndices = null;
 
@@ -27,18 +26,16 @@ public class ShortestPath {
             for (int i = 0; i < p.size() - 1; i++) {
                 Point p1 = points[p.get(i)];
                 Point p2 = points[p.get(i + 1)];
-                double dx = p1.x - p2.x;
-                double dy = p1.y - p2.y;
-                double dist = Math.sqrt(dx * dx + dy * dy);
+                double dist = GameView.distance(p1, p2) ;
+
                 total += dist;
             }
 
             // then need to go back to the beginning
             Point p1 = points[p.get(p.size() - 1)];
             Point p2 = points[p.get(0)];
-            double dx = p1.x - p2.x;
-            double dy = p1.y - p2.y;
-            double dist = Math.sqrt(dx * dx + dy * dy);
+            double dist = GameView.distance(p1, p2) ;
+
             total += dist;
 
             // see if this is the shortest  so far
@@ -52,7 +49,6 @@ public class ShortestPath {
         ArrayList<Point> shortestPath = new ArrayList<Point>();
         for (int k : shortestPathIndices)
             shortestPath.add(points[k]);
-
 
         return shortestPath;
     }
@@ -80,11 +76,8 @@ public class ShortestPath {
                 for (int j = 0; j < l.size() + 1; j++) {
                     // + add num[i] to different locations
                     l.add(j, num[i]);
-
                     ArrayList<Integer> temp = new ArrayList<Integer>(l);
-
                     current.add(temp);
-
                     // - remove num[i] add
                     l.remove(j);
                     System.gc();
