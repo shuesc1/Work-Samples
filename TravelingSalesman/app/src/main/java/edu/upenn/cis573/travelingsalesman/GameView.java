@@ -17,14 +17,9 @@ import java.util.*;
 
 public class GameView extends View {
 
-//    protected ArrayList<Point> strokePoints = new ArrayList<Point>() ; //Step 3
     protected boolean isValidStroke = false;
     private Stroke stroke; //step 4
-
-//    protected ArrayList<Point[]> segments = new ArrayList<Point[]>(); //step 5
-//    protected ArrayList<Segments> segments = new ArrayList<Point[]>(); //step 5
     protected Segments segments ; //step 5
-
     private Point firstPoint;
     protected Point[] mapPoints;
     protected int spinnerNum;
@@ -32,7 +27,6 @@ public class GameView extends View {
     protected int attempt = 0;
     protected static final Point[] mapPositions;
     private Context context;
-
 
     // These points are all hardcoded to fit the UPenn campus map on a Nexus 5
     static {
@@ -123,9 +117,7 @@ public class GameView extends View {
      * It is also called after you call "invalidate" on this object.
      */
     protected void onDraw(Canvas canvas) {
-//        Paint paint = new Paint(); //becomes fully encapsulated in step 4 (Stroke class)
-
-        // draws the stroke in yellow while still drawing
+        // draws the stroke in yellow while still drawing/making a stroke
         if (isValidStroke) {
             if (stroke.strokePoints.size() > 1) { //step 3
                 for (int i = 0; i < stroke.strokePoints.size()-1; i++){
@@ -138,19 +130,12 @@ public class GameView extends View {
                 }
             }
         }
-
         // draws the line segments
         for (int i = 0; i < segments.lineSegments.size(); i++) { //step 5
             LineSegment ls = segments.lineSegments.get(i); //step 5
             stroke.setColorAndWidth(Color.RED, 10); //step 4
             canvas.drawLine(ls.getStartPoint().x, ls.getStartPoint().y, ls.getFinishPoint().x, ls.getFinishPoint().y, stroke.getPaint());
         }
-//        for (int i = 0; i < segments..size(); i++) {
-//            Point[] points = segments.get(i);
-//            stroke.setColorAndWidth(Color.RED, 10); //step 4
-//            canvas.drawLine(points[0].x, points[0].y, points[1].x, points[1].y, stroke.getPaint());
-//        }
-
         // draws the points on the map
         stroke.setColorAndWidth(Color.RED, 10); //step 4
         for (int i = 0; i < mapPoints.length; i++) {
@@ -159,45 +144,31 @@ public class GameView extends View {
             canvas.drawRect(x, y, x+20, y+20, stroke.getPaint());
         }
 
-        //================================CUT ALL BELOW=============================================
         // detects whether the segments form a circuit - but there's a bug!
         boolean isCircuit = false ;
         isCircuit = segments.detectCircuit() ;
-        //===============================CUT ALL ABOVE=============================================
 
         // see if user has solved the problem ==> if there are no more points to connect AND there exists a circuit
         if ((segments.lineSegments.size() == mapPoints.length) && isCircuit) {
             ArrayList<Point> shortestPath = ShortestPath.shortestPath(mapPoints);
             double shortestPathLength = calculatePathDistance(shortestPath);
             double myPathLength = 0;
-            //================================CUT BELOW=======================================
+
             //get the length of the current path as to be able to compare it to the shortest path
             for (LineSegment ls : segments.lineSegments) { //step 5
                 double dist = ls.calculateDistance() ; //step 5
                 myPathLength += dist; //step 5
-//            for (Point[] pair : segments) {
-//                Point p1 = pair[0];
-//                Point p2 = pair[1];
-//                double dx = p1.x - p2.x;
-//                double dy = p1.y - p2.y;
-//                double dist = Math.sqrt(dx * dx + dy * dy);
-//                myPathLength += dist;
             }
-            //=================================CUT ABOVE AND REPLACE W/ segments.calculateDistance======
-
             Log.v("RESULT", "Shortest path length is " + shortestPathLength + "; my path is " + myPathLength);
 
-            //compare shortest path and the one at hand
-            //if they are the same win message displays
+            //compare shortest path and the one at hand--if they are the same win message displays
             double diff = shortestPathLength - myPathLength;
             if (Math.abs(diff) < 0.01) {
                 Toast.makeText(getContext(), "You found the shortest path!", Toast.LENGTH_LONG).show();
                 attempt = 0;
             }
-
             else { //if you made a circuit but didn't find the shortest calculated path
                 // after the 3rd failed attempt, show the solution
-//                if (attempt >= 3) { //should probably switch this section to after "Your path is about xx% too big now that I moved attempt++ there
                   if (attempt < 3) {
                       int offset = (int) (Math.abs(diff) / shortestPathLength * 100);
                       // so that we don't say that the path is 0% too long
@@ -207,7 +178,6 @@ public class GameView extends View {
                       Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
                       attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
                 }
-
                     if (attempt >= 3){
                       // draw the solution
                       for (int i = 0; i < shortestPath.size() - 1; i++) {
@@ -220,11 +190,9 @@ public class GameView extends View {
                       Point b = shortestPath.get(0);
                       stroke.setColorAndWidth(Color.YELLOW, 10);
                       canvas.drawLine(a.x+10, a.y+10, b.x+10, b.y+10, stroke.getPaint());
-
-                      Toast.makeText(getContext(), "Nope, sorry! Here's the solution.", Toast.LENGTH_LONG).show();
+                      Toast.makeText(getContext(), "Here's the solution.", Toast.LENGTH_LONG).show();
                       invalidate();
                     }
-//                attempt++; //moved into "Nope, not quite!" section
             }
         }
         else if (segments.lineSegments.size() == mapPoints.length && !isCircuit) {
@@ -242,13 +210,10 @@ public class GameView extends View {
      * This method is automatically called when the user touches the screen.
      */
     public boolean onTouchEvent(MotionEvent event) {
-
         Point p = new Point();
         p.x = ((int)event.getX());
         p.y = ((int)event.getY());
-
         if (event.getAction() == MotionEvent.ACTION_DOWN) { //action_down == initial touch event
-
             // only add the segment if the touch point is within 30 of any of the other points
             for (int i = 0; i < mapPoints.length; i++) {
                 double dx = p.x - mapPoints[i].x;
@@ -259,11 +224,8 @@ public class GameView extends View {
                     // upper-left corner of the little red box but we want the center
                     p.x = mapPoints[i].x+10;
                     p.y = mapPoints[i].y+10;
-
                     stroke.strokePoints.add(p) ; //step 3
-
                     firstPoint = p;
-
 //                    stroke.setValidStroke(true);
                     isValidStroke = true; //within reasonable limit (30 pixels) to a point on the map
                     invalidate();
@@ -273,32 +235,25 @@ public class GameView extends View {
         }
         else if (event.getAction() == MotionEvent.ACTION_MOVE) { //action_move occurs after action_down and BEFORE action_up
             if (isValidStroke) {
-
                 stroke.strokePoints.add(p) ; //step 3
-
                 invalidate();
             }
         }
         else if (event.getAction() == MotionEvent.ACTION_UP) { //ends sequence of action_down, action_move and action_up
             if (isValidStroke) {
-
                 stroke.strokePoints.clear(); //step 3
-
                 // only add the segment if the release point is within 30 of any of the other points
                 for (int i = 0; i < mapPoints.length; i++) {
                     double dx = p.x - mapPoints[i].x;
                     double dy = p.y - mapPoints[i].y;
                     double dist = Math.sqrt(dx * dx + dy * dy);
-
                     if (dist < 30) {
                         p.x = mapPoints[i].x + 10;
                         p.y = mapPoints[i].y + 10;
                         Point lastPoint = p;
-//                        Point[] points = {firstPoint, p};
                         LineSegment thisSeg = new LineSegment();
                         thisSeg.setStartPoint(firstPoint);
                         thisSeg.setFinishPoint(lastPoint);
-
                         //adds 2 Point objects - start point and end point (nodes) to 'segments'
                         if (firstPoint.x != lastPoint.x && firstPoint.y != lastPoint.y) {
                             segments.lineSegments.add(thisSeg);
@@ -313,11 +268,7 @@ public class GameView extends View {
         else {
             return false;
         }
-        // forces a redraw of the View
-        //invalidate(); //took this out and moved the forced redraw into each DOWN, MOVE, and UP section
-        //per Android documentation you should try and limit excessive use of invalidate()/reDraw when possible
             return true;
-
     }
 
     public void setSpinnerNum(int spinnerNum) {

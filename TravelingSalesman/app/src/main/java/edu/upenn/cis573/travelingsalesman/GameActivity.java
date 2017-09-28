@@ -18,16 +18,10 @@ public class GameActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_game);
-        //=========way 1====================
-//        numLocations = getIntent().getIntExtra("Number of locations", 4) ; step 1 - way 1
-        //=========way 2=====================
-//        Intent i = getIntent() ; //step 1 - way 2
-//        numLocations = i.getIntExtra("Number of locations", 4) ; //step 1 -- way 2
-        //==========way 3=====================
         if(savedInstanceState == null){ //if no data supplied --step 1 high delegation- way 3
             extras = getIntent().getExtras();
             if(extras != null){
-                numLocations = extras.getInt("Number of locations");
+                numLocations = extras.getInt("Number of locations"); //get info from MainActivity
             }
         }else{
             numLocations = (int) savedInstanceState.getSerializable("Number of locations");
@@ -51,7 +45,6 @@ public class GameActivity extends ActionBarActivity {
 
         int id = item.getItemId();
 //        ArrayList<> segArr;
-
         if (id == R.id.menu_clear) {
             GameView gv = (GameView)findViewById(R.id.gameView);
 //            segArr = gv.segments.lineSegments ;
@@ -73,7 +66,6 @@ public class GameActivity extends ActionBarActivity {
             gv.invalidate();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
