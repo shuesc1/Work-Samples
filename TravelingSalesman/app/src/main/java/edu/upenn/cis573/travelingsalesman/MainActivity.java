@@ -13,14 +13,12 @@ import android.widget.AdapterView;
 public class MainActivity extends ActionBarActivity implements OnItemSelectedListener {
 
     // represents the number of locations in the game map
-//    protected static int numLocations = 4;
-    public int numLocations ;
+    public int numLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //saves state if orientation changes for ex
         setContentView(R.layout.activity_main); //layout resource defining UI to be inflated
-
         // Code to create the spinner (drop-down list)
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -35,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onButtonClick(View button) {
         Intent i = new Intent(this, GameActivity.class);
-        i.putExtra("Number of locations", numLocations) ;
+        i.putExtra("Number of locations", numLocations);
         startActivity(i);
     }
 
@@ -44,9 +42,6 @@ public class MainActivity extends ActionBarActivity implements OnItemSelectedLis
      */
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         numLocations = Integer.parseInt(parent.getItemAtPosition(pos).toString());
-//        Intent intent1 = new Intent() ;//step 1
-//        intent1.putExtra("Number of locations", numLocations) ;//step 1
-//        setResult(RESULT_OK, intent1);//step 1
     }
 
     /*

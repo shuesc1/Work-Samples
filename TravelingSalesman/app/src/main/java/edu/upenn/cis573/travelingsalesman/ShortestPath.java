@@ -1,7 +1,9 @@
 package edu.upenn.cis573.travelingsalesman;
 
 import android.graphics.Point;
+
 import java.util.ArrayList;
+
 /**
  * This is a bruteforce solution to the Traveling Salesman Problem.
  * It works by permuting the order of the indices of the points in the array of locations

@@ -1,6 +1,5 @@
 package edu.upenn.cis573.travelingsalesman;
 
-import android.graphics.Path;
 import android.graphics.Point;
 
 import java.util.ArrayList;
@@ -11,33 +10,39 @@ import java.util.HashMap;
  */
 public class Segments {
 
-//    private Point startPoint, finishPoint;
-//    private Path;
     public ArrayList<LineSegment> lineSegments;
     private boolean hasCircuit;
-    private HashMap<Point, Integer> connections ;
+    private HashMap<Point, Integer> connections;
 
-
-    public Segments(){
+    /**
+     * The constructor for the class
+     */
+    public Segments() {
         lineSegments = new ArrayList<>();
-        hasCircuit = false ;
+        hasCircuit = false;
     }
 
-    public void addLineSegment(LineSegment ls){
-        this.lineSegments.add(ls) ;
+    /**
+     * A method that adds a LineSegment object to this class' ArrayList of all LineSegments
+     *
+     * @param ls a new LineSegment object
+     */
+    public void addLineSegment(LineSegment ls) {
+        this.lineSegments.add(ls);
     }
 
     /**
      * A method that abstracts from GV class circuit detection
+     *
      * @return a boolean if a circuit has been detected, false otherwise
      */
-    public boolean detectCircuit(){
+    public boolean detectCircuit() {
         connections = new HashMap<Point, Integer>();
-        for (LineSegment thisLS: this.lineSegments){
+        for (LineSegment thisLS : this.lineSegments) {
             Integer value = connections.get(thisLS.getStartPoint());
-            calculateVertexDegrees(thisLS.getStartPoint(), value) ;
+            calculateVertexDegrees(thisLS.getStartPoint(), value);
             value = connections.get(thisLS.getFinishPoint());
-            calculateVertexDegrees(thisLS.getFinishPoint(), value) ;
+            calculateVertexDegrees(thisLS.getFinishPoint(), value);
         }
 
         if (this.lineSegments.size() == 0) {
@@ -52,24 +57,20 @@ public class Segments {
                 }
             }
         }
-        return hasCircuit ;
+        return hasCircuit;
     }
 
 
     /**
      * A helper method for the detectCircuit method -- eliminates duplicate code
+     *
      * @param currentPoint
      * @param val
      */
-    public void calculateVertexDegrees(Point currentPoint, Integer val){
+    public void calculateVertexDegrees(Point currentPoint, Integer val) {
         if (val == null)
             val = 0;
         val++;
         connections.put(currentPoint, val);
     }
-
-
-
-
-
 }

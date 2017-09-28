@@ -18,15 +18,15 @@ public class GameActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_game);
-        if(savedInstanceState == null){ //if no data supplied --step 1 high delegation- way 3
+        if (savedInstanceState == null) { //if no data supplied --step 1 high delegation- way 3
             extras = getIntent().getExtras();
-            if(extras != null){
+            if (extras != null) {
                 numLocations = extras.getInt("Number of locations"); //get info from MainActivity
             }
-        }else{
+        } else {
             numLocations = (int) savedInstanceState.getSerializable("Number of locations");
         }
-        GameView gv = (GameView)findViewById(R.id.gameView); //gets the View that was created above by setContentView
+        GameView gv = (GameView) findViewById(R.id.gameView); //gets the View that was created above by setContentView
         gv.setSpinnerNum(numLocations);
         gv.drawInitialPoints();
     }
@@ -46,17 +46,16 @@ public class GameActivity extends ActionBarActivity {
         int id = item.getItemId();
 //        ArrayList<> segArr;
         if (id == R.id.menu_clear) {
-            GameView gv = (GameView)findViewById(R.id.gameView);
+            GameView gv = (GameView) findViewById(R.id.gameView);
 //            segArr = gv.segments.lineSegments ;
             gv.segments.lineSegments.clear(); //segments = arraylist of 2 point array
             gv.invalidate();
             return true;
-        }
-        else if (id == R.id.menu_quit) {
+        } else if (id == R.id.menu_quit) {
             finish();
             return true;
         } else if (id == R.id.menu_undo) {
-            GameView gv = (GameView)findViewById(R.id.gameView);
+            GameView gv = (GameView) findViewById(R.id.gameView);
             if (gv.segments.lineSegments.size() > 0) {
                 //TODO maybe clean this up
                 gv.segments.lineSegments.remove(gv.segments.lineSegments.get(gv.segments.lineSegments.size() - 1));
