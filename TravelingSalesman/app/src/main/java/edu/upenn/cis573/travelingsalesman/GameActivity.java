@@ -8,11 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class GameActivity extends ActionBarActivity {
 
     public int numLocations; //step 1 -- high delegation
     private Bundle extras;
+    private ArrayList<LineSegment> segArr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //step 1 - receiver of Intent info
@@ -44,21 +48,23 @@ public class GameActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-//        ArrayList<> segArr;
+        // user selects CLEAR
         if (id == R.id.menu_clear) {
             GameView gv = (GameView) findViewById(R.id.gameView);
-//            segArr = gv.segments.lineSegments ;
-            gv.segments.lineSegments.clear(); //segments = arraylist of 2 point array
+            segArr = gv.segments.lineSegments;
+            segArr.clear();
             gv.invalidate();
             return true;
+            // user selects QUIT
         } else if (id == R.id.menu_quit) {
             finish();
             return true;
+            // user selects UNDO
         } else if (id == R.id.menu_undo) {
             GameView gv = (GameView) findViewById(R.id.gameView);
-            if (gv.segments.lineSegments.size() > 0) {
-                //TODO maybe clean this up
-                gv.segments.lineSegments.remove(gv.segments.lineSegments.get(gv.segments.lineSegments.size() - 1));
+            segArr = gv.segments.lineSegments;
+            if (segArr.size() > 0) {
+                segArr.remove(segArr.get(segArr.size() - 1));
             } else {
                 Toast.makeText(gv.getContext(), "There's nothing to undo.", Toast.LENGTH_LONG).show();
             }

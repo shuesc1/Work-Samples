@@ -160,6 +160,7 @@ public class GameView extends View {
                 myPathLength += dist; //step 5
             }
             Log.v("RESULT", "Shortest path length is " + shortestPathLength + "; my path is " + myPathLength);
+
             //compare shortest path and the one at hand--if they are the same win message displays
             double diff = shortestPathLength - myPathLength;
             //======================user drew correct answer/circuit================================
