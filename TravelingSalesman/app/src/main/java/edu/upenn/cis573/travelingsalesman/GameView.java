@@ -211,7 +211,6 @@ public class GameView extends View {
         Bundle bundle = data;
     }
 
-
     /*
      * This method is automatically called when the user touches the screen.
      */

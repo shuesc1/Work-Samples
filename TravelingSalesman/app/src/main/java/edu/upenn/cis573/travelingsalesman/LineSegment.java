@@ -8,6 +8,7 @@ import android.graphics.Point;
 public class LineSegment {
 
     private Point startPoint, finishPoint;
+    public boolean visited;
 
     /**
      * The constructor for the class that instantiates variables
@@ -15,6 +16,7 @@ public class LineSegment {
     public LineSegment() {
         startPoint = new Point();
         finishPoint = new Point();
+        visited = false ;
     }
 
     /**
