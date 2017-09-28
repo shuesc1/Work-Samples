@@ -78,8 +78,7 @@ public class GameView extends View {
     }
 
     /**
-     * A method that sets the background resource png and populates mapPoints (array of Point objs) randomly with all locations
-     * mapPositions values all hardcoded above
+     * A method that sets the background resource png, creates a log entry and initializes variables
      */
     protected void init() {
 //        spinnerNum = MainActivity.numLocations ; //step 1
@@ -92,7 +91,7 @@ public class GameView extends View {
 
     /**
      * A helper method to establish the initial location points to be drawn based on the number specified by the user
-     * Method is called once when view is first rendered
+     * Method is called once when view is first rendered ; mapPositions values all hardcoded above
      */
     public void drawInitialPoints() {
         mapPoints = new Point[spinnerNum]; //creates a new array of Point objects of size[user's spinner number choice]
@@ -144,9 +143,13 @@ public class GameView extends View {
         }
 
         //========================= examine user input when # segments == # points==================
-        // detects whether the segments form a circuit - but there's a bug!
+        // detects whether the segments form a circuit && proper Hamiltonian cycle
         boolean isCircuit = false;
+//        boolean hasHamCycle = false ;
         isCircuit = segments.detectCircuit();
+//        hasHamCycle = segments.existsHamPath();
+//        Toast.makeText(getContext(), "Has Ham Cycle:" + hasHamCycle, Toast.LENGTH_LONG).show();
+
         // see if user has solved the problem ==> if there are no more points to connect AND there exists a circuit
         if ((segments.lineSegments.size() == mapPoints.length) && isCircuit) {
             ArrayList<Point> shortestPath = ShortestPath.shortestPath(mapPoints);
@@ -175,7 +178,11 @@ public class GameView extends View {
                     if (offset == 0) {
                         offset = 1;
                     }
-                    Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
+//                    if(hasHamCycle) {
+                        Toast.makeText(getContext(), "Nope, not quite! Your path is about " + offset + "% too long.", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        Toast.makeText(getContext(), "Nope, this isn't a proper Hamiltonian cycle!.", Toast.LENGTH_LONG).show();
+//                    }
                     attempt++; //message displays only on 'incorrect' attempts, so makes sense to put counter right after
                 }
                 //================3rd attempt - visualize solution in yellow========================

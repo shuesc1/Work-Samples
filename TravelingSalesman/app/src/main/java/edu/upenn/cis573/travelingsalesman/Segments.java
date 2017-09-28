@@ -79,12 +79,12 @@ public class Segments {
 
     /**
      * A method that visits all line segments to detect if a true single Hamiltonian cycle exists
-     * @param segments
+     * @param
      * @return
      */
-    public boolean existsHamPath(Segments segments) {
+    public boolean existsHamPath() {
         //For a Ham path/cycle to exist all line segments must be connected and the start point must be the end point
-        ArrayList<LineSegment> lineSegs = segments.lineSegments; //get array of all line segs in path
+        ArrayList<LineSegment> lineSegs = this.lineSegments; //get array of all line segs in path
         LineSegment startingSeg = lineSegs.get(0); //get starting line segment
         startingSeg.visited = true;
         startingPoint = startingSeg.getStartPoint(); //arbitrary starting point will be last lineseg's ending point if HamCycle
