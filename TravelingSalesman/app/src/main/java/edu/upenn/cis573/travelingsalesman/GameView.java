@@ -58,25 +58,33 @@ public class GameView extends View {
         init();
     }
 
+
+    //TODO ========================implement dist method====================
     public static double calculatePathDistance(ArrayList<Point> points) {
 
         double total = 0;
         // get the distance between the intermediate points
         for (int i = 0; i < points.size() - 1; i++) {
+            //TODO ========================implement dist method====================
             Point p1 = points.get(i);
             Point p2 = points.get(i + 1);
             double dx = p1.x - p2.x;
             double dy = p1.y - p2.y;
             double dist = Math.sqrt(dx * dx + dy * dy);
+            //TODO ========================implement dist method====================
             total += dist;
         }
 
         // then need to go back to the beginning
+        //TODO ========================implement dist method====================
         Point p1 = points.get(points.size() - 1);
         Point p2 = points.get(0);
-        double dx = p1.x - p2.x;
-        double dy = p1.y - p2.y;
-        double dist = Math.sqrt(dx * dx + dy * dy);
+
+        double dist = this.calcDistance(p1, p2) ;
+//        double dx = p1.x - p2.x;
+//        double dy = p1.y - p2.y;
+//        double dist = Math.sqrt(dx * dx + dy * dy);
+        //TODO ========================implement dist method====================
         total += dist;
 
         return total;
@@ -216,9 +224,11 @@ public class GameView extends View {
         if (event.getAction() == MotionEvent.ACTION_DOWN) { //action_down == initial touch event
             // only add the segment if the touch point is within 30 of any of the other points
             for (int i = 0; i < mapPoints.length; i++) {
+                //TODO ========================implement dist method====================
                 double dx = p.x - mapPoints[i].x;
                 double dy = p.y - mapPoints[i].y;
                 double dist = Math.sqrt(dx * dx + dy * dy);
+                //TODO ========================implement dist method====================
                 if (dist < 30) {
                     // the "+10" part is a bit of a fudge factor because the point itself is the
                     // upper-left corner of the little red box but we want the center
@@ -242,9 +252,11 @@ public class GameView extends View {
                 stroke.strokePoints.clear(); //step 3
                 // only add the segment if the release point is within 30 of any of the other points
                 for (int i = 0; i < mapPoints.length; i++) {
+                    //TODO ========================implement dist method====================
                     double dx = p.x - mapPoints[i].x;
                     double dy = p.y - mapPoints[i].y;
                     double dist = Math.sqrt(dx * dx + dy * dy);
+                    //TODO ========================implement dist method====================
                     if (dist < 30) {
                         p.x = mapPoints[i].x + 10;
                         p.y = mapPoints[i].y + 10;
@@ -272,5 +284,12 @@ public class GameView extends View {
         this.spinnerNum = spinnerNum;
     }
 
+    public double calcDistance(Point end, Point start){
+        double dx = end.x - start.x;
+        double dy = end.y - start.y;
+        double dist = Math.sqrt(dx * dx + dy * dy);
+
+        return dist ;
+    }
 
 }
