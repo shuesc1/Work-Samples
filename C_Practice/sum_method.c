@@ -17,8 +17,8 @@ int sumFunc(int x)
 {
   int total = 0;
   do{
-    total = total + x ;
-    x = x - 1 ;
+    total += x ;
+    x -= 1 ;
   }  while (x > 0) ;
   return total ;
 }
