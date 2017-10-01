@@ -1,24 +1,27 @@
 #include <stdio.h>
 
-int sumFunc(int x);
+int sumFunc(int A);
 
 int main()
 {
-  int x;
+  int A;
  
   printf( "Please input a number and I will return the sum of all positive integers up to this number: " );
-  scanf( "%d", &x );
-  printf( "The sum of all positive numbers up to your num %d is: %d\n", x, sumFunc(x) ); 
+  scanf( "%d", &A );
+  printf( "The sum of all positive numbers up to your num %d is: %d\n", A, sumFunc(A) ); 
 
   return 0 ;
 }
 
-int sumFunc(int x)
+int sumFunc(int A)
 {
   int total = 0;
   do{
-    total += x ;
-    x -= 1 ;
-  }  while (x > 0) ;
+    total += A ;
+    A -= 1 ;
+  }  while (A > 0) ;
   return total ;
 }
+
+
+
