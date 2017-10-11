@@ -19,7 +19,7 @@ public class HealthIndicatorTest {
 
 	@Before 
 	public void initialize() {
-//		hi = new HealthIndicator() ; //not needed since method is static
+		//		hi = new HealthIndicator() ; //not needed since method is static
 	}
 
 	//=============================================================
@@ -27,12 +27,102 @@ public class HealthIndicatorTest {
 	//=============================================================
 	//correct values should give correct categorizations
 	//<<<<<<<<<<<<<<<<<<<<<<'underweight'>>>>>>>>>>>>>>>>>>>>>>>>
-	//<<<<<<<<<<<<<<<<<<<<<<'healthy'>>>>>>>>>>>>>>>>>>>>>>>>
-	//<<<<<<<<<<<<<<<<<<<<<<'overweight'>>>>>>>>>>>>>>>>>>>>>>>>
-	//<<<<<<<<<<<<<<<<<<<<<<'obese'>>>>>>>>>>>>>>>>>>>>>>>>
+	@Test
+	public void testUnderweightCondition1() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 114.6 ;
+		int age = 25 ;
+		//boundary test -- BMI just below 18.5
+		//(114.6*703)/(66.0^2) = 18.4949.. --> underweight
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI < 18.5 should return a WeightStatus of 'underweight'", "UNDERWEIGHT", ws) ; 
+	}
 
+	@Test
+	public void testUnderweightCondition2() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 76.8 ;
+		int age = 25 ;
+		//BMI below 18.5
+		//(76.8*703)/(66.0^2) = 12.39.. --> underweight
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI < 18.5 should return a WeightStatus of 'underweight'", "UNDERWEIGHT", ws) ; 
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<'healthy'>>>>>>>>>>>>>>>>>>>>>>>>
+	@Test
+	public void testHealthyCondition1() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 114.6315789 ;
+		int age = 25 ;
+		//boundary test -- BMI just above 18.5
+		//(114.6315789*703)/(66.0^2) = 18.5 --> healthy
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 18.5 should return a WeightStatus of 'healthy'", "HEALTHY", ws) ; 
+	}
+
+	@Test
+	public void testHealthyCondition2() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 154.9 ;
+		int age = 25 ;
+		//boundary test -- BMI just below 25
+		//(154.9*703)/(66.0^2) = 24.9988 --> healthy
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 18.5 && < 25 should return a WeightStatus of 'healthy'", "HEALTHY", ws) ; 
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<'overweight'>>>>>>>>>>>>>>>>>>>>>>>>
+	@Test
+	public void testOverweightCondition1() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 154.9075391 ;
+		int age = 25 ;
+		//boundary test -- BMI at 25
+		//(154.9075391*703)/(66.0^2) = 25 --> overweight
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 25 && < 30 should return a WeightStatus of 'overweight'", "OVERWEIGHT", ws) ; 
+	}
 	
+	@Test
+	public void testOverweightCondition2() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 185.8 ;
+		int age = 25 ;
+		//boundary test -- BMI just below 30
+		//(185.8*703)/(66.0^2) = 29.9856 --> overweight
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 25 && < 30 should return a WeightStatus of 'overweight'", "OVERWEIGHT", ws) ; 
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<'obese'>>>>>>>>>>>>>>>>>>>>>>>>
+	@Test
+	public void testObeseCondition1() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 185.8890469 ;
+		int age = 25 ;
+		//boundary test -- BMI at 30
+		//(185.8890469*703)/(66.0^2) = 30 --> obese
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 30 should return a WeightStatus of 'obese'", "OBESE", ws) ; 
+	}
 	
+	@Test
+	public void testObeseCondition2() {
+		int height = 5 ;
+		double heightIn = 6.0 ;
+		double weight = 250 ;
+		int age = 25 ;
+		//BMI > 30
+		//(250*703)/(66.0^2) = 40.35 --> obese
+		ws = HealthIndicator.calculateWeightStatus(height	, heightIn, weight, age) ;
+		assertEquals("any BMI >= 30 should return a WeightStatus of 'obese'", "OBESE", ws) ; 
+	}
+
 	//=============================================================
 	//==========================SPEC: Age < 20 ====================
 	//=============================================================
@@ -43,27 +133,28 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, illegalAge) ;
 		assertEquals("an age below 20 should return a WeightStatus of 'invalid'", "INVALID", ws) ; 
 	}
-	
+
+	@Test
 	public void testAgeBelow20InvalidCondition2() {
 		int illegalAge = 5 ;
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, illegalAge) ;
 		assertNotEquals("an age below 20 should return a WeightStatus of 'invalid'", "HEALTHY", ws) ; 
 	}
-	
+
 	@Test
 	public void testAgeBelow20ValidCondition1() {
 		int legalAge = 30 ;
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, legalAge) ; //BMI==23.7 =(160.7*703)/(69^2)
 		assertEquals("an age above 20 should return a WeightStatus other than 'invalid'-- 23.7 == 'healthy' in this case", "HEALTHY", ws) ;
 	}
-	
+
 	@Test
 	public void testAgeBelow20ValidCondition2() {
 		int legalAge = 20 ;
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, legalAge) ;
 		assertNotEquals("an age above 20 should return a WeightStatus other than 'invalid'", "INVALID", ws) ;
 	}
-	
+
 	//=============================================================
 	//================SPEC: Height Ft/Inch combo ==================
 	//=============================================================
@@ -77,7 +168,7 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
 		assertEquals("if inputs read correctly WeightStatus should be 'HEALTY'", "HEALTHY", ws) ;
 	}
-	
+
 	@Test
 	public void testHeightComboUsedCorrectly2() {
 		int heightFt = 4 ;
@@ -86,7 +177,7 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
 		assertEquals("if inputs read correctly WeightStatus should be 'HEALTY'", "HEALTHY", ws) ;
 	}
-	
+
 	@Test
 	public void testHeightComboUsedIncorrectly1() {
 		//if both read as feet
@@ -96,7 +187,7 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
 		assertNotEquals("an incorrect combination interpreting both as feet would be 'UNDERWEIGHT'", "UNDERWEIGHT", ws) ;
 	}
-	
+
 	@Test
 	public void testHeightComboUsedIncorrectly2() {
 		//if both read as inches
@@ -106,7 +197,7 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
 		assertNotEquals("an incorrect combination interpreting both as inches would be 'OBESE'", "OBESE", ws) ;
 	}
-	
+
 	@Test
 	public void testHeightComboUsedIncorrectly3() {
 		//if it multiplied inches by 12 instead of feet
@@ -116,23 +207,16 @@ public class HealthIndicatorTest {
 		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
 		assertNotEquals("an incorrect combination where ht in in. value were mult. by 12 would be 'UNDERWEIGHT'", "UNDERWEIGHT", ws) ;
 	}
-	
+
 	@Test
 	public void testHeightComboUsedIncorrectly4() {
 		//if both inch and feet values were multiplied by 12
 		int heightFt = 5 ;
 		double heightIn = 11.0 ;
-//		//(11inx12) + 5 = 137.0 inches --> (160.7pds*703)/(137in^2) --> 6.02 --> "UNDERWEIGHT"
-//		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
-//		assertNotEquals("an incorrect combination where ht in in. value were mult. by 12 would be 'UNDERWEIGHT'", "UNDERWEIGHT", ws) ;
+		//		//(11inx12) + (5ftx12) = 192.0 inches --> (160.7pds*703)/(192in^2) --> 3.06 --> "UNDERWEIGHT"
+		ws = HealthIndicator.calculateWeightStatus(heightFt, heightIn, validWtPds, validAgeYrs) ;
+		assertNotEquals("an incorrect combination where ht in in. value were mult. by 12 would be 'UNDERWEIGHT'", "UNDERWEIGHT", ws) ;
 	}
-	
-
-//	BMI = ((weight pds) * 703) / ((height inches)^2)
-//	int validHgt = 5 ;
-//	double validHgtIn = 9.0 ;
-//	double validWtPds = 160.7 ;
-//	int validAgeYrs = 34 ;
 
 	//=============================================================
 	//==============SPEC: Semantically invalid inputs==============
@@ -204,7 +288,7 @@ public class HealthIndicatorTest {
 	public void testSemanticallyInvalidAgeYr3() {
 		fail("Not yet implemented");
 	}
-	
-	
-	
+
+
+
 }
