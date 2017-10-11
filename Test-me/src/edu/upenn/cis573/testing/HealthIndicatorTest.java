@@ -6,10 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.upenn.cis573.health.HealthIndicator;
+import edu.upenn.cis573.health.HealthIndicator.WeightStatus;
 
 public class HealthIndicatorTest {
 
 	HealthIndicator hi;
+	WeightStatus ws;
 	int validHgt = 5 ;
 	double validHgtIn = 9.0 ;
 	double validWtPds = 160.7 ;
@@ -35,8 +37,32 @@ public class HealthIndicatorTest {
 	//==========================SPEC: Age < 20 ====================
 	//=============================================================
 	//age < 20 should return WeightStatus==invalid; age >= 20 should return categorical WeightStatus
+	@Test
+	public void testAgeBelow20Condition1() {
+		int illegalAge = 19 ;
+		ws = hi.calculateWeightStatus(validHgt, validHgtIn, validWtPds, illegalAge) ;
+		assertEquals("an age below 20 should return a WeightStatus of 'invalid'", "INVALID", ws) ; 
+	}
 	
+	public void testAgeBelow20Condition2() {
+		int illegalAge = 5 ;
+		ws = hi.calculateWeightStatus(validHgt, validHgtIn, validWtPds, illegalAge) ;
+		assertEquals("an age below 20 should return a WeightStatus of 'invalid'", "INVALID", ws) ; 
+	}
 	
+	@Test
+	public void testAgeBelow20Condition3() {
+		int legalAge = 20 ;
+		ws = hi.calculateWeightStatus(validHgt, validHgtIn, validWtPds, legalAge) ;
+		assertNotEquals("an age above 20 should return a WeightStatus other than 'invalid'", "INVALID", ws) ;
+	}
+	
+	@Test
+	public void testAgeBelow20Condition4() {
+		int legalAge = 30 ;
+		ws = hi.calculateWeightStatus(validHgt, validHgtIn, validWtPds, legalAge) ; //BMI==23.7 =(160.7*703)/(69^2)
+		assertEquals("an age above 20 should return a WeightStatus other than 'invalid'-- 23.7 == 'healthy' in this case", "HEALTHY", ws) ;
+	}
 	
 	//=============================================================
 	//================SPEC: Height Ft/Inch combo ==================
@@ -107,11 +133,13 @@ public class HealthIndicatorTest {
 	//<<<<<<<<<<<<<<<<<<<<<<Age - Years>>>>>>>>>>>>>>>>>>>>>>>>
 	@Test
 	public void testSemanticallyInvalidAgeYr1() {
+		int invalidAge = (int) 130.0 ;
 		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSemanticallyInvalidAgeYr2() {
+		int invalidAge = (int) 65.02 ;
 		fail("Not yet implemented");
 	}
 
