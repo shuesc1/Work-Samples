@@ -239,6 +239,20 @@ public class HealthIndicatorCalculateWeightStatusTest {
 		double invalidWt = 19.0-200.00 ; //value negative
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, invalidWt, validAgeYrs) ;
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSemanticallyInvalidWeight4() {
+		String wt = "one hundred pounds" ; //weight as string
+		double invalidWt = (double) Integer.parseInt(wt) ;
+		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, invalidWt, validAgeYrs) ;
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSemanticallyInvalidWeight5() {
+		String wt = "21O" ; //weight as string, swaps letter "O" for "0"
+		double invalidWt = (double) Integer.parseInt(wt) ;
+		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, invalidWt, validAgeYrs) ;
+	}
 	//<<<<<<<<<<<<<<<<<<<<<<Height FEET>>>>>>>>>>>>>>>>>>>>>>>>
 	@Test(expected=IllegalArgumentException.class)
 	public void testSemanticallyInvalidHeight1() {
@@ -257,10 +271,17 @@ public class HealthIndicatorCalculateWeightStatusTest {
 		int invalidHgt = -5 ; //height not possible
 		ws = HealthIndicator.calculateWeightStatus(invalidHgt, validHgtIn, validWtPds, validAgeYrs) ;
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testSemanticallyInvalidHeight4() {
 		int invalidHgt = 0 ; //height not possible
+		ws = HealthIndicator.calculateWeightStatus(invalidHgt, validHgtIn, validWtPds, validAgeYrs) ;
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testSemanticallyInvalidHeight5() {
+		String hgt = "five foot 9" ;
+		int invalidHgt = Integer.parseInt(hgt) ; //height expressed as string
 		ws = HealthIndicator.calculateWeightStatus(invalidHgt, validHgtIn, validWtPds, validAgeYrs) ;
 	}
 	//<<<<<<<<<<<<<<<<<<<<<<Height INCHES>>>>>>>>>>>>>>>>>>>>>>>>
@@ -281,13 +302,13 @@ public class HealthIndicatorCalculateWeightStatusTest {
 		double invalidHtIn = Math.PI ; //any non-ending/fractional number not reasonable
 		ws = HealthIndicator.calculateWeightStatus(validHgt, invalidHtIn, validWtPds, validAgeYrs) ;
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testSemanticallyInvalidHeightIn4() {
 		double invalidHtIn = -5.2343433 ; //negative values illogical
 		ws = HealthIndicator.calculateWeightStatus(validHgt, invalidHtIn, validWtPds, validAgeYrs) ;
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testSemanticallyInvalidHeightIn5() {
 		double invalidHtIn = 0 ; //non-possible value
@@ -312,6 +333,12 @@ public class HealthIndicatorCalculateWeightStatusTest {
 		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, invalidAge) ;
 	}
 
+	@Test(expected=IllegalArgumentException.class)
+	public void testSemanticallyInvalidAgeYr4() {
+		String age = "eighteen (18)" ; //age a String but also below 20
+		int invalidAge = Integer.parseInt(age) ;
+		ws = HealthIndicator.calculateWeightStatus(validHgt, validHgtIn, validWtPds, invalidAge) ;
+	}
 
 
 }
