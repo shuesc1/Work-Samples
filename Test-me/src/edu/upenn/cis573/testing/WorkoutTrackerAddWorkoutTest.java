@@ -171,7 +171,7 @@ public class WorkoutTrackerAddWorkoutTest {
 	public void testNewWorkoutAtEndOfList3() { //not modifying existent object in list
 		workouts.add(workout1) ; //dur 25
 		wt.addWorkout(newWorkout) ; //dur 33
-		assertEquals("Workout object in list shouldn't be modified", workout1, workouts.get(0)) ;
+		assertSame("Workout object in list shouldn't be modified", workout1, workouts.get(0)) ;
 	}
 	//<<<<<<<<<<<<<<<<<<<<<list has 2 Workout objects>>>>>>>>>>>>>>>>>>>>>
 	@Test
@@ -200,14 +200,14 @@ public class WorkoutTrackerAddWorkoutTest {
 		workouts.add(workout1) ; //dur 25
 		workouts.add(workout2) ; //dur 40
 		wt.addWorkout(newWorkout) ; //dur 33
-		assertEquals("Workout object at index 0 and 1 should not be modified", workout2, workouts.get(1)) ;
+		assertSame("Workout object at index 0 and 1 should not be modified", workout2, workouts.get(1)) ;
 	}
 	@Test
 	public void testNewWorkoutAtEndOfList8() { //not modify object at index 0
 		workouts.add(workout1) ; //dur 25
 		workouts.add(workout2) ; //dur 40
 		wt.addWorkout(newWorkout) ; //dur 33
-		assertEquals("Workout object at index 0 and 1 should not be modified", workout1, workouts.get(0)) ;
+		assertSame("Workout object at index 0 and 1 should not be modified", workout1, workouts.get(0)) ;
 	}
 	//<<<<<<<<<<<<<<<<<<<<<list has 3 Workout objects>>>>>>>>>>>>>>>>>>>>>
 	@Test
@@ -248,7 +248,7 @@ public class WorkoutTrackerAddWorkoutTest {
 		workouts.add(workout2) ; //dur 40, index 1
 		workouts.add(workout3) ; //dur 21, index 2
 		wt.addWorkout(newWorkout) ; //dur 33, index 3
-		assertEquals("Workout object at index 0, 1, and 2 should not be modified", workout3, workouts.get(2)) ;
+		assertSame("Workout object at index 0, 1, and 2 should not be modified", workout3, workouts.get(2)) ;
 	}
 	@Test
 	public void testNewWorkoutAtEndOfList14() { //not modify object at index 1
@@ -256,7 +256,7 @@ public class WorkoutTrackerAddWorkoutTest {
 		workouts.add(workout2) ; //dur 40, index 1
 		workouts.add(workout3) ; //dur 21, index 2
 		wt.addWorkout(newWorkout) ; //dur 33, index 3
-		assertEquals("Workout object at index 0, 1, and 2 should not be modified", workout2, workouts.get(1)) ;
+		assertSame("Workout object at index 0, 1, and 2 should not be modified", workout2, workouts.get(1)) ;
 	}
 	@Test
 	public void testNewWorkoutAtEndOfList15() { //not modify object at index 0
@@ -264,7 +264,7 @@ public class WorkoutTrackerAddWorkoutTest {
 		workouts.add(workout2) ; //dur 40, index 1
 		workouts.add(workout3) ; //dur 21, index 2
 		wt.addWorkout(newWorkout) ; //dur 33, index 3
-		assertEquals("Workout object at index 0, 1, and 2 should not be modified", workout1, workouts.get(0)) ;
+		assertSame("Workout object at index 0, 1, and 2 should not be modified", workout1, workouts.get(0)) ;
 	}
 	//===============================================================================
 	//=======SPEC: semantically invalid args/IllegalArgumentException================

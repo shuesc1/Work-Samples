@@ -50,7 +50,7 @@ public class MyPrime {
      *
      * @param n a positive number.
      * @return the smallest prime greater than or equal to n.
-     * @throws IllegalArgumentException if n &lt; 0.
+     * @throws IllegalArgumentException if n < 0.
      */
     public static int nextPrime(int n) {
         if (n < 0) {
@@ -59,7 +59,7 @@ public class MyPrime {
         if (n == 2) {
             return 2;
         }
-        n |= 1;//make sure n is odd
+        n |= 1;//make sure n is odd, n = n | 1
         if (n == 1) {
             return 2;
         }
