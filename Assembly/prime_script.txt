@@ -1,0 +1,5 @@
+as prime prime
+ld prime
+Set R0 7 
+continue
+clear

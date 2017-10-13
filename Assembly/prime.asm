@@ -2,6 +2,7 @@
 ;; tells if a given int is prime 
 ;;R0=A, R1=0/1 given result(PRIME_FLAG), R2=B, #1 IMM, #0 IMM
 
+.FALIGN
   .CODE		; This is a code segment, instructions in prog memory
   .ADDR  0x0000	; Start filling in instructions at address 0x00
 
@@ -28,9 +29,15 @@ WHILE_START
   JMP END
 IF2_END		;end of 2nd if statement
   ADD R2 R2 #1 ; B = B + 1, increment B
+  JMP WHILE_START ; return to check while loop condition
 WHILE_END
 
 END
   JMP END	;loop forever on END
 
-  .CODE
+  .OS
+  .CODE ;;end of code section
+  .ADDR x8200
+  .FALIGN ;; jumps to here
+    CONST R7, #0
+    RTI
