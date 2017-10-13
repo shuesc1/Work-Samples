@@ -16,125 +16,143 @@ public class MySorter {
 	 */
 
 	/**
-     * Sort an array in place and perform the same reordering of entries on
-     * other arrays.  
-     *
-     * @param x Array to be sorted and used as a pattern for permutation
-     * of the other arrays.
-     * @param dir Order direction.
-     * @param yList Set of arrays whose permutations of entries will follow
-     * those performed on {@code x}.
-     * @throws DimensionMismatchException if any {@code y} is not the same
-     * size as {@code x}.
-     * @throws NullArgumentException if {@code x} or any {@code y} is null
-     */
-    public static void sortInPlace(double[] x,
-                                   final OrderDirection dir,
-                                   double[] ... yList)
-        throws NullArgumentException,
-               DimensionMismatchException {
+	 * Sort an array in place and perform the same reordering of entries on
+	 * other arrays.  
+	 *
+	 * @param x Array to be sorted and used as a pattern for permutation
+	 * of the other arrays.
+	 * @param dir Order direction.
+	 * @param yList Set of arrays whose permutations of entries will follow
+	 * those performed on {@code x}.
+	 * @throws DimensionMismatchException if any {@code y} is not the same
+	 * size as {@code x}.
+	 * @throws NullArgumentException if {@code x} or any {@code y} is null
+	 */
+	public static void sortInPlace(double[] x,
+			final OrderDirection dir,
+			double[] ... yList)
+					throws NullArgumentException,
+					DimensionMismatchException {
 
-        // Consistency checks.
-        if (x == null) {
-            throw new NullArgumentException();
-        }
+		// Consistency checks.
+		if (x == null) {
+			throw new NullArgumentException();
+		}
 
-        final int yListLen = yList.length;
-        final int len = x.length;
+		final int yListLen = yList.length;
+		final int len = x.length;
 
-        for (int j = 0; j < yListLen; j++) {
-            final double[] y = yList[j];
-            if (y == null) {
-                throw new NullArgumentException();
-            }
-            if (y.length != len) {
-                throw new DimensionMismatchException(y.length, len);
-            }
-        }
+		for (int j = 0; j < yListLen; j++) {
+			final double[] y = yList[j];
+			if (y == null) {
+				throw new NullArgumentException();
+			}
+			if (y.length != len) {
+				throw new DimensionMismatchException(y.length, len);
+			}
+		}
 
-        // Associate each abscissa "x[i]" with its index "i".
-        final List<PairDoubleInteger> list
-            = new ArrayList<PairDoubleInteger>(len);
-        for (int i = 0; i < len; i++) {
-            list.add(new PairDoubleInteger(x[i], i));
-        }
+		// Associate each abscissa "x[i]" with its index "i".
+		final List<PairDoubleInteger> list
+		= new ArrayList<PairDoubleInteger>(len);
+		for (int i = 0; i < len; i++) {
+			list.add(new PairDoubleInteger(x[i], i));
+		}
 
-        // Create comparators for increasing and decreasing orders.
-        final Comparator<PairDoubleInteger> comp
-            = dir == OrderDirection.INCREASING ?
-            new Comparator<PairDoubleInteger>() {
+		// Create comparators for increasing and decreasing orders.
+		final Comparator<PairDoubleInteger> comp
+		= dir == OrderDirection.INCREASING ?
+				new Comparator<PairDoubleInteger>() {
 
-            public int compare(PairDoubleInteger o1,
-                               PairDoubleInteger o2) {
-                return Double.compare(o1.getKey(), o2.getKey());
-            }
-        } : new Comparator<PairDoubleInteger>() {
+			public int compare(PairDoubleInteger o1,
+					PairDoubleInteger o2) {
+				return Double.compare(o1.getKey(), o2.getKey());
+			}
+		} : new Comparator<PairDoubleInteger>() {
 
-        	public int compare(PairDoubleInteger o1,
-                               PairDoubleInteger o2) {
-                return Double.compare(o2.getKey(), o1.getKey());
-            }
-        };
+			public int compare(PairDoubleInteger o1,
+					PairDoubleInteger o2) {
+				return Double.compare(o2.getKey(), o1.getKey());
+			}
+		};
 
-        // Sort.
-        Collections.sort(list, comp);
+		// Sort.
+		Collections.sort(list, comp);
 
-        // Modify the original array so that its elements are in
-        // the prescribed order.
-        // Retrieve indices of original locations.
-        final int[] indices = new int[len];
-        for (int i = 0; i < len; i++) {
-            final PairDoubleInteger e = list.get(i);
-            x[i] = e.getKey();
-            indices[i] = e.getValue();
-        }
+		// Modify the original array so that its elements are in
+		// the prescribed order.
+		// Retrieve indices of original locations.
+		final int[] indices = new int[len];
+		for (int i = 0; i < len; i++) {
+			final PairDoubleInteger e = list.get(i);
+			x[i] = e.getKey();
+			indices[i] = e.getValue();
+		}
 
-        // In each of the associated arrays, move the
-        // elements to their new location.
-        for (int j = 0; j < yListLen; j++) {
-            // Input array will be modified in place.
-            final double[] yInPlace = yList[j];
-            final double[] yOrig = yInPlace.clone();
+		// In each of the associated arrays, move the
+		// elements to their new location.
+		for (int j = 0; j < yListLen; j++) {
+			// Input array will be modified in place.
+			final double[] yInPlace = yList[j];
+			final double[] yOrig = yInPlace.clone();
 
-            for (int i = 0; i < len; i++) {
-                yInPlace[i] = yOrig[indices[i]];
-            }
-        }
-    }
-    
-    /**
-     * A helper data structure holding a double and an integer value.
-     */
-    public static class PairDoubleInteger {
-        /** Key */
-        private final double key;
-        /** Value */
-        private final int value;
+			for (int i = 0; i < len; i++) {
+				yInPlace[i] = yOrig[indices[i]];
+			}
+		}
+	}
 
-        /**
-         * @param key Key.
-         * @param value Value.
-         */
-        PairDoubleInteger(double key, int value) {
-            this.key = key;
-            this.value = value;
-        }
+	/**
+	 * A helper data structure holding a double and an integer value.
+	 */
+	public static class PairDoubleInteger {
+		/** Key */
+		private final double key;
+		/** Value */
+		private final int value;
 
-        /** @return the key. */
-        public double getKey() {
-            return key;
-        }
+		/**
+		 * @param key Key.
+		 * @param value Value.
+		 */
+		PairDoubleInteger(double key, int value) {
+			this.key = key;
+			this.value = value;
+		}
 
-        /** @return the value. */
-        public int getValue() {
-            return value;
-        }
-    }
-    
-    public enum OrderDirection {
-        /** Constant for increasing direction. */
-        INCREASING,
-        /** Constant for decreasing direction. */
-        DECREASING
-    }
+		/** @return the key. */
+		public double getKey() {
+			return key;
+		}
+
+		/** @return the value. */
+		public int getValue() {
+			return value;
+		}
+	}
+
+	public enum OrderDirection {
+		/** Constant for increasing direction. */
+		INCREASING,
+		/** Constant for decreasing direction. */
+		DECREASING
+	}
+
+//	public static void main(String[] args) {
+//		double[] mixed1Forward = {0, 1, 2, 3, 4} ;
+//		double[] mixed1Backward = {4, 3, 2, 1, 0} ;
+//		double[] mixed1 = {2, 4, 0, 3, 1} ;
+//		double[] mixed2 = {3, 0, 4, 1, 2} ;
+//		double[] mixed3 = {9, 6, 5, 7, 8} ;
+//		double[] mixed3Forward = {5, 6, 7, 8, 9};
+//		double[] mixed3Backward = {9, 8, 7, 6, 5} ;
+//		MySorter.sortInPlace(mixed1, OrderDirection.INCREASING, mixed3Backward);
+//		for(double d: mixed1) {
+//			System.out.print(d + ", ") ;
+//		}
+//		for(double dd: mixed3Backward) {
+//			System.out.print(dd + ", ") ;
+//		}
+//		
+//	}
 }
