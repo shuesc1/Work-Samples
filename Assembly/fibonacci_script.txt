@@ -1,0 +1,6 @@
+;;script for running fibonacci.asm file to store 1st 20 values of Fibonacci Series in Data Memory starting at 0x4000
+
+reset
+as fibonacci fibonacci
+ld fibonacci
+continue
