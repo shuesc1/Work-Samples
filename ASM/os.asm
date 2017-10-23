@@ -415,8 +415,9 @@ TRAP_GETC
   LDR R5, R5 #0				;; load value into same reg.
   BRzp TRAP_GETC			;; loop on self until Status Reg has leading 1 (neg) value
   
-  LC R5, OS_KBDR_ADDR		;; R6 = addr of keyboard data reg
-  LDR R5, R5, #0			;; R6 = value of keyboard data reg.
+  LC R5, OS_KBDR_ADDR		;; R5 = addr of keyboard data reg
+  LDR R5, R5, #0			;; R5 = value of keyboard data reg.
+  STR R5, R0 #0				;; store value of ASCII char in addr at R0 (in data memory)
   
   RTI 
   
@@ -436,11 +437,12 @@ TRAP_GETC
 	.CODE
 TRAP_PUTS
   LC R6, OS_ADSR_ADDR	; load addr of display Status Reg into R6
-  LDR R6, R6 #0			; load value at addr in R6 back into R6
+  LDR R6, R6 #0			; load value at addr in R6 back into R6 --> R6 = dmem[OS_ADSR_ADDR + #0]
   BRzp TRAP_PUTS		; loop while there is no 'neg' (leading 1) value in Status Reg. 
   ;;LDR R6, R0 #0			; load contents of addr at R0 (data mem) into R6 - ASCII CHAR
-  LC R4, OS_ADDR_ADDR	; load addr of data register for ASCII display into R4
-  STR R6, R4 #0			; now that we have addr in R4 put ASCII char there to display it
+  LC R6, OS_ADDR_ADDR	; load addr of data register for ASCII display into R4
+  LDR R1, R0 #0			; R0 argument is addr in Data Mem where ASCII value is -- load into R1
+  STR R1, R6 #0			; now that we have addr in R6 put ASCII char there to display it
 
   RTI
   
@@ -457,8 +459,9 @@ TRAP_PUTC
 	LDR R1, R4, #0		; load contents of addr in R4 w/ offset 0 into R1
 	BRzp TRAP_PUTC		; Loop while the MSB is zero
 
-	LC R4, OS_ADDR_ADDR ; load contents in R4 in display Data Reg.
-	STR R0, R4, #0		; CPU knows there are values in Status & Data regs., so write out the character
+	LC R4, OS_ADDR_ADDR ; load addr of display Data Reg. into R4
+	STR R0, R4, #0		; CPU knows there are values in Status & Data regs., so write out the character - stores ascii val at R0 in 
+	;; R4(display data reg)
 	
 	RTI
 

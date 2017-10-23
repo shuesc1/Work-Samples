@@ -45,14 +45,15 @@ NAME_ARR
 	.FILL x6E	;"n"	
 	.FILL x67	;"g"
 	.FILL x3E	;">"
-	.FILL x0A		; Output a newline character - 37 spaces in data mem
+	.FILL x00	;"0" - now NULL terminating string/char array
+	;;.FILL x0A		; Output a newline character - 37 spaces in data mem
 USER_INPUT
 ;;===================================================================================;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; To run script file: <Script user_text_script.txt> in LC4
 ;; |_REG._FILE|										    |_DATA_MEMORY_|
 ;; |_R0(x4###)| -addr in Data Mem|	   <NAME_ARR>(x4000)|_____"J"______|
-;; |__R1(#32)_| - COUNTER = 32|			  		  x4001 |_____"o"______|
+;; |__R1(   )_| - 			|			  		  x4001 |_____"o"______|
 ;; |_R2(x0A)__|	- x0A, line feed |  	  		  x4002 |_____"e"______|
 ;; |___R3(0)__|	- #0							  x4003 |_____"y"______|
 ;; |_____R4___| - OS_ADDR_ADDR	display data reg.|x4004 |_____" "______| , etc.
@@ -66,25 +67,30 @@ USER_INPUT
 
 START
 	LEA R0 NAME_ARR		; store x4000 in R0
-	;;CONST R1, #32		; was going to use a counter to control the read/write from DATA mem
 	CONST R2, x0A		; store x0A (newline) to be used to end the program later
 	CONST R3, #0		; store 0 for appending 0 at end of string/char array
 	
 PRINT_INTRO
 	TRAP x08			; TRAP_PUTS, uses addr value in R0 as argument
-	ADD R1, R1 #-1		; decrement counter
 	ADD	R0, R0 #1		; increment Data Mem addr
-	CMPI R1, #0 		; check (counter > 0)
-	BRp PRINT_INTRO		; if yes jump back to print, else fall through to TRAP_GETC
+	CMPI R1, #0			; instead of using counter break out of loop when you reach end of null terminating string
+	BRnp PRINT_INTRO		; if yes jump back to print, else fall through to TRAP_GETC
 
 READ_WRITE
 	TRAP x00			; TRAP_GETC
-	STR R5, R0 #0		; store ASCII char value at R5 in current addr in Data Mem w/ 0 offset 
 	TRAP x08			; TRAP_PUTS
 	ADD	R0, R0 #1		; increment Data Mem addr
 	CMP R5 R2			; compare current char (R5) to x0A (line feed, R2)
 	BRnp READ_WRITE		;
-	ADD R0, R0 #1		; advance addr 1
 	STR R3, R0 #0		; append '0' in R3 to string/end of char array (null terminating)
+	JMP END
+	
+STORE_TEMP
+	
+	RET
+
+LOAD_TEMP	
+
+	RET
 	
 END
