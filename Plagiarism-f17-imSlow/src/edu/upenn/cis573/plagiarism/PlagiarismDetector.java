@@ -46,6 +46,9 @@ public class PlagiarismDetector {
 	 * each of size "window". The Strings in each phrase are whitespace-separated.
 	 */
 	private static Set<String> createPhrases(String filename, int window) {
+//		String test = "It's the number 1 way.";
+//		String[] tokens = test.split(" ");       // Single blank is the separator.
+		
 		if (filename == null || window < 1) {
 			return null;
 		}
