@@ -17,7 +17,7 @@ import java.util.Set;
  * original), as well as ten minor inefficiencies.
  */
 public class PlagiarismDetector {
-	
+
 	/*
 	 * This method reads the given file and then converts it into a List of Strings.
 	 * It does not include punctuation and converts all words in the file to uppercase.
@@ -40,15 +40,15 @@ public class PlagiarismDetector {
 		}
 		return words;
 	}
-	
+
 	/*
 	 * This method reads a file and converts it into a Set of distinct phrases,
 	 * each of size "window". The Strings in each phrase are whitespace-separated.
 	 */
 	private static Set<String> createPhrases(String filename, int window) {
-//		String test = "It's the number 1 way.";
-//		String[] tokens = test.split(" ");       // Single blank is the separator.
-		
+		//		String test = "It's the number 1 way.";
+		//		String[] tokens = test.split(" ");       // Single blank is the separator.
+
 		if (filename == null || window < 1) {
 			return null;
 		}
@@ -71,26 +71,29 @@ public class PlagiarismDetector {
 		return phrases;
 	}
 
+
+
 	/*
 	 * Returns a Set of Strings that occur in both of the Set parameters.
 	 * However, the comparison is case-insensitive.
 	 */
-	private static Set<String> findMatches(Set<String> myPhrases, Set<String> yourPhrases) {
-		Set<String> matches = new HashSet<String>();
-		//TODO this if statement probs isn't needed
-		if (myPhrases != null && yourPhrases != null) {
-			//TODO super inefficient -- for(all my phrases){if yours.contains(mine), count ++)
-			for (String mine : myPhrases) {
-				for (String yours : yourPhrases) {
-					if (mine.equalsIgnoreCase(yours)) {
-						matches.add(mine);
-					}
+	private static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
+		int matches = 0 ;
+		Set<String> myPhrasesCopy = myPhrases ;
+		Set<String> yourPhrasesCopy = yourPhrases ;
+		for (String mine : myPhrasesCopy) {
+			for(String yours: yourPhrasesCopy) {
+				if (mine.equalsIgnoreCase(yours)) {
+					matches++ ;
+					myPhrasesCopy.remove(mine) ; //remove match from both lists
+					yourPhrasesCopy.remove(yours) ;
+					break ;
 				}
 			}
 		}
 		return matches;
 	}
-	
+
 	//TODO get rid of this method and instead use a TreeMap of (key=match num, value= file names)
 	/*
 	 * Returns a LinkedHashMap in which the elements of the Map parameter
@@ -120,7 +123,7 @@ public class PlagiarismDetector {
 		}
 		return list;
 	}
-	
+
 	/*
 	 * Returns a Map (sorted by the value of the Integer, in non-ascending order) indicating
 	 * the number of matches of phrases of size windowSize or greater between each document in the corpus
@@ -144,50 +147,51 @@ public class PlagiarismDetector {
 				//uses helper method FINDMATCHES
 				//TODO ESSENTIALLY HELPER METHOD CREATES SET OF MATCHES ONLY TO USE THE SET SIZE
 				//TO DETERMINE IF IT'S ABOVE THE THRESHOLD OR NOT
-				Set<String> matches = findMatches(file1Phrases, file2Phrases);
+				int matches = findMatches(file1Phrases, file2Phrases);
 				//TODO necessary?
-				if (matches == null)
-					return null;					
-				if (matches.size() > threshold) {
+				//			if (matches == null)
+				//				return null;					
+				if (matches > threshold) {
 					String key = file1 + "-" + file2;
 					//TODO unnecessary work
 					if (numberOfMatches.containsKey(file2 + "-" + file1) == false && file1.equals(file2) == false) {
-						numberOfMatches.put(key,matches.size());
+						numberOfMatches.put(key,matches);
 					}
 				}				
 			}
-			
+
 		}	
 		//uses helper method SORTRESULTS to print out which 
 		return sortResults(numberOfMatches);
 	}
-	
+
 	//======================= MAIN =============================
 	/*
 	 * This method is here to help you measure the execution time and get the output of the program.
 	 * You do not need to consider it for improving the efficiency of the detectPlagiarism method.
 	 */
-    public static void main(String[] args) {
-    	if (args.length == 0) {
-    		System.out.println("Please specify the name of the directory containing the corpus.");
-    		System.exit(0);
-    	}
-    	String directory = args[0];
-    	long start = System.currentTimeMillis();
-    //creates new PlaigarismDetector object-- common phrases size 4, threshold 5
-    	Map<String, Integer> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
-    	long end = System.currentTimeMillis();
-    	double timeInSeconds = (end - start) / (double)1000;
-    	System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
-    	Set<Map.Entry<String, Integer>> entries = map.entrySet();
-    	for (Map.Entry<String, Integer> entry : entries) {
-    		System.out.println(entry.getKey() + ": " + entry.getValue());
-    	}
-    	// t1: 115.358 seconds
-    	//t2: 124.048 seconds
-    	//t3: 114.542 seconds
-    	//t4: 114.883 seconds
-    	//t5: 129.186 seconds
-    }
+	///  Users/josephhaymaker/eclipse-workspace/Plagiarism-f17-imSlow/docs
+	public static void main(String[] args) {
+		if (args.length == 0) {
+			System.out.println("Please specify the name of the directory containing the corpus.");
+			System.exit(0);
+		}
+		String directory = args[0];
+		long start = System.currentTimeMillis();
+		//creates new PlaigarismDetector object-- common phrases size 4, threshold 5
+		Map<String, Integer> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
+		long end = System.currentTimeMillis();
+		double timeInSeconds = (end - start) / (double)1000;
+		System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
+		Set<Map.Entry<String, Integer>> entries = map.entrySet();
+		for (Map.Entry<String, Integer> entry : entries) {
+			System.out.println(entry.getKey() + ": " + entry.getValue());
+		}
+		// t1: 115.358 seconds
+		//t2: 124.048 seconds
+		//t3: 114.542 seconds
+		//t4: 114.883 seconds
+		//t5: 129.186 seconds
+	}
 
 }
