@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 
 /*
  * This class implements a simple plagiarism detection algorithm.
@@ -130,10 +131,10 @@ public class PlagiarismDetector {
 	 * 
 	 * Note that you may NOT remove this method or change its signature or specification!
 	 */
-	public static Map<String, Integer> detectPlagiarism(String dirName, int windowSize, int threshold) {
+	public static Map<Integer, String> detectPlagiarism(String dirName, int windowSize, int threshold) {
 		File dirFile = new File(dirName);
 		String[] files = dirFile.list(); //list of file names
-		Map<String, Integer> numberOfMatches = new HashMap<String, Integer>();
+		Map<Integer, String> numberOfMatches = new TreeMap<Integer, String>();
 		for (int i = 0; i < files.length; i++) { //iterate over all files in corpus
 			String file1 = files[i];
 			for (int j = 0; j < files.length; j++) { 
@@ -153,16 +154,19 @@ public class PlagiarismDetector {
 				//				return null;					
 				if (matches > threshold) {
 					String key = file1 + "-" + file2;
-					//TODO unnecessary work
-					if (numberOfMatches.containsKey(file2 + "-" + file1) == false && file1.equals(file2) == false) {
-						numberOfMatches.put(key,matches);
+					//TODO make it so same files are never compared above
+					if (numberOfMatches.containsValue(file2 + "-" + file1) == false && file1.equals(file2) == false) {
+						numberOfMatches.put(matches, key);
 					}
+//					((Object) numberOfMatches).reverseSort();
 				}				
 			}
 
 		}	
 		//uses helper method SORTRESULTS to print out which 
-		return sortResults(numberOfMatches);
+		((TreeMap) numberOfMatches).descendingMap() ;
+		return numberOfMatches ;
+//		return sortResults(numberOfMatches);
 	}
 
 	//======================= MAIN =============================
@@ -179,7 +183,7 @@ public class PlagiarismDetector {
 		String directory = args[0];
 		long start = System.currentTimeMillis();
 		//creates new PlaigarismDetector object-- common phrases size 4, threshold 5
-		Map<String, Integer> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
+		Map<Integer, String> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
 		long end = System.currentTimeMillis();
 		double timeInSeconds = (end - start) / (double)1000;
 		System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
