@@ -91,35 +91,6 @@ public class PlagiarismDetector {
 		return matches;
 	}
 
-	//TODO get rid of this method and instead use a TreeMap of (key=match num, value= file names)
-	/*
-	 * Returns a LinkedHashMap in which the elements of the Map parameter
-	 * are sorted according to the value of the Integer, in non-ascending order.
-	 */
-	public static LinkedHashMap<String, Integer> sortResults(Map<String, Integer> possibleMatches) {
-		// Because this approach modifies the Map as a side effect of printing 
-		// the results, it is necessary to make a copy of the original Map
-		Map<String, Integer> copy = new HashMap<String, Integer>();
-		for (String key : possibleMatches.keySet()) {
-			copy.put(key, possibleMatches.get(key));
-		}		
-		LinkedHashMap<String, Integer> list = new LinkedHashMap<String, Integer>();
-		for (int i = 0; i < copy.size(); i++) {
-			int maxValue = 0;
-			String maxKey = null;
-			for (String key : copy.keySet()) {
-				if (copy.get(key) > maxValue) {
-					maxValue = copy.get(key);
-					maxKey = key;
-				}
-			}		
-			list.put(maxKey, maxValue);	
-			if (copy.containsKey(maxKey)) {
-				copy.put(maxKey, -1);
-			}
-		}
-		return list;
-	}
 
 	/*
 	 * Returns a Map (sorted by the value of the Integer, in non-ascending order) indicating
@@ -131,34 +102,37 @@ public class PlagiarismDetector {
 		File dirFile = new File(dirName);
 		String[] files = dirFile.list(); //list of file names
 		Map<String, Integer> numberOfMatches = new TreeMap<String, Integer>();
-		Map<String, String> processedPairs = new HashMap<String, String>() ;
+		ArrayList<String> processedPairs = new ArrayList<String>() ;
 		for (int i = 0; i < files.length; i++) { //iterate over all files in corpus
 			String file1 = files[i]; 
 			Set<String> file1Phrases = createPhrases(dirName + "/" + file1, windowSize); //***MAJOR CHANGE*** - move this to outer for loop so it's only done once, not j many times
 			for (int j = 0; j < files.length; j++) { 
 				String file2 = files[j]; 
-				if(!file1.equals(file2)) { /*[[SMALL CHANGE]]] -- don't compare file to itself */
-					if(processedPairs.get(file1) != file2 && processedPairs.get(file2) != file1) {
-						processedPairs.put(file1, file2) ;
-						Set<String> file2Phrases = createPhrases(dirName + "/" + file2, windowSize); 
-						if (file1Phrases == null || file2Phrases == null)
-							return null;
-						int matches = findMatches(file1Phrases, file2Phrases);
-						//			if (matches == null) /* [[SMALL CHANGE]] - unnecessary, removing statement
-						//				return null;					
-						if (matches > threshold) {
-							String key = file1 + "-" + file2;
-							if (numberOfMatches.containsValue(file2 + "-" + file1) == false && file1.equals(file2) == false) {
-								numberOfMatches.put(key, matches);
-							}
+				//[[SMALL CHANGE]] - moved the 2 identical file comparison names out here so the same pairs of files aren't checked twice
+				String key1 = file1 + "-" + file2;
+				String key2 = file2 + "-" + file1;
+				if(!file1.equals(file2) && !processedPairs.contains(key1) && !processedPairs.contains(key2)) { /*[[SMALL CHANGE]]] -- don't compare file to itself */
+					Set<String> file2Phrases = createPhrases(dirName + "/" + file2, windowSize); 
+					if (file1Phrases == null || file2Phrases == null)
+						return null;
+					int matches = findMatches(file1Phrases, file2Phrases);
+					//			if (matches == null){ return null;	} /* [[SMALL CHANGE]] - unnecessary, removing statement					
+					if (matches > threshold) {
+						//[[SMALL CHANGE]] -- removed " && file1.equals(file2) == false" condition from below since same files shouldn't ever be compared
+						if (numberOfMatches.containsValue(key1) == false) {
+							numberOfMatches.put(key1, matches);
+							processedPairs.add(key1);
+							processedPairs.add(key2);
 						}
 					}
+
 				}
 			}
 
 		}
+		//[[SMALL CHANGE]]- tried using treemap for descending sorting, but then realized that I'd need repeat keys (not possible w/ TM)
+		//instead created a (hopefully) more efficient sorting method
 		return MapSort.sortByValue(numberOfMatches) ;
-		//		return sortResults(numberOfMatches);
 	}
 
 	//======================= MAIN =============================
