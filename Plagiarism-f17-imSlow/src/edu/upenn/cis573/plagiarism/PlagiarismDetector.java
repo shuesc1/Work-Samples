@@ -31,8 +31,8 @@ public class PlagiarismDetector {
 		try {
 			Scanner in = new Scanner(new File(filename)); //creates new Scanner obj
 			while (in.hasNext()) {	//while more words
-				//TODO should be lowercase -- less changes
-				words.add(in.next().replaceAll("[^a-zA-Z]", "").toUpperCase()); //removes non-letter chars, to upper case
+				//[[[SMALL CHANGE]]] -- to lowercase, not uppercase -- less changes to make
+				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //removes non-letter chars, to upper case
 			}
 		}
 		catch (Exception e) {
@@ -78,20 +78,16 @@ public class PlagiarismDetector {
 	 * Returns a Set of Strings that occur in both of the Set parameters.
 	 * However, the comparison is case-insensitive.
 	 */
-	private static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
+	static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
 		int matches = 0 ;
-		Set<String> myPhrasesCopy = myPhrases ;
 		Set<String> yourPhrasesCopy = yourPhrases ;
-		for (String mine : myPhrasesCopy) {
-			for(String yours: yourPhrasesCopy) {
-				if (mine.equalsIgnoreCase(yours)) {
-					matches++ ;
-					myPhrasesCopy.remove(mine) ; //remove match from both lists
-					yourPhrasesCopy.remove(yours) ;
-					break ;
-				}
+		/* **MAJOR CHANGE** - got rid of nested for loop, now just iterating over my phrase list */
+		for (String mine : myPhrases) {
+			if(yourPhrasesCopy.contains(mine)) {
+				matches++;
+				yourPhrasesCopy.remove(mine) ;
 			}
-		}
+		}	
 		return matches;
 	}
 
@@ -131,42 +127,38 @@ public class PlagiarismDetector {
 	 * 
 	 * Note that you may NOT remove this method or change its signature or specification!
 	 */
-	public static Map<Integer, String> detectPlagiarism(String dirName, int windowSize, int threshold) {
+	public static Map<String, Integer> detectPlagiarism(String dirName, int windowSize, int threshold) {
 		File dirFile = new File(dirName);
 		String[] files = dirFile.list(); //list of file names
-		Map<Integer, String> numberOfMatches = new TreeMap<Integer, String>();
+		Map<String, Integer> numberOfMatches = new TreeMap<String, Integer>();
+		Map<String, String> processedPairs = new HashMap<String, String>() ;
 		for (int i = 0; i < files.length; i++) { //iterate over all files in corpus
-			String file1 = files[i];
+			String file1 = files[i]; 
+			Set<String> file1Phrases = createPhrases(dirName + "/" + file1, windowSize); //***MAJOR CHANGE*** - move this to outer for loop so it's only done once, not j many times
 			for (int j = 0; j < files.length; j++) { 
-				//TODO make sure file isn't compared to itself
-				String file2 = files[j];
-				//uses helper method CREATEPHRASES
-				Set<String> file1Phrases = createPhrases(dirName + "/" + file1, windowSize); 
-				Set<String> file2Phrases = createPhrases(dirName + "/" + file2, windowSize); 
-				if (file1Phrases == null || file2Phrases == null)
-					return null;
-				//uses helper method FINDMATCHES
-				//TODO ESSENTIALLY HELPER METHOD CREATES SET OF MATCHES ONLY TO USE THE SET SIZE
-				//TO DETERMINE IF IT'S ABOVE THE THRESHOLD OR NOT
-				int matches = findMatches(file1Phrases, file2Phrases);
-				//TODO necessary?
-				//			if (matches == null)
-				//				return null;					
-				if (matches > threshold) {
-					String key = file1 + "-" + file2;
-					//TODO make it so same files are never compared above
-					if (numberOfMatches.containsValue(file2 + "-" + file1) == false && file1.equals(file2) == false) {
-						numberOfMatches.put(matches, key);
+				String file2 = files[j]; 
+				if(!file1.equals(file2)) { /*[[SMALL CHANGE]]] -- don't compare file to itself */
+					if(processedPairs.get(file1) != file2 && processedPairs.get(file2) != file1) {
+						processedPairs.put(file1, file2) ;
+						Set<String> file2Phrases = createPhrases(dirName + "/" + file2, windowSize); 
+						if (file1Phrases == null || file2Phrases == null)
+							return null;
+						int matches = findMatches(file1Phrases, file2Phrases);
+						//			if (matches == null) /* [[SMALL CHANGE]] - unnecessary, removing statement
+						//				return null;					
+						if (matches > threshold) {
+							String key = file1 + "-" + file2;
+							if (numberOfMatches.containsValue(file2 + "-" + file1) == false && file1.equals(file2) == false) {
+								numberOfMatches.put(key, matches);
+							}
+						}
 					}
-//					((Object) numberOfMatches).reverseSort();
-				}				
+				}
 			}
 
-		}	
-		//uses helper method SORTRESULTS to print out which 
-		((TreeMap) numberOfMatches).descendingMap() ;
-		return numberOfMatches ;
-//		return sortResults(numberOfMatches);
+		}
+		return MapSort.sortByValue(numberOfMatches) ;
+		//		return sortResults(numberOfMatches);
 	}
 
 	//======================= MAIN =============================
@@ -183,7 +175,7 @@ public class PlagiarismDetector {
 		String directory = args[0];
 		long start = System.currentTimeMillis();
 		//creates new PlaigarismDetector object-- common phrases size 4, threshold 5
-		Map<Integer, String> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
+		Map<String, Integer> map = PlagiarismDetector.detectPlagiarism(directory, 4, 5);
 		long end = System.currentTimeMillis();
 		double timeInSeconds = (end - start) / (double)1000;
 		System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
