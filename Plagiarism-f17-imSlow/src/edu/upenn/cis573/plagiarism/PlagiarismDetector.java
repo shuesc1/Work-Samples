@@ -19,56 +19,88 @@ import java.util.TreeMap;
  */
 public class PlagiarismDetector {
 
+	public int threshold = 0;
+
 	/*
 	 * This method reads the given file and then converts it into a List of Strings.
 	 * It does not include punctuation and converts all words in the file to uppercase.
 	 */
-	private static List<String> readFile(String filename) { //helper file for below method
-		if (filename == null) {
-			return null;
-		}
-		List<String> words = new ArrayList<String>(); //ArrayList of all words -- allows for repeats
-		try {
-			Scanner in = new Scanner(new File(filename)); //creates new Scanner obj
-			while (in.hasNext()) {	//while more words
-				//[[[SMALL CHANGE]]] -- to lowercase, not uppercase -- less changes to make
-				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //removes non-letter chars, to upper case
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return words;
-	}
+//	private static List<String> readFile(String filename) { //helper file for below method
+//		if (filename == null) {
+//			return null;
+//		}
+//		List<String> words = new ArrayList<String>(); //ArrayList of all words -- allows for repeats
+//		try {
+//			Scanner in = new Scanner(new File(filename)); //creates new Scanner obj
+//			while (in.hasNext()) {	//while more words
+//				//[[[SMALL CHANGE]]] -- to lowercase, not uppercase -- less changes to make
+//				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //removes non-letter chars, to upper case
+//				if(words.size() % threshold == 0) {
+//
+//				}
+//			}
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//		return words;
+//	}
 
 	/*
 	 * This method reads a file and converts it into a Set of distinct phrases,
 	 * each of size "window". The Strings in each phrase are whitespace-separated.
 	 */
-	private static Set<String> createPhrases(String filename, int window) {
+	public static Set<String> createPhrases(String filename, int window) {
 		//		String test = "It's the number 1 way.";
 		//		String[] tokens = test.split(" ");       // Single blank is the separator.
-
 		if (filename == null || window < 1) {
 			return null;
 		}
-		List<String> words = readFile(filename); //gets ArrayList of all words in doc
-		Set<String> phrases = new HashSet<String>(); //TODO now uses set/hashset - wrong data struct
+		//**MAJOR CHANGE** - eliminate the creation of a word list and just use the window from the start to create a phrase list
+		// refactor method so we don't have to change any code below
+		//		List<String> words = readFile(filename); //gets ArrayList of all words in doc
+		Set<String> phrases = new HashSet<String>();
+		//[MINOR CHANGE] - instead of using a giant AL of words just reuse same AL to get (#window) many words, make a phrase, then clear and reuse AL
+		List<String> words = new ArrayList<String>() ;
+		try {
+			Scanner in = new Scanner(new File(filename)); 
+			while (in.hasNext()) {	
+				//[[[MINOR CHANGE]]] -- to lowercase, not uppercase -- less changes to make
+				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //add each word to words arraylist
+				if(words.size() % window == 0) { //then we have the right amount of words stored
+					String phrase = "" ;
+					for(String word: words) {
+						phrase = phrase + " " + word ; //build correctly sized phrase
+					}
+//					System.out.println("Phrase added: " + phrase) ; //for testing
+					//[MINOR CHANGE] -- got rid of check for if phrase already here (see below line)
+					phrases.add(phrase) ; // if a repeat it won't be added due to data struct
+					words.clear(); //clears up space for next (#window) many words
+				}
+			}
+			in.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		//		Set<String> phrases = new HashSet<String>(); //TODO now uses set/hashset - wrong data struct
 		//count up to size -- seems like a list may be a better data struct?
 		//TODO figure out why this counts up to window + 1 -- maybe stop before you have less words
 		// than you need to create a proper phrase
-		for (int i = 0; i < words.size() - window + 1; i++) {
-			String phrase = ""; //phrase stored as a string -- maybe better as an Array (always fixed size)
-			//
-			for (int j = 0; j < window; j++) {
-				phrase += words.get(i+j) + " ";
-				//TODO phrase = 
-			}
-			if (phrases.contains(phrase) == false) //unnecessary work -- if this is a HM then there can only
-				//be one key instance anyway
-				phrases.add(phrase);
-		}	
+		//		for (int i = 0; i < words.size() - window + 1; i++) {
+		//			String phrase = ""; //phrase stored as a string -- maybe better as an Array (always fixed size)
+		//			//
+		//			for (int j = 0; j < window; j++) {
+		//				phrase += words.get(i+j) + " ";
+		//				//TODO phrase = 
+		//			}
+		//[MINOR CHANGE] - since we are using a hashset we can't have repeat values anyway
+		//			if (phrases.contains(phrase) == false) //unnecessary work -- if this is a HM then there can only
+		//				phrases.add(phrase);
+		//		}	
 		return phrases;
 	}
 
@@ -84,6 +116,7 @@ public class PlagiarismDetector {
 		/* **MAJOR CHANGE** - got rid of nested for loop, now just iterating over my phrase list */
 		for (String mine : myPhrases) {
 			if(yourPhrasesCopy.contains(mine)) {
+//				System.out.println("Match: " + mine) ;
 				matches++;
 				yourPhrasesCopy.remove(mine) ;
 			}

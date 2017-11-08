@@ -1,0 +1,5 @@
+	Yo soy I am
+	Tu eres Ella es
+	She is
+	Nosotros somos Vosotros sois Ellos son
+	They are

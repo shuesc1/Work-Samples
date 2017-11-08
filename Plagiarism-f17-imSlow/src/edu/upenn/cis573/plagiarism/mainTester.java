@@ -26,7 +26,9 @@ public class mainTester {
 	yourPhrases.add("Ellos son") ;
 	yourPhrases.add("They are") ;
 	
-	PlagiarismDetector.findMatches(myPhrases, yourPhrases) ;
+	
+	PlagiarismDetector.createPhrases("test_file2.txt", 2) ;
+//	PlagiarismDetector.findMatches(myPhrases, yourPhrases) ;
 		
 	}
 
