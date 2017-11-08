@@ -36,21 +36,36 @@ public class PlagiarismDetector {
 		List<String> words = new ArrayList<String>() ;
 		try {
 			Scanner in = new Scanner(new File(filename)); 
+			String thisString = "" ;
+			ArrayList<String> phrase = new ArrayList<String>() ; //need a dynamic data struct for this
+			phrase.add(0, "");
 			while (in.hasNext()) {	
 				//[[[MINOR CHANGE]]] -- to lowercase, not uppercase -- less changes to make
 				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //add each word to words arraylist
-				if(words.size() % window == 0) { //then we have the right amount of words stored
-					String phrase = "" ;
-					for(String word: words) {
-						phrase = phrase + " " + word ; //build correctly sized phrase
-					}
-					if (counter < 5) {
-					System.out.println("Phrase added: " + phrase) ; //for testing
-					counter++ ;
-					}
+				//				if(words.size() % window == 0) { //then we have the right amount of words stored
+				System.out.println("size of 'words' before: " + words.size()) ;
+				System.out.println("'words' before: " + words.toString()) ;
+				if(words.size() > window-1) {
+//					int startInd = words.size() - window ;
+//					//					String phrase = "" ;
+//					for(int i = 0; i < window; i++) {
+//						phrase.add(words.get(i)) ;
+//					}
+
+//					if (counter < 5) {
+//						System.out.println("Phrase added: " + phrase.toString()) ; //for testing
+//						counter++ ;
+//					}
+//					phrases.add(thisString.toString()) ;
+					System.out.println("'words' to string: " + words.toString()) ;
+					words.remove(0) ;
+//					phrase.remove(0) ;
+//					System.out.println("size of 'words' after: " + words.size()) ;
+//					System.out.println("'words' after: " + words.toString()) ;
+
 					//[MINOR CHANGE] -- got rid of check for if phrase already here (see below line)
-					phrases.add(phrase) ; // if a repeat it won't be added due to data struct
-					words.clear(); //clears up space for next (#window) many words
+					//					phrases.add(phrase) ; // if a repeat it won't be added due to data struct
+					//					words.clear(); //clears up space for next (#window) many words
 				}
 			}
 			in.close();
