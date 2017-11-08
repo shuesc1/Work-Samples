@@ -26,10 +26,10 @@ public class mainTester {
 	yourPhrases.add("Ellos son") ;
 	yourPhrases.add("They are") ;
 	
-	
-	PlagiarismDetector.createPhrases("test_file2.txt", 2) ;
-//	PlagiarismDetector.findMatches(myPhrases, yourPhrases) ;
-		
+	Set<String> set1 = PlagiarismDetector.createPhrases("test_file.txt", 2) ;
+	Set<String> set2 = PlagiarismDetector.createPhrases("test_file2.txt", 2) ;
+	int matches = PlagiarismDetector.findMatches(myPhrases, yourPhrases) ;
+	System.out.println("final no. matches: " + matches) ;
 	}
 
 }

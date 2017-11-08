@@ -19,41 +19,12 @@ import java.util.TreeMap;
  */
 public class PlagiarismDetector {
 
-	public int threshold = 0;
-
-	/*
-	 * This method reads the given file and then converts it into a List of Strings.
-	 * It does not include punctuation and converts all words in the file to uppercase.
-	 */
-//	private static List<String> readFile(String filename) { //helper file for below method
-//		if (filename == null) {
-//			return null;
-//		}
-//		List<String> words = new ArrayList<String>(); //ArrayList of all words -- allows for repeats
-//		try {
-//			Scanner in = new Scanner(new File(filename)); //creates new Scanner obj
-//			while (in.hasNext()) {	//while more words
-//				//[[[SMALL CHANGE]]] -- to lowercase, not uppercase -- less changes to make
-//				words.add(in.next().replaceAll("[^a-zA-Z]", "").toLowerCase()); //removes non-letter chars, to upper case
-//				if(words.size() % threshold == 0) {
-//
-//				}
-//			}
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//		return words;
-//	}
-
 	/*
 	 * This method reads a file and converts it into a Set of distinct phrases,
 	 * each of size "window". The Strings in each phrase are whitespace-separated.
 	 */
 	public static Set<String> createPhrases(String filename, int window) {
-		//		String test = "It's the number 1 way.";
-		//		String[] tokens = test.split(" ");       // Single blank is the separator.
+		int counter = 0 ;
 		if (filename == null || window < 1) {
 			return null;
 		}
@@ -73,7 +44,10 @@ public class PlagiarismDetector {
 					for(String word: words) {
 						phrase = phrase + " " + word ; //build correctly sized phrase
 					}
-//					System.out.println("Phrase added: " + phrase) ; //for testing
+					if (counter < 5) {
+					System.out.println("Phrase added: " + phrase) ; //for testing
+					counter++ ;
+					}
 					//[MINOR CHANGE] -- got rid of check for if phrase already here (see below line)
 					phrases.add(phrase) ; // if a repeat it won't be added due to data struct
 					words.clear(); //clears up space for next (#window) many words
@@ -85,26 +59,8 @@ public class PlagiarismDetector {
 			e.printStackTrace();
 			return null;
 		}
-
-		//		Set<String> phrases = new HashSet<String>(); //TODO now uses set/hashset - wrong data struct
-		//count up to size -- seems like a list may be a better data struct?
-		//TODO figure out why this counts up to window + 1 -- maybe stop before you have less words
-		// than you need to create a proper phrase
-		//		for (int i = 0; i < words.size() - window + 1; i++) {
-		//			String phrase = ""; //phrase stored as a string -- maybe better as an Array (always fixed size)
-		//			//
-		//			for (int j = 0; j < window; j++) {
-		//				phrase += words.get(i+j) + " ";
-		//				//TODO phrase = 
-		//			}
-		//[MINOR CHANGE] - since we are using a hashset we can't have repeat values anyway
-		//			if (phrases.contains(phrase) == false) //unnecessary work -- if this is a HM then there can only
-		//				phrases.add(phrase);
-		//		}	
 		return phrases;
 	}
-
-
 
 	/*
 	 * Returns a Set of Strings that occur in both of the Set parameters.
@@ -112,12 +68,15 @@ public class PlagiarismDetector {
 	 */
 	static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
 		int matches = 0 ;
+		//[MINOR CHANGE] - make a copy of your phrases so each matching phrase can be taken out in an attempt to speed up run time
+		// (for files with large number of matches)
 		Set<String> yourPhrasesCopy = yourPhrases ;
 		/* **MAJOR CHANGE** - got rid of nested for loop, now just iterating over my phrase list */
 		for (String mine : myPhrases) {
 			if(yourPhrasesCopy.contains(mine)) {
-//				System.out.println("Match: " + mine) ;
-				matches++;
+				System.out.println("Match: " + mine) ;
+				matches++; //[MINOR CHANGE] - changed return type to int, so now not wasting space
+				System.out.println("no. matches: " + matches) ;
 				yourPhrasesCopy.remove(mine) ;
 			}
 		}	
@@ -141,19 +100,21 @@ public class PlagiarismDetector {
 			Set<String> file1Phrases = createPhrases(dirName + "/" + file1, windowSize); //***MAJOR CHANGE*** - move this to outer for loop so it's only done once, not j many times
 			for (int j = 0; j < files.length; j++) { 
 				String file2 = files[j]; 
-				//[[SMALL CHANGE]] - moved the 2 identical file comparison names out here so the same pairs of files aren't checked twice
+				//[[MINOR CHANGE]] - moved the 2 identical file comparison names out here so the same pairs of files aren't checked twice
 				String key1 = file1 + "-" + file2;
 				String key2 = file2 + "-" + file1;
-				if(!file1.equals(file2) && !processedPairs.contains(key1) && !processedPairs.contains(key2)) { /*[[SMALL CHANGE]]] -- don't compare file to itself */
+				if(!file1.equals(file2) && !processedPairs.contains(key1) && !processedPairs.contains(key2)) { /*[[MINOR CHANGE]]] -- don't compare file to itself */
 					Set<String> file2Phrases = createPhrases(dirName + "/" + file2, windowSize); 
 					if (file1Phrases == null || file2Phrases == null)
 						return null;
+					System.out.println("Files compared: " + key1) ;
 					int matches = findMatches(file1Phrases, file2Phrases);
-					//			if (matches == null){ return null;	} /* [[SMALL CHANGE]] - unnecessary, removing statement					
+					//			if (matches == null){ return null;	} /* [[MINOR CHANGE]] - unnecessary, removing statement					
 					if (matches > threshold) {
-						//[[SMALL CHANGE]] -- removed " && file1.equals(file2) == false" condition from below since same files shouldn't ever be compared
+						//[[MINOR CHANGE]] -- removed " && file1.equals(file2) == false" condition from below since same files shouldn't ever be compared
 						if (numberOfMatches.containsValue(key1) == false) {
 							numberOfMatches.put(key1, matches);
+							System.out.println("key: " + key1 + "match no.: " + matches) ;
 							processedPairs.add(key1);
 							processedPairs.add(key2);
 						}
@@ -163,7 +124,7 @@ public class PlagiarismDetector {
 			}
 
 		}
-		//[[SMALL CHANGE]]- tried using treemap for descending sorting, but then realized that I'd need repeat keys (not possible w/ TM)
+		//[[MINOR CHANGE]]- tried using treemap for descending sorting, but then realized that I'd need repeat keys (not possible w/ TM)
 		//instead created a (hopefully) more efficient sorting method
 		return MapSort.sortByValue(numberOfMatches) ;
 	}
@@ -190,6 +151,7 @@ public class PlagiarismDetector {
 		for (Map.Entry<String, Integer> entry : entries) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
+
 		// t1: 115.358 seconds
 		//t2: 124.048 seconds
 		//t3: 114.542 seconds
