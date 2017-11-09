@@ -23,7 +23,7 @@ public class PlagiarismDetector {
 	 * This method reads a file and converts it into a Set of distinct phrases,
 	 * each of size "window". The Strings in each phrase are whitespace-separated.
 	 */
-	public static Set<String> createPhrases(String filename, int window) {
+	private static Set<String> createPhrases(String filename, int window) {
 		int counter = 0 ;
 		if (filename == null || window < 1) {
 			return null;
@@ -44,10 +44,8 @@ public class PlagiarismDetector {
 //					for(int i = 0; i < window; i++) {
 //						phrase.add(words.get(i)) ;
 //					}
-
 					phrases.add(words.toString()) ;
 					words.remove(0) ;
-
 //m4: [MINOR CHANGE] -- got rid of check for if phrase already here (see below line)
 					//					phrases.add(phrase) ; // if a repeat it won't be added due to data struct
 					//					words.clear(); //clears up space for next (#window) many words
@@ -66,7 +64,7 @@ public class PlagiarismDetector {
 	 * Returns a Set of Strings that occur in both of the Set parameters.
 	 * However, the comparison is case-insensitive.
 	 */
-	static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
+	private static int findMatches(Set<String> myPhrases, Set<String> yourPhrases ) {
 		int matches = 0 ;
 //m5: [MINOR CHANGE] - make a copy of your phrases so each matching phrase can be taken out in an attempt to speed up run time
 		// (for files with large number of matches)
@@ -96,7 +94,7 @@ public class PlagiarismDetector {
 		ArrayList<String> processedPairs = new ArrayList<String>() ;
 		for (int i = 0; i < files.length; i++) { //iterate over all files in corpus
 			String file1 = files[i]; 
-//M3: ***MAJOR CHANGE*** - move this to outer for loop so it's only done once, not j many times			
+//M3: ***MAJOR CHANGE*** - move this to outer for loop so it's only done once (per file), not j many times			
 			Set<String> file1Phrases = createPhrases(dirName + "/" + file1, windowSize); 
 			for (int j = 0; j < files.length; j++) { 
 				String file2 = files[j]; 
@@ -165,6 +163,7 @@ public class PlagiarismDetector {
 		//t3: 6.731 seconds 
 		//t4: 6.845 seconds 
 		//t5: 6.65 seconds 
+		//avg: 6.8462
 	}
 
 }

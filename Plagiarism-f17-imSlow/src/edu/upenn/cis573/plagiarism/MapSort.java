@@ -6,17 +6,16 @@ import java.util.TreeMap;
 
 public class MapSort {
 
-
 	public static Map sortByValue(Map unsortedMap){
 		Map sortedMap = new TreeMap(new ValueComparator(unsortedMap));
 		sortedMap.putAll(unsortedMap);
 		return sortedMap;
 	}
-	public static Map sortByKey(Map unsortedMap){
-		Map sortedMap = new TreeMap();
-		sortedMap.putAll(unsortedMap);
-		return sortedMap;
-	}
+//	public static Map sortByKey(Map unsortedMap){
+//		Map sortedMap = new TreeMap();
+//		sortedMap.putAll(unsortedMap);
+//		return sortedMap;
+//	}
 
 
 	public static void main(String[] args){
@@ -33,9 +32,9 @@ public class MapSort {
 		map.put("F", "6");
 		map.put("E", "5");
 
-		System.out.println("Unsorted Map: "+map);
+		System.out.println("Unsorted Map: "+ map);
 		System.out.println("Sorted Map By Values: "+MapSort.sortByValue(map));
-		System.out.println("Sorted Map By Keys: "+MapSort.sortByKey(map));
+//		System.out.println("Sorted Map By Keys: "+MapSort.sortByKey(map));
 
 	}
 }
