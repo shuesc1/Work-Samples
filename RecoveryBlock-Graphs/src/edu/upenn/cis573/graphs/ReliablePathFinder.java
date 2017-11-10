@@ -32,6 +32,7 @@ public class ReliablePathFinder extends PathFinder {
 	 */
 	public List<Integer> findPath(int src, int dest) throws PathNotFoundException {
 		//================ Parallel recovery block ======================
+		// run concurrently -- first block tries DFS, then if fails switches to BFS as per lecture (FaultyBubbleSort->FaultyMergeSort, etc.)
 		Thread dfsThread = new Thread () {
 			public void run () {
 				//1. run dfs
@@ -40,16 +41,19 @@ public class ReliablePathFinder extends PathFinder {
 				dfsOutcome = checkPath(src, dest, dfsList) ;
 				if(dfsOutcome) {
 					validPath = dfsList ;
-				} else {
-					//if false try bfs
-					bfsList = pf.bfs(src, dest) ;
-					bfsOutcome = checkPath(src, dest, bfsList) ;
-					if(bfsOutcome) {
-						validPath = bfsList ;
-					}
+//				}
+//				} else {
+//					//if false try bfs
+//					bfsList = pf.bfs(src, dest) ;
+//					bfsOutcome = checkPath(src, dest, bfsList) ;
+//					if(bfsOutcome) {
+//						validPath = bfsList ;
+//					}
 				}
 			}
 		};
+		// This thread tries BFS. It will either pass acceptance test or wait for other thread to check DFS then BFS 
+		// Trying to cut down on overhead of doing this by only having 1 thread trying both DFS & BFS
 		Thread bfsThread = new Thread () {
 			public void run () {
 				//run bfs
@@ -58,26 +62,33 @@ public class ReliablePathFinder extends PathFinder {
 				bfsOutcome = checkPath(src, dest, bfsList) ;
 				if(bfsOutcome) {
 					validPath = bfsList ;
-				} 
-
+				}
+//				} else {
+//					//if false try DFS
+//					dfsList = pf.dfs(src, dest) ;
+//					dfsOutcome = checkPath(src,dest, dfsList) ;
+//					if(dfsOutcome) {
+//						validPath = dfsList ;
+//					}
+//				}
 			}
 		};
 		dfsThread.start();
-		bfsThread.start();
-		try {
-			bfsThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
-			dfsThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		bfsThread.start();
+//		try {
+//			bfsThread.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		try {
+//			dfsThread.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 
 		//======== RETRY BLOCK =========
-		// if both DFS/BFS fail (fail acceptance test), try and use BFS or DFS, then run acceptance test again
-		// if acceptance test passes, you need to reverse what returned from bfs/dfs
+		// if both DFS-BFS/BFS fail (fail acceptance test below), try and use DFS, then run acceptance test again
+		// if acceptance test passes, you need to reverse list of indices that returned from dfs
 		if(!bfsOutcome && !dfsOutcome) {
 			dfsList = dfs(dest, src) ;
 			if(this.checkPath(dest, src, dfsList)) {
@@ -92,44 +103,41 @@ public class ReliablePathFinder extends PathFinder {
 		return validPath;
 	}
 
-	/*
-	 * Implement this acceptance test as described in the assignment specification.
+	/**
+	 * Implement this <<ACCEPTANCE TEST>> as described in the assignment specification.
+	 * A method that takes in a source vertex in a graph, a destination index in a graph, and a path from source and destination to verify
+	 * @param src an integer representing the index of the source vertex in the undirected graph
+	 * @param dest an integer representing the index of the destination vertex in the undirected graph
+	 * @param path a list 
+	 * @return
 	 */
 	public boolean checkPath(int src, int dest, List<Integer> path) {
 		boolean result = false;
-		if(!path.contains(src) || !path.contains(dest)) {
+		if(!path.contains(src) || !path.contains(dest)) { // if src or destination are not in list we can verify false directly
 			result = false ;
 			return result ;
-		} else if(src == dest && path.contains(src)) {
+		} else if(src == dest && path.contains(src)) { //if source and destination are the same and they are in the list we can verify true directly
 			result = true;
 			return result ;
 		}
 
+		// otherwise get current vertex and next vertex, then check if next is in current's adjacency list
 		int current = 0;
 		int next = 0 ;
 		for (int i = 0; i < path.size()-2; i++){ 
-			current = path.get(i) ;
-			next = path.get(i+1) ;
+			current = path.get(i) ; //get current vertex in path
+			next = path.get(i+1) ; // get next vertex in path
 
-			//			Iterator<Element> myIterator = ... //some iterator
-			//					List<Element> myList = Lists.newArrayList(myIterator);
-
-			//			Iterator<Element> myIterator = ...//some iterator
-			//			List<Element> myList = IteratorUtils.toList(myIterator);   
-
-			// Used Guava library to create an ArrayList from an iterable
+			// Used Guava library to create an adjacency ArrayList from an iterable
+			// << http://www.java2s.com/Code/Jar/g/Downloadguavajar.htm >>
 			ArrayList<Integer> adjs = Lists.newArrayList(g.adj(current)) ;
-			//			ArrayList<Integer> adjs = (ArrayList<Integer>) g.adj(current) ;
-			//			for(Integer index : g.adj(current)) {
-			if(adjs.contains(next)) {
+			if(adjs.contains(next)) { //if the next vertex in path is in adj list of the current vertex
 				result = true ;
 			} else {
 				result = false ;
 			}
-			//			}
 		}
 		return result;
-
 	}
 }
 

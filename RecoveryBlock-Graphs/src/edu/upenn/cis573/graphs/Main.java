@@ -7,12 +7,12 @@ public class Main {
 	private static Random rand = new Random(System.currentTimeMillis());
 	
 	public static void main(String[] args) {
-	
 		// basically a Scanner
 		In in = new In("graph.txt");
 	
 		// construct a Graph from the input file
 		System.out.println("Building the graph, please wait a moment...");
+		long start = System.currentTimeMillis();
 		Graph G = new Graph(in);
 		System.out.println("Done building the graph.");
 
@@ -25,6 +25,17 @@ public class Main {
 			if (runTrial(finder)) success++;
 			else fail++;	        	
 		System.out.println("Success: " + success + "; Fail: " + fail);
+		long end = System.currentTimeMillis();
+		double timeInSeconds = (end - start) / (double)1000;
+		System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
+		
+		//Full method - trial1: 287.343 seconds
+		//Full method - trial2: 293.772 seconds
+		//Full method - trial3: 295.529 seconds
+		//trial4 - thread 2 just BFS: 251.335 seconds
+		//trial5 - thread1 just DFS, thread2 just BFS: 265.265 seconds
+		//trial6 - (same): 261.433 seconds
+		
 	}	
 	   
 	private static boolean runTrial(ReliablePathFinder finder) {
