@@ -6,10 +6,17 @@ import java.util.List;
 public class ReliablePathFinder extends PathFinder {
 
 	private Graph g;
+	private PathFinder pf ;
+	List<Integer> bfsList = new ArrayList<Integer>() ;
+	List<Integer> dfsList = new ArrayList<Integer>() ;
+	List<Integer> validPath = new ArrayList<Integer>() ;
+	boolean dfsOutcome = false ;
+	boolean bfsOutcome = false ;
 
 	public ReliablePathFinder(Graph g) {
 		super(g);
 		this.g = g ;
+		//		pf = (PathFinder) new PathFinder2(g);
 	}
 
 	/*
@@ -17,8 +24,64 @@ public class ReliablePathFinder extends PathFinder {
 	 * in the assignment specification.
 	 */
 	public List<Integer> findPath(int src, int dest) throws PathNotFoundException {
-		throw new PathNotFoundException();
+		Thread dfsThread = new Thread () {
+			public void run () {
+				//1. run dfs
+				dfsList = pf.dfs(src, dest) ;
+				//check acceptance test -- if true return list
+				dfsOutcome = checkPath(src, dest, dfsList) ;
+				if(dfsOutcome) {
+					validPath = dfsList ;
+				} else {
+					//if false try bfs
+					bfsList = pf.bfs(src, dest) ;
+					bfsOutcome = checkPath(src, dest, bfsList) ;
+					if(bfsOutcome) {
+						validPath = bfsList ;
+					}
+				}
+			}
+		};
+		Thread bfsThread = new Thread () {
+			public void run () {
+				//run bfs
+				bfsList = pf.bfs(src, dest) ;
+				//check acceptance test -- if true return list
+				bfsOutcome = checkPath(src, dest, bfsList) ;
+				if(bfsOutcome) {
+					validPath = bfsList ;
+				} 
+				
+			}
+		};
+		dfsThread.start();
+		bfsThread.start();
+		try {
+			dfsThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			bfsThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
+		//======== RETRY BLOCK =========
+		// if both DFS/BFS fail (fail acceptance test), try and use BFS or DFS, then run acceptance test again
+		// if acceptance test passes, you need to reverse what returned from bfs/dfs
+		if(!bfsOutcome && !dfsOutcome) {
+			dfsList = dfs(dest, src) ;
+			if(this.checkPath(dest, src, dfsList)) {
+				for (int k = dfsList.size()-1; k >= 0; k--) {
+					int x = dfsList.get(k) ;
+					validPath.add(x) ;
+				}
+			} else {
+				throw new PathNotFoundException();
+			}
+		}
+		return validPath;
 	}
 
 	/*
