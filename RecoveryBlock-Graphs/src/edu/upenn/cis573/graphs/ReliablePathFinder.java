@@ -41,14 +41,13 @@ public class ReliablePathFinder extends PathFinder {
 				dfsOutcome = checkPath(src, dest, dfsList) ;
 				if(dfsOutcome) {
 					validPath = dfsList ;
-//				}
-//				} else {
-//					//if false try bfs
-//					bfsList = pf.bfs(src, dest) ;
-//					bfsOutcome = checkPath(src, dest, bfsList) ;
-//					if(bfsOutcome) {
-//						validPath = bfsList ;
-//					}
+				} else {
+					//if false try bfs
+					bfsList = pf.bfs(src, dest) ;
+					bfsOutcome = checkPath(src, dest, bfsList) ;
+					if(bfsOutcome) {
+						validPath = bfsList ;
+					}
 				}
 			}
 		};
@@ -63,14 +62,14 @@ public class ReliablePathFinder extends PathFinder {
 				if(bfsOutcome) {
 					validPath = bfsList ;
 				}
-//				} else {
-//					//if false try DFS
-//					dfsList = pf.dfs(src, dest) ;
-//					dfsOutcome = checkPath(src,dest, dfsList) ;
-//					if(dfsOutcome) {
-//						validPath = dfsList ;
-//					}
-//				}
+				//				} else {
+				//					//if false try DFS
+				//					dfsList = pf.dfs(src, dest) ;
+				//					dfsOutcome = checkPath(src,dest, dfsList) ;
+				//					if(dfsOutcome) {
+				//						validPath = dfsList ;
+				//					}
+				//				}
 			}
 		};
 		dfsThread.start();
@@ -91,9 +90,9 @@ public class ReliablePathFinder extends PathFinder {
 		// if acceptance test passes, you need to reverse list of indices that returned from dfs
 		if(!bfsOutcome && !dfsOutcome) {
 			dfsList = dfs(dest, src) ;
-//			bfsList = bfs(dest, src) ;
+			//			bfsList = bfs(dest, src) ;
+			//			if(this.checkPath(dest, src, bfsList)) {
 			if(this.checkPath(dest, src, dfsList)) {
-//			if(this.checkPath(dest, src, bfsList)) {
 				for (int k = dfsList.size()-1; k >= 0; k--) {
 					int x = dfsList.get(k) ;
 					validPath.add(x) ;

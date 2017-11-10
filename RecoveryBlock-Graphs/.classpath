@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="graph.jar"/>
+	<classpathentry kind="lib" path="/Users/josephhaymaker/eclipse-workspace/guava-parent-13.0-final-site.jar"/>
+	<classpathentry kind="lib" path="/Users/josephhaymaker/eclipse-workspace/guava.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
