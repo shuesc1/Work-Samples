@@ -1,7 +1,13 @@
 package edu.upenn.cis573.graphs;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+//import com.google.common.collect.Lists;
+//import org.apache.commons.collections.IteratorUtils;
+
+import com.google.common.collect.Lists;
+
 
 public class ReliablePathFinder extends PathFinder {
 
@@ -16,7 +22,8 @@ public class ReliablePathFinder extends PathFinder {
 	public ReliablePathFinder(Graph g) {
 		super(g);
 		this.g = g ;
-		//		pf = (PathFinder) new PathFinder2(g);
+		pf = new PathFinder2(g);
+		//		pf = new PathFinder2(g);
 	}
 
 	/*
@@ -24,6 +31,7 @@ public class ReliablePathFinder extends PathFinder {
 	 * in the assignment specification.
 	 */
 	public List<Integer> findPath(int src, int dest) throws PathNotFoundException {
+		//================ Parallel recovery block ======================
 		Thread dfsThread = new Thread () {
 			public void run () {
 				//1. run dfs
@@ -51,18 +59,18 @@ public class ReliablePathFinder extends PathFinder {
 				if(bfsOutcome) {
 					validPath = bfsList ;
 				} 
-				
+
 			}
 		};
 		dfsThread.start();
 		bfsThread.start();
 		try {
-			dfsThread.join();
+			bfsThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		try {
-			bfsThread.join();
+			dfsThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -102,12 +110,23 @@ public class ReliablePathFinder extends PathFinder {
 		for (int i = 0; i < path.size()-2; i++){ 
 			current = path.get(i) ;
 			next = path.get(i+1) ;
-			ArrayList<Integer> adjs = (ArrayList<Integer>) g.adj(current) ;
+
+			//			Iterator<Element> myIterator = ... //some iterator
+			//					List<Element> myList = Lists.newArrayList(myIterator);
+
+			//			Iterator<Element> myIterator = ...//some iterator
+			//			List<Element> myList = IteratorUtils.toList(myIterator);   
+
+			// Used Guava library to create an ArrayList from an iterable
+			ArrayList<Integer> adjs = Lists.newArrayList(g.adj(current)) ;
+			//			ArrayList<Integer> adjs = (ArrayList<Integer>) g.adj(current) ;
+			//			for(Integer index : g.adj(current)) {
 			if(adjs.contains(next)) {
 				result = true ;
 			} else {
 				result = false ;
 			}
+			//			}
 		}
 		return result;
 
