@@ -29,13 +29,16 @@ public class Main {
 		double timeInSeconds = (end - start) / (double)1000;
 		System.out.println("Execution time (wall clock): " + timeInSeconds + " seconds");
 		
-		//Full method - trial1: 287.343 seconds
-		//Full method - trial2: 293.772 seconds
-		//Full method - trial3: 295.529 seconds
-		//trial4 - thread 2 just BFS: 251.335 seconds
+		//trial1 - Full method (thread1 DFS & BFS, thread2 BFS & DFS): 287.343 seconds
+		//trial2 - Full method: 293.772 seconds
+		//trial3 - Full method: 295.529 seconds
+		//trial4 - thread1 DFS & BFS, thread2 just BFS: 251.335 seconds (*** winner for sake of due diligence & accuracy***)
 		//trial5 - thread1 just DFS, thread2 just BFS: 265.265 seconds
 		//trial6 - (same): 261.433 seconds
-		
+		//trial7 - running just thread1 DFS then DFS retry block: 32.575 seconds (1000 successes)
+		//trial8 - running just thread2 BFS then DFS retry block: 51.65 seconds (1000 successes)
+		//trial9 - running just thread2 BFS then BFS retry block: 59.253 seconds (**Success: 997; Fail: 3)
+		//trial10- running just thread1 DFS then BFS retry block: 32.917 seconds (**Success: 999; Fail: 1) 
 	}	
 	   
 	private static boolean runTrial(ReliablePathFinder finder) {

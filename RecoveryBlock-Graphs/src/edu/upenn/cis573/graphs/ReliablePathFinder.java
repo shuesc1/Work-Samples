@@ -74,24 +74,26 @@ public class ReliablePathFinder extends PathFinder {
 			}
 		};
 		dfsThread.start();
-//		bfsThread.start();
-//		try {
-//			bfsThread.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		try {
-//			dfsThread.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		bfsThread.start();
+		try {
+			bfsThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			dfsThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		//======== RETRY BLOCK =========
 		// if both DFS-BFS/BFS fail (fail acceptance test below), try and use DFS, then run acceptance test again
 		// if acceptance test passes, you need to reverse list of indices that returned from dfs
 		if(!bfsOutcome && !dfsOutcome) {
 			dfsList = dfs(dest, src) ;
+//			bfsList = bfs(dest, src) ;
 			if(this.checkPath(dest, src, dfsList)) {
+//			if(this.checkPath(dest, src, bfsList)) {
 				for (int k = dfsList.size()-1; k >= 0; k--) {
 					int x = dfsList.get(k) ;
 					validPath.add(x) ;
