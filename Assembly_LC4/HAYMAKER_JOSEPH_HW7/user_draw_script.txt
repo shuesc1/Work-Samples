@@ -1,0 +1,31 @@
+clear
+reset
+as os os
+as user_draw user_draw
+ld os
+ld user_draw
+set R0 50
+set R1 5
+set R2 10
+set R3 5
+set R4 x7C00
+break set END
+continue
+
+set PC 0
+set R0 10
+set R1 10
+set R2 50
+set R3 40
+set R4 x03E0
+break set END
+continue
+
+set PC 0
+set R0 120
+set R1 100
+set R2 27
+set R3 10
+set R4 x7FE0
+break set END
+continue

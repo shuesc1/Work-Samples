@@ -1,0 +1,7 @@
+reset
+as factorial_sub factorial_sub
+ld factorial_sub
+set PC 0
+set R0 6
+break set END
+continue

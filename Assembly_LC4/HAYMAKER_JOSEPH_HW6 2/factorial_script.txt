@@ -1,0 +1,7 @@
+reset
+as factorial factorial
+ld factorial
+set PC 0
+set R0 5
+break set END
+continue

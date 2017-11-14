@@ -1,0 +1,12 @@
+clear
+reset
+
+as problem2 user_start lc4_stdio problem2		# Assembles problem1.asm, user_start.asm, lc4_stdio.asm 
+							#   and LINKS them into one file: problem1.obj
+
+ld problem2						# loads the linked .OBJ
+
+as os os
+ld os
+
+break set END

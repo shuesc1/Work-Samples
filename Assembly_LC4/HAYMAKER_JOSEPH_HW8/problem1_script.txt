@@ -1,0 +1,9 @@
+clear
+reset
+
+as problem1 user_start factorial_sub problem1		# Assembles problem1.asm, user_start.asm, factorial_sub.asm 
+							#   and LINKS them into one file: problem1.obj
+ld problem1						# loads the linked .OBJ
+
+set PC 0
+break set END

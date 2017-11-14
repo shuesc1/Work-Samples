@@ -1,0 +1,12 @@
+clear
+reset
+
+as os os
+as user_text user_text
+
+ld os
+ld user_text
+
+set R0 x4000
+
+break set END

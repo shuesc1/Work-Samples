@@ -1,0 +1,12 @@
+clear
+reset
+
+as os os
+as user_text2 user_text2
+
+ld os
+ld user_text2
+
+break set END
+
+continue

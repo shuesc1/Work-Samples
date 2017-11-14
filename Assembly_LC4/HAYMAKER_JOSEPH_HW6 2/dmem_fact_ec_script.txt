@@ -1,0 +1,7 @@
+reset
+as dmem_fact_ec dmem_fact_ec
+ld dmem_fact_ec
+set PC 0
+set R2 x4022
+break set END
+continue

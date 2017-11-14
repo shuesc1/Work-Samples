@@ -1,0 +1,11 @@
+clear
+reset
+
+as os os
+as user_demo_ec user_demo_ec
+
+ld os
+ld user_demo_ec
+
+break set END
+set PC 0

@@ -1,0 +1,6 @@
+reset
+as dmem_fact dmem_fact
+ld dmem_fact
+set PC 0
+break set END
+continue

@@ -1,0 +1,11 @@
+clear
+reset
+
+as problem5 user_start lc4_stdio problem5		
+
+ld problem5					
+
+as os os
+ld os
+
+break set END
