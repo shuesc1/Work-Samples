@@ -1,0 +1,761 @@
+---
+title: "Predicting readmission probability for diabetes inpatients"
+graphics: yes
+date: 'Due: April 2, 2017 at 11:59PM'
+output:
+  html_document:
+    number_sections: yes
+    self_contained: yes
+    toc: no
+  pdf_document:
+    toc: no
+    toc_depth: 2
+subtitle: STAT 471/571/701, Fall 2017
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyfoot[CO,CE]{}
+- \fancyfoot[LE,RO]{\thepage}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(tidy=TRUE, fig.width=6,  fig.height=5, 
+                      fig.align='left', dev = 'pdf')
+library(car)       # v 2.1-4
+library(glmnet)    # v 2.0-5
+library(dplyr)     # v 0.5.0
+library(ggplot2)
+library(GGally)
+library(plotrix)
+```
+<!---
+# Instructions
+
+* This project is due at **11:59pm on Sunday, April. 2, 2017.**
+* It is an individual project, amounting to 15% of your final grade. See the *Collaboration* section at the bottom of this document.
+* There is no single correct answer. You will be graded on the general quality of your work. 
+* The entire write up should not be more than 10 pages. You may put any supporting documents, code, graphics, or other exhibits into an Appendix, which is not counted in the 10 page limit.
+--->
+
+<!---
+# Introduction
+
+## Background
+
+Diabetes is a chronic medical condition affecting millions of Americans, but if managed well, with good diet, exercise and medication, patients can lead relatively normal lives. However, if improperly managed, diabetes can lead to patients being continuously admitted and readmitted to hospitals. Readmissions are especially serious - they represent a failure of the health system to provide adequate support to the patient and are extremely costly to the system. As a result, the Centers for Medicare and Medicaid Services announced in 2012 that they would no longer reimburse hospitals for services rendered if a patient was readmitted with complications within 30 days of discharge.
+
+Given these policy changes, being able to identify and predict those patients most at risk for costly readmissions has become a pressing priority for hospital administrators. 
+
+In this project, we shall explore how to use the techniques we have learned in order to help better manage diabetes patients who have been admitted to a hospital. Our goal is to avoid patients being readmitted within 30 days of discharge, which reduces costs for the hospital and improves outcomes for patients.
+
+The original data is from the [Center for Clinical and Translational Research](https://archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008) at Virginia Commonwealth University. It covers data on diabetes patients across 130 U.S. hospitals from 1999 to 2008. There are over 100,000 unique hospital admissions in this dataset, from ~70,000 unique patients. The data includes demographic elements, such as age, gender, and race, as well as clinical attributes such as tests conducted, emergency/inpatient visits, etc. Refer to the original documentation for more details on the dataset. Three former students Spencer Luster, Matthew Lesser and Mridul Ganesh, brought this data set into the class and did a wonderful final project. We will use a subset processed by the group but with a somewhat different objective.
+
+## Goals of the analysis
+
+1. Identify the factors predicting whether or not the patient will be readmitted within 30 days.
+2. Propose a classification rule to predict if a patient will be readmitted within 30 days. 
+
+### Characteristics of the Data Set
+
+All observations have five things in common:
+
+1.	They are all hospital admissions
+2.	Each patient had some form of diabetes
+3.	The patient stayed for between 1 and 14 days.
+4.	The patient had laboratory tests performed on him/her.
+5.	The patient was given some form of medication during the visit.
+
+The data was collected during a ten-year period from 1999 to 2008. There are over 100,000 unique hospital admissions in the data set, with ~70,000 unique patients. 
+
+### Description of variables
+
+The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
+
+**a) Patient identifiers:** 
+
+a. `encounter_id`: unique identifier for each admission 
+b. `patient_nbr`: unique identifier for each patient 
+
+**b) Patient Demographics:** 
+
+`race`, `age`, `gender`, `weight` cover the basic demographic information associated with each patient. `Payer_code` is an additional variable that identifies which health insurance (Medicare /Medicaid / Commercial) the patient holds.
+
+**c) Admission and discharge details:** 
+
+a.	`admission_source_id` and `admission_type_id` identify who referred the patient to the hospital (e.g. physician vs. emergency dept.) and what type of admission this was (Emergency vs. Elective vs. Urgent). 
+b.	`discharge_disposition_id` indicates where the patient was discharged to after treatment.
+
+**d) Patient Medical History:**
+
+a.	`num_outpatient`: number of outpatient visits by the patient in the year prior to the current encounter
+b.	`num_inpatient`: number of inpatient visits by the patient in the year prior to the current encounter
+c.	`num_emergency`: number of emergency visits by the patient in the year prior to the current encounter
+
+**e)	Patient admission details:**
+
+a.	`medical_specialty`: the specialty of the physician admitting the patient
+b.	`diag_1`, `diag_2`, `diag_3`: ICD9 codes for the primary, secondary and tertiary diagnoses of the patient.  ICD9 are the universal codes that all physicians use to record diagnoses. There are various easy to use tools to lookup what individual codes mean (Wikipedia is pretty decent on its own)
+c.	`time_in_hospital`: the patient’s length of stay in the hospital (in days)
+d.	`number_diagnoses`: Total no. of diagnosis entered for the patient
+e.	`num_lab_procedures`: No. of lab procedures performed in the current encounter
+f.	`num_procedures`: No. of non-lab procedures performed in the current encounter
+g.	`num_medications`: No. of distinct medications prescribed in the current encounter
+
+**f)	Clinical Results:**
+
+a.	`max_glu_serum`: indicates results of the glucose serum test
+b.	`A1Cresult`: indicates results of the A1c test
+
+**g)	Medication Details:**
+
+a.	`diabetesMed`: indicates if any diabetes medication was prescribed 
+b.	`change`: indicates if there was a change in diabetes medication
+c.	`24 medication variables`: indicate whether the dosage of the medicines was changed in any manner during the encounter
+
+**h)	Readmission indicator:** 
+
+Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
+
+To save your time we are going to use some data sets cleaned by the group. Thus, we provide two datasets:
+
+**`diabetic.data.csv`** is the original data. You may use it for the purpose of summary if you wish. You will see that the original data can’t be used directly for your analysis, yet. 
+
+**`readmission.csv`** is a cleaned version and they are modified in the following ways:
+
+1) `Payer code`, `weight` and `Medical Specialty` are not included since they have a large number of missing values. 
+
+2) Variables such as `acetohexamide` (col 30), `glimepiride.pioglitazone` (45), `metformin.rosiglitazone`(46), `metformin.pioglitazone`(47) have little variability, and are as such excluded. This also includes the following variables: `chlorpropamide`(28), `acetohexamide`(30), `tolbutamide`(33), `acarbose`(36), `miglitor`(37), `troglitazone`(38), `tolazamide`(39), `examide`(40), `citoglipton`(41), `glyburide.metformin`(43), `glipizide.metformin`(44), and `glimepiride.pioglitazone`(45).
+
+3) Some categorical variables have been regrouped. For example, `Diag1_mod` keeps some original levels with large number of patients and aggregates other patients as `others`. This process is known as 'binning.'
+		
+4) The event of interest is **readmitted within < 30 days**. Note that you need to create this response first by regrouping **Readmission indicator**!
+--->
+
+# Exploratory Data Analysis
+
+```{r}
+## =============================  STANDARD EDA TECHNIQUES ==============================
+
+## <<<< READING IN DATA >>>
+## ===== FULL DATASET =====
+# bill.data.test <- read.csv("Bills.subset.test.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
+df.full <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
+dim(df.full) # 101,766 observations x 50 variables
+head(df.full, 30)
+# View(df.full)
+# summary(df.full)
+summary(df.full$readmitted)
+```
+
+```{r}
+# ====== CLEANED DATASET ====
+data1 <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
+dim(data1) #101766 observations x 50 variables
+tail(data1, 20)
+# head(data1, 20)
+# View(data1)
+
+data1 <- data1[ -c(6, 11:12, 28, 30, 33, 36:41, 43:47) ]# getting rid of unhelpful vars
+names(data1)
+dim(data1) # 101766 x 33
+summary(data1)
+
+# <<<<<<<<<< NA VALUES >>>>>>>>>
+sum(is.na(data1))
+# show how many NA values in each column
+sapply(data1, function(x) sum(is.na(x))) # no 0 values
+```
+
+#### Variables of interest
+
+[See appendix for more detailed information on variables](#/variables)
+
+##### Readmitted
+
+```{r}
+summary(data1$readmitted)
+#  <30   >30    NO 
+# 11357 35545 54864 
+
+```
+
+
+##### Race
+
+```{r}
+#variables of interest
+summary(data1$race) # boxplot readmit by race
+
+# filter by race (AfricanAmerican, Asian, Caucasian, Hispanic, Other) &&  
+# ------ AfricanAmerican ----
+readmit_less30.afamer <- filter(data1, race == "AfricanAmerican", readmitted == "<30")
+dim(readmit_less30.afamer) # 2155
+readmit_more30.afamer <- filter(data1, race == "AfricanAmerican", readmitted == ">30")
+dim(readmit_more30.afamer) # 6634
+readmit_none.afamer <- filter(data1, race == "AfricanAmerican", readmitted == "NO")
+dim(readmit_none.afamer) # 10421
+slices.afamer <- c(2155, 6634, 10421) 
+lbls.afamer <- c("<30", ">30", "none")
+pct.afamer <- round(slices.afamer/sum(slices.afamer)*100)
+lbls.afamer <- paste(lbls.afamer, "-(",pct.afamer, ")") # add percents to labels 
+lbls.afamer <- paste(lbls.afamer,"%",sep="") # ad % to labels 
+
+# ---- ASIAN ----
+readmit_less30.asian <- filter(data1, race == "Asian", readmitted == "<30")
+dim(readmit_less30.asian) # 65
+readmit_more30.asian <- filter(data1, race == "Asian", readmitted == ">30")
+dim(readmit_more30.asian) # 161
+readmit_none.asian <- filter(data1, race == "Asian", readmitted == "NO")
+dim(readmit_none.asian) # 415
+slices.asian <- c(65, 161, 415) 
+lbls.asian <- c("<30", ">30", "none")
+pct.asian <- round(slices.asian/sum(slices.asian)*100)
+lbls.asian <- paste(lbls.asian, "-(",pct.asian, ")") # add percents to labels 
+lbls.asian <- paste(lbls.asian,"%",sep="") # ad % to labels 
+
+# ---- CAUCASIAN ----
+readmit_less30.cau <- filter(data1, race == "Caucasian", readmitted == "<30")
+dim(readmit_less30.cau) # 8592
+readmit_more30.cau <- filter(data1, race == "Caucasian", readmitted == ">30")
+dim(readmit_more30.cau) # 27124
+readmit_none.cau <- filter(data1, race == "Caucasian", readmitted == "NO")
+dim(readmit_none.cau) # 40383
+slices.cau <- c(8592, 27124, 40383) #76099 total
+lbls.cau <- c("<30", ">30", "none")
+pct.cau <- round(slices.cau/sum(slices.cau)*100)
+lbls.cau <- paste(lbls.cau, "-(",pct.cau, ")") # add percents to labels 
+lbls.cau <- paste(lbls.cau,"%",sep="") # ad % to labels 
+
+# ---- HISPANIC ----
+readmit_less30.hisp <- filter(data1, race == "Hispanic", readmitted == "<30")
+dim(readmit_less30.hisp) # 212
+readmit_more30.hisp <- filter(data1, race == "Hispanic", readmitted == ">30")
+dim(readmit_more30.hisp) # 27124
+readmit_none.hisp <- filter(data1, race == "Hispanic", readmitted == "NO")
+dim(readmit_none.hisp) # 40383
+slices.hisp <- c(212, 642, 1183) #76099 total
+lbls.hisp <- c("<30", ">30", "none")
+pct.hisp <- round(slices.hisp/sum(slices.hisp)*100)
+lbls.hisp <- paste(lbls.hisp, "-(",pct.hisp, ")") # add percents to labels 
+lbls.hisp <- paste(lbls.hisp,"%",sep="") # ad % to labels 
+
+# ---- OTHER ----
+readmit_less30.oth <- filter(data1, race == "Other", readmitted == "<30")
+dim(readmit_less30.oth) # 145
+readmit_more30.oth <- filter(data1, race == "Other", readmitted == ">30")
+dim(readmit_more30.oth) # 446
+readmit_none.oth <- filter(data1, race == "Other", readmitted == "NO")
+dim(readmit_none.oth) # 915
+slices.oth <- c(145, 446, 915)
+lbls.oth <- c("<30", ">30", "none")
+pct.oth <- round(slices.oth/sum(slices.oth)*100)
+lbls.oth <- paste(lbls.oth, "-(",pct.oth, ")") # add percents to labels 
+lbls.oth <- paste(lbls.oth,"%",sep="") # ad % to labels 
+
+
+
+par(mfrow = c(3, 2))
+pie(slices.afamer,labels = lbls.afamer, col=rainbow(length(lbls.afamer)),
+  	main="Pie Chart of African American Readmits")
+pie(slices.asian,labels = lbls.asian, col=rainbow(length(lbls.asian)),
+  	main="Pie Chart of Asian Readmits")
+pie(slices.cau,labels = lbls.cau, col=rainbow(length(lbls.cau)),
+   	main="Pie Chart of Caucasian Readmits")
+pie(slices.hisp,labels = lbls.hisp, col=rainbow(length(lbls.hisp)),
+   	main="Pie Chart of Hispanic Readmits")
+pie(slices.oth,labels = lbls.oth, col=rainbow(length(lbls.hisp)),
+   	main="Pie Chart of Other Races Readmits")
+
+```
+
+##### Gender
+
+```{r}
+summary(data1$gender) #boxplot
+         # Female            Male Unknown/Invalid 
+         #  54708           47055               3 
+readmit_less30.gender <- filter(data1, readmitted == "<30")
+dim(readmit_less30.gender) # 11357 total observations
+dim(filter(readmit_less30.gender, gender == "Female")) #6152 female ~54% of <30 dataset, 11.2% of females of total dataset
+dim(filter(readmit_less30.gender, gender == "Male")) #5205 male, 45% of <30 dataset, 11.1% of males of total dataset
+readmit_more30.gender <- filter(data1, readmitted == ">30")
+
+nrow(readmit_more30.gender) #35545 total observations
+nrow(filter(readmit_more30.gender, gender == "Female")) #19518 female ~54% of >30 dataset, 35.7% of females of total dataset
+nrow(filter(readmit_more30.gender, gender == "Male")) #16027 male, 45%, 34.1% of males of total dataset
+perc.female <- (19518/35545)
+perc.female #0.5491068
+perc.male <- (16027/35545)
+perc.male # 0.4508932
+
+par(mfrow = c(2, 2))
+# nrow(which(readmit_less30.gender == "Female"))
+# nrow(filter(readmit_less30.gender, gender == "Female"))
+# nrow(readmit_less30.gender)
+# 
+# x.perc.gender <- c(nrow(filter(readmit_less30.gender, gender == "Female"))/nrow(readmit_less30.gender), nrow(filter(readmit_less30.gender, gender == "Male"))/nrow(readmit_less30.gender))
+# x.perc.gender
+ggplot(readmit_less30.gender) + geom_bar(aes(x = gender), fill = "blue") +
+  labs(title = "Histogram of readmits in less than 30 days (<30) by gender", x = "Gender", y = "Frequency")
+ggplot(readmit_more30.gender) + geom_bar(aes(x = gender), fill = "blue") +
+  labs(title = "Histogram of readmits in more than 30 days (>30) by gender", x = "Gender", y = "Frequency")
+```
+
+In the cleaned dataset we have 54708 female observations and 47055 male observations, which means roughly 54% of the patients under consideration were female (for all readmission categories), while ~46% were male. When comparing hospital readmits striated by gender, of the patients that were readmitted in _under_ 30 days approximately 54% (6152/11357) were female, matching the overall female representation. Similarly, of patients that were readmitted _over_ 30 days again 54% (19518/35545) were female. It's worth noting that the total number of patients (male & female) readmitted over 30 days is about 3 times that of those readmitted in _less_ than 30 days. 
+
+There seems to be a gap between genders here implying that women are more prone to readmission, but this is quickly rebuked when we compare the genders in terms of their total observations. For patients who were readmitted in _less_ than 30 days, female patients represent 11.2% (6152/54708) of the total female population, while those who are male represent a similar 11.1% (5205/47055) of the overall male population. The same is true for patients readmitted _over_ 30 days: female patients account for 35.7% (19518/54708) of the total female population, while male patients comprise 34.1% (16027/47055) of the total male population. 
+
+This lends credence to the notion that gender does not contribute to likelihood of readmission. 
+
+##### Age
+
+```{r}
+summary(data1$age) #scatterplot
+#<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
+lm.age <- lm(readmitted~age, data = data1)
+plot(data1$age, data1$readmitted,
+     pch = 16,
+     xlab = "Patient age",
+     ylab = "Readmission category",
+     main = "Patient age vs. readmission category")
+abline(lm.age, col="red", lwd=4)
+# abline(h=mean(county_data$dem12_frac), lwd=5, col="blue")
+```
+
+It appears that the categories with the largest number of readmits is 70-80 and 80-90, which are almost identical. An interesting trend that we see is that the 20-30 age group has the overall highest readmit frequency under 30 days, which is surprising. 
+
+##### Change (in diabetes medication)
+
+```{r}
+summary(data1$change) #boxplot - change in diabetes medication
+#    Ch    No 
+# 47011 54755
+
+# <30 readmit patients
+readmit_less30.change <- filter(data1, readmitted == "<30")
+dim(readmit_less30.change) # 11357 total observations
+dim(filter(readmit_less30.change, change == "Ch")) #5558 patients with a change of med readmitted <30 days, 48.9% of all patients readmitted <30, 11.8% of all patients with a change in meds
+dim(filter(readmit_less30.change, change == "No")) #5799 patients with NO change in meds readmitted <30 days, 51.1% of all patients readmitted <30, 10.6% of all patients with NO change in meds
+
+#>30 readmit patients
+readmit_more30.change<- filter(data1, readmitted == ">30")
+dim(readmit_more30.change) #35545 observations
+dim(filter(readmit_more30.change, change == "Ch")) #17272
+perc.readmit_more30.ch <- 17272/35545
+perc.readmit_more30.ch #0.4859193
+perc.all.ch <- 17272/47011
+perc.all.ch #0.3674034
+dim(filter(readmit_more30.change, change == "No"))#18273
+perc.readmit_more30.no <- 18273/35545
+perc.readmit_more30.no #0.5140807
+perc.all.no <- 18273/54755
+perc.all.no #0.3337229
+
+
+# pie charts 
+par(mfrow = c(2, 1))
+slices.change <- c(5558, 5799) 
+lbls.change <- c("change in medication", "no change in medication")
+pct.change <- round(slices.change/sum(slices.change)*100)
+lbls.change <- paste(lbls.change, "-(",pct.change, ")") # add percents to labels 
+lbls.change <- paste(lbls.change,"%",sep="") # ad % to labels 
+pie(slices.change,labels = lbls.change, col=rainbow(length(lbls.change)),
+  	main="Pie Chart of change in diabetes medication status for patients readmitted <30 days")
+slices.nochange <- c(17272, 18273) 
+lbls.nochange <- c("change in medication", "no change in medication")
+pct.nochange <- round(slices.nochange/sum(slices.nochange)*100)
+lbls.nochange <- paste(lbls.nochange, "-(",pct.nochange, ")") # add percents to labels 
+lbls.nochange <- paste(lbls.nochange,"%",sep="") # ad % to labels 
+pie(slices.nochange,labels = lbls.nochange, col=rainbow(length(lbls.nochange)),
+  	main="Pie Chart of change in diabetes medication status for patients readmitted >30 days")
+
+
+```
+
+##### Number of diagnosis
+
+```{r}
+summary(data1$number_diagnoses) #bar plot
+readmit_less30.diag <- filter(data1, readmitted == "<30")
+hist(readmit_less30.diag$number_diagnoses)
+readmit_more30.diag <- filter(data1, readmitted == ">30")
+hist(readmit_more30.diag$number_diagnoses)
+```
+
+There consistently seems to be a large spike in frequency around 9 diagnoses. 
+
+<!--- ================================================================================================================================ --->
+<!--- ========================================== MODEL BUILDING ====================================================================== --->
+<!--- ================================================================================================================================ --->
+
+# Model building
+
+#### Investigating colinearlity
+
+Some of the features provided seem like they might be highly correlated with one another. In particular, diagnoses & health indicator information, as well as hospital visit information.
+
+```{r}
+# hospital visit info
+data1 %>%
+  select_if(is.numeric) %>%
+  select(time_in_hospital, num_lab_procedures, num_procedures, num_medications, number_outpatient, number_emergency, number_inpatient, number_diagnoses) %>%
+  pairs() # base pair-wise scatter plots
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+# names(data1)
+# summary(data1)
+# data1 %>%
+#   select(diag_1, diag_2, diag_3) %>%
+#   pairs() # base pair-wise scatter plots
+```
+
+#### Further prepping data
+
+```{r}
+# <<<< make readmitted categorical>>>
+# ======= readmitted = column 33 =======
+summary(data1)
+names(data1)
+summary(data1$readmitted) # needs to be changed to categorical
+data1$readmitted <- factor(ifelse(data1$readmitted == "<30", "1", "0")) # if it's a less than 30 day readmit make it 1, else make it zero
+summary(data1$readmitted) # agrees with prior numbers
+#     0     1 
+# 90409 11357 
+
+#<<<<<< remove all ? entries from race >>>>>>
+#summary(data1$race) #2273 ? values -- remove them
+#nrow(data1) #101766
+data1 <- filter(data1, race != "?")
+#nrow(data1) #99493  --> 99493+2273 = 101766
+#summary(data1$race)
+
+# <<<<<<< remove patient identifiers (not helpful) >>>>>
+# encounter_id & patient_nbr
+data1 <- subset(data1, select = -c(encounter_id,patient_nbr))
+names(data1)
+# df <- subset(df, select = -c(a,c) )
+
+# filtering/ categorical data w/ if/else statement
+#readmit_less30.diag <- filter(data1, readmitted == "<30")
+#bill.data.train$status <- factor(ifelse(bill.data.train$status=="bill:passed" | bill.data.train$status=="governor:signed" | bill.data.train$status=="governor:received", "1", "0"))
+  
+```
+
+#### Initial modeling
+
+```{r}
+# an initial linear model using probably variables
+# summary(data1$max_glu_serum)
+# summary(data1$insulin)
+summary(data1$diabetesMed)
+lm.init <- glm(readmitted~ race + gender + age + time_in_hospital + num_medications + number_diagnoses + max_glu_serum + insulin + change + diabetesMed, data = data1, family = "binomial")
+summary(lm.init)
+Anova(lm.init)
+```
+
+An initial logistic model including logical variables reveals `race` and `gender` to add nothing to the model, while other factors (time in hospital, number of medications taken, number of diagnoses, max glucose serum, insulin, change in medication and diabetes medication) are all significant at the .05 level.
+
+```{r}
+#<<<<<<<<<<< LASSO >>>>>>>>>>>>>>
+#<<<<<<CV to select lambda>>>>>>>
+str(data1)
+levels(data1$race)
+set.seed(34)
+names(data1)
+# extract y, readmitted
+Y <- data1$readmitted
+#Y
+X <- model.matrix(readmitted~. -diag_1 -diag_2 -diag_3, data = data1)[, -1]
+#X
+colnames(X)
+fit.lasso.cv <- cv.glmnet(X, Y, alpha = 1, nfolds = 10, family = "binomial")
+fit.lasso.cv$lambda.1se #0.008129686
+fit.lasso.cv$lambda.min # 0.0003773466
+# fit.lasso.cv$nzero
+
+# plot(fit.lasso.cv$lambda , main  = "There are 100 lambdas used" , xlab = "Lambda Index" , ylab = "Lambda Value" ) 
+#head(data.frame( Cross.Validation.Erorr = fit.lasso.cv$cvm , Lambda = fit.lasso.cv$lambda))            
+plot(fit.lasso.cv$lambda, fit.lasso.cv$cvm, xlab=expression(lambda), ylab="mean cv errors")
+plot(fit.lasso.cv)
+
+# using λ=lambda.min
+coef.min <- coef(fit.lasso.cv, s="lambda.min")  #s=c("lambda.1se","lambda.min") or lambda value
+coef.min <- coef.min[which(coef.min !=0),]   # get the non=zero coefficients
+coef.min  # the set of predictors chosen
+rownames(as.matrix(coef.min)) # shows only names, not estimates -- 38 variables
+
+# using λ=lambda.1se
+ # coef.1se <- coef(fit.lasso.cv, s="lambda.1se")  
+ # coef.1se <- coef.1se[which(coef.1se !=0),] 
+ # coef.1se
+ # rownames(as.matrix(coef.1se)) # only 4 variables -- too sparse
+
+# using all non-zero coefficients
+# coef.nzero <-coef(fit.lasso.cv, nzero = 3)
+# coef.nzero <- coef.nzero[which(coef.nzero !=0), ]
+# rownames(as.matrix(coef.nzero))
+
+# final-- using lambda.min
+coef.min <- coef(fit.lasso.cv, s="lambda.min")  #s=c("lambda.1se","lambda.min") or lambda value
+coef.min <- coef.min[which(coef.min !=0),]   # get the non=zero coefficients
+coef.min 
+rownames(as.matrix(coef.min)) 
+#using LASSO variables to fit an lm() model
+var.min <- rownames(as.matrix(coef.min)) 
+var.min
+
+#names(data1)
+# "raceOther"                "genderMale"               "age[10-20)"               "age[40-50)"               "age[50-60)"              
+#  [7] "age[70-80)"               "age[80-90)"               "age[90-100)"              "admission_type_id"        "discharge_disposition_id" "admission_source_id"     
+# [13] "time_in_hospital"         "num_lab_procedures"       "num_procedures"           "num_medications"          "number_emergency"         "number_inpatient"        
+# [19] "number_diagnoses"         "max_glu_serumNone"        "A1CresultNone"            "A1CresultNorm"            "metforminSteady"          "metforminUp"             
+# [25] "repaglinideSteady"        "repaglinideUp"            "nateglinideSteady"        "nateglinideUp"            "glimepirideSteady"        "glipizideNo"             
+# [31] "glipizideUp"              "glyburideNo"              "pioglitazoneSteady"       "rosiglitazoneNo"          "insulinNo"                "insulinSteady"           
+# [37] "insulinUp"                "diabetesMedYes"          
+
+# lm.input <- as.formula(paste("readmitted", "~", paste(var.min[-1], collapse = "+"))) 
+lm.input <- "readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed"
+
+# TODO -- if time try forward stepwise, backward, etc. using these variables then use AIC, BIC, Cp to come up with best (other) w/ optimal # variables
+fit.min.lm <- glm(lm.input, data=data1, family = "binomial")
+lm.output <- coef(fit.min.lm) # output lm estimates
+summary(fit.min.lm) 
+Anova(fit.min.lm)
+```
+
+A more robust and methodically sound model used LASSO regularization, model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors. This yielded a model with 22 variables. Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
+
+```{r}
+#kick out race first -- highest p value at .89 (null hypoth can't be disproven)
+fit.min.lm.1 <- update(fit.min.lm, .~. -race)
+Anova(fit.min.lm.1)
+
+#kick out gender - .686
+fit.min.lm.2 <- update(fit.min.lm.1, .~. -gender)
+Anova(fit.min.lm.2)
+
+#kick out max_glu_serum - .71
+fit.min.lm.3 <- update(fit.min.lm.2, .~. -max_glu_serum)
+Anova(fit.min.lm.3)
+
+#kick out nateglinide - 0.5902633
+fit.min.lm.4 <- update(fit.min.lm.3, .~. -nateglinide)
+Anova(fit.min.lm.4)
+
+#kick out num_lab_procedures -0.5755722
+fit.min.lm.5 <- update(fit.min.lm.4, .~. -num_lab_procedures)
+Anova(fit.min.lm.5)
+
+#kick out glyburide- 0.4717495 
+fit.min.lm.6 <- update(fit.min.lm.5, .~. -glyburide)
+Anova(fit.min.lm.6)
+
+#kick out pioglitazone - 0.2023333 
+fit.min.lm.7 <- update(fit.min.lm.6, .~. -pioglitazone)
+Anova(fit.min.lm.7)
+
+#kick out rosiglitazone -0.2078855
+fit.min.lm.8 <- update(fit.min.lm.7, .~. -rosiglitazone)
+Anova(fit.min.lm.8)
+
+#kick out repaglinide - 0.1737818 
+fit.min.lm.9 <- update(fit.min.lm.8, .~. -repaglinide)
+Anova(fit.min.lm.9)
+
+#kick out glipizide- 0.0618024
+fit.min.lm.10 <- update(fit.min.lm.9, .~. -glipizide)
+Anova(fit.min.lm.10)
+
+#kick out glimepiride -0.0153940 * 
+# Glimepiride is a prescription drug. It comes as an oral tablet.
+# Glimepiride is available as the brand-name drug Amaryl and as a generic drug. Generic drugs usually cost less. In some cases, they may not be available in every strength or form as the brand-name version.
+# This drug may be used as part of a combination therapy. That means you need to take it with other drugs.
+# Glimepiride is used to reduce high blood sugar levels in people with type 2 diabetes. It’s used in combination with a healthy diet and exercise.
+# This medication may be used with insulin or other types of diabetes drugs to help control your high blood sugar.
+
+fit.min.lm.11 <- update(fit.min.lm.10, .~. -glimepiride)
+Anova(fit.min.lm.11)
+```
+
+After doing manual backwards elimination the model has 11 variables, all of which are statistically significant at the .01 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad.
+
+```{r}
+data1 %>% select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>% cor()
+# <<<<< CORRELATION OF VARIABLES >>>>>>>>>
+data1 %>% 
+  select_if(is.numeric) %>%
+  select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>%
+  ggpairs()
+```
+
+```{r}
+summary(fit.min.lm.11)
+```
+
+In looking at the summary of the model multiple levels of the `A1Cresult` are not significant. Also under further investigation this number seems likely to be highly correlated with insulin. This is a similar case with `metformin`. For those reasons I've decided to remove them. 
+
+```{r}
+# The more glucose that enters the bloodstream, the higher the amount of glycated hemoglobin,” Dr. Dodell says. An A1C level below 5.7 percent is considered normal. An A1C between 5.7 and 6.4 percent signals prediabetes. Type 2 diabetes is diagnosed when the A1C is over 6.5 percent.
+
+fit.min.lm.12 <- update(fit.min.lm.11, .~. -A1Cresult)
+Anova(fit.min.lm.12)
+
+fit.min.lm.13 <- update(fit.min.lm.12, .~. -metformin)
+Anova(fit.min.lm.13)
+```
+
+##### Final model specified by preliminary model building using LASSO (least absolute shrinkage and selection operator)
+
+The resulting original model obtained by LASSO regularization has 9 variables, 3 of which have multiple levels: 
+
+$ \hat Y = age + .02 * time\_in\_hospital - .03 * num\_procedures + .005 * num\_medications + .033 * number\_emergency + .27 * number\_inpatient + .04 * number\_diagnoses + insulin + diabetesMed - 4.151 $
+
+```{r}
+summary(fit.min.lm.13)
+# formula = readmitted ~ age + time_in_hospital + num_procedures + 
+#     num_medications + number_emergency + number_inpatient + number_diagnoses + 
+#     insulin + diabetesMed
+```
+
+Prediction:
+
+```{r}
+#nrow(data1) # 99493
+pred.row <- data1[99493,] #take last observation for prediction
+#pred.row
+fit13.predict <- predict(fit.min.lm.13, pred.row, type="response")
+fit13.predict #0.08535637
+```
+Doing a simple prediction with this model using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 8.5%. I'll use this value later to compare the effectiveness of this model. 
+
+<!---
+To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
+
++ <<Lasso>> does a sparse selection, while Ridge does not.
++ When you have highly-correlated variables, <<Ridge regression>> shrinks the two coefficients towards one another. Lasso is somewhat indifferent and generally picks one over the other. Depending on the context, one does not know which variable gets picked. Elastic-net is a compromise between the two that attempts to shrink and do a sparse selection simultaneously.
++ <<Ridge estimators>> are indifferent to multiplicative scaling of the data. That is, if both X and Y variables are multiplied by constants, the coefficients of the fit do not change, for a given λλ parameter. However, for Lasso, the fit is not independent of the scaling. In fact, the λλ parameter must be scaled up by the multiplier to get the same result. It is more complex for elastic net.
++ Ridge penalizes the largest ββ's more than it penalizes the smaller ones (as they are squared in the penalty term). Lasso penalizes them more uniformly. This may or may not be important. In a forecasting problem with a powerful predictor, the predictor's effectiveness is shrunk by the Ridge as compared to the Lasso.
+
+
+
+# Research approach
+
+From the *Goals* section above, your study should respond to the following:
+
+1) Identify important factors that capture the chance of a readmission within 30 days. 
+
+The set of available predictors is not limited to the raw variables in the data set. You may engineer any factors using the data, that you think will improve your model's quality.
+
+2) For the purpose of classification, propose a model that can be used to predict whether a patient will be a readmit within 30 days. Justify your choice. Hint: use a decision criterion, such as AUC, to choose among a few candidate models.
+
+Based on a quick and somewhat arbitrary guess, we estimate it costs twice as much to mislabel a readmission than it does to mislabel a non-readmission. Based on this risk ratio, propose a specific classification rule to minimize the cost. If you find any information that could provide a better cost estimate, please justify it in your write-up and use the better estimate in your answer.
+
+Suggestion: You may use any of the methods covered so far in parts 1) and 2), and they need not be the same. Also keep in mind that a training/testing data split may be necessary. 
+
+# Suggested outline
+
+As you all know, it is very important to present your findings well. To achieve the best possible results you need to understand your audience. 
+
+Your target audience is a manager within the hospital organization. They hold an MBA, are familiar with medical terminology (though you do not need any previous medical knowledge), and have gone through a similar course to our Modern Data Mining with someone like your professor. You can assume thus some level of technical familiarity, but should not let the paper be bogged down with code or other difficult to understand output.
+
+Note then that the most important elements of your report are the clarity of your analysis and the quality of your proposals. 
+
+A suggested outline of the report would include the following components: 
+
+1) Executive Summary
+
+* This section should be accessible by people with very little statistical background (avoid using technical words and no direct R output is allowed)
+* Give a background of the study. You may check the original website or other sources to fill in some details, such as to why the questions we address here are important. 
+* A quick summary about the data.
+* Methods used and the main findings.
+* You may use clearly labelled and explained visualizations.
+* Issues, concerns, limitations of the conclusions. This is an especially important section to be honest in - we might be Penn students, but we are statisticians today.
+
+2) Detailed process of the analysis
+
+i) Data Summary
+
+* Nature of the data, origin
+* Necessary quantitative and graphical summaries
+* Are there any problems with the data?
+* Which variables are considered as input 
+	
+ii) Analyses
+
+* Various appropriate statistical methods: e.g. glmnet
+* Comparisons various models
+* Final model(s)
+
+iii) Conclusion
+
+* Summarize results and the final model
+* Final recommendations
+
+Maintain a good descriptive flow in the text of your report. Use Appendices to display lengthy output. 
+
+iii) Appendix
+	
+* All your R code (code without comments is no good!) if you are not using `rmd` format.
+* Any thing necessary to keep but for which you don’t want them to be in the main report.
+
+# Collaboration
+
+This is an **individual** assignment. We will only allow private Piazza posts for questions. If there are questions that are generally useful, we will release that information.
+--->
+
+
+# Appendix
+
+#### Variable names and detail explanations
+id: variables
+
+Description of variables
+
+The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
+
+**a) Patient identifiers:** 
+
+a. `encounter_id`: unique identifier for each admission 
+b. `patient_nbr`: unique identifier for each patient 
+
+**b) Patient Demographics:** 
+
+`race`, `age`, `gender`, `weight` cover the basic demographic information associated with each patient. `Payer_code` is an additional variable that identifies which health insurance (Medicare /Medicaid / Commercial) the patient holds.
+
+**c) Admission and discharge details:** 
+
+a.	`admission_source_id` and `admission_type_id` identify who referred the patient to the hospital (e.g. physician vs. emergency dept.) and what type of admission this was (Emergency vs. Elective vs. Urgent). 
+b.	`discharge_disposition_id` indicates where the patient was discharged to after treatment.
+
+**d) Patient Medical History:**
+
+a.	`num_outpatient`: number of outpatient visits by the patient in the year prior to the current encounter
+b.	`num_inpatient`: number of inpatient visits by the patient in the year prior to the current encounter
+c.	`num_emergency`: number of emergency visits by the patient in the year prior to the current encounter
+
+**e)	Patient admission details:**
+
+a.	`medical_specialty`: the specialty of the physician admitting the patient
+b.	`diag_1`, `diag_2`, `diag_3`: ICD9 codes for the primary, secondary and tertiary diagnoses of the patient.  ICD9 are the universal codes that all physicians use to record diagnoses. There are various easy to use tools to lookup what individual codes mean (Wikipedia is pretty decent on its own)
+c.	`time_in_hospital`: the patient’s length of stay in the hospital (in days)
+d.	`number_diagnoses`: Total no. of diagnosis entered for the patient
+e.	`num_lab_procedures`: No. of lab procedures performed in the current encounter
+f.	`num_procedures`: No. of non-lab procedures performed in the current encounter
+g.	`num_medications`: No. of distinct medications prescribed in the current encounter
+
+**f)	Clinical Results:**
+
+a.	`max_glu_serum`: indicates results of the glucose serum test
+b.	`A1Cresult`: indicates results of the A1c test
+
+**g)	Medication Details:**
+
+a.	`diabetesMed`: indicates if any diabetes medication was prescribed 
+b.	`change`: indicates if there was a change in diabetes medication
+c.	`24 medication variables`: indicate whether the dosage of the medicines was changed in any manner during the encounter
+
+**h)	Readmission indicator:** 
+
+Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
