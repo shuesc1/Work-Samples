@@ -1,7 +1,7 @@
 ---
 title: "Predicting readmission probability for diabetes inpatients"
 graphics: yes
-date: 'Due: April 2, 2017 at 11:59PM'
+date: 'Due: November 19, 2017 at 11:59PM'
 output:
   html_document:
     number_sections: yes
@@ -18,6 +18,10 @@ header-includes:
 - \fancyfoot[LE,RO]{\thepage}
 ---
 
+```{r, echo=FALSE, fig.align="center", out.width="400px"}
+knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Option1_DiabeticStudy/diabetes1.png")
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(tidy=TRUE, fig.width=6,  fig.height=5, 
                       fig.align='left', dev = 'pdf')
@@ -27,113 +31,50 @@ library(dplyr)     # v 0.5.0
 library(ggplot2)
 library(GGally)
 library(plotrix)
+library(randomForest)
+library(tree)
+library(rpart)
+library(rpart.plot)
+library(pROC)
+library(partykit)
+library(gbm)
 ```
-<!---
-# Instructions
 
-* This project is due at **11:59pm on Sunday, April. 2, 2017.**
-* It is an individual project, amounting to 15% of your final grade. See the *Collaboration* section at the bottom of this document.
-* There is no single correct answer. You will be graded on the general quality of your work. 
-* The entire write up should not be more than 10 pages. You may put any supporting documents, code, graphics, or other exhibits into an Appendix, which is not counted in the 10 page limit.
---->
+1) Executive Summary
+* This section should be accessible by people with very little statistical background (avoid using technical words and no direct R output is allowed)
+* Give a background of the study. You may check the original website or other sources to fill in some details, such as to why the questions we address here are important. 
+* A quick summary about the data.
+* Methods used and the main findings.
+* You may use clearly labelled and explained visualizations.
+* Issues, concerns, limitations of the conclusions. This is an especially important section to be honest in - we might be Penn students, but we are statisticians today.
+2) Detailed process of the analysis
+i) Data Summary
+* Nature of the data, origin
+* Necessary quantitative and graphical summaries
+* Are there any problems with the data?
+* Which variables are considered as input 
+ii) Analyses
+* Various appropriate statistical methods: e.g. glmnet
+* Comparisons various models
+* Final model(s)
+iii) Conclusion
+* Summarize results and the final model
+* Final recommendations
+Maintain a good descriptive flow in the text of your report. Use Appendices to display lengthy output. 
+iii) Appendix
 
-<!---
-# Introduction
+# Executive Summary
+# Detailed Process of the Analysis
+### Data Summary
+### Modeling & Analyses
+### Conclusion
+# Appendix
 
-## Background
 
-Diabetes is a chronic medical condition affecting millions of Americans, but if managed well, with good diet, exercise and medication, patients can lead relatively normal lives. However, if improperly managed, diabetes can lead to patients being continuously admitted and readmitted to hospitals. Readmissions are especially serious - they represent a failure of the health system to provide adequate support to the patient and are extremely costly to the system. As a result, the Centers for Medicare and Medicaid Services announced in 2012 that they would no longer reimburse hospitals for services rendered if a patient was readmitted with complications within 30 days of discharge.
 
-Given these policy changes, being able to identify and predict those patients most at risk for costly readmissions has become a pressing priority for hospital administrators. 
 
-In this project, we shall explore how to use the techniques we have learned in order to help better manage diabetes patients who have been admitted to a hospital. Our goal is to avoid patients being readmitted within 30 days of discharge, which reduces costs for the hospital and improves outcomes for patients.
-
-The original data is from the [Center for Clinical and Translational Research](https://archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008) at Virginia Commonwealth University. It covers data on diabetes patients across 130 U.S. hospitals from 1999 to 2008. There are over 100,000 unique hospital admissions in this dataset, from ~70,000 unique patients. The data includes demographic elements, such as age, gender, and race, as well as clinical attributes such as tests conducted, emergency/inpatient visits, etc. Refer to the original documentation for more details on the dataset. Three former students Spencer Luster, Matthew Lesser and Mridul Ganesh, brought this data set into the class and did a wonderful final project. We will use a subset processed by the group but with a somewhat different objective.
-
-## Goals of the analysis
-
-1. Identify the factors predicting whether or not the patient will be readmitted within 30 days.
-2. Propose a classification rule to predict if a patient will be readmitted within 30 days. 
-
-### Characteristics of the Data Set
-
-All observations have five things in common:
-
-1.	They are all hospital admissions
-2.	Each patient had some form of diabetes
-3.	The patient stayed for between 1 and 14 days.
-4.	The patient had laboratory tests performed on him/her.
-5.	The patient was given some form of medication during the visit.
-
-The data was collected during a ten-year period from 1999 to 2008. There are over 100,000 unique hospital admissions in the data set, with ~70,000 unique patients. 
-
-### Description of variables
-
-The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
-
-**a) Patient identifiers:** 
-
-a. `encounter_id`: unique identifier for each admission 
-b. `patient_nbr`: unique identifier for each patient 
-
-**b) Patient Demographics:** 
-
-`race`, `age`, `gender`, `weight` cover the basic demographic information associated with each patient. `Payer_code` is an additional variable that identifies which health insurance (Medicare /Medicaid / Commercial) the patient holds.
-
-**c) Admission and discharge details:** 
-
-a.	`admission_source_id` and `admission_type_id` identify who referred the patient to the hospital (e.g. physician vs. emergency dept.) and what type of admission this was (Emergency vs. Elective vs. Urgent). 
-b.	`discharge_disposition_id` indicates where the patient was discharged to after treatment.
-
-**d) Patient Medical History:**
-
-a.	`num_outpatient`: number of outpatient visits by the patient in the year prior to the current encounter
-b.	`num_inpatient`: number of inpatient visits by the patient in the year prior to the current encounter
-c.	`num_emergency`: number of emergency visits by the patient in the year prior to the current encounter
-
-**e)	Patient admission details:**
-
-a.	`medical_specialty`: the specialty of the physician admitting the patient
-b.	`diag_1`, `diag_2`, `diag_3`: ICD9 codes for the primary, secondary and tertiary diagnoses of the patient.  ICD9 are the universal codes that all physicians use to record diagnoses. There are various easy to use tools to lookup what individual codes mean (Wikipedia is pretty decent on its own)
-c.	`time_in_hospital`: the patient’s length of stay in the hospital (in days)
-d.	`number_diagnoses`: Total no. of diagnosis entered for the patient
-e.	`num_lab_procedures`: No. of lab procedures performed in the current encounter
-f.	`num_procedures`: No. of non-lab procedures performed in the current encounter
-g.	`num_medications`: No. of distinct medications prescribed in the current encounter
-
-**f)	Clinical Results:**
-
-a.	`max_glu_serum`: indicates results of the glucose serum test
-b.	`A1Cresult`: indicates results of the A1c test
-
-**g)	Medication Details:**
-
-a.	`diabetesMed`: indicates if any diabetes medication was prescribed 
-b.	`change`: indicates if there was a change in diabetes medication
-c.	`24 medication variables`: indicate whether the dosage of the medicines was changed in any manner during the encounter
-
-**h)	Readmission indicator:** 
-
-Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
-
-To save your time we are going to use some data sets cleaned by the group. Thus, we provide two datasets:
-
-**`diabetic.data.csv`** is the original data. You may use it for the purpose of summary if you wish. You will see that the original data can’t be used directly for your analysis, yet. 
-
-**`readmission.csv`** is a cleaned version and they are modified in the following ways:
-
-1) `Payer code`, `weight` and `Medical Specialty` are not included since they have a large number of missing values. 
-
-2) Variables such as `acetohexamide` (col 30), `glimepiride.pioglitazone` (45), `metformin.rosiglitazone`(46), `metformin.pioglitazone`(47) have little variability, and are as such excluded. This also includes the following variables: `chlorpropamide`(28), `acetohexamide`(30), `tolbutamide`(33), `acarbose`(36), `miglitor`(37), `troglitazone`(38), `tolazamide`(39), `examide`(40), `citoglipton`(41), `glyburide.metformin`(43), `glipizide.metformin`(44), and `glimepiride.pioglitazone`(45).
-
-3) Some categorical variables have been regrouped. For example, `Diag1_mod` keeps some original levels with large number of patients and aggregates other patients as `others`. This process is known as 'binning.'
-		
-4) The event of interest is **readmitted within < 30 days**. Note that you need to create this response first by regrouping **Readmission indicator**!
---->
-
-# Exploratory Data Analysis
-
-```{r}
+<!--- Dataset characteristics --->
+```{r, eval=FALSE, echo=FALSE}
 ## =============================  STANDARD EDA TECHNIQUES ==============================
 
 ## <<<< READING IN DATA >>>
@@ -151,14 +92,14 @@ summary(df.full$readmitted)
 # ====== CLEANED DATASET ====
 data1 <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 dim(data1) #101766 observations x 50 variables
-tail(data1, 20)
+#tail(data1, 20)
 # head(data1, 20)
 # View(data1)
 
 data1 <- data1[ -c(6, 11:12, 28, 30, 33, 36:41, 43:47) ]# getting rid of unhelpful vars
-names(data1)
-dim(data1) # 101766 x 33
-summary(data1)
+#names(data1)
+#dim(data1) # 101766 x 33
+#summary(data1)
 
 # <<<<<<<<<< NA VALUES >>>>>>>>>
 sum(is.na(data1))
@@ -176,7 +117,8 @@ sapply(data1, function(x) sum(is.na(x))) # no 0 values
 summary(data1$readmitted)
 #  <30   >30    NO 
 # 11357 35545 54864 
-
+perc.less30 <- 11357/(35545+54864)
+perc.less30 #13%
 ```
 
 
@@ -252,8 +194,7 @@ pct.oth <- round(slices.oth/sum(slices.oth)*100)
 lbls.oth <- paste(lbls.oth, "-(",pct.oth, ")") # add percents to labels 
 lbls.oth <- paste(lbls.oth,"%",sep="") # ad % to labels 
 
-
-
+# ---Pie charts of RACE----
 par(mfrow = c(3, 2))
 pie(slices.afamer,labels = lbls.afamer, col=rainbow(length(lbls.afamer)),
   	main="Pie Chart of African American Readmits")
@@ -384,6 +325,22 @@ hist(readmit_more30.diag$number_diagnoses)
 
 There consistently seems to be a large spike in frequency around 9 diagnoses. 
 
+##### Age vs. num medications
+
+```{r}
+summary(data1$age) #scatterplot
+summary(data1$num_medications)
+#<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
+help(plot)
+plot(data1$num_medications, data1$age,
+     pch = 20,
+     col=data1$readmitted,
+     xlab = "Patient number medications",
+     ylab = "patient age",
+     main = "Patient medication number vs. age")
+```
+
+
 <!--- ================================================================================================================================ --->
 <!--- ========================================== MODEL BUILDING ====================================================================== --->
 <!--- ================================================================================================================================ --->
@@ -394,12 +351,12 @@ There consistently seems to be a large spike in frequency around 9 diagnoses.
 
 Some of the features provided seem like they might be highly correlated with one another. In particular, diagnoses & health indicator information, as well as hospital visit information.
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 # hospital visit info
 data1 %>%
   select_if(is.numeric) %>%
   select(time_in_hospital, num_lab_procedures, num_procedures, num_medications, number_outpatient, number_emergency, number_inpatient, number_diagnoses) %>%
-  pairs() # base pair-wise scatter plots
+  pairs(col=data1$readmitted) # base pair-wise scatter plots
 ```
 
 
@@ -416,11 +373,11 @@ data1 %>%
 ```{r}
 # <<<< make readmitted categorical>>>
 # ======= readmitted = column 33 =======
-summary(data1)
-names(data1)
-summary(data1$readmitted) # needs to be changed to categorical
+# summary(data1)
+# names(data1)
+# summary(data1$readmitted) # needs to be changed to categorical
 data1$readmitted <- factor(ifelse(data1$readmitted == "<30", "1", "0")) # if it's a less than 30 day readmit make it 1, else make it zero
-summary(data1$readmitted) # agrees with prior numbers
+# summary(data1$readmitted) # agrees with prior numbers
 #     0     1 
 # 90409 11357 
 
@@ -440,10 +397,14 @@ names(data1)
 # filtering/ categorical data w/ if/else statement
 #readmit_less30.diag <- filter(data1, readmitted == "<30")
 #bill.data.train$status <- factor(ifelse(bill.data.train$status=="bill:passed" | bill.data.train$status=="governor:signed" | bill.data.train$status=="governor:received", "1", "0"))
-  
+summary(data1)  
+table(data1$age)
+# levels(data1$diag_1) #717
+# levels(data1$diag_2) #749
+# levels(data1$diag_3) #790 
 ```
 
-#### Initial modeling
+### Initial modeling
 
 ```{r}
 # an initial linear model using probably variables
@@ -610,6 +571,7 @@ Anova(fit.min.lm.13)
 
 The resulting original model obtained by LASSO regularization has 9 variables, 3 of which have multiple levels: 
 
+##TODO redo this to reflect multiple logistic regression
 $ \hat Y = age + .02 * time\_in\_hospital - .03 * num\_procedures + .005 * num\_medications + .033 * number\_emergency + .27 * number\_inpatient + .04 * number\_diagnoses + insulin + diabetesMed - 4.151 $
 
 ```{r}
@@ -624,11 +586,156 @@ Prediction:
 ```{r}
 #nrow(data1) # 99493
 pred.row <- data1[99493,] #take last observation for prediction
-#pred.row
+pred.row
 fit13.predict <- predict(fit.min.lm.13, pred.row, type="response")
 fit13.predict #0.08535637
 ```
 Doing a simple prediction with this model using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 8.5%. I'll use this value later to compare the effectiveness of this model. 
+
+
+##### Classifier and threshold 
+<!-- Based on a quick and somewhat arbitrary guess, we estimate it costs twice as much to mislabel a readmission than it does to mislabel a non-readmission. Based on this risk ratio, propose a specific classification rule to minimize the cost. If you find any information that could provide a better cost estimate, please justify it in your write-up and use the better estimate in your answer. -->
+Now that we have a logistic model to serve as a classifier we have to choose a probability threshold for what will be classified as a likely readmit <30 days, and what will not be classified as such. The goal will obviously be to minimize misclassification error (false positives & false negatives out of total observations). Due to the fact that we have estimated that mislabeling a readmission will incur a cost twice that of mislabeling a non-readmission we can use Bayes rule to take into account the weight of these potential losses. According to Bayes' rule we have:
+
+$$P(Y=1 \vert x) > \frac{\frac{a_{0,1}}{a_{1,0}}}{1 + \frac{a_{0,1}}{a_{1,0}}}$$
+Which given our cost estimation becomes: 
+
+$$P(Y=1 \vert x) > \frac{\frac{1}{2}}{1 + \frac{1}{2}} = .33$$
+$$logit > \log(\frac{0.33}{0.66})=-0.69$$
+
+```{r}
+summary(fit.min.lm.13)
+nrow(data1)
+fit13.pred.bayes <- rep("0", 99493)
+# fit13.pred.bayes
+fit13.pred.bayes[fit.min.lm.13$fitted.values > 0.33] = "1"
+MCE.bayes = (sum(2*(fit13.pred.bayes[data1$readmitted == "1"] != "1")) + sum(fit13.pred.bayes[data1$readmitted == "0"] != "0"))/length(data1$readmitted)
+MCE.bayes #0.2225885
+```
+
+After using the information about false positives costing twice as much as false negatives to establish a threshold we see that the resulting mis-classification error is 22%, ie roughly 1 out of 5 patients would be mis-classified with this model and threshold.
+
+##### Using testing data to assess classifier
+
+```{r}
+library(pROC)
+data.lastrow <- data1[-nrow(data1),] # last row out
+dim(data1) #99493    31
+# ~100,000, so 20% for testing would be ~20,000
+N <- length(data1$readmitted)
+set.seed(20)
+index.train <- sample(N, 80000)
+data.train <- data1[index.train,]
+data.test <- data1[-index.train,]
+# pairs(data.test, col=data.test$readmitted)
+# dim(data.train) #80,000
+# dim(data.test) #19,493
+input.testtrain = readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
+fit.train <- glm(input.testtrain, data=data.train, family=binomial)
+fit.fitted.test <- predict(fit.train, data.test, type="response")
+fit.test.roc <- roc(data.test$readmitted, fit.fitted.test, plot=T)
+```
+
+While we now have a working model to predict patient readmission <30 days, for the sake of due diligence I will investigate other model building techniques to construct another possible model.
+
+### Second model approach: random forests for classification
+
+The second approach to model building will use random forests to ascertain a classifier.
+
+```{r}
+set.seed(1)
+summary(data1)
+levels(data1$diag_3)
+names(data1)
+fit.rf <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data1, mtry=8, ntree=5) #removing vars with too many levels
+# names(fit.rf)
+fit.rf$votes[0:20,] #prob of 0s and 1s using oobs
+fit.rf$predicted[0:20]
+fit.rf$err.rate #mis-classification errors of oob's 0/1
+# Out-of-bag (OOB) error, also called out-of-bag estimate, is a method of measuring the prediction error of random forests, boosted decision trees, and other machine learning models utilizing bootstrap aggregating to sub-sample data samples used for training. OOB is the mean prediction error on each training sample xᵢ, using only the trees that did not have xᵢ in their bootstrap sample.
+predict(fit.rf, data1)[1:20]
+# data.frame(fit.rf$votes[1:20,], fit.rf$predicted[1:20], predict(fit.rf, data1)[1:20])
+plot(fit.rf)
+```
+
+Note that the variables `diag_1`, `diag_2`, and `diag_3` were all removed from modeling to begin with due to the fact that they all have over 700 categories. We can see using a forest with just a few number of trees results in mean prediction error of around 20% (less than desirable). Expanding the number of trees used we get:
+
+```{r}
+fit.rf.full <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data1, mtry=5, ntree=100)
+plot(fit.rf.full)
+fit.rf.pred <- predict(fit.rf.full, type="prob")
+fit.rf.pred.y <- predict(fit.rf.full, type = "response")
+mean(data1$readmitted != fit.rf.pred.y) #training misclassification error is 0.1123295
+```
+
+As the graph shows when we expand the number of trees in the forest to 500 we get a misclassification error now around 11%. To assure overfitting in this model we now split the dataset into training (80%) and testing data (20% of original data). Plotting the model using the training data:
+
+```{r}
+# using testing and training data 
+set.seed(10)
+n <- nrow(data1)
+n1 <- (4/5)*n
+train.index.rf <- sample(n, n1, replace = FALSE)
+length(train.index.rf) #79594
+
+#random forest training data -- 80% of original data
+data.train.rf <- data1[train.index.rf,]
+
+#random forest testing data -- remaing 20% of original data
+data.test.rf <- data1[-train.index.rf,]
+
+#fitting a model with training data
+fit.rf.train <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data.train.rf)
+plot(fit.rf.train)
+```
+This plot is almost identical to the full dataset findings (which is good).
+
+```{r}
+predict.rf.y2 <- predict(fit.rf.train, newdata = data.test.rf)
+predict.rf2 <- predict(fit.rf.train, newdata = data.test.rf, type="prob")
+mean(data.test.rf$readmitted != predict.rf.y2) #0.1118649 /  0.1108096
+fit.rf.train.roc <- roc(data.test.rf$readmitted, predict.rf2[,2], plot = TRUE)
+```
+
+We now have 2 classifiers (one from logistic regression and now one using random forests), and thus have 2 ROC curves to compare:
+
+```{r}
+fit.train
+# fit.test.roc #roc curve LASSO, logistic regression, manual backwards elimination
+# summary(fit.rf.train) #random forest w/ B= 500 trees, mtry = 5
+fit.rf.train
+# fit.rf.train.roc #roc curve random forest
+
+plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
+     xlab = paste("AUC(fit.fitted.test) =",
+                  round(auc(fit.test.roc),2),
+                  " AUC(pred.rf2) =",
+                  round(auc(fit.rf.train.roc),2) ),
+    ylab = "Sensitivities")
+
+points(1-fit.rf.train.roc$specificities, fit.rf.train.roc$sensitivities, col="blue", pch=20)
+legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf2 using random forest"),
+       lty=c(1,1), lwd=c(2,2), col=c("red","blue"))
+# title("Comparison of logistic and random forest model for prediction patient readmission")
+title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
+
+#true positive rate (sensitivity) against the false positive rate (1-specificity)
+```
+
+We can see that when comparing the two classifiers that in terms of area under the curve alone the random forest model is better by only .01. More importantly, the logistic regression model outperforms the random forest model, but only when the false positive rate is above 70%. When the false positive rate is below this -- below 50% in particular -- the random forest clearly provides a better true positive rate (sensitivity). 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!---
 To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
@@ -715,6 +822,10 @@ Description of variables
 
 The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
 
+|Category|Variable|Description|
+|--------|--------|-----------|
+|Patient identifiers|`encounter_id`|unique identifier for each admission|
+
 **a) Patient identifiers:** 
 
 a. `encounter_id`: unique identifier for each admission 
@@ -759,3 +870,192 @@ c.	`24 medication variables`: indicate whether the dosage of the medicines was c
 **h)	Readmission indicator:** 
 
 Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
+
+<!---
+# Instructions
+
+* This project is due at **11:59pm on Sunday, April. 2, 2017.**
+* It is an individual project, amounting to 15% of your final grade. See the *Collaboration* section at the bottom of this document.
+* There is no single correct answer. You will be graded on the general quality of your work. 
+* The entire write up should not be more than 10 pages. You may put any supporting documents, code, graphics, or other exhibits into an Appendix, which is not counted in the 10 page limit.
+--->
+
+<!---
+# Introduction
+
+## Background
+
+Diabetes is a chronic medical condition affecting millions of Americans, but if managed well, with good diet, exercise and medication, patients can lead relatively normal lives. However, if improperly managed, diabetes can lead to patients being continuously admitted and readmitted to hospitals. Readmissions are especially serious - they represent a failure of the health system to provide adequate support to the patient and are extremely costly to the system. As a result, the Centers for Medicare and Medicaid Services announced in 2012 that they would no longer reimburse hospitals for services rendered if a patient was readmitted with complications within 30 days of discharge.
+
+Given these policy changes, being able to identify and predict those patients most at risk for costly readmissions has become a pressing priority for hospital administrators. 
+
+In this project, we shall explore how to use the techniques we have learned in order to help better manage diabetes patients who have been admitted to a hospital. Our goal is to avoid patients being readmitted within 30 days of discharge, which reduces costs for the hospital and improves outcomes for patients.
+
+The original data is from the [Center for Clinical and Translational Research](https://archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008) at Virginia Commonwealth University. It covers data on diabetes patients across 130 U.S. hospitals from 1999 to 2008. There are over 100,000 unique hospital admissions in this dataset, from ~70,000 unique patients. The data includes demographic elements, such as age, gender, and race, as well as clinical attributes such as tests conducted, emergency/inpatient visits, etc. Refer to the original documentation for more details on the dataset. Three former students Spencer Luster, Matthew Lesser and Mridul Ganesh, brought this data set into the class and did a wonderful final project. We will use a subset processed by the group but with a somewhat different objective.
+
+## Goals of the analysis
+
+1. Identify the factors predicting whether or not the patient will be readmitted within 30 days.
+2. Propose a classification rule to predict if a patient will be readmitted within 30 days. 
+
+### Characteristics of the Data Set
+
+All observations have five things in common:
+
+1.	They are all hospital admissions
+2.	Each patient had some form of diabetes
+3.	The patient stayed for between 1 and 14 days.
+4.	The patient had laboratory tests performed on him/her.
+5.	The patient was given some form of medication during the visit.
+
+The data was collected during a ten-year period from 1999 to 2008. There are over 100,000 unique hospital admissions in the data set, with ~70,000 unique patients. 
+
+### Description of variables
+
+The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
+
+**a) Patient identifiers:** 
+
+a. `encounter_id`: unique identifier for each admission 
+b. `patient_nbr`: unique identifier for each patient 
+
+**b) Patient Demographics:** 
+
+`race`, `age`, `gender`, `weight` cover the basic demographic information associated with each patient. `Payer_code` is an additional variable that identifies which health insurance (Medicare /Medicaid / Commercial) the patient holds.
+
+**c) Admission and discharge details:** 
+
+a.	`admission_source_id` and `admission_type_id` identify who referred the patient to the hospital (e.g. physician vs. emergency dept.) and what type of admission this was (Emergency vs. Elective vs. Urgent). 
+b.	`discharge_disposition_id` indicates where the patient was discharged to after treatment.
+
+**d) Patient Medical History:**
+
+a.	`num_outpatient`: number of outpatient visits by the patient in the year prior to the current encounter
+b.	`num_inpatient`: number of inpatient visits by the patient in the year prior to the current encounter
+c.	`num_emergency`: number of emergency visits by the patient in the year prior to the current encounter
+
+**e)	Patient admission details:**
+
+a.	`medical_specialty`: the specialty of the physician admitting the patient
+b.	`diag_1`, `diag_2`, `diag_3`: ICD9 codes for the primary, secondary and tertiary diagnoses of the patient.  ICD9 are the universal codes that all physicians use to record diagnoses. There are various easy to use tools to lookup what individual codes mean (Wikipedia is pretty decent on its own)
+c.	`time_in_hospital`: the patient’s length of stay in the hospital (in days)
+d.	`number_diagnoses`: Total no. of diagnosis entered for the patient
+e.	`num_lab_procedures`: No. of lab procedures performed in the current encounter
+f.	`num_procedures`: No. of non-lab procedures performed in the current encounter
+g.	`num_medications`: No. of distinct medications prescribed in the current encounter
+
+**f)	Clinical Results:**
+
+a.	`max_glu_serum`: indicates results of the glucose serum test
+b.	`A1Cresult`: indicates results of the A1c test
+
+**g)	Medication Details:**
+
+a.	`diabetesMed`: indicates if any diabetes medication was prescribed 
+b.	`change`: indicates if there was a change in diabetes medication
+c.	`24 medication variables`: indicate whether the dosage of the medicines was changed in any manner during the encounter
+
+**h)	Readmission indicator:** 
+
+Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
+
+To save your time we are going to use some data sets cleaned by the group. Thus, we provide two datasets:
+
+**`diabetic.data.csv`** is the original data. You may use it for the purpose of summary if you wish. You will see that the original data can’t be used directly for your analysis, yet. 
+
+**`readmission.csv`** is a cleaned version and they are modified in the following ways:
+
+1) `Payer code`, `weight` and `Medical Specialty` are not included since they have a large number of missing values. 
+
+2) Variables such as `acetohexamide` (col 30), `glimepiride.pioglitazone` (45), `metformin.rosiglitazone`(46), `metformin.pioglitazone`(47) have little variability, and are as such excluded. This also includes the following variables: `chlorpropamide`(28), `acetohexamide`(30), `tolbutamide`(33), `acarbose`(36), `miglitor`(37), `troglitazone`(38), `tolazamide`(39), `examide`(40), `citoglipton`(41), `glyburide.metformin`(43), `glipizide.metformin`(44), and `glimepiride.pioglitazone`(45).
+
+3) Some categorical variables have been regrouped. For example, `Diag1_mod` keeps some original levels with large number of patients and aggregates other patients as `others`. This process is known as 'binning.'
+		
+4) The event of interest is **readmitted within < 30 days**. Note that you need to create this response first by regrouping **Readmission indicator**!
+--->
+
+<!--- BOOSTING
+```{r}
+set.seed(30)
+data.boosting <- data1[sample(nrow(data1)),]
+#summary(data.boosting)
+# ntree <- 200
+boost.in <-  readmitted~. -diag_1 -diag_2 -diag_3
+# fit.boost <- gbm(boost.in, data = data.boosting, distribution = "gaussian", n.trees = ntree, interaction.depth = 2, train.fraction = .7)
+# names(fit.boost)
+# fit.boost$fit
+# fit.boost$train.error
+# fit.boost$valid.error
+# yhat <- predict(fit.boost, newdata = data.boosting, n.trees = ntree)
+# yhat
+# gbm.perf(fit.boost, plot.it = TRUE, method = "test")
+
+#investigate test/training error
+ntree <- 10000
+fit.boost <- gbm(boost.in, data = data.boosting, distribution = "gaussian", n.trees = ntree, interaction.depth = 2, train.fraction = .7)
+gbm.perf(fit.boost, method="test")
+min(fit.boost$valid.error)
+min(fit.boost$train.error)
+# length(fit.boost$train.error) #10000
+# fit.boost[which.min(df$Amount),]
+# class(fit.boost)
+# which(fit.boost$train.error == 0.09526856)
+```
+
+Originally ran boosting with 2000 trees but a plot seemed to suggest that more trees would result in 
+
+
+```{r}
+# using testing and training data
+nrow(data.boosting) #99493
+n.t <- floor(.7*99493)
+data.train.boost <- data.boosting[1:n.t,]
+data.test.boost <- data.boosting[-(1:n.t),]
+B <- gbm.perf(fit.boost, method="test") #optimal number of trees
+B #10000
+yhat <- predict(fit.boost,newdata = data.test.boost, n.trees = B)
+length(yhat) #29848
+yhat
+length(data.test.boost$readmitted)
+#fit.boost.test <- (mean(yhat != data.test.boost$readmitted))^2 #testing error for boosting
+sum(yhat != data.test.boost$readmitted) #all different -> reject
+```
+--->
+
+
+
+<!---
+##### Modeling a single tree for interpretation purposes
+
+```{r}
+# summary(data1)
+# fit.1tree <- tree(readmitted~. -diag_1 -diag_2 -diag_3, data1,
+#                   control=tree.control(nrow(data1), mindev = 0.005),
+#                   split="deviance")
+# plot(fit.1tree)
+# text(fit.1tree, pretty=TRUE)
+data2 <- na.omit(data1)
+# summary(data2)
+# str(data2)
+# fit.1tree <- rpart(readmitted~. -diag_1 -diag_2 -diag_3, data2, minsplit=1, cp=9e-3)
+fit.1tree <- rpart(input.testtrain, data2, minsplit=5, cp=9e-3)
+# plot(as.party(fit.1tree), main="Final tree with Rpart")
+plot(fit.1tree)
+fit.1tree
+```
+--->
+
+
+<!---
+##### Trying model building with bestglm() function
+
+```{r}
+library(bestglm)
+best.input <- readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
+Xy <- model.matrix(best.input, data1)
+Xy <- data.frame(Xy, data1$readmitted)
+# str(Xy)
+fit.best <- bestglm(Xy, family = binomial, method = "exhaustive", intercept = FALSE, IC = "AIC", nvmax = 10, data = data1)
+```
+never again
+--->
