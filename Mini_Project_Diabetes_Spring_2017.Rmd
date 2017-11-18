@@ -82,7 +82,7 @@ iii) Appendix
 # bill.data.test <- read.csv("Bills.subset.test.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 df.full <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 dim(df.full) # 101,766 observations x 50 variables
-# head(df.full, 30)
+head(df.full, 30)
 # View(df.full)
 # summary(df.full)
 summary(df.full$readmitted)
@@ -765,7 +765,10 @@ fit.bwd.summary$cp[11] #62.00059
 lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
 
 # <<< backward >>>
-lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + insulin + race"
+lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race + insulin"
+
+# for comparison -- from manual backwards elimination
+#             readmitted ~ age + number_inpatient + number_diagnoses + insulin + time_in_hospital + num_procedures + num_medications + number_emergency + diabetesMed
 ```
 
 Putting the variables chosen from forward & backward selection we see that the results are almost identical. The only difference is that backward selection pointed to the importance of one more variable than forward selection, `insulin`. For this reason I've chosen to take the variables from backward selection as the inputs for a logistic regession model.
@@ -822,12 +825,15 @@ fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T
 
 ### Comparing intial 2 classifiers
 
+Actually all 3 classifiers
 ```{r}
 plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
      xlab = paste("AUC(fit.fitted.test) =",
                   round(auc(fit.test.roc),2),
                   " AUC(pred.rf2) =",
-                  round(auc(fit.rf.train.roc),2) ),
+                  round(auc(fit.rf.train.roc),2),
+                  " AUC(fit.test.roc.log2) =",
+                  round(auc(fit.test.roc.log2),2)),
     ylab = "Sensitivities")
 
 points(1-fit.rf.train.roc$specificities, fit.rf.train.roc$sensitivities, col="blue", pch=20)
