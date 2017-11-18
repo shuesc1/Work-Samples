@@ -82,7 +82,7 @@ iii) Appendix
 # bill.data.test <- read.csv("Bills.subset.test.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 df.full <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 dim(df.full) # 101,766 observations x 50 variables
-head(df.full, 30)
+# head(df.full, 30)
 # View(df.full)
 # summary(df.full)
 summary(df.full$readmitted)
@@ -637,6 +637,212 @@ fit.test.roc <- roc(data.test$readmitted, fit.fitted.test, plot=T)
 ```
 
 While we now have a working model to predict patient readmission <30 days, for the sake of due diligence I will investigate other model building techniques to construct another possible model.
+
+<!---
+=======================================================================================================================================================
+=================================================== LASSO & MODEL SELECTION ===============================================================================
+=======================================================================================================================================================
+--->
+
+### Model building using non-zero coefficients from LASSO with forward & backward stepwise selection
+
+As a reminder the non-zero coefficients given by LASSO were:
+
+```
+readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed
+```
+
+```{r}
+lm.input
+```
+
+
+#### All subsets selection
+
+```{r eval=FALSE}
+#==============Obtaining final model with model selection===================
+#<<<<<<All subsets>>>>>>>
+fit.exh <- regsubsets(lm.input, data1, nvmax=22, method="exhaustive")
+names(fit.exh)
+summary(fit.exh)
+exh.summary <- summary(fit.exh)
+names(exh.summary)
+exh.summary$rsq
+par(mfrow=c(2,2))
+plot(exh.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
+plot(exh.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
+which.max(exh.summary$adjr2)
+points(which.max(exh.summary$adjr2),exh.summary$adjr2[which.max(exh.summary$adjr2)], col="red",cex=2,pch=20) #5 variables
+plot(exh.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
+which.min(exh.summary$cp)
+points(which.min(exh.summary$cp),exh.summary$cp[which.min(exh.summary$cp)],col="red",cex=2,pch=20) # 5 variables
+plot(exh.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
+points(which.min(exh.summary$bic),exh.summary$bic[which.min(exh.summary$bic)],col="red",cex=2,pch=20) # 4 variables
+# let's go with 5 variables
+coef.exh <- coef(fit.exh,5)
+var.min <- rownames(as.matrix(coef.exh)) # output the names
+print("============5 variable model using all subsets==========")
+lm.input2 <- as.formula(paste("violentcrimes.perpop", "~", paste(var.min[-1], collapse = "+"))) 
+lm.input2
+coef.exh
+print("============BIC & Cp with 5 variables==========")
+exh.summary$bic[5] # -397.9771
+exh.summary$cp[5] # 6
+```
+
+#### Forward stepwise selection
+
+```{r eval=FALSE}
+#<<<<<<Forward stepwise selection>>>>>>>
+library(leaps)
+fit.fwd=regsubsets(readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed,data=data1 ,nvmax =22, method ="forward")
+summary(fit.fwd)
+fit.fwd.summary <-summary(fit.fwd)
+names(fit.fwd.summary)
+# criteria plots
+par(mfrow=c(2,2))
+plot(fit.fwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
+plot(fit.fwd.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
+which.max(fit.fwd.summary$adjr2)
+points(23,fit.fwd.summary$adjr2[23], col="red",cex=2,pch=20) # 23 variables
+plot(fit.fwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
+which.min(fit.fwd.summary$cp)
+points(which.min(fit.fwd.summary$cp),fit.fwd.summary$cp[which.min(fit.fwd.summary$cp)],col="red",cex=2,pch=20) # 23 variables
+plot(fit.fwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
+which.min(fit.fwd.summary$bic)
+points(which.min(fit.fwd.summary$bic),fit.fwd.summary$bic[which.min(fit.fwd.summary$bic)],col="red",cex=2,pch=20) # 7 variables
+# choose to go with 7 variables --> choice that minimizes BIC
+coef.fit.fwd <- coef(fit.fwd,7)
+var.min <- rownames(as.matrix(coef.fit.fwd)) # output the names
+var.min
+print("============ 7 variable model using forwards stepwise selection==========")
+# lm.input3 <- as.formula(paste("readmitted", "~", paste(var.min[-1], collapse = "+"))) # prepare for lm fomulae
+lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
+coef.fit.fwd
+print("============BIC & Cp with 7 variables==========")
+fit.fwd.summary$bic[7] #-2984.638
+fit.fwd.summary$cp[7] #85.77953
+```
+
+
+#### Backward stepwise selection
+```{r eval=FALSE}
+#<<<<<<Backward stepwise selection>>>>>>>
+fit.bwd=regsubsets(readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed, data=data1 ,nvmax =22,method ="backward")
+summary(fit.bwd)
+fit.bwd.summary <-summary(fit.bwd)
+names(fit.bwd.summary)
+# criteria plots
+par(mfrow=c(2,2))
+plot(fit.bwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
+plot(fit.bwd.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
+which.max(fit.bwd.summary$adjr2)
+points(which.max(fit.bwd.summary$adjr2),fit.bwd.summary$adjr2[which.max(fit.bwd.summary$adjr2)], col="red",cex=2,pch=20) # 23 variables
+plot(fit.bwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
+which.min(fit.bwd.summary$cp)
+points(which.min(fit.bwd.summary$cp),fit.bwd.summary$cp[which.min(fit.bwd.summary$cp)],col="red",cex=2,pch=20) # 23 variables
+plot(fit.bwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
+which.min(fit.bwd.summary$bic)
+points(which.min(fit.bwd.summary$bic),fit.bwd.summary$bic[which.min(fit.bwd.summary$bic)],col="red",cex=2,pch=20) # 11 variables
+# choose to go with 11 variables
+coef.fit.bwd <- coef(fit.bwd,11)
+var.min <- rownames(as.matrix(coef.fit.bwd)) # output the names -- SEVERAL WERE multi-level repeats
+var.min
+print("============ 11 variable model using backwards stepwise==========")
+# lm.input4 <- as.formula(paste("violentcrimes.perpop", "~", paste(var.min[-1], collapse = "+"))) 
+
+## due to mult levels for same variable there are actually only 8 vars
+lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + insulin + race"
+coef.fit.bwd
+print("============BIC with 8 variables==========")
+fit.bwd.summary$bic[11] #-2970.369
+fit.bwd.summary$cp[11] #62.00059
+```
+
+```{r}
+# OUTPUTS from forward & backward stepwise selection:
+# <<< forward >>>
+lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
+
+# <<< backward >>>
+lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + insulin + race"
+```
+
+Putting the variables chosen from forward & backward selection we see that the results are almost identical. The only difference is that backward selection pointed to the importance of one more variable than forward selection, `insulin`. For this reason I've chosen to take the variables from backward selection as the inputs for a logistic regession model.
+
+```{r}
+# LASSO --> forward/backward selection --> best vars are from backward --> logistic regression
+fit.log.2 <- glm(lm.input4, data1, family= binomial)
+# summary(fit.log.2)
+Anova(fit.log.2)
+
+# removing race - P ~.75
+fit.log.2.1 <- update(fit.log.2, .~. - race)
+Anova(fit.log.2.1)
+
+# removing max_glu_serum - p = 0.152725 
+fit.log.2.2 <- update(fit.log.2.1, .~. - max_glu_serum)
+Anova(fit.log.2.2)
+summary(fit.log.2.2)
+```
+
+After removing `race` and `max_glu_serum` all variables are significant at the .05 level according to the Anova test. 
+
+```{r}
+# treating as classifier and assessing fit
+nrow(data1) #99493
+fit.log2.pred <- rep("0", 99493)
+# fit.log2.pred
+fit.log2.pred[fit.log.2.2$fitted.values > 0.33] = "1"
+MCE.log2 = (sum(2*(fit.log2.pred[data1$readmitted == "1"] != "1")) + sum(fit.log2.pred[data1$readmitted == "0"] != "0"))/length(data1$readmitted)
+MCE.log2 #0.2225383
+```
+
+##### Using testing data to assess classifier
+
+```{r}
+library(pROC)
+data.lastrow <- data1[-nrow(data1),] # last row out
+dim(data1) #99493    31
+# ~100,000, so 20% for testing would be ~20,000
+N <- length(data1$readmitted)
+set.seed(20)
+index.train.log2 <- sample(N, 80000)
+data.train.log2 <- data1[index.train.log2,]
+data.test.log2 <- data1[-index.train.log2,]
+# pairs(data.test, col=data.test$readmitted)
+# dim(data.train) #80,000
+# dim(data.test) #19,493
+input.testtrain.log2 = readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + metformin + insulin
+fit.train.log2 <- glm(input.testtrain.log2, data=data.train.log2, family=binomial)
+fit.fitted.test.log2 <- predict(fit.train.log2, data.test.log2, type="response")
+
+fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T)
+```
+
+### Comparing intial 2 classifiers
+
+```{r}
+plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
+     xlab = paste("AUC(fit.fitted.test) =",
+                  round(auc(fit.test.roc),2),
+                  " AUC(pred.rf2) =",
+                  round(auc(fit.rf.train.roc),2) ),
+    ylab = "Sensitivities")
+
+points(1-fit.rf.train.roc$specificities, fit.rf.train.roc$sensitivities, col="blue", pch=20)
+points(1-fit.test.roc.log2$specificities, fit.test.roc.log2$sensitivities, col="yellow", pch=20)
+# legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf2 using random forest"),
+#        lty=c(1,1), lwd=c(2,2), col=c("red","blue"))
+# title("Comparison of logistic and random forest model for prediction patient readmission")
+title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
+```
+
+<!---
+=======================================================================================================================================================
+=================================================== LASSO & MODEL SELECTION -- END ====================================================================
+=======================================================================================================================================================
+--->
 
 ### Second model approach: random forests for classification
 
