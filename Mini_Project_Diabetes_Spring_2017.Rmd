@@ -64,8 +64,29 @@ Maintain a good descriptive flow in the text of your report. Use Appendices to d
 iii) Appendix
 
 # Executive Summary
+
+For most of 2017 health care has been in the forefront of public discourse due to president Trump's campaign promise to "repeal and replace (the Affordable Care Act) 'Obamacare'". The majority of the deleterious macro effects these changes would have on the American public have highlighted losses in coverage and the disproportionate effect to lower income and elderly individuals ([source 1](http://money.cnn.com/2017/07/14/news/economy/obamacare-repeal-senate-health-care-bill/index.html),[source 2](https://www.nytimes.com/2017/06/22/us/politics/senate-health-care-bill.html)). To a lesser extent, these appraisals have addressed changes affecting Americans with pre-existing conditions and funding cuts hospitals would experience ([source](https://www.npr.org/sections/health-shots/2017/07/10/535851043/faq-how-would-the-republican-health-care-bills-affect-you)). Even in spite of this ongoing national debate around the topic, healthcare costs and savings in the US are a perennially obtuse topic, even to most Americans. 
+
+This investigation seeks to focus on one particular aspect of healthcare costs and savings in the US: hospitalization costs, specifically the cost of readmitting a diabetes patient in less than 30 days. This inquiry intends to address this issue by providing healthcare providers information about a patient's estimated propensity for readmission in this time period given certain individual factors. It is our hope that the findings here shed light on patient characterisitics influencing readmission, which the care community may then turn into actionable policy and practice changes that both better serve patients as well as reduce readmission costs.   
+
+The dataset analyzed 
+
 # Detailed Process of the Analysis
 ### Data Summary
+
+
+__Data source:__
+Clore, John, et al. “ Diabetes 130-US Hospitals for Years 1999-2008 Data Set .” UCI Machine Learning Repository: Diabetes 130-US Hospitals for Years 1999-2008 Data Set, Center for Clinical and Translational Research, Virginia Commonwealth University, 2014, [archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008](archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008).
+
+__possible problems/complications:__
++ role of early intervention such as health eating programs and exercise regimes a la Michelle Obama's "Let's Move!" campaign. 
++ public health initiative consideration
++ environmental factors -- weather factors, walkability scores, percent car owners, average commute time, food deserts, etc. that may speak to a more sedentary lifestyle and poor eating habits.
++ with the data at hand: correlation of variables
++ better way to ascertain if it was diabetes that caused hospitalization, a concurrent/opportunistic complication, or other illness all together
++ more data from other states -- 
++ data is 1999-2008 but The ACA's major provisions came into force in 2014 -- many of these people would likely have been shut out of certain types of coverage due to pre-existing condition status during that time period. 
+
 ### Modeling & Analyses
 ### Conclusion
 # Appendix
