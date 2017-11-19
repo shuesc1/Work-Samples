@@ -74,11 +74,13 @@ Lastly, their are several problems, solutions, and ideas for further investigati
 
 ### Introduction
 
-################## INTRO ABOUT COST OF READMIT TO HOSPITALS AS WELL AS COST OF DIABETES IN US #########
+=================== INTRO ABOUT COST OF READMIT TO HOSPITALS AS WELL AS COST OF DIABETES IN US ========
 Thus it is clear that hyperglycemia management and treatment is not only a hospital expenditure question, but a public health concern. 
-#############################################################################################################################
+
 
 ### Data Summary
+
+The original data is from the Center for Clinical and Translational Research at Virginia Commonwealth University. It covers data on diabetes patients across 130 U.S. hospitals from 1999 to 2008. There are 101,766 hospital admissions observations in this dataset, with 50 variables describing patients. The cleaned dataset contains only 31 variables. Pairing down was done due to large amounts of missing values (`Payer code`, `weight` and `Medical Specialty`, & entries with a '?' `race` value). Many of the medication variables had little variation and thus were eliminated. Binning was performed on the diagnoses variables. Lastly, `readmitted` was changed to be a categorical variable. The remaining variables still account for many patient characteristics such as demographics, medications, test results, and partial medical history (number of hospital visits, etc.)
 
 <!--- ###################################### Dataset characteristics #################################--->
 ```{r, eval=FALSE, echo=FALSE}
@@ -100,6 +102,7 @@ data1 <- read.csv("readmission.csv", header=TRUE, sep=",", na.strings="") # acco
 #tail(data1, 20)
 # head(data1, 20)
 # View(data1)
+# levels(data1$diag1_mod)
 
 # data1 <- data1[ -c(6, 11:12, 28, 30, 33, 36:41, 43:47) ]# getting rid of unhelpful vars
 #names(data1)
