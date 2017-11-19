@@ -120,7 +120,7 @@ Clore, John, et al. “ Diabetes 130-US Hospitals for Years 1999-2008 Data Set .
 
 #### Variables of interest
 
-For the sake of getting a better idea about the data and trends, I isolated several variables that seem likely to influence readmission. These variables are `readmitted`, `race`, `gender`, `age`, `change`, and `number_diagnoses`, I have summarized and visualized my findings below. 
+For the sake of getting a better idea about the data and trends, I isolated several variables that seem likely to influence readmission. These variables are `readmitted`, `race`, `gender`, and `number_diagnoses` (note: I originally also had `age`, `change`, but they have been moved to the [appendix](#further-eda) for the sake of brevity). I have summarized and visualized my findings below. 
 
 [See appendix for more detailed information on variables](#variable-names-and-detail-explanations)
 
@@ -264,72 +264,6 @@ In the cleaned dataset we have 54708 female observations and 47055 male observat
 There seems to be a gap between genders here implying that women are more prone to readmission, but this is quickly rebuked when we compare the genders in terms of their total observations. For patients who were readmitted in _less_ than 30 days, female patients represent 11.2% (6152/54708) of the total female population, while those who are male represent a similar 11.1% (5205/47055) of the overall male population. The same is true for patients readmitted _over_ 30 days: female patients account for 35.7% (19518/54708) of the total female population, while male patients comprise 34.1% (16027/47055) of the total male population. 
 
 This lends credence to the notion that gender does not contribute to likelihood of readmission. 
-
-##### Age
-
-```{r, echo=FALSE}
-# summary(data1$age_mod) #scatterplot
-# names(data1)
-#<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
-# lm.age <- lm(readmitted~age_mod, data = data1)
-plot(data1$age_mod, data1$readmitted,
-     pch = 16,
-     xlab = "Patient age",
-     ylab = "Readmission category",
-     main = "Patient age vs. readmission category")
-# abline(lm.age, col="red", lwd=4)
-# abline(h=mean(county_data$dem12_frac), lwd=5, col="blue")
-```
-
-It appears that the categories with the largest number of readmits are 60-79 and 80+, which are almost identical. As expected these percentages fall as age category does, though not dramatically. 
-
-##### Change (in diabetes medication)
-
-```{r, echo=FALSE}
-# summary(data1$change) #boxplot - change in diabetes medication
-#    Ch    No 
-# 47011 54755
-
-# <30 readmit patients
-readmit_less30.change <- filter(data1, readmitted == "<30")
-# dim(readmit_less30.change) # 11357 total observations
-# dim(filter(readmit_less30.change, change == "Ch")) #5558 patients with a change of med readmitted <30 days, 48.9% of all patients readmitted <30, 11.8% of all patients with a change in meds
-# dim(filter(readmit_less30.change, change == "No")) #5799 patients with NO change in meds readmitted <30 days, 51.1% of all patients readmitted <30, 10.6% of all patients with NO change in meds
-
-#>30 readmit patients
-readmit_more30.change<- filter(data1, readmitted == ">30")
-# dim(readmit_more30.change) #35545 observations
-# dim(filter(readmit_more30.change, change == "Ch")) #17272
-perc.readmit_more30.ch <- 17272/35545
-# perc.readmit_more30.ch #0.4859193
-perc.all.ch <- 17272/47011
-# perc.all.ch #0.3674034
-# dim(filter(readmit_more30.change, change == "No"))#18273
-perc.readmit_more30.no <- 18273/35545
-# perc.readmit_more30.no #0.5140807
-perc.all.no <- 18273/54755
-# perc.all.no #0.3337229
-
-
-# pie charts 
-par(mfrow = c(2, 1))
-slices.change <- c(5558, 5799) 
-lbls.change <- c("change in medication", "no change in medication")
-pct.change <- round(slices.change/sum(slices.change)*100)
-lbls.change <- paste(lbls.change, "-(",pct.change, ")") # add percents to labels 
-lbls.change <- paste(lbls.change,"%",sep="") # ad % to labels 
-pie(slices.change,labels = lbls.change, col=rainbow(length(lbls.change)),
-  	main="Pie Chart of change in diabetes medication status for patients readmitted <30 days")
-slices.nochange <- c(17272, 18273) 
-lbls.nochange <- c("change in medication", "no change in medication")
-pct.nochange <- round(slices.nochange/sum(slices.nochange)*100)
-lbls.nochange <- paste(lbls.nochange, "-(",pct.nochange, ")") # add percents to labels 
-lbls.nochange <- paste(lbls.nochange,"%",sep="") # ad % to labels 
-pie(slices.nochange,labels = lbls.nochange, col=rainbow(length(lbls.nochange)),
-  	main="Pie Chart of change in diabetes medication status for patients readmitted >30 days")
-```
-
-These figures show that roughly half of both types of readmits experienced a change in medication, while the other half did not. This appears to have little bearing on the outcome.
 
 ##### Number of diagnosis
 
@@ -1207,13 +1141,81 @@ c.	`24 medication variables`: indicate whether the dosage of the medicines was c
 
 Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
 
+### Further EDA
+
+##### Age
+
+```{r, echo=FALSE}
+# summary(data1$age_mod) #scatterplot
+# names(data1)
+#<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
+# lm.age <- lm(readmitted~age_mod, data = data1)
+plot(data1$age_mod, data1$readmitted,
+     pch = 16,
+     xlab = "Patient age",
+     ylab = "Readmission category",
+     main = "Patient age vs. readmission category")
+# abline(lm.age, col="red", lwd=4)
+# abline(h=mean(county_data$dem12_frac), lwd=5, col="blue")
+```
+
+It appears that the categories with the largest number of readmits are 60-79 and 80+, which are almost identical. As expected these percentages fall as age category does, though not dramatically. 
+
+##### Change (in diabetes medication)
+
+```{r, echo=FALSE}
+# summary(data1$change) #boxplot - change in diabetes medication
+#    Ch    No 
+# 47011 54755
+
+# <30 readmit patients
+readmit_less30.change <- filter(data1, readmitted == "<30")
+# dim(readmit_less30.change) # 11357 total observations
+# dim(filter(readmit_less30.change, change == "Ch")) #5558 patients with a change of med readmitted <30 days, 48.9% of all patients readmitted <30, 11.8% of all patients with a change in meds
+# dim(filter(readmit_less30.change, change == "No")) #5799 patients with NO change in meds readmitted <30 days, 51.1% of all patients readmitted <30, 10.6% of all patients with NO change in meds
+
+#>30 readmit patients
+readmit_more30.change<- filter(data1, readmitted == ">30")
+# dim(readmit_more30.change) #35545 observations
+# dim(filter(readmit_more30.change, change == "Ch")) #17272
+perc.readmit_more30.ch <- 17272/35545
+# perc.readmit_more30.ch #0.4859193
+perc.all.ch <- 17272/47011
+# perc.all.ch #0.3674034
+# dim(filter(readmit_more30.change, change == "No"))#18273
+perc.readmit_more30.no <- 18273/35545
+# perc.readmit_more30.no #0.5140807
+perc.all.no <- 18273/54755
+# perc.all.no #0.3337229
+
+
+# pie charts 
+par(mfrow = c(2, 1))
+slices.change <- c(5558, 5799) 
+lbls.change <- c("change in medication", "no change in medication")
+pct.change <- round(slices.change/sum(slices.change)*100)
+lbls.change <- paste(lbls.change, "-(",pct.change, ")") # add percents to labels 
+lbls.change <- paste(lbls.change,"%",sep="") # ad % to labels 
+pie(slices.change,labels = lbls.change, col=rainbow(length(lbls.change)),
+  	main="Pie Chart of change in diabetes medication status for patients readmitted <30 days")
+slices.nochange <- c(17272, 18273) 
+lbls.nochange <- c("change in medication", "no change in medication")
+pct.nochange <- round(slices.nochange/sum(slices.nochange)*100)
+lbls.nochange <- paste(lbls.nochange, "-(",pct.nochange, ")") # add percents to labels 
+lbls.nochange <- paste(lbls.nochange,"%",sep="") # ad % to labels 
+pie(slices.nochange,labels = lbls.nochange, col=rainbow(length(lbls.nochange)),
+  	main="Pie Chart of change in diabetes medication status for patients readmitted >30 days")
+```
+
+These figures show that roughly half of both types of readmits experienced a change in medication, while the other half did not. This appears to have little bearing on the outcome.
+
 ### Investigating collinearity
 
 Some of the features provided seem like they might be highly correlated with one another. In particular, diagnoses & health indicator information, as well as hospital visit information.
 
 Before initial modeling: 
 
-```{r, echo=FALSE, eval=FALSE}
+```{r, echo=FALSE}
 # hospital visit info
 data1 %>%
   select_if(is.numeric) %>%
@@ -1221,9 +1223,9 @@ data1 %>%
   pairs(col=data1$readmitted) # base pair-wise scatter plots
 ```
 
-```{r, echo=FALSE, fig.align="center", out.width="300px"}
-knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Option1_DiabeticStudy/collinearity1.png")
-```
+# ```{r, echo=FALSE, fig.align="center", out.width="500px"}
+# knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Option1_DiabeticStudy/collinearity1.png")
+# ```
 
 ```{r, eval=FALSE, include=FALSE}
 # names(data1)
