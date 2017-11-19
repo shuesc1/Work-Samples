@@ -529,7 +529,7 @@ summary(fit.min.lm)
 Anova(fit.min.lm)
 ```
 
-After some initial modeling, I opted for a more robust and methodically sound model used LASSO regularization. This method has the advantage of model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors. This yielded a model with 22 variables (not double counting variable levels). Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
+After some initial modeling, I opted for a more robust and methodically sound model used LASSO regularization. This method has the advantage of model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors (`lambda.min`). This yielded a model with 22 variables (not double counting variable levels). Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
 
 ```{r, include=FALSE}
 #kick out race first -- highest p value at .85 (null hypoth can't be disproven)
@@ -580,7 +580,7 @@ fit.min.lm.10 <- update(fit.min.lm.9, .~. -glimepiride)
 # This medication may be used with insulin or other types of diabetes drugs to help control your high blood sugar.
 ```
 
-After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity).
+After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity)).
 
 ```{r, include=FALSE}
 summary(fit.min.lm.10)
@@ -610,9 +610,9 @@ fit.min.lm.13 <- update(fit.min.lm.12, .~. -glipizide)
 # Anova(fit.min.lm.13)
 ```
 
-##### Final model specified by preliminary model building using LASSO (least absolute shrinkage and selection operator)
+### Classifier 1 (from logistic regression)
 
-The resulting original model obtained by LASSO regularization has 9 variables, 5 of which have multiple levels: 
+The final model specified by preliminary model building using LASSO (least absolute shrinkage and selection operator): the resulting model obtained by LASSO regularization has 9 variables, 5 of which have multiple levels: 
 
 ```
 Coefficients:
@@ -687,7 +687,7 @@ MCE.bayes = (sum(2*(fit13.pred.bayes[data1$readmitted == "1"] != "1")) + sum(fit
 MCE.bayes #0.2224679
 ```
 
-After using the information about false positives costing twice as much as false negatives to establish a threshold we see that the resulting mis-classification error is 22%, ie roughly 1 out of 5 patients would be mis-classified with this model and threshold.
+After using the information about false positives costing twice as much as false negatives to establish a threshold we see that the resulting mis-classification error is 22%, i.e. roughly 1 out of 5 patients would be mis-classified with this model and threshold.
 
 ##### Using testing data to assess classifier
 
@@ -717,7 +717,7 @@ fit.test.roc <- roc(data.test$readmitted, fit.fitted.test, plot=T)
 ```
 
 
-While we now have a working model to predict patient readmission <30 days, for the sake of due diligence I will investigate other model building techniques to construct another possible model.
+While we now have a working model to predict patient readmission <30 days, for the sake of due diligence I will obtain another classifier using logistic regression, before obtaining a third using random forests.
 
 <!---
 =======================================================================================================================================================
@@ -725,7 +725,7 @@ While we now have a working model to predict patient readmission <30 days, for t
 =======================================================================================================================================================
 --->
 
-### Model building using non-zero coefficients from LASSO with forward & backward stepwise selection
+#### Model building (classifier 2) using non-zero coefficients from LASSO with forward & backward stepwise selection
 
 As a reminder the non-zero coefficients given by LASSO were:
 
@@ -737,6 +737,7 @@ readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medicat
 lm.input
 ```
 
+I will perform forward and backward stepwise selection on these variables to get the smallest possible model with statistically significant coefficients. This is to say using minimum BIC as criterion I will choose the appropriate number of variables from each method, then compare outputs. 
 
 #### Forward stepwise selection
 
@@ -855,7 +856,7 @@ lm.input4 <- "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum +
 #             readmitted ~ time_in_hospital + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed + disch_disp_modified + adm_src_mod + age_mod
 ```
 
-Putting the variables chosen from forward & backward selection we see that the results are almost identical. The only difference is that backward selection pointed to the importance of one more variable than forward selection, `insulin`. For this reason I've chosen to take the variables from backward selection as the inputs for a logistic regession model.
+Putting the variables chosen from forward & backward selection we see that the results are almost identical. The only difference is that forward selection pointed to the importance of one more variable than forward selection, `num_lab_procedures`. For this reason I've chosen to take the variables from forward selection as the inputs for a logistic regession model. Note that the BIC value is lower with this model as well. 
 
 ```{r, include=FALSE}
 # LASSO --> forward/backward selection --> best vars are from FORWARD (most comprehensive -- 1 var more than backward, BIC is also lower) --> logistic regression
@@ -873,7 +874,7 @@ Anova(fit.log.2.2)
 summary(fit.log.2.2)
 ```
 
-All variables are significant at the .05 level according to the Anova test, but for robustness the two with the highest P values are being removed. After removing these two variables (`num_lab_procedures` and `max_glu_serum`) all variables are significant at the .01 level according to the Anova test. 
+All variables are significant at the .05 level according to the Anova test in this model, but for robustness the two with the highest P values are being removed. After removing these two variables (`num_lab_procedures` and `max_glu_serum`) all variables are significant at the .01 level according to the Anova test. The misclassification error is 22%, similar to that of the first classifier.
 
 <!--- just testing to see what the backwards vars have to say
 ```{r}
@@ -896,6 +897,39 @@ MCE.log2 = (sum(2*(fit.log2.pred[data1$readmitted == "1"] != "1")) + sum(fit.log
 MCE.log2 #0.2225383
 ```
 
+### Classifier 2 (using logistic regression)
+
+This formula for this classifier is:
+
+```
+readmitted ~ number_inpatient + number_diagnoses + 
+    metformin + disch_disp_modified + adm_src_mod + age_mod
+```
+
+and the values of the coefficients are:
+
+```
+Coefficients:
+                                                                Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                                                    -3.128193   0.206342 -15.160  < 2e-16 ***
+number_inpatient                                                0.275203   0.006243  44.079  < 2e-16 ***
+number_diagnoses                                                0.042862   0.005929   7.229 4.86e-13 ***
+metforminNo                                                    -0.174865   0.130759  -1.337 0.181123    
+metforminSteady                                                -0.257777   0.132659  -1.943 0.051998 .  
+metforminUp                                                    -0.400679   0.172565  -2.322 0.020239 *  
+disch_disp_modifiedDischarged to home with Home Health Service  0.231017   0.031307   7.379 1.59e-13 ***
+disch_disp_modifiedDischarged/Transferred to SNF                0.423541   0.030362  13.950  < 2e-16 ***
+disch_disp_modifiedOther                                        0.434021   0.028540  15.207  < 2e-16 ***
+adm_src_modOther                                               -0.098864   0.041641  -2.374 0.017588 *  
+adm_src_modPhysician Referral                                   0.008675   0.023791   0.365 0.715373    
+adm_src_modTransfer from Home Health                           -0.116594   0.042870  -2.720 0.006534 ** 
+age_mod20-59                                                    0.499108   0.160295   3.114 0.001848 ** 
+age_mod60-79                                                    0.583015   0.160324   3.636 0.000276 ***
+age_mod80+                                                      0.524009   0.161610   3.242 0.001185 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
 ##### Using testing data to assess classifier
 
 ```{r, include=FALSE}
@@ -915,19 +949,28 @@ input.testtrain.log2 = "readmitted ~ number_inpatient + number_diagnoses + max_g
 fit.train.log2 <- glm(input.testtrain.log2, data=data.train.log2, family=binomial)
 fit.fitted.test.log2 <- predict(fit.train.log2, data.test.log2, type="response")
 
+# fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T)
+```
+
+Splitting the observations into testing and training data we can then plot the ROC curve:
+
+```{r, echo=FALSE}
 fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T)
 ```
 
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
 #nrow(data1) # 99493
 pred.row <- data1[99493,] #take last observation for prediction
 pred.row
 fit.log2.predict <- predict(fit.train.log2, pred.row, type="response")
-fit.log2.predict #0.07694511 
+fit.log2.predict #0.08841787
 ```
 
-### Comparing initial 2 classifiers
+Lastly, this classifier takes the last row observation and predicts it's `readmitted` value to be 8.84%, similar to the 7.7% predicted by the first classifier. 
 
+<!---
+### Comparing initial 2 classifiers
 Actually all 3 classifiers
 ```{r, eval=FALSE, include=FALSE}
 plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
@@ -946,7 +989,7 @@ points(1-fit.test.roc.log2$specificities, fit.test.roc.log2$sensitivities, col="
 # title("Comparison of logistic and random forest model for prediction patient readmission")
 title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
 ```
-
+--->
 <!---
 =======================================================================================================================================================
 =================================================== LASSO & MODEL SELECTION -- END ====================================================================
@@ -955,7 +998,7 @@ title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity
 
 ### Second model approach: random forests for classification
 
-The second approach to model building will use random forests to ascertain a classifier.
+The second approach to model building will use random forests to develop the third and final classifier.
 
 ```{r, include=FALSE}
 set.seed(1)
@@ -977,7 +1020,7 @@ plot(fit.rf)
 plot(fit.rf)
 ```
 
-Note that the variables `diag_1`, `diag_2`, and `diag_3` were all removed from modeling to begin with due to the fact that they all have over 700 categories. We can see using a forest with just a few number of trees results in mean prediction error of around 20% (less than desirable). Expanding the number of trees used we get:
+Note that the variables `diag1_mod`, `diag2_mod`, and `diag3_mod` were all removed from modeling to begin with due to the fact that they all have over 700 categories. We can see (above) using a forest with just a few number of trees results in mean prediction error designated by the black line is around 20% (less than desirable). Expanding the number of trees to 500 we get:
 
 ```{r, echo=FALSE}
 fit.rf.full <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data1, mtry=5, ntree=100)
@@ -987,7 +1030,7 @@ fit.rf.pred.y <- predict(fit.rf.full, type = "response")
 mean(data1$readmitted != fit.rf.pred.y) #training misclassification error is 0.1123295
 ```
 
-As the graph shows when we expand the number of trees in the forest to 500 we get a misclassification error now around 11%. To assure overfitting in this model we now split the dataset into training (80%) and testing data (20% of original data). Plotting the model using the training data:
+As the graph shows when we expand the number of trees in the forest to 500 we get a misclassification error now around 11%. To assure overfitting in this model we now split the dataset into training (80%) and testing data (20% of original data). Plotting the model using the training data is almost identical to the full dataset findings (which is good).
 
 ```{r, include=FALSE}
 # using testing and training data 
@@ -1007,11 +1050,9 @@ data.test.rf <- data1[-train.index.rf,]
 fit.rf.train <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data.train.rf)
 ```
 
-```{r, echo=FALSE}
+```{r, eval=FALSE, include=FALSE}
 plot(fit.rf.train)
 ```
-
-This plot is almost identical to the full dataset findings (which is good).
 
 ```{r, include=FALSE}
 predict.rf.y2 <- predict(fit.rf.train, newdata = data.test.rf)
@@ -1020,7 +1061,7 @@ mean(data.test.rf$readmitted != predict.rf.y2) #0.1118649 /  0.1108096
 fit.rf.train.roc <- roc(data.test.rf$readmitted, predict.rf2[,2], plot = TRUE)
 ```
 
-We now have 2 classifiers (one from logistic regression and now one using random forests), and thus have 2 ROC curves to compare:
+We now have 3 classifiers (two from logistic regression and now one using random forests), and thus have 3 ROC curves to compare:
 
 ```{r, echo=FALSE, eval=FALSE}
 fit.train
@@ -1063,8 +1104,7 @@ legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf
 title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
 ```
 
-We can see that when comparing the two classifiers that in terms of area under the curve alone the random forest model is better by only .01. More importantly, the logistic regression model outperforms the random forest model, but only when the false positive rate is above 70%. When the false positive rate is below this -- below 50% in particular -- the random forest clearly provides a better true positive rate (sensitivity). 
-
+We can see that when comparing the three classifiers that in terms of area under the curve alone the random forest model is worse than the logistic regression models by only .02. More importantly, the logistic regression models outperform the random forest model at practically every level. Since the two logistic models are almost identical, I'd give preference to the original classifier due to the fact that it maximizes the true positive rate slightly more than the second classifier at several points. 
 
 ### Conclusion
 
@@ -1111,35 +1151,6 @@ We can see that when comparing the two classifiers that in terms of area under t
 <!-- age_mod20-59                                                    0.514863   0.160395   3.210 0.001328 **  -->
 <!-- age_mod60-79                                                    0.619453   0.160520   3.859 0.000114 *** -->
 <!-- age_mod80+                                                      0.579720   0.161900   3.581 0.000343 *** -->
-
-
-<!-- log model 2 using LASSO then forward selection -->
-<!-- Call: -->
-<!-- glm(formula = readmitted ~ number_inpatient + number_diagnoses +  -->
-<!--     metformin + disch_disp_modified + adm_src_mod + age_mod,  -->
-<!--     family = binomial, data = data1) -->
-
-<!-- Deviance Residuals:  -->
-<!--     Min       1Q   Median       3Q      Max   -->
-<!-- -2.3954  -0.5047  -0.4300  -0.3900   2.6117   -->
-
-<!-- Coefficients: -->
-<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
-<!-- (Intercept)                                                    -3.128193   0.206342 -15.160  < 2e-16 *** -->
-<!-- number_inpatient                                                0.275203   0.006243  44.079  < 2e-16 *** -->
-<!-- number_diagnoses                                                0.042862   0.005929   7.229 4.86e-13 *** -->
-<!-- metforminNo                                                    -0.174865   0.130759  -1.337 0.181123     -->
-<!-- metforminSteady                                                -0.257777   0.132659  -1.943 0.051998 .   -->
-<!-- metforminUp                                                    -0.400679   0.172565  -2.322 0.020239 *   -->
-<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.231017   0.031307   7.379 1.59e-13 *** -->
-<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.423541   0.030362  13.950  < 2e-16 *** -->
-<!-- disch_disp_modifiedOther                                        0.434021   0.028540  15.207  < 2e-16 *** -->
-<!-- adm_src_modOther                                               -0.098864   0.041641  -2.374 0.017588 *   -->
-<!-- adm_src_modPhysician Referral                                   0.008675   0.023791   0.365 0.715373     -->
-<!-- adm_src_modTransfer from Home Health                           -0.116594   0.042870  -2.720 0.006534 **  -->
-<!-- age_mod20-59                                                    0.499108   0.160295   3.114 0.001848 **  -->
-<!-- age_mod60-79                                                    0.583015   0.160324   3.636 0.000276 *** -->
-<!-- age_mod80+                                                      0.524009   0.161610   3.242 0.001185 **  -->
 
 
 # Appendix
@@ -1202,7 +1213,7 @@ Some of the features provided seem like they might be highly correlated with one
 
 Before initial modeling: 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 # hospital visit info
 data1 %>%
   select_if(is.numeric) %>%
@@ -1210,6 +1221,9 @@ data1 %>%
   pairs(col=data1$readmitted) # base pair-wise scatter plots
 ```
 
+```{r, echo=FALSE, fig.align="center", out.width="300px"}
+knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Option1_DiabeticStudy/collinearity1.png")
+```
 
 ```{r, eval=FALSE, include=FALSE}
 # names(data1)
@@ -1221,7 +1235,7 @@ data1 %>%
 
 After LASSO:
 
-```{r, echo=FALSE, eval=FALSE}
+```{r, echo=FALSE}
 data1 %>% select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>% cor()
 # <<<<< CORRELATION OF VARIABLES >>>>>>>>>
 data1 %>% 
