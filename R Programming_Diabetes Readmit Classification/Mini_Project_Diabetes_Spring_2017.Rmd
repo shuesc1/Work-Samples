@@ -1,15 +1,16 @@
 ---
 title: "Predicting readmission probability for diabetes inpatients"
+author: "Joseph Haymaker"
 graphics: yes
 date: 'Due: November 19, 2017 at 11:59PM'
 output:
+  html_document:
+    number_sections: yes
+    self_contained: yes
+    toc: yes
   pdf_document:
     toc: yes
     toc_depth: 2
-  html_document: default
-    # number_sections: yes
-    # self_contained: yes
-    # toc: yes
 subtitle: STAT 471/571/701, Fall 2017
 header-includes:
 - \usepackage{fancyhdr}
@@ -40,19 +41,10 @@ library(pROC)
 library(partykit)
 library(gbm)
 ```
-<!---
-1) Executive Summary
-* This section should be accessible by people with very little statistical background (avoid using technical words and no direct R output is allowed)
-* Give a background of the study. You may check the original website or other sources to fill in some details, such as to why the questions we address here are important. 
-* A quick summary about the data.
-* Methods used and the main findings.
-* You may use clearly labelled and explained visualizations.
-* Issues, concerns, limitations of the conclusions. This is an especially important section to be honest in - we might be Penn students, but we are statisticians today.
---->
 
 # Executive Summary
 
-For most of 2017 health care has been in the forefront of public discourse due to president Trump's campaign promise to "repeal and replace (the Affordable Care Act) 'Obamacare'". The majority of the deleterious macro effects these changes would have on the American public have highlighted losses in coverage and the disproportionate effect to lower income and elderly individuals ([source 1](http://money.cnn.com/2017/07/14/news/economy/obamacare-repeal-senate-health-care-bill/index.html), [source 2](https://www.nytimes.com/2017/06/22/us/politics/senate-health-care-bill.html)). To a lesser extent, these appraisals have addressed changes affecting Americans with pre-existing conditions and funding cuts hospitals would experience ([source](https://www.npr.org/sections/health-shots/2017/07/10/535851043/faq-how-would-the-republican-health-care-bills-affect-you)). Even in spite of this ongoing national debate around the topic, healthcare costs and savings in the US are a perennially obtuse topic, even to most Americans. 
+For most of 2017 health care has been in the forefront of public discourse due to president Trump's campaign promise to "repeal and replace Obamacare" (the Affordable Care Act). The majority of the deleterious macro effects these changes would have on the American public have highlighted losses in coverage and the disproportionate effect to lower income and elderly individuals ([source 1](http://money.cnn.com/2017/07/14/news/economy/obamacare-repeal-senate-health-care-bill/index.html), [source 2](https://www.nytimes.com/2017/06/22/us/politics/senate-health-care-bill.html)). To a lesser extent, these appraisals have addressed changes affecting Americans with pre-existing conditions and funding cuts hospitals would experience ([source](https://www.npr.org/sections/health-shots/2017/07/10/535851043/faq-how-would-the-republican-health-care-bills-affect-you)). Even in spite of this ongoing national debate around the topic, healthcare costs and savings in the US are a perennially obtuse topic, even to most Americans. 
 
 This investigation seeks to focus on one particular aspect of healthcare costs and savings in the US: hospitalization costs, specifically the cost of readmitting a diabetes patient in less than 30 days. This inquiry intends to address this issue by providing healthcare providers information about a patient's estimated propensity for readmission in this time period given certain individual factors. It is our hope that the findings here shed light on patient characterisitics influencing readmission, which the care community may then turn into actionable policy and practice changes that both better serve patients as well as reduce readmission costs.   
 
@@ -76,20 +68,7 @@ Factors that decrease likelihood of readmission <30 days are the following: no i
 
 By paying particular attention to these indicators hospitals may be able to identify patients of greater risk, and change their treatment plans accordingly, as well as connect them with more extensive social services when possible to avoid the current costs being incurred by these types of patients and their short term hospital readmits. 
 
-Lastly, their are several problems, solutions, and ideas for further investigation that emerge from this dataset and these findings. 
-
-<!---
-############################################## TODO fill this innnnnn ##########################
-
-__possible problems/complications:__
-+ role of early intervention such as health eating programs and exercise regimes a la Michelle Obama's "Let's Move!" campaign. 
-+ public health initiative consideration
-+ environmental factors -- weather factors, walkability scores, percent car owners, average commute time, food deserts, etc. that may speak to a more sedentary lifestyle and poor eating habits.
-+ with the data at hand: correlation of variables
-+ better way to ascertain if it was diabetes that caused hospitalization, a concurrent/opportunistic complication, or other illness all together
-+ more data from other states -- 
-+ data is 1999-2008 but The ACA's major provisions came into force in 2014 -- many of these people would likely have been shut out of certain types of coverage due to pre-existing condition status during that time period. 
---->
+Lastly, their are several problems, solutions, and ideas for further investigation that emerge from this dataset and these findings. The most salient question from the dataset is where the 130 hospitals are located. This is important due to the differing health trends of US regions. Thus, a large representation from unhealthier regions or states would imply the sample wasn't random. To speak to the different environmental factors of the hospitals future investigation might take environmental factors into account, such as weather trends (number of sunny days per year, for example), walkability scores of the areas, percent car owners in the areas, average commute time, proximity to grocery stores/ fresh food availabilty (or food deserts), etc. These would all serve as indicators of environmental factors that either cause or reflect a more sedentary lifestyle or poor eating habits, which in turn affect health outcomes. Another aspect of future investigation might be the role of early intervention such as health eating programs and exercise regimes à la Michelle Obama's "Let's Move!" campaign. Moreover, with the data as is there remain many questions about correlation of variables. For example, a better way to ascertain if it was diabetes that caused hospitalization, or a concurrent/opportunistic complication. Lastly, one important thing to remember about this data is that it only covers outcomes up through 2008. It was only in 2014 that the major provisions of the Affordable Care Act came into effect. Up until that point many of these people would likely have been shut out of certain types of coverage due to pre-existing condition status. Since then they may have experienced greater access to preventative care, which in turn would reflect in the readmission rate. A more current dataset would be need to assess this.
 
 # Detailed Process of the Analysis
 
@@ -117,7 +96,7 @@ summary(df.full$readmitted)
 ```{r, include=FALSE}
 # ====== CLEANED DATASET ====
 data1 <- read.csv("readmission.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
-dim(data1) #101766 observations x 31 variables
+# dim(data1) #101766 observations x 31 variables
 #tail(data1, 20)
 # head(data1, 20)
 # View(data1)
@@ -143,7 +122,7 @@ Clore, John, et al. “ Diabetes 130-US Hospitals for Years 1999-2008 Data Set .
 
 For the sake of getting a better idea about the data and trends, I isolated several variables that seem likely to influence readmission. These variables are `readmitted`, `race`, `gender`, `age`, `change`, and `number_diagnoses`, I have summarized and visualized my findings below. 
 
-[See appendix for more detailed information on variables](#/variables)
+[See appendix for more detailed information on variables](#variable-names-and-detail-explanations)
 
 ##### Readmitted
 ```{r, eval=FALSE, include=FALSE}
@@ -245,29 +224,29 @@ pie(slices.oth,labels = lbls.oth, col=rainbow(length(lbls.hisp)),
    	main="Pie Chart of Other Races Readmits")
 
 ```
-
+Regardless of race, roughly 10-11% of the patients are readmitted in less than 30 days. This implies race may not play such a big role in this outcome after all. All proportions are very close to one another across races, save for Asians which have the highest percentage of no readmits at 65%.
 
 ##### Gender
 
 ```{r, echo=FALSE}
-summary(data1$gender) #boxplot
+# summary(data1$gender) #boxplot
          # Female            Male Unknown/Invalid 
          #  54708           47055               3 
 readmit_less30.gender <- filter(data1, readmitted == "<30")
-dim(readmit_less30.gender) # 11357 total observations
-dim(filter(readmit_less30.gender, gender == "Female")) #6152 female ~54% of <30 dataset, 11.2% of females of total dataset
-dim(filter(readmit_less30.gender, gender == "Male")) #5205 male, 45% of <30 dataset, 11.1% of males of total dataset
+# dim(readmit_less30.gender) # 11357 total observations
+# dim(filter(readmit_less30.gender, gender == "Female")) #6152 female ~54% of <30 dataset, 11.2% of females of total dataset
+# dim(filter(readmit_less30.gender, gender == "Male")) #5205 male, 45% of <30 dataset, 11.1% of males of total dataset
 readmit_more30.gender <- filter(data1, readmitted == ">30")
 
-nrow(readmit_more30.gender) #35545 total observations
-nrow(filter(readmit_more30.gender, gender == "Female")) #19518 female ~54% of >30 dataset, 35.7% of females of total dataset
-nrow(filter(readmit_more30.gender, gender == "Male")) #16027 male, 45%, 34.1% of males of total dataset
+# nrow(readmit_more30.gender) #35545 total observations
+# nrow(filter(readmit_more30.gender, gender == "Female")) #19518 female ~54% of >30 dataset, 35.7% of females of total dataset
+# nrow(filter(readmit_more30.gender, gender == "Male")) #16027 male, 45%, 34.1% of males of total dataset
 perc.female <- (19518/35545)
-perc.female #0.5491068
+# perc.female #0.5491068
 perc.male <- (16027/35545)
-perc.male # 0.4508932
+# perc.male # 0.4508932
 
-par(mfrow = c(2, 2))
+par(mfrow = c(2, 1))
 # nrow(which(readmit_less30.gender == "Female"))
 # nrow(filter(readmit_less30.gender, gender == "Female"))
 # nrow(readmit_less30.gender)
@@ -280,7 +259,7 @@ ggplot(readmit_more30.gender) + geom_bar(aes(x = gender), fill = "blue") +
   labs(title = "Histogram of readmits in more than 30 days (>30) by gender", x = "Gender", y = "Frequency")
 ```
 
-In the cleaned dataset we have 54708 female observations and 47055 male observations, which means roughly 54% of the patients under consideration were female (for all readmission categories), while ~46% were male. When comparing hospital readmits striated by gender, of the patients that were readmitted in _under_ 30 days approximately 54% (6152/11357) were female, matching the overall female representation. Similarly, of patients that were readmitted _over_ 30 days again 54% (19518/35545) were female. It's worth noting that the total number of patients (male & female) readmitted over 30 days is about 3 times that of those readmitted in _less_ than 30 days. 
+In the cleaned dataset we have 54708 female observations and 47055 male observations, which means roughly 54% of the patients under consideration were female (for all readmission categories), while ~46% were male. When comparing hospital readmits striated by gender, of the patients that were readmitted in _under_ 30 days approximately 54% (6152/11357) were female, matching the overall female representation. Similarly, of patients that were readmitted _over_ 30 days again 54% (19518/35545) were female. Note that the total number of patients (male & female) readmitted over 30 days is about 3 times that of those readmitted in _less_ than 30 days. 
 
 There seems to be a gap between genders here implying that women are more prone to readmission, but this is quickly rebuked when we compare the genders in terms of their total observations. For patients who were readmitted in _less_ than 30 days, female patients represent 11.2% (6152/54708) of the total female population, while those who are male represent a similar 11.1% (5205/47055) of the overall male population. The same is true for patients readmitted _over_ 30 days: female patients account for 35.7% (19518/54708) of the total female population, while male patients comprise 34.1% (16027/47055) of the total male population. 
 
@@ -289,8 +268,8 @@ This lends credence to the notion that gender does not contribute to likelihood 
 ##### Age
 
 ```{r, echo=FALSE}
-summary(data1$age_mod) #scatterplot
-names(data1)
+# summary(data1$age_mod) #scatterplot
+# names(data1)
 #<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
 # lm.age <- lm(readmitted~age_mod, data = data1)
 plot(data1$age_mod, data1$readmitted,
@@ -302,34 +281,34 @@ plot(data1$age_mod, data1$readmitted,
 # abline(h=mean(county_data$dem12_frac), lwd=5, col="blue")
 ```
 
-It appears that the categories with the largest number of readmits is 70-80 and 80-90, which are almost identical. An interesting trend that we see is that the 20-30 age group has the overall highest readmit frequency under 30 days, which is surprising. 
+It appears that the categories with the largest number of readmits are 60-79 and 80+, which are almost identical. As expected these percentages fall as age category does, though not dramatically. 
 
 ##### Change (in diabetes medication)
 
 ```{r, echo=FALSE}
-summary(data1$change) #boxplot - change in diabetes medication
+# summary(data1$change) #boxplot - change in diabetes medication
 #    Ch    No 
 # 47011 54755
 
 # <30 readmit patients
 readmit_less30.change <- filter(data1, readmitted == "<30")
-dim(readmit_less30.change) # 11357 total observations
-dim(filter(readmit_less30.change, change == "Ch")) #5558 patients with a change of med readmitted <30 days, 48.9% of all patients readmitted <30, 11.8% of all patients with a change in meds
-dim(filter(readmit_less30.change, change == "No")) #5799 patients with NO change in meds readmitted <30 days, 51.1% of all patients readmitted <30, 10.6% of all patients with NO change in meds
+# dim(readmit_less30.change) # 11357 total observations
+# dim(filter(readmit_less30.change, change == "Ch")) #5558 patients with a change of med readmitted <30 days, 48.9% of all patients readmitted <30, 11.8% of all patients with a change in meds
+# dim(filter(readmit_less30.change, change == "No")) #5799 patients with NO change in meds readmitted <30 days, 51.1% of all patients readmitted <30, 10.6% of all patients with NO change in meds
 
 #>30 readmit patients
 readmit_more30.change<- filter(data1, readmitted == ">30")
-dim(readmit_more30.change) #35545 observations
-dim(filter(readmit_more30.change, change == "Ch")) #17272
+# dim(readmit_more30.change) #35545 observations
+# dim(filter(readmit_more30.change, change == "Ch")) #17272
 perc.readmit_more30.ch <- 17272/35545
-perc.readmit_more30.ch #0.4859193
+# perc.readmit_more30.ch #0.4859193
 perc.all.ch <- 17272/47011
-perc.all.ch #0.3674034
-dim(filter(readmit_more30.change, change == "No"))#18273
+# perc.all.ch #0.3674034
+# dim(filter(readmit_more30.change, change == "No"))#18273
 perc.readmit_more30.no <- 18273/35545
-perc.readmit_more30.no #0.5140807
+# perc.readmit_more30.no #0.5140807
 perc.all.no <- 18273/54755
-perc.all.no #0.3337229
+# perc.all.no #0.3337229
 
 
 # pie charts 
@@ -348,21 +327,39 @@ lbls.nochange <- paste(lbls.nochange, "-(",pct.nochange, ")") # add percents to 
 lbls.nochange <- paste(lbls.nochange,"%",sep="") # ad % to labels 
 pie(slices.nochange,labels = lbls.nochange, col=rainbow(length(lbls.nochange)),
   	main="Pie Chart of change in diabetes medication status for patients readmitted >30 days")
-
-
 ```
+
+These figures show that roughly half of both types of readmits experienced a change in medication, while the other half did not. This appears to have little bearing on the outcome.
 
 ##### Number of diagnosis
 
 ```{r, echo=FALSE}
-summary(data1$number_diagnoses) #bar plot
+par(mfrow = c(2, 1))
+# summary(data1$number_diagnoses) #bar plot
 readmit_less30.diag <- filter(data1, readmitted == "<30")
-hist(readmit_less30.diag$number_diagnoses)
+# hist(readmit_less30.diag$number_diagnoses)
+hist(readmit_less30.diag$number_diagnoses, 
+     main="Histogram for number of diagnoses of patients readmitted <30 days", 
+     xlab="Number of patient diagnoses", 
+     border="blue", 
+     col="green",
+     xlim=c(0,16),
+     las=1, 
+     breaks=16)
+
 readmit_more30.diag <- filter(data1, readmitted == ">30")
-hist(readmit_more30.diag$number_diagnoses)
+# hist(readmit_more30.diag$number_diagnoses)
+hist(readmit_more30.diag$number_diagnoses, 
+     main="Histogram for number of diagnoses of patients readmitted >30 days", 
+     xlab="Number of patient diagnoses", 
+     border="blue", 
+     col="red",
+     xlim=c(0,16),
+     las=1, 
+     breaks=16)
 ```
 
-There consistently seems to be a large spike in frequency around 9 diagnoses. 
+There consistently seems to be a large spike in frequency around 9 diagnoses, which greatly outnumbers the count of other diagnosis. 
 
 <!---
 ##### Age vs. num medications
@@ -386,28 +383,9 @@ plot(data1$num_medications, data1$age_mod,
 
 # Model building
 
-#### Investigating colinearlity
-
-Some of the features provided seem like they might be highly correlated with one another. In particular, diagnoses & health indicator information, as well as hospital visit information.
-
-```{r, eval=FALSE, echo=FALSE}
-# hospital visit info
-data1 %>%
-  select_if(is.numeric) %>%
-  select(time_in_hospital, num_lab_procedures, num_procedures, num_medications, number_outpatient, number_emergency, number_inpatient, number_diagnoses) %>%
-  pairs(col=data1$readmitted) # base pair-wise scatter plots
-```
-
-
-```{r, eval=FALSE, include=FALSE}
-# names(data1)
-# summary(data1)
-# data1 %>%
-#   select(diag_1, diag_2, diag_3) %>%
-#   pairs() # base pair-wise scatter plots
-```
-
 #### Further prepping data
+
+After investigating collinearity of variables (see [appendix](#investigating-collinearity)) I further modified the dataset by making `readmitted` categorical (readmitted <30 days = 1, otherwise = 0), removed all `race` entries coded as "?", and removed the `encounter_id` and `patient_nbr` columns as they add nothing to the model.
 
 ```{r, include=FALSE}
 # <<<< make readmitted categorical>>>
@@ -551,7 +529,7 @@ summary(fit.min.lm)
 Anova(fit.min.lm)
 ```
 
-A more robust and methodically sound model used LASSO regularization, model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors. This yielded a model with 22 variables. Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
+After some initial modeling, I opted for a more robust and methodically sound model used LASSO regularization. This method has the advantage of model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors. This yielded a model with 22 variables (not double counting variable levels). Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
 
 ```{r, include=FALSE}
 #kick out race first -- highest p value at .85 (null hypoth can't be disproven)
@@ -602,16 +580,7 @@ fit.min.lm.10 <- update(fit.min.lm.9, .~. -glimepiride)
 # This medication may be used with insulin or other types of diabetes drugs to help control your high blood sugar.
 ```
 
-After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad.
-
-```{r, echo=FALSE, eval=FALSE}
-data1 %>% select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>% cor()
-# <<<<< CORRELATION OF VARIABLES >>>>>>>>>
-data1 %>% 
-  select_if(is.numeric) %>%
-  select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>%
-  ggpairs()
-```
+After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity).
 
 ```{r, include=FALSE}
 summary(fit.min.lm.10)
@@ -634,20 +603,46 @@ fit.min.lm.12 <- update(fit.min.lm.11, .~. -metformin)
 # summary(fit.min.lm.12)
 ```
 
-Lastly, for the sake of model robustness I am also choosing to remove `glipizide`, which is only significant at the .05 level according to the Anova test (shown below).
+Lastly, for the sake of model robustness I am also choosing to remove `glipizide`, which is only significant at the .05 level according to the Anova test.
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 fit.min.lm.13 <- update(fit.min.lm.12, .~. -glipizide)
-Anova(fit.min.lm.13)
+# Anova(fit.min.lm.13)
 ```
-
 
 ##### Final model specified by preliminary model building using LASSO (least absolute shrinkage and selection operator)
 
 The resulting original model obtained by LASSO regularization has 9 variables, 5 of which have multiple levels: 
 
-##TODO redo this to reflect multiple logistic regression
-$ \hat Y = age + .02 * time\_in\_hospital - .03 * num\_procedures + .005 * num\_medications + .033 * number\_emergency + .27 * number\_inpatient + .04 * number\_diagnoses + insulin + diabetesMed - 4.151 $
+```
+Coefficients:
+                  Estimate Std. Error z value Pr(>|z|)    
+(Intercept)      -4.151458   0.584642  -7.101 1.24e-12 ***
+age[10-20)        0.889354   0.605864   1.468 0.142128    
+age[20-30)        1.424425   0.588665   2.420 0.015531 *  
+age[30-40)        1.409278   0.585919   2.405 0.016162 *  
+age[40-50)        1.332041   0.584615   2.278 0.022697 *  
+age[50-60)        1.276257   0.584303   2.184 0.028945 *  
+age[60-70)        1.437881   0.584173   2.461 0.013840 *  
+age[70-80)        1.498978   0.584121   2.566 0.010282 *  
+age[80-90)        1.512456   0.584315   2.588 0.009642 ** 
+age[90-100)       1.436819   0.587038   2.448 0.014382 *  
+time_in_hospital  0.022443   0.003758   5.971 2.35e-09 ***
+num_procedures   -0.025263   0.006791  -3.720 0.000199 ***
+num_medications   0.005140   0.001572   3.269 0.001079 ** 
+number_emergency  0.032809   0.008436   3.889 0.000101 ***
+number_inpatient  0.265180   0.006509  40.741  < 2e-16 ***
+number_diagnoses  0.041705   0.006065   6.876 6.14e-12 ***
+insulinNo        -0.168857   0.035189  -4.799 1.60e-06 ***
+insulinSteady    -0.151091   0.033016  -4.576 4.73e-06 ***
+insulinUp        -0.092093   0.039477  -2.333 0.019657 *  
+diabetesMedYes    0.116898   0.031464   3.715 0.000203 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+```
+
+<!-- ##TODO redo this to reflect multiple logistic regression -->
+<!-- $ \hat Y = age + .02 * time\_in\_hospital - .03 * num\_procedures + .005 * num\_medications + .033 * number\_emergency + .27 * number\_inpatient + .04 * number\_diagnoses + insulin + diabetesMed - 4.151 $ -->
 
 ```{r, include=FALSE}
 summary(fit.min.lm.13)
@@ -662,8 +657,6 @@ summary(fit.min.lm.13)
 #     disch_disp_modified + adm_src_mod + age_mod
 ```
 
-Prediction:
-
 ```{r, include=FALSE}
 #nrow(data1) # 99493
 pred.row <- data1[99493,] #take last observation for prediction
@@ -672,7 +665,7 @@ fit13.predict <- predict(fit.min.lm.13, pred.row, type="response")
 fit13.predict #0.07694511 
 ```
 
-Doing a simple prediction with this model using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 7.7%. 
+Doing a simple prediction with this model (which would be the goal) using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 7.7%. 
 
 ##### Classifier and threshold 
 <!-- Based on a quick and somewhat arbitrary guess, we estimate it costs twice as much to mislabel a readmission than it does to mislabel a non-readmission. Based on this risk ratio, propose a specific classification rule to minimize the cost. If you find any information that could provide a better cost estimate, please justify it in your write-up and use the better estimate in your answer. -->
@@ -758,13 +751,13 @@ fit.fwd.summary <-summary(fit.fwd)
 par(mfrow=c(2,2))
 plot(fit.fwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
 plot(fit.fwd.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
-which.max(fit.fwd.summary$adjr2)
+# which.max(fit.fwd.summary$adjr2)
 points(23,fit.fwd.summary$adjr2[23], col="red",cex=2,pch=20) # 23 variables
 plot(fit.fwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
-which.min(fit.fwd.summary$cp)
+# which.min(fit.fwd.summary$cp)
 points(which.min(fit.fwd.summary$cp),fit.fwd.summary$cp[which.min(fit.fwd.summary$cp)],col="red",cex=2,pch=20) # 21 variables
 plot(fit.fwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
-which.min(fit.fwd.summary$bic)
+# which.min(fit.fwd.summary$bic)
 points(which.min(fit.fwd.summary$bic),fit.fwd.summary$bic[which.min(fit.fwd.summary$bic)],col="red",cex=2,pch=20) # 10 variables
 # choose to go with 10 variables --> choice that minimizes BIC
 coef.fit.fwd <- coef(fit.fwd,10)
@@ -784,13 +777,13 @@ lm.input3 <- "readmitted ~ num_lab_procedures + number_inpatient + number_diagno
 par(mfrow=c(2,2))
 plot(fit.fwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
 plot(fit.fwd.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
-which.max(fit.fwd.summary$adjr2)
+# which.max(fit.fwd.summary$adjr2)
 points(23,fit.fwd.summary$adjr2[23], col="red",cex=2,pch=20) # 23 variables
 plot(fit.fwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
-which.min(fit.fwd.summary$cp)
+# which.min(fit.fwd.summary$cp)
 points(which.min(fit.fwd.summary$cp),fit.fwd.summary$cp[which.min(fit.fwd.summary$cp)],col="red",cex=2,pch=20) # 21 variables
 plot(fit.fwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
-which.min(fit.fwd.summary$bic)
+# which.min(fit.fwd.summary$bic)
 points(which.min(fit.fwd.summary$bic),fit.fwd.summary$bic[which.min(fit.fwd.summary$bic)],col="red",cex=2,pch=20) # 10 variables
 ```
 
@@ -835,13 +828,13 @@ lm.input4 <- "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum +
 par(mfrow=c(2,2))
 plot(fit.bwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
 plot(fit.bwd.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
-which.max(fit.bwd.summary$adjr2)
+# which.max(fit.bwd.summary$adjr2)
 points(which.max(fit.bwd.summary$adjr2),fit.bwd.summary$adjr2[which.max(fit.bwd.summary$adjr2)], col="red",cex=2,pch=20) # 23 variables
 plot(fit.bwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
-which.min(fit.bwd.summary$cp)
+# which.min(fit.bwd.summary$cp)
 points(which.min(fit.bwd.summary$cp),fit.bwd.summary$cp[which.min(fit.bwd.summary$cp)],col="red",cex=2,pch=20) # 23 variables
 plot(fit.bwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
-which.min(fit.bwd.summary$bic)
+# which.min(fit.bwd.summary$bic)
 points(which.min(fit.bwd.summary$bic),fit.bwd.summary$bic[which.min(fit.bwd.summary$bic)],col="red",cex=2,pch=20) # 9 variables
 ```
 
@@ -925,7 +918,15 @@ fit.fitted.test.log2 <- predict(fit.train.log2, data.test.log2, type="response")
 fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T)
 ```
 
-### Comparing intial 2 classifiers
+```{r, echo=FALSE}
+#nrow(data1) # 99493
+pred.row <- data1[99493,] #take last observation for prediction
+pred.row
+fit.log2.predict <- predict(fit.train.log2, pred.row, type="response")
+fit.log2.predict #0.07694511 
+```
+
+### Comparing initial 2 classifiers
 
 Actually all 3 classifiers
 ```{r, eval=FALSE, include=FALSE}
@@ -1056,8 +1057,8 @@ plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20
 
 points(1-fit.rf.train.roc$specificities, fit.rf.train.roc$sensitivities, col="blue", pch=20)
 points(1-fit.test.roc.log2$specificities, fit.test.roc.log2$sensitivities, col="yellow", pch=20)
-# legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf2 using random forest"),
-#        lty=c(1,1), lwd=c(2,2), col=c("red","blue"))
+legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf2 using random forest", "fit.test.roc.log2 using logistic regression"),
+       lty=c(1,1), lwd=c(2,2), col=c("red","blue", "yellow"))
 # title("Comparison of logistic and random forest model for prediction patient readmission")
 title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
 ```
@@ -1143,7 +1144,7 @@ We can see that when comparing the two classifiers that in terms of area under t
 
 # Appendix
 
-#### Variable names and detail explanations
+### Variable names and detail explanations
 id: variables
 
 Description of variables
@@ -1195,6 +1196,39 @@ c.	`24 medication variables`: indicate whether the dosage of the medicines was c
 
 Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
 
+### Investigating collinearity
+
+Some of the features provided seem like they might be highly correlated with one another. In particular, diagnoses & health indicator information, as well as hospital visit information.
+
+Before initial modeling: 
+
+```{r, echo=FALSE}
+# hospital visit info
+data1 %>%
+  select_if(is.numeric) %>%
+  select(time_in_hospital, num_lab_procedures, num_procedures, num_medications, number_outpatient, number_emergency, number_inpatient, number_diagnoses) %>%
+  pairs(col=data1$readmitted) # base pair-wise scatter plots
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+# names(data1)
+# summary(data1)
+# data1 %>%
+#   select(diag_1, diag_2, diag_3) %>%
+#   pairs() # base pair-wise scatter plots
+```
+
+After LASSO:
+
+```{r, echo=FALSE, eval=FALSE}
+data1 %>% select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>% cor()
+# <<<<< CORRELATION OF VARIABLES >>>>>>>>>
+data1 %>% 
+  select_if(is.numeric) %>%
+  select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>%
+  ggpairs()
+```
 
 <!---
 To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
