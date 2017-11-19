@@ -514,7 +514,8 @@ fit.min.lm.10 <- update(fit.min.lm.9, .~. -glimepiride)
 # This medication may be used with insulin or other types of diabetes drugs to help control your high blood sugar.
 ```
 
-After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity)).
+After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity) ).
+After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad (see [appendix](#investigating-collinearity) ).
 
 ```{r, include=FALSE}
 summary(fit.min.lm.10)
@@ -961,7 +962,7 @@ fit.rf.full <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data1
 plot(fit.rf.full)
 fit.rf.pred <- predict(fit.rf.full, type="prob")
 fit.rf.pred.y <- predict(fit.rf.full, type = "response")
-mean(data1$readmitted != fit.rf.pred.y) #training misclassification error is 0.1123295
+# mean(data1$readmitted != fit.rf.pred.y) #training misclassification error is 0.1123295
 ```
 
 As the graph shows when we expand the number of trees in the forest to 500 we get a misclassification error now around 11%. To assure overfitting in this model we now split the dataset into training (80%) and testing data (20% of original data). Plotting the model using the training data is almost identical to the full dataset findings (which is good).
@@ -1042,50 +1043,23 @@ We can see that when comparing the three classifiers that in terms of area under
 
 ### Conclusion
 
+This study had as its goal to identify patient characteristics that affect readmission < 30 days in order to better serve patients and minimize healthcare costs. To this end, I first examined relevant variables before performing LASSO regularization with cross validation to decrease the number of variables under consideration. I then obtained 2 classifiers from logistic regression -- one via manual backwards elimination, and another as a result of the comparision of backwards and forward selection. The threshold used for classification was chosen using Baye's Rule, knowing that a false positive costs twice as much as a false negative. I then created one last classifier using random forests. All of these models were checked using testing and training data. I then plotted all three classifiers' ROC curves and compared them before concluding that the first was the best in terms of maximizing the true positive rate. The implications of this model are extensive. For the sake of clarity I have summarized them in the following table:
+
 |Description|Variable name|Categories/levels (if applicable)|Effect on readmission <30 days|
 |-----------|-------------|---------------------------------|------------------------------|
-|Admission source/patient referral|`adm_src_mod`|emergency room, other, physician, or transfer from home health||
-|Patient age|`age_mod`|0-19 yrs, 20-59 yrs, 60-79 yrs, & 80+ yrs| 
-|Diabetes medication prescribed (y/n)|`diabetesMed`|no or yes||
-|Discharge disposition|`disch_disp_modified`|discharged to home, discharged to home w/ home health services, discharged/transferred to SNF (skilled nursing facilities), & other||
-|Insulin dose change|`insulin`|down, no, steady, or up||
-|Metformin medication change|`metformin`|down, no, steady, or up||
-|Total diagnosis for patient|`number_diagnoses`|1-16||
-|Number of emergency visits by the patient in the year prior to the current encounter|`number_emergency`|0-76||
-|Number of inpatient visits by the patient in the year prior to the current encounter|`number_inpatient`|0-21||
-|Patient’s length of stay in the hospital (in days)|`time_in_hospital`|1-14||
+|Admission source/patient referral|`adm_src_mod`|emergency room, other, physician, or transfer from home health|compared to emergency room referrals both 'other' and home health transfers decrease readmission, while physician referrals only slightly increase it|
+|Patient age|`age_mod`|0-19 yrs, 20-59 yrs, 60-79 yrs, & 80+ yrs|compared to 0-19 year old patients all other age brackets increase probability, with the 60-79 bracket assiated with the greatest increase|
+|Diabetes medication prescribed (y/n)|`diabetesMed`|no or yes|a medication prescription is associated with an increase in readmission|
+|Discharge disposition|`disch_disp_modified`|discharged to home, discharged to home w/ home health services, discharged/transferred to SNF (skilled nursing facilities), & other|compared to home discharge all other categories increase readmission likelihood|
+|Insulin dose change|`insulin`|down, no, steady, or up|compared to a drop in dosage all other categories correspond to a decrease in readmission|
+|Total diagnosis for patient|`number_diagnoses`|1-16|increases in diagnoses correspond with increase in readmission|
+|Number of emergency visits by the patient in the year prior to the current encounter|`number_emergency`|0-76|increases in emergency visits correspond with increase in readmission|
+|Number of inpatient visits by the patient in the year prior to the current encounter|`number_inpatient`|0-21|increases in inpatient visits correspond with increase in readmission|
+|Patient’s length of stay in the hospital (in days)|`time_in_hospital`|1-14|increases in length of stay correspond with increase in readmission|
 
-<!-- Call: -->
-<!-- glm(formula = readmitted ~ time_in_hospital + number_emergency +  -->
-<!--     number_inpatient + number_diagnoses + insulin + diabetesMed +  -->
-<!--     disch_disp_modified + adm_src_mod + age_mod, family = "binomial",  -->
-<!--     data = data1) -->
+Knowing this information hospitals can now predict the likelihood that a given patient will be readmitted in less than thirty days, and adjust their intervention accordingly.
 
-<!-- Deviance Residuals:  -->
-<!--     Min       1Q   Median       3Q      Max   -->
-<!-- -2.5163  -0.5034  -0.4340  -0.3854   2.6166   -->
-
-<!-- Coefficients: -->
-<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
-<!-- (Intercept)                                                    -3.325973   0.165234 -20.129  < 2e-16 *** -->
-<!-- time_in_hospital                                                0.012811   0.003515   3.645 0.000268 *** -->
-<!-- number_emergency                                                0.037520   0.008555   4.386 1.16e-05 *** -->
-<!-- number_inpatient                                                0.265215   0.006482  40.914  < 2e-16 *** -->
-<!-- number_diagnoses                                                0.035903   0.006031   5.953 2.64e-09 *** -->
-<!-- insulinNo                                                      -0.178066   0.034996  -5.088 3.61e-07 *** -->
-<!-- insulinSteady                                                  -0.152232   0.032967  -4.618 3.88e-06 *** -->
-<!-- insulinUp                                                      -0.098208   0.039544  -2.484 0.013008 *   -->
-<!-- diabetesMedYes                                                  0.143810   0.031354   4.587 4.50e-06 *** -->
-<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.204923   0.031750   6.454 1.09e-10 *** -->
-<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.386880   0.031114  12.434  < 2e-16 *** -->
-<!-- disch_disp_modifiedOther                                        0.434454   0.028963  15.000  < 2e-16 *** -->
-<!-- adm_src_modOther                                               -0.091686   0.041905  -2.188 0.028672 *   -->
-<!-- adm_src_modPhysician Referral                                   0.010186   0.023832   0.427 0.669081     -->
-<!-- adm_src_modTransfer from Home Health                           -0.117198   0.042960  -2.728 0.006370 **  -->
-<!-- age_mod20-59                                                    0.514863   0.160395   3.210 0.001328 **  -->
-<!-- age_mod60-79                                                    0.619453   0.160520   3.859 0.000114 *** -->
-<!-- age_mod80+                                                      0.579720   0.161900   3.581 0.000343 *** -->
-
+__________________________________________________________
 
 # Appendix
 
@@ -1222,10 +1196,6 @@ data1 %>%
   select(time_in_hospital, num_lab_procedures, num_procedures, num_medications, number_outpatient, number_emergency, number_inpatient, number_diagnoses) %>%
   pairs(col=data1$readmitted) # base pair-wise scatter plots
 ```
-
-# ```{r, echo=FALSE, fig.align="center", out.width="500px"}
-# knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Option1_DiabeticStudy/collinearity1.png")
-# ```
 
 ```{r, eval=FALSE, include=FALSE}
 # names(data1)
