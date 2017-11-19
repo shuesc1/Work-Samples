@@ -55,7 +55,98 @@ For most of 2017 health care has been in the forefront of public discourse due t
 
 This investigation seeks to focus on one particular aspect of healthcare costs and savings in the US: hospitalization costs, specifically the cost of readmitting a diabetes patient in less than 30 days. This inquiry intends to address this issue by providing healthcare providers information about a patient's estimated propensity for readmission in this time period given certain individual factors. It is our hope that the findings here shed light on patient characterisitics influencing readmission, which the care community may then turn into actionable policy and practice changes that both better serve patients as well as reduce readmission costs.   
 
-The dataset analyzed is courtesy of Virginia Commonwealth University and consists of patient observations from 130 hospitals in the US from 1999 - 2008. The original dataset contained 50 patient features across 101,766 observations. After cleaning 
+The dataset analyzed is courtesy of Virginia Commonwealth University and consists of patient observations from 130 hospitals in the US from 1999 - 2008. The original dataset contained 50 patient features across 101,766 observations. In the simplest terms the variables belong to the following categories: patient identifiers, patient demographics, admission and discharge details, patient medical history, patient admission details, clinical results, medication details, & readmission indicator (dependent variable). After cleaning many of the medication details were eliminated due to little variability, while binning was applyed to some categorical variables. Similarly, througout the process variables with large amounts of missing entries, those with an excessive amount of levels, and ones unrelated to readmission status were eliminated. 
+
+Three classification models were obtained from this data: two using logistic regression and one using the random forests technique. The implications of these models are that to prevent readmission and better serve patients the hospital should pay particular attention to the following patient characteristics and their purported effects on readmission under 30 days: 
+
++ admission source/patient referral
++ patient age
++ diabetes medication prescribed during visit (y/n) 
++ discharge disposition (discharged to home, discharged to home w/ home health services, discharged/transferred to SNF (skilled nursing facilities), & other)
++ insulin dose change during visit (down, no, steady, or up)
++ Metformin medication change (down, no, steady, or up),total number of diagnosis for patient 
++ Number of emergency visits by the patient in the year prior to the current encounter
++ Number of inpatient visits by the patient in the year prior to the current encounter
++ Patient’s length of stay in the hospital (in days)
+
+With respect to factors that increase likelihood of readmission <30 days, unsurprisingly, probability of short term readmission increase as number of emergency visits, number of inpatient visits, time in hospital, and number of diagnoses per patient increase. Other more abstract factors increasing the probability are physician referral for admission, diabetes medication prescription during visit, and virtually any discharge situation, though discharge to 'other' situation and skilled nursing facilities cause a greater increase in this probability. There may be something of a selection effect in that finding, however. Lastly, all ages over 19 imply an increase in the probability, though the 60-79 age range corresponds with the greatest increase in this probability.
+
+Factors that decrease likelihood of readmission <30 days are the following: no insulin prescribed, steady dosage, or increase all have a decreased effect on likelihood of short term readmission. 
+
+
+
+<!-- Call: -->
+<!-- glm(formula = readmitted ~ time_in_hospital + number_emergency +  -->
+<!--     number_inpatient + number_diagnoses + insulin + diabetesMed +  -->
+<!--     disch_disp_modified + adm_src_mod + age_mod, family = "binomial",  -->
+<!--     data = data1) -->
+
+<!-- Deviance Residuals:  -->
+<!--     Min       1Q   Median       3Q      Max   -->
+<!-- -2.5163  -0.5034  -0.4340  -0.3854   2.6166   -->
+
+<!-- Coefficients: -->
+<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
+<!-- (Intercept)                                                    -3.325973   0.165234 -20.129  < 2e-16 *** -->
+<!-- time_in_hospital                                                0.012811   0.003515   3.645 0.000268 *** -->
+<!-- number_emergency                                                0.037520   0.008555   4.386 1.16e-05 *** -->
+<!-- number_inpatient                                                0.265215   0.006482  40.914  < 2e-16 *** -->
+<!-- number_diagnoses                                                0.035903   0.006031   5.953 2.64e-09 *** -->
+<!-- insulinNo                                                      -0.178066   0.034996  -5.088 3.61e-07 *** -->
+<!-- insulinSteady                                                  -0.152232   0.032967  -4.618 3.88e-06 *** -->
+<!-- insulinUp                                                      -0.098208   0.039544  -2.484 0.013008 *   -->
+<!-- diabetesMedYes                                                  0.143810   0.031354   4.587 4.50e-06 *** -->
+<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.204923   0.031750   6.454 1.09e-10 *** -->
+<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.386880   0.031114  12.434  < 2e-16 *** -->
+<!-- disch_disp_modifiedOther                                        0.434454   0.028963  15.000  < 2e-16 *** -->
+<!-- adm_src_modOther                                               -0.091686   0.041905  -2.188 0.028672 *   -->
+<!-- adm_src_modPhysician Referral                                   0.010186   0.023832   0.427 0.669081     -->
+<!-- adm_src_modTransfer from Home Health                           -0.117198   0.042960  -2.728 0.006370 **  -->
+<!-- age_mod20-59                                                    0.514863   0.160395   3.210 0.001328 **  -->
+<!-- age_mod60-79                                                    0.619453   0.160520   3.859 0.000114 *** -->
+<!-- age_mod80+                                                      0.579720   0.161900   3.581 0.000343 *** -->
+
+
+<!-- log model 2 using LASSO then forward selection -->
+<!-- Call: -->
+<!-- glm(formula = readmitted ~ number_inpatient + number_diagnoses +  -->
+<!--     metformin + disch_disp_modified + adm_src_mod + age_mod,  -->
+<!--     family = binomial, data = data1) -->
+
+<!-- Deviance Residuals:  -->
+<!--     Min       1Q   Median       3Q      Max   -->
+<!-- -2.3954  -0.5047  -0.4300  -0.3900   2.6117   -->
+
+<!-- Coefficients: -->
+<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
+<!-- (Intercept)                                                    -3.128193   0.206342 -15.160  < 2e-16 *** -->
+<!-- number_inpatient                                                0.275203   0.006243  44.079  < 2e-16 *** -->
+<!-- number_diagnoses                                                0.042862   0.005929   7.229 4.86e-13 *** -->
+<!-- metforminNo                                                    -0.174865   0.130759  -1.337 0.181123     -->
+<!-- metforminSteady                                                -0.257777   0.132659  -1.943 0.051998 .   -->
+<!-- metforminUp                                                    -0.400679   0.172565  -2.322 0.020239 *   -->
+<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.231017   0.031307   7.379 1.59e-13 *** -->
+<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.423541   0.030362  13.950  < 2e-16 *** -->
+<!-- disch_disp_modifiedOther                                        0.434021   0.028540  15.207  < 2e-16 *** -->
+<!-- adm_src_modOther                                               -0.098864   0.041641  -2.374 0.017588 *   -->
+<!-- adm_src_modPhysician Referral                                   0.008675   0.023791   0.365 0.715373     -->
+<!-- adm_src_modTransfer from Home Health                           -0.116594   0.042870  -2.720 0.006534 **  -->
+<!-- age_mod20-59                                                    0.499108   0.160295   3.114 0.001848 **  -->
+<!-- age_mod60-79                                                    0.583015   0.160324   3.636 0.000276 *** -->
+<!-- age_mod80+                                                      0.524009   0.161610   3.242 0.001185 **  -->
+
+
+
+
+
+
+
+
+Problems, solutions, and futher investigation
+
+
+
+
 
 # Detailed Process of the Analysis
 ### Data Summary
@@ -84,10 +175,8 @@ __possible problems/complications:__
 <!--- Dataset characteristics --->
 ```{r, eval=FALSE, echo=FALSE}
 ## =============================  STANDARD EDA TECHNIQUES ==============================
-
 ## <<<< READING IN DATA >>>
 ## ===== FULL DATASET =====
-# bill.data.test <- read.csv("Bills.subset.test.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 df.full <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
 dim(df.full) # 101,766 observations x 50 variables
 head(df.full, 30)
@@ -98,16 +187,17 @@ summary(df.full$readmitted)
 
 ```{r}
 # ====== CLEANED DATASET ====
-data1 <- read.csv("diabetic.data.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
-dim(data1) #101766 observations x 50 variables
-#tail(data1, 20)
+data1 <- read.csv("readmission.csv", header=TRUE, sep=",", na.strings="") # accounts for header, CSV, and na strings
+dim(data1) #101766 observations x 31 variables
+tail(data1, 20)
 # head(data1, 20)
 # View(data1)
 
-data1 <- data1[ -c(6, 11:12, 28, 30, 33, 36:41, 43:47) ]# getting rid of unhelpful vars
+# data1 <- data1[ -c(6, 11:12, 28, 30, 33, 36:41, 43:47) ]# getting rid of unhelpful vars
 #names(data1)
 #dim(data1) # 101766 x 33
-#summary(data1)
+summary(data1)
+levels(data1$adm_src_mod)
 
 # <<<<<<<<<< NA VALUES >>>>>>>>>
 sum(is.na(data1))
@@ -259,15 +349,16 @@ This lends credence to the notion that gender does not contribute to likelihood 
 ##### Age
 
 ```{r}
-summary(data1$age) #scatterplot
+summary(data1$age_mod) #scatterplot
+names(data1)
 #<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
-lm.age <- lm(readmitted~age, data = data1)
-plot(data1$age, data1$readmitted,
+# lm.age <- lm(readmitted~age_mod, data = data1)
+plot(data1$age_mod, data1$readmitted,
      pch = 16,
      xlab = "Patient age",
      ylab = "Readmission category",
      main = "Patient age vs. readmission category")
-abline(lm.age, col="red", lwd=4)
+# abline(lm.age, col="red", lwd=4)
 # abline(h=mean(county_data$dem12_frac), lwd=5, col="blue")
 ```
 
@@ -336,11 +427,11 @@ There consistently seems to be a large spike in frequency around 9 diagnoses.
 ##### Age vs. num medications
 
 ```{r}
-summary(data1$age) #scatterplot
+summary(data1$age_mod) #scatterplot
 summary(data1$num_medications)
 #<<< SCATTERPLOT WITH LS LINE ADDED >>>>>
 help(plot)
-plot(data1$num_medications, data1$age,
+plot(data1$num_medications, data1$age_mod,
      pch = 20,
      col=data1$readmitted,
      xlab = "Patient number medications",
@@ -378,7 +469,7 @@ data1 %>%
 
 #### Further prepping data
 
-```{r}
+```{r, echo=FALSE}
 # <<<< make readmitted categorical>>>
 # ======= readmitted = column 33 =======
 # summary(data1)
@@ -398,6 +489,7 @@ data1 <- filter(data1, race != "?")
 
 # <<<<<<< remove patient identifiers (not helpful) >>>>>
 # encounter_id & patient_nbr
+# summary(data1)
 data1 <- subset(data1, select = -c(encounter_id,patient_nbr))
 names(data1)
 # df <- subset(df, select = -c(a,c) )
@@ -406,7 +498,7 @@ names(data1)
 #readmit_less30.diag <- filter(data1, readmitted == "<30")
 #bill.data.train$status <- factor(ifelse(bill.data.train$status=="bill:passed" | bill.data.train$status=="governor:signed" | bill.data.train$status=="governor:received", "1", "0"))
 summary(data1)  
-table(data1$age)
+table(data1$age_mod)
 # levels(data1$diag_1) #717
 # levels(data1$diag_2) #749
 # levels(data1$diag_3) #790 
@@ -414,12 +506,12 @@ table(data1$age)
 
 ### Initial modeling
 
-```{r}
+```{r, echo=FALSE}
 # an initial linear model using probably variables
 # summary(data1$max_glu_serum)
 # summary(data1$insulin)
 summary(data1$diabetesMed)
-lm.init <- glm(readmitted~ race + gender + age + time_in_hospital + num_medications + number_diagnoses + max_glu_serum + insulin + change + diabetesMed, data = data1, family = "binomial")
+lm.init <- glm(readmitted~ race + gender + age_mod + time_in_hospital + num_medications + number_diagnoses + max_glu_serum + insulin + change + diabetesMed, data = data1, family = "binomial")
 summary(lm.init)
 Anova(lm.init)
 ```
@@ -436,11 +528,11 @@ names(data1)
 # extract y, readmitted
 Y <- data1$readmitted
 #Y
-X <- model.matrix(readmitted~. -diag_1 -diag_2 -diag_3, data = data1)[, -1]
+X <- model.matrix(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data = data1)[, -1]
 #X
 colnames(X)
 fit.lasso.cv <- cv.glmnet(X, Y, alpha = 1, nfolds = 10, family = "binomial")
-fit.lasso.cv$lambda.1se #0.008129686
+fit.lasso.cv$lambda.1se #0.006749408
 fit.lasso.cv$lambda.min # 0.0003773466
 # fit.lasso.cv$nzero
 
@@ -453,13 +545,13 @@ plot(fit.lasso.cv)
 coef.min <- coef(fit.lasso.cv, s="lambda.min")  #s=c("lambda.1se","lambda.min") or lambda value
 coef.min <- coef.min[which(coef.min !=0),]   # get the non=zero coefficients
 coef.min  # the set of predictors chosen
-rownames(as.matrix(coef.min)) # shows only names, not estimates -- 38 variables
+rownames(as.matrix(coef.min)) # shows only names, not estimates -- 39 variables
 
-# using λ=lambda.1se
- # coef.1se <- coef(fit.lasso.cv, s="lambda.1se")  
- # coef.1se <- coef.1se[which(coef.1se !=0),] 
+#using λ=lambda.1se
+ # coef.1se <- coef(fit.lasso.cv, s="lambda.1se")
+ # coef.1se <- coef.1se[which(coef.1se !=0),]
  # coef.1se
- # rownames(as.matrix(coef.1se)) # only 4 variables -- too sparse
+ # rownames(as.matrix(coef.1se)) # only 4 variables -- too sparse -- ACTUALLY 8 with the modified dataset (actually reasonable)
 
 # using all non-zero coefficients
 # coef.nzero <-coef(fit.lasso.cv, nzero = 3)
@@ -484,8 +576,31 @@ var.min
 # [31] "glipizideUp"              "glyburideNo"              "pioglitazoneSteady"       "rosiglitazoneNo"          "insulinNo"                "insulinSteady"           
 # [37] "insulinUp"                "diabetesMedYes"          
 
-# lm.input <- as.formula(paste("readmitted", "~", paste(var.min[-1], collapse = "+"))) 
-lm.input <- "readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed"
+# REVISION
+#  [1] "(Intercept)"                                                    "raceOther"                                                     
+#  [3] "genderMale"                                                     "time_in_hospital"                                              
+#  [5] "num_lab_procedures"                                             "num_procedures"                                                
+#  [7] "num_medications"                                                "number_outpatient"                                             
+#  [9] "number_emergency"                                               "number_inpatient"                                              
+# [11] "number_diagnoses"                                               "max_glu_serumNone"                                             
+# [13] "A1CresultNone"                                                  "A1CresultNorm"                                                 
+# [15] "metforminSteady"                                                "metforminUp"                                                   
+# [17] "glimepirideSteady"                                              "glipizideNo"                                                   
+# [19] "glipizideUp"                                                    "glyburideNo"                                                   
+# [21] "pioglitazoneSteady"                                             "pioglitazoneUp"                                                
+# [23] "rosiglitazoneNo"                                                "rosiglitazoneUp"                                               
+# [25] "insulinNo"                                                      "insulinSteady"                                                 
+# [27] "insulinUp"                                                      "diabetesMedYes"                                                
+# [29] "disch_disp_modifiedDischarged to home with Home Health Service" "disch_disp_modifiedDischarged/Transferred to SNF"              
+# [31] "disch_disp_modifiedOther"                                       "adm_src_modOther"                                              
+# [33] "adm_src_modPhysician Referral"                                  "adm_src_modTransfer from Home Health"                          
+# [35] "adm_typ_modEmergency"                                           "adm_typ_modOther"                                              
+# [37] "adm_typ_modUrgent"                                              "age_mod60-79"                                                  
+# [39] "age_mod80+" 
+
+# lm.input <- as.formula(paste("readmitted", "~", paste(var.min[-1], collapse = "+")))
+# lm.input <- "readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed"
+lm.input <- "readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod"
 
 # TODO -- if time try forward stepwise, backward, etc. using these variables then use AIC, BIC, Cp to come up with best (other) w/ optimal # variables
 fit.min.lm <- glm(lm.input, data=data1, family = "binomial")
@@ -497,44 +612,44 @@ Anova(fit.min.lm)
 A more robust and methodically sound model used LASSO regularization, model building that adds constraints (a penalty) to the variable coefficients, giving us sparse model selection. This is good given the amount of features (many with multiple levels) that we have. The tuning parameter for this penalty function - $\lambda$ - was chosen via cross validation, the value of which was chosen to minimize mean cross validation errors. This yielded a model with 22 variables. Creating a model with these 22 variables and running the `Anova()` test revealed that not all variables were statistically significant. Thus, I began the process of (manual) backwards elimination by kicking out the variable with the largest P value (there is a large chance that the true value is zero (null hypothesis)).
 
 ```{r}
-#kick out race first -- highest p value at .89 (null hypoth can't be disproven)
+#kick out race first -- highest p value at .85 (null hypoth can't be disproven)
 fit.min.lm.1 <- update(fit.min.lm, .~. -race)
 Anova(fit.min.lm.1)
 
-#kick out gender - .686
+#kick out gender - .56
 fit.min.lm.2 <- update(fit.min.lm.1, .~. -gender)
 Anova(fit.min.lm.2)
 
-#kick out max_glu_serum - .71
-fit.min.lm.3 <- update(fit.min.lm.2, .~. -max_glu_serum)
+#kick out glyburide- 0.4748421 
+fit.min.lm.3 <- update(fit.min.lm.2, .~. -glyburide)
 Anova(fit.min.lm.3)
 
-#kick out nateglinide - 0.5902633
-fit.min.lm.4 <- update(fit.min.lm.3, .~. -nateglinide)
+#kick out num_lab_procedures - 0.3727800
+fit.min.lm.4 <- update(fit.min.lm.3, .~. -num_lab_procedures)
 Anova(fit.min.lm.4)
 
-#kick out num_lab_procedures -0.5755722
-fit.min.lm.5 <- update(fit.min.lm.4, .~. -num_lab_procedures)
+#kick out adm_typ_mod - 0.3303114
+fit.min.lm.5 <- update(fit.min.lm.4, .~. -adm_typ_mod)
 Anova(fit.min.lm.5)
 
-#kick out glyburide- 0.4717495 
-fit.min.lm.6 <- update(fit.min.lm.5, .~. -glyburide)
+#kick out pioglitazone - 0.3018096 
+fit.min.lm.6 <- update(fit.min.lm.5, .~. -pioglitazone)
 Anova(fit.min.lm.6)
 
-#kick out pioglitazone - 0.2023333 
-fit.min.lm.7 <- update(fit.min.lm.6, .~. -pioglitazone)
+#kick out rosiglitazone- 0.244099 
+fit.min.lm.7 <- update(fit.min.lm.6, .~. -rosiglitazone)
 Anova(fit.min.lm.7)
 
-#kick out rosiglitazone -0.2078855
-fit.min.lm.8 <- update(fit.min.lm.7, .~. -rosiglitazone)
+#kick out num_medications - 0.1380759
+fit.min.lm.8 <- update(fit.min.lm.7, .~. -num_medications)
 Anova(fit.min.lm.8)
 
-#kick out repaglinide - 0.1737818 
-fit.min.lm.9 <- update(fit.min.lm.8, .~. -repaglinide)
+#kick out max_glu_serum - 0.1009794
+fit.min.lm.9 <- update(fit.min.lm.8, .~. -max_glu_serum)
 Anova(fit.min.lm.9)
 
-#kick out glipizide- 0.0618024
-fit.min.lm.10 <- update(fit.min.lm.9, .~. -glipizide)
+#kick out glimepiride -  0.0777974
+fit.min.lm.10 <- update(fit.min.lm.9, .~. -glimepiride)
 Anova(fit.min.lm.10)
 
 #kick out glimepiride -0.0153940 * 
@@ -543,12 +658,9 @@ Anova(fit.min.lm.10)
 # This drug may be used as part of a combination therapy. That means you need to take it with other drugs.
 # Glimepiride is used to reduce high blood sugar levels in people with type 2 diabetes. It’s used in combination with a healthy diet and exercise.
 # This medication may be used with insulin or other types of diabetes drugs to help control your high blood sugar.
-
-fit.min.lm.11 <- update(fit.min.lm.10, .~. -glimepiride)
-Anova(fit.min.lm.11)
 ```
 
-After doing manual backwards elimination the model has 11 variables, all of which are statistically significant at the .01 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad.
+After doing manual backwards elimination the model has 12 variables, all of which are statistically significant at the .05 level. Some of these remaining variables seem like they might exhibit colinearity. Although plotting them shows that the actuality is really not all that bad.
 
 ```{r}
 data1 %>% select(time_in_hospital, num_procedures, num_medications, number_emergency, number_inpatient, number_diagnoses) %>% cor()
@@ -560,7 +672,7 @@ data1 %>%
 ```
 
 ```{r}
-summary(fit.min.lm.11)
+summary(fit.min.lm.10)
 ```
 
 In looking at the summary of the model multiple levels of the `A1Cresult` are not significant. Also under further investigation this number seems likely to be highly correlated with insulin. This is a similar case with `metformin`. For those reasons I've decided to remove them. 
@@ -568,25 +680,44 @@ In looking at the summary of the model multiple levels of the `A1Cresult` are no
 ```{r}
 # The more glucose that enters the bloodstream, the higher the amount of glycated hemoglobin,” Dr. Dodell says. An A1C level below 5.7 percent is considered normal. An A1C between 5.7 and 6.4 percent signals prediabetes. Type 2 diabetes is diagnosed when the A1C is over 6.5 percent.
 
-fit.min.lm.12 <- update(fit.min.lm.11, .~. -A1Cresult)
+# fit.min.lm.11 <- update(fit.min.lm.10, .~. -glimepiride)
+# Anova(fit.min.lm.11)
+
+fit.min.lm.11 <- update(fit.min.lm.10, .~. -A1Cresult)
+Anova(fit.min.lm.11)
+
+fit.min.lm.12 <- update(fit.min.lm.11, .~. -metformin)
 Anova(fit.min.lm.12)
 
-fit.min.lm.13 <- update(fit.min.lm.12, .~. -metformin)
+# summary(fit.min.lm.12)
+```
+
+Lastly, for the sake of model robustness I am also choosing to remove `glipizide`, which is only significant at the .05 level according to the Anova test.
+
+```{r}
+fit.min.lm.13 <- update(fit.min.lm.12, .~. -glipizide)
 Anova(fit.min.lm.13)
 ```
 
+
 ##### Final model specified by preliminary model building using LASSO (least absolute shrinkage and selection operator)
 
-The resulting original model obtained by LASSO regularization has 9 variables, 3 of which have multiple levels: 
+The resulting original model obtained by LASSO regularization has 9 variables, 5 of which have multiple levels: 
 
 ##TODO redo this to reflect multiple logistic regression
 $ \hat Y = age + .02 * time\_in\_hospital - .03 * num\_procedures + .005 * num\_medications + .033 * number\_emergency + .27 * number\_inpatient + .04 * number\_diagnoses + insulin + diabetesMed - 4.151 $
 
 ```{r}
 summary(fit.min.lm.13)
+#XXXXXXXXXXXXX OLD XXXXXXXXX
 # formula = readmitted ~ age + time_in_hospital + num_procedures + 
 #     num_medications + number_emergency + number_inpatient + number_diagnoses + 
 #     insulin + diabetesMed
+
+# ******UPDATED*******
+# readmitted ~ time_in_hospital + number_emergency + 
+#     number_inpatient + number_diagnoses + insulin + diabetesMed + 
+#     disch_disp_modified + adm_src_mod + age_mod
 ```
 
 Prediction:
@@ -596,10 +727,10 @@ Prediction:
 pred.row <- data1[99493,] #take last observation for prediction
 pred.row
 fit13.predict <- predict(fit.min.lm.13, pred.row, type="response")
-fit13.predict #0.08535637
+fit13.predict #0.07694511 
 ```
-Doing a simple prediction with this model using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 8.5%. I'll use this value later to compare the effectiveness of this model. 
 
+Doing a simple prediction with this model using the last observation in the dataset sets the prediction of this patient being readmitted in 30 days is 7.7%. 
 
 ##### Classifier and threshold 
 <!-- Based on a quick and somewhat arbitrary guess, we estimate it costs twice as much to mislabel a readmission than it does to mislabel a non-readmission. Based on this risk ratio, propose a specific classification rule to minimize the cost. If you find any information that could provide a better cost estimate, please justify it in your write-up and use the better estimate in your answer. -->
@@ -618,7 +749,7 @@ fit13.pred.bayes <- rep("0", 99493)
 # fit13.pred.bayes
 fit13.pred.bayes[fit.min.lm.13$fitted.values > 0.33] = "1"
 MCE.bayes = (sum(2*(fit13.pred.bayes[data1$readmitted == "1"] != "1")) + sum(fit13.pred.bayes[data1$readmitted == "0"] != "0"))/length(data1$readmitted)
-MCE.bayes #0.2225885
+MCE.bayes #0.2224679
 ```
 
 After using the information about false positives costing twice as much as false negatives to establish a threshold we see that the resulting mis-classification error is 22%, ie roughly 1 out of 5 patients would be mis-classified with this model and threshold.
@@ -628,7 +759,7 @@ After using the information about false positives costing twice as much as false
 ```{r}
 library(pROC)
 data.lastrow <- data1[-nrow(data1),] # last row out
-dim(data1) #99493    31
+dim(data1) #99493    29
 # ~100,000, so 20% for testing would be ~20,000
 N <- length(data1$readmitted)
 set.seed(20)
@@ -638,7 +769,9 @@ data.test <- data1[-index.train,]
 # pairs(data.test, col=data.test$readmitted)
 # dim(data.train) #80,000
 # dim(data.test) #19,493
-input.testtrain = readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
+# input.testtrain = readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
+input.testtrain  <- "readmitted ~ time_in_hospital + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed + disch_disp_modified + adm_src_mod + age_mod"
+names(data.train)
 fit.train <- glm(input.testtrain, data=data.train, family=binomial)
 fit.fitted.test <- predict(fit.train, data.test, type="response")
 fit.test.roc <- roc(data.test$readmitted, fit.fitted.test, plot=T)
@@ -657,7 +790,7 @@ While we now have a working model to predict patient readmission <30 days, for t
 As a reminder the non-zero coefficients given by LASSO were:
 
 ```
-readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed
+readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod
 ```
 
 ```{r}
@@ -665,48 +798,15 @@ lm.input
 ```
 
 
-#### All subsets selection
-
-```{r eval=FALSE}
-#==============Obtaining final model with model selection===================
-#<<<<<<All subsets>>>>>>>
-fit.exh <- regsubsets(lm.input, data1, nvmax=22, method="exhaustive")
-names(fit.exh)
-summary(fit.exh)
-exh.summary <- summary(fit.exh)
-names(exh.summary)
-exh.summary$rsq
-par(mfrow=c(2,2))
-plot(exh.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
-plot(exh.summary$adjr2,xlab="Number of Variables", ylab="Adjusted RSq",type="l")
-which.max(exh.summary$adjr2)
-points(which.max(exh.summary$adjr2),exh.summary$adjr2[which.max(exh.summary$adjr2)], col="red",cex=2,pch=20) #5 variables
-plot(exh.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
-which.min(exh.summary$cp)
-points(which.min(exh.summary$cp),exh.summary$cp[which.min(exh.summary$cp)],col="red",cex=2,pch=20) # 5 variables
-plot(exh.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
-points(which.min(exh.summary$bic),exh.summary$bic[which.min(exh.summary$bic)],col="red",cex=2,pch=20) # 4 variables
-# let's go with 5 variables
-coef.exh <- coef(fit.exh,5)
-var.min <- rownames(as.matrix(coef.exh)) # output the names
-print("============5 variable model using all subsets==========")
-lm.input2 <- as.formula(paste("violentcrimes.perpop", "~", paste(var.min[-1], collapse = "+"))) 
-lm.input2
-coef.exh
-print("============BIC & Cp with 5 variables==========")
-exh.summary$bic[5] # -397.9771
-exh.summary$cp[5] # 6
-```
-
 #### Forward stepwise selection
 
 ```{r eval=FALSE}
 #<<<<<<Forward stepwise selection>>>>>>>
 library(leaps)
-fit.fwd=regsubsets(readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed,data=data1 ,nvmax =22, method ="forward")
+fit.fwd=regsubsets(readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod,data=data1 ,nvmax =22, method ="forward")
 summary(fit.fwd)
 fit.fwd.summary <-summary(fit.fwd)
-names(fit.fwd.summary)
+# names(fit.fwd.summary)
 # criteria plots
 par(mfrow=c(2,2))
 plot(fit.fwd.summary$rss,xlab="Number of Variables", ylab="RSS",type="l")
@@ -715,28 +815,29 @@ which.max(fit.fwd.summary$adjr2)
 points(23,fit.fwd.summary$adjr2[23], col="red",cex=2,pch=20) # 23 variables
 plot(fit.fwd.summary$cp,xlab="number of variables",ylab="Cp", type = 'l')
 which.min(fit.fwd.summary$cp)
-points(which.min(fit.fwd.summary$cp),fit.fwd.summary$cp[which.min(fit.fwd.summary$cp)],col="red",cex=2,pch=20) # 23 variables
+points(which.min(fit.fwd.summary$cp),fit.fwd.summary$cp[which.min(fit.fwd.summary$cp)],col="red",cex=2,pch=20) # 21 variables
 plot(fit.fwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
 which.min(fit.fwd.summary$bic)
-points(which.min(fit.fwd.summary$bic),fit.fwd.summary$bic[which.min(fit.fwd.summary$bic)],col="red",cex=2,pch=20) # 7 variables
-# choose to go with 7 variables --> choice that minimizes BIC
-coef.fit.fwd <- coef(fit.fwd,7)
+points(which.min(fit.fwd.summary$bic),fit.fwd.summary$bic[which.min(fit.fwd.summary$bic)],col="red",cex=2,pch=20) # 10 variables
+# choose to go with 10 variables --> choice that minimizes BIC
+coef.fit.fwd <- coef(fit.fwd,10)
 var.min <- rownames(as.matrix(coef.fit.fwd)) # output the names
 var.min
-print("============ 7 variable model using forwards stepwise selection==========")
+print("============ 10 variable model using forwards stepwise selection==========")
 # lm.input3 <- as.formula(paste("readmitted", "~", paste(var.min[-1], collapse = "+"))) # prepare for lm fomulae
-lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
+# lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
+lm.input3 <- "readmitted ~ num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + disch_disp_modified + adm_src_mod + age_mod"
 coef.fit.fwd
-print("============BIC & Cp with 7 variables==========")
-fit.fwd.summary$bic[7] #-2984.638
-fit.fwd.summary$cp[7] #85.77953
+print("============BIC & Cp with 10 variables==========")
+fit.fwd.summary$bic[10] #-3237.99
+fit.fwd.summary$cp[10] #66.672
 ```
 
 
 #### Backward stepwise selection
 ```{r eval=FALSE}
 #<<<<<<Backward stepwise selection>>>>>>>
-fit.bwd=regsubsets(readmitted~ race + gender + age + time_in_hospital + num_lab_procedures + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + repaglinide + nateglinide + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed, data=data1 ,nvmax =22,method ="backward")
+fit.bwd=regsubsets(readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod, data=data1 ,nvmax =22,method ="backward")
 summary(fit.bwd)
 fit.bwd.summary <-summary(fit.bwd)
 names(fit.bwd.summary)
@@ -751,53 +852,70 @@ which.min(fit.bwd.summary$cp)
 points(which.min(fit.bwd.summary$cp),fit.bwd.summary$cp[which.min(fit.bwd.summary$cp)],col="red",cex=2,pch=20) # 23 variables
 plot(fit.bwd.summary$bic,xlab="number of variables",ylab="BIC", type = 'l')
 which.min(fit.bwd.summary$bic)
-points(which.min(fit.bwd.summary$bic),fit.bwd.summary$bic[which.min(fit.bwd.summary$bic)],col="red",cex=2,pch=20) # 11 variables
-# choose to go with 11 variables
-coef.fit.bwd <- coef(fit.bwd,11)
+points(which.min(fit.bwd.summary$bic),fit.bwd.summary$bic[which.min(fit.bwd.summary$bic)],col="red",cex=2,pch=20) # 9 variables
+# choose to go with 9 variables
+coef.fit.bwd <- coef(fit.bwd,9)
 var.min <- rownames(as.matrix(coef.fit.bwd)) # output the names -- SEVERAL WERE multi-level repeats
 var.min
-print("============ 11 variable model using backwards stepwise==========")
+print("============ 9 variable model using backwards stepwise==========")
 # lm.input4 <- as.formula(paste("violentcrimes.perpop", "~", paste(var.min[-1], collapse = "+"))) 
 
-## due to mult levels for same variable there are actually only 8 vars
-lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + insulin + race"
+## due to mult levels for same variable there are actually only 7 vars
+# lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + insulin + race"
+lm.input4 <- "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum + metformin + disch_disp_modified + adm_src_mod + age_mod" 
 coef.fit.bwd
-print("============BIC with 8 variables==========")
-fit.bwd.summary$bic[11] #-2970.369
-fit.bwd.summary$cp[11] #62.00059
+print("============BIC with 9 variables==========")
+fit.bwd.summary$bic[9] #-3233.282
+fit.bwd.summary$cp[9] #80.89599
 ```
 
+<!--- forward, backward & manual backward elimination --->
 ```{r}
 # OUTPUTS from forward & backward stepwise selection:
 # <<< forward >>>
-lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race"
+# XXXXXX lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race" XXXXXXXX
+lm.input3 <- "readmitted ~ num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + disch_disp_modified + adm_src_mod + age_mod"
 
 # <<< backward >>>
-lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race + insulin"
+# XXXXXX lm.input4 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race + insulin" XXXXXXZ
+lm.input4 <- "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum + metformin + disch_disp_modified + adm_src_mod + age_mod"
 
 # for comparison -- from manual backwards elimination
-#             readmitted ~ age + number_inpatient + number_diagnoses + insulin + time_in_hospital + num_procedures + num_medications + number_emergency + diabetesMed
+# XXXXXXX readmitted ~ age + number_inpatient + number_diagnoses + insulin + time_in_hospital + num_procedures + num_medications + number_emergency + diabetesMed
+#             readmitted ~ time_in_hospital + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed + disch_disp_modified + adm_src_mod + age_mod
 ```
 
 Putting the variables chosen from forward & backward selection we see that the results are almost identical. The only difference is that backward selection pointed to the importance of one more variable than forward selection, `insulin`. For this reason I've chosen to take the variables from backward selection as the inputs for a logistic regession model.
 
 ```{r}
-# LASSO --> forward/backward selection --> best vars are from backward --> logistic regression
-fit.log.2 <- glm(lm.input4, data1, family= binomial)
+# LASSO --> forward/backward selection --> best vars are from FORWARD (most comprehensive -- 1 var more than backward, BIC is also lower) --> logistic regression
+fit.log.2 <- glm(lm.input3, data1, family= binomial)
 # summary(fit.log.2)
 Anova(fit.log.2)
 
-# removing race - P ~.75
-fit.log.2.1 <- update(fit.log.2, .~. - race)
+# num_lab_procedures - 0.0252814
+fit.log.2.1 <- update(fit.log.2, .~. - num_lab_procedures)
 Anova(fit.log.2.1)
 
-# removing max_glu_serum - p = 0.152725 
+# removing max_glu_serum - p = 0.0447352
 fit.log.2.2 <- update(fit.log.2.1, .~. - max_glu_serum)
 Anova(fit.log.2.2)
 summary(fit.log.2.2)
 ```
 
-After removing `race` and `max_glu_serum` all variables are significant at the .05 level according to the Anova test. 
+All variables are significant at the .05 level according to the Anova test, but for robustness the two with the highest P values are being removed. After removing `num_lab_procedures` and `max_glu_serum` all variables are significant at the .01 level according to the Anova test. 
+
+<!--- just testing to see what the backwards vars have to say
+```{r}
+fit.log.3 <- glm(lm.input4, data1, family= binomial)
+Anova(fit.log.3)
+
+fit.log.3.1 <- update(fit.log.3, .~. - max_glu_serum)
+Anova(fit.log.3.1)
+summary(fit.log.3.1)
+```
+--->
+
 
 ```{r}
 # treating as classifier and assessing fit
@@ -946,80 +1064,78 @@ We can see that when comparing the two classifiers that in terms of area under t
 
 
 
-<!---
-To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
+|Description|Variable name|Categories/levels (if applicable)|Effect on readmission <30 days|
+|-----------|-------------|---------------------------------|------------------------------|
+|Admission source/patient referral|`adm_src_mod`|emergency room, other, physician, or transfer from home health||
+|Patient age|`age_mod`|0-19 yrs, 20-59 yrs, 60-79 yrs, & 80+ yrs| 
+|Diabetes medication prescribed (y/n)|`diabetesMed`|no or yes||
+|Discharge disposition|`disch_disp_modified`|discharged to home, discharged to home w/ home health services, discharged/transferred to SNF (skilled nursing facilities), & other||
+|Insulin dose change|`insulin`|down, no, steady, or up||
+|Metformin medication change|`metformin`|down, no, steady, or up||
+|Total diagnosis for patient|`number_diagnoses`|1-16||
+|Number of emergency visits by the patient in the year prior to the current encounter|`number_emergency`|0-76||
+|Number of inpatient visits by the patient in the year prior to the current encounter|`number_inpatient`|0-21||
+|Patient’s length of stay in the hospital (in days)|`time_in_hospital`|1-14||
 
-+ <<Lasso>> does a sparse selection, while Ridge does not.
-+ When you have highly-correlated variables, <<Ridge regression>> shrinks the two coefficients towards one another. Lasso is somewhat indifferent and generally picks one over the other. Depending on the context, one does not know which variable gets picked. Elastic-net is a compromise between the two that attempts to shrink and do a sparse selection simultaneously.
-+ <<Ridge estimators>> are indifferent to multiplicative scaling of the data. That is, if both X and Y variables are multiplied by constants, the coefficients of the fit do not change, for a given λλ parameter. However, for Lasso, the fit is not independent of the scaling. In fact, the λλ parameter must be scaled up by the multiplier to get the same result. It is more complex for elastic net.
-+ Ridge penalizes the largest ββ's more than it penalizes the smaller ones (as they are squared in the penalty term). Lasso penalizes them more uniformly. This may or may not be important. In a forecasting problem with a powerful predictor, the predictor's effectiveness is shrunk by the Ridge as compared to the Lasso.
+<!-- Call: -->
+<!-- glm(formula = readmitted ~ time_in_hospital + number_emergency +  -->
+<!--     number_inpatient + number_diagnoses + insulin + diabetesMed +  -->
+<!--     disch_disp_modified + adm_src_mod + age_mod, family = "binomial",  -->
+<!--     data = data1) -->
+
+<!-- Deviance Residuals:  -->
+<!--     Min       1Q   Median       3Q      Max   -->
+<!-- -2.5163  -0.5034  -0.4340  -0.3854   2.6166   -->
+
+<!-- Coefficients: -->
+<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
+<!-- (Intercept)                                                    -3.325973   0.165234 -20.129  < 2e-16 *** -->
+<!-- time_in_hospital                                                0.012811   0.003515   3.645 0.000268 *** -->
+<!-- number_emergency                                                0.037520   0.008555   4.386 1.16e-05 *** -->
+<!-- number_inpatient                                                0.265215   0.006482  40.914  < 2e-16 *** -->
+<!-- number_diagnoses                                                0.035903   0.006031   5.953 2.64e-09 *** -->
+<!-- insulinNo                                                      -0.178066   0.034996  -5.088 3.61e-07 *** -->
+<!-- insulinSteady                                                  -0.152232   0.032967  -4.618 3.88e-06 *** -->
+<!-- insulinUp                                                      -0.098208   0.039544  -2.484 0.013008 *   -->
+<!-- diabetesMedYes                                                  0.143810   0.031354   4.587 4.50e-06 *** -->
+<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.204923   0.031750   6.454 1.09e-10 *** -->
+<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.386880   0.031114  12.434  < 2e-16 *** -->
+<!-- disch_disp_modifiedOther                                        0.434454   0.028963  15.000  < 2e-16 *** -->
+<!-- adm_src_modOther                                               -0.091686   0.041905  -2.188 0.028672 *   -->
+<!-- adm_src_modPhysician Referral                                   0.010186   0.023832   0.427 0.669081     -->
+<!-- adm_src_modTransfer from Home Health                           -0.117198   0.042960  -2.728 0.006370 **  -->
+<!-- age_mod20-59                                                    0.514863   0.160395   3.210 0.001328 **  -->
+<!-- age_mod60-79                                                    0.619453   0.160520   3.859 0.000114 *** -->
+<!-- age_mod80+                                                      0.579720   0.161900   3.581 0.000343 *** -->
 
 
+<!-- log model 2 using LASSO then forward selection -->
+<!-- Call: -->
+<!-- glm(formula = readmitted ~ number_inpatient + number_diagnoses +  -->
+<!--     metformin + disch_disp_modified + adm_src_mod + age_mod,  -->
+<!--     family = binomial, data = data1) -->
 
-# Research approach
+<!-- Deviance Residuals:  -->
+<!--     Min       1Q   Median       3Q      Max   -->
+<!-- -2.3954  -0.5047  -0.4300  -0.3900   2.6117   -->
 
-From the *Goals* section above, your study should respond to the following:
-
-1) Identify important factors that capture the chance of a readmission within 30 days. 
-
-The set of available predictors is not limited to the raw variables in the data set. You may engineer any factors using the data, that you think will improve your model's quality.
-
-2) For the purpose of classification, propose a model that can be used to predict whether a patient will be a readmit within 30 days. Justify your choice. Hint: use a decision criterion, such as AUC, to choose among a few candidate models.
-
-Based on a quick and somewhat arbitrary guess, we estimate it costs twice as much to mislabel a readmission than it does to mislabel a non-readmission. Based on this risk ratio, propose a specific classification rule to minimize the cost. If you find any information that could provide a better cost estimate, please justify it in your write-up and use the better estimate in your answer.
-
-Suggestion: You may use any of the methods covered so far in parts 1) and 2), and they need not be the same. Also keep in mind that a training/testing data split may be necessary. 
-
-# Suggested outline
-
-As you all know, it is very important to present your findings well. To achieve the best possible results you need to understand your audience. 
-
-Your target audience is a manager within the hospital organization. They hold an MBA, are familiar with medical terminology (though you do not need any previous medical knowledge), and have gone through a similar course to our Modern Data Mining with someone like your professor. You can assume thus some level of technical familiarity, but should not let the paper be bogged down with code or other difficult to understand output.
-
-Note then that the most important elements of your report are the clarity of your analysis and the quality of your proposals. 
-
-A suggested outline of the report would include the following components: 
-
-1) Executive Summary
-
-* This section should be accessible by people with very little statistical background (avoid using technical words and no direct R output is allowed)
-* Give a background of the study. You may check the original website or other sources to fill in some details, such as to why the questions we address here are important. 
-* A quick summary about the data.
-* Methods used and the main findings.
-* You may use clearly labelled and explained visualizations.
-* Issues, concerns, limitations of the conclusions. This is an especially important section to be honest in - we might be Penn students, but we are statisticians today.
-
-2) Detailed process of the analysis
-
-i) Data Summary
-
-* Nature of the data, origin
-* Necessary quantitative and graphical summaries
-* Are there any problems with the data?
-* Which variables are considered as input 
-	
-ii) Analyses
-
-* Various appropriate statistical methods: e.g. glmnet
-* Comparisons various models
-* Final model(s)
-
-iii) Conclusion
-
-* Summarize results and the final model
-* Final recommendations
-
-Maintain a good descriptive flow in the text of your report. Use Appendices to display lengthy output. 
-
-iii) Appendix
-	
-* All your R code (code without comments is no good!) if you are not using `rmd` format.
-* Any thing necessary to keep but for which you don’t want them to be in the main report.
-
-# Collaboration
-
-This is an **individual** assignment. We will only allow private Piazza posts for questions. If there are questions that are generally useful, we will release that information.
---->
+<!-- Coefficients: -->
+<!--                                                                 Estimate Std. Error z value Pr(>|z|)     -->
+<!-- (Intercept)                                                    -3.128193   0.206342 -15.160  < 2e-16 *** -->
+<!-- number_inpatient                                                0.275203   0.006243  44.079  < 2e-16 *** -->
+<!-- number_diagnoses                                                0.042862   0.005929   7.229 4.86e-13 *** -->
+<!-- metforminNo                                                    -0.174865   0.130759  -1.337 0.181123     -->
+<!-- metforminSteady                                                -0.257777   0.132659  -1.943 0.051998 .   -->
+<!-- metforminUp                                                    -0.400679   0.172565  -2.322 0.020239 *   -->
+<!-- disch_disp_modifiedDischarged to home with Home Health Service  0.231017   0.031307   7.379 1.59e-13 *** -->
+<!-- disch_disp_modifiedDischarged/Transferred to SNF                0.423541   0.030362  13.950  < 2e-16 *** -->
+<!-- disch_disp_modifiedOther                                        0.434021   0.028540  15.207  < 2e-16 *** -->
+<!-- adm_src_modOther                                               -0.098864   0.041641  -2.374 0.017588 *   -->
+<!-- adm_src_modPhysician Referral                                   0.008675   0.023791   0.365 0.715373     -->
+<!-- adm_src_modTransfer from Home Health                           -0.116594   0.042870  -2.720 0.006534 **  -->
+<!-- age_mod20-59                                                    0.499108   0.160295   3.114 0.001848 **  -->
+<!-- age_mod60-79                                                    0.583015   0.160324   3.636 0.000276 *** -->
+<!-- age_mod80+                                                      0.524009   0.161610   3.242 0.001185 **  -->
 
 
 # Appendix
@@ -1030,10 +1146,6 @@ id: variables
 Description of variables
 
 The dataset used covers ~50 different variables to describe every hospital diabetes admission. In this section we give an overview and brief description of the variables in this dataset.
-
-|Category|Variable|Description|
-|--------|--------|-----------|
-|Patient identifiers|`encounter_id`|unique identifier for each admission|
 
 **a) Patient identifiers:** 
 
@@ -1081,6 +1193,16 @@ c.	`24 medication variables`: indicate whether the dosage of the medicines was c
 Indicates whether a patient was readmitted after a particular admission. There are 3 levels for this variable: "NO" = no readmission, "< 30" = readmission within 30 days and "> 30" = readmission after more than 30 days. The 30 day distinction is of practical importance to hospitals because federal regulations penalize hospitals for an excessive proportion of such readmissions.
 
 
+<!---
+To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
+
++ <<Lasso>> does a sparse selection, while Ridge does not.
++ When you have highly-correlated variables, <<Ridge regression>> shrinks the two coefficients towards one another. Lasso is somewhat indifferent and generally picks one over the other. Depending on the context, one does not know which variable gets picked. Elastic-net is a compromise between the two that attempts to shrink and do a sparse selection simultaneously.
++ <<Ridge estimators>> are indifferent to multiplicative scaling of the data. That is, if both X and Y variables are multiplied by constants, the coefficients of the fit do not change, for a given λλ parameter. However, for Lasso, the fit is not independent of the scaling. In fact, the λλ parameter must be scaled up by the multiplier to get the same result. It is more complex for elastic net.
++ Ridge penalizes the largest ββ's more than it penalizes the smaller ones (as they are squared in the penalty term). Lasso penalizes them more uniformly. This may or may not be important. In a forecasting problem with a powerful predictor, the predictor's effectiveness is shrunk by the Ridge as compared to the Lasso.
+
+--->
+
 <!--- BOOSTING
 ```{r}
 set.seed(30)
@@ -1108,10 +1230,7 @@ min(fit.boost$train.error)
 # class(fit.boost)
 # which(fit.boost$train.error == 0.09526856)
 ```
-
 Originally ran boosting with 2000 trees but a plot seemed to suggest that more trees would result in 
-
-
 ```{r}
 # using testing and training data
 nrow(data.boosting) #99493
@@ -1129,11 +1248,8 @@ sum(yhat != data.test.boost$readmitted) #all different -> reject
 ```
 --->
 
-
-
 <!---
 ##### Modeling a single tree for interpretation purposes
-
 ```{r}
 # summary(data1)
 # fit.1tree <- tree(readmitted~. -diag_1 -diag_2 -diag_3, data1,
@@ -1152,10 +1268,8 @@ fit.1tree
 ```
 --->
 
-
 <!---
 ##### Trying model building with bestglm() function
-
 ```{r}
 library(bestglm)
 best.input <- readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
