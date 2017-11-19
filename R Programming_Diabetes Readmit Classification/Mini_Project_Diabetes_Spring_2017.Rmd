@@ -3,13 +3,13 @@ title: "Predicting readmission probability for diabetes inpatients"
 graphics: yes
 date: 'Due: November 19, 2017 at 11:59PM'
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: 2
   html_document:
     number_sections: yes
     self_contained: yes
-    toc: no
-  pdf_document:
-    toc: no
-    toc_depth: 2
+    toc: yes
 subtitle: STAT 471/571/701, Fall 2017
 header-includes:
 - \usepackage{fancyhdr}
@@ -459,7 +459,7 @@ Anova(lm.init)
 An initial logistic model including logical variables reveals `race` and `gender` to add nothing to the model, while other factors (time in hospital, number of medications taken, number of diagnoses, max glucose serum, insulin, change in medication and diabetes medication) are all significant at the .05 level.
 --->
 
-```{r}
+```{r, include=FALSE}
 #<<<<<<<<<<< LASSO >>>>>>>>>>>>>>
 #<<<<<<CV to select lambda>>>>>>>
 str(data1)
@@ -741,7 +741,7 @@ lm.input
 
 #### Forward stepwise selection
 
-```{r eval=FALSE, echo=FALSE, r eval=FALSE}
+```{r eval=FALSE, echo=FALSE}
 #<<<<<<Forward stepwise selection>>>>>>>
 library(leaps)
 fit.fwd=regsubsets(readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod,data=data1 ,nvmax =22, method ="forward")
@@ -778,6 +778,7 @@ lm.input3 <- "readmitted ~ num_lab_procedures + number_inpatient + number_diagno
 #### Backward stepwise selection
 ```{r, echo=FALSE}
 #<<<<<<Backward stepwise selection>>>>>>>
+library(leaps)
 fit.bwd=regsubsets(readmitted ~ race + gender + time_in_hospital + num_lab_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + max_glu_serum + A1Cresult + metformin + glimepiride + glipizide + glyburide + pioglitazone + rosiglitazone + insulin + diabetesMed + disch_disp_modified + adm_src_mod + adm_typ_mod + age_mod, data=data1 ,nvmax =22,method ="backward")
 # summary(fit.bwd)
 fit.bwd.summary <-summary(fit.bwd)
@@ -811,7 +812,7 @@ lm.input4 <- "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum +
 ```
 
 <!--- forward, backward & manual backward elimination --->
-```{r, eval=FALSE, include=FALSE}
+```{r, include=FALSE}
 # OUTPUTS from forward & backward stepwise selection:
 # <<< forward >>>
 # XXXXXX lm.input3 <- "readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + max_glu_serum + metformin + race" XXXXXXXX
@@ -882,7 +883,7 @@ data.test.log2 <- data1[-index.train.log2,]
 # pairs(data.test, col=data.test$readmitted)
 # dim(data.train) #80,000
 # dim(data.test) #19,493
-input.testtrain.log2 = readmitted ~ age + num_lab_procedures + number_inpatient + number_diagnoses + metformin + insulin
+input.testtrain.log2 = "readmitted ~ number_inpatient + number_diagnoses + max_glu_serum + metformin + disch_disp_modified + adm_src_mod + age_mod"
 fit.train.log2 <- glm(input.testtrain.log2, data=data.train.log2, family=binomial)
 fit.fitted.test.log2 <- predict(fit.train.log2, data.test.log2, type="response")
 
@@ -892,7 +893,7 @@ fit.test.roc.log2 <- roc(data.test.log2$readmitted, fit.fitted.test.log2, plot=T
 ### Comparing intial 2 classifiers
 
 Actually all 3 classifiers
-```{r, echo=FALSE}
+```{r, eval=FALSE, include=FALSE}
 plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
      xlab = paste("AUC(fit.fitted.test) =",
                   round(auc(fit.test.roc),2),
@@ -925,7 +926,7 @@ set.seed(1)
 summary(data1)
 levels(data1$diag_3)
 names(data1)
-fit.rf <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data1, mtry=8, ntree=5) #removing vars with too many levels
+fit.rf <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data1, mtry=8, ntree=5) #removing vars with too many levels
 # names(fit.rf)
 fit.rf$votes[0:20,] #prob of 0s and 1s using oobs
 fit.rf$predicted[0:20]
@@ -943,7 +944,7 @@ plot(fit.rf)
 Note that the variables `diag_1`, `diag_2`, and `diag_3` were all removed from modeling to begin with due to the fact that they all have over 700 categories. We can see using a forest with just a few number of trees results in mean prediction error of around 20% (less than desirable). Expanding the number of trees used we get:
 
 ```{r}
-fit.rf.full <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data1, mtry=5, ntree=100)
+fit.rf.full <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data1, mtry=5, ntree=100)
 plot(fit.rf.full)
 fit.rf.pred <- predict(fit.rf.full, type="prob")
 fit.rf.pred.y <- predict(fit.rf.full, type = "response")
@@ -967,7 +968,7 @@ data.train.rf <- data1[train.index.rf,]
 data.test.rf <- data1[-train.index.rf,]
 
 #fitting a model with training data
-fit.rf.train <- randomForest(readmitted~. -diag_1 -diag_2 -diag_3, data.train.rf)
+fit.rf.train <- randomForest(readmitted~. -diag1_mod -diag2_mod -diag3_mod, data.train.rf)
 ```
 
 ```{r, echo=FALSE}
@@ -985,7 +986,7 @@ fit.rf.train.roc <- roc(data.test.rf$readmitted, predict.rf2[,2], plot = TRUE)
 
 We now have 2 classifiers (one from logistic regression and now one using random forests), and thus have 2 ROC curves to compare:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval=FALSE}
 fit.train
 # fit.test.roc #roc curve LASSO, logistic regression, manual backwards elimination
 # summary(fit.rf.train) #random forest w/ B= 500 trees, mtry = 5
@@ -1006,6 +1007,24 @@ legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf
 title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
 
 #true positive rate (sensitivity) against the false positive rate (1-specificity)
+```
+
+```{r, echo=FALSE}
+plot(1-fit.test.roc$specificities, fit.test.roc$sensitivities, col="red", pch=20,
+     xlab = paste("AUC(fit.fitted.test) =",
+                  round(auc(fit.test.roc),2),
+                  " AUC(pred.rf2) =",
+                  round(auc(fit.rf.train.roc),2),
+                  " AUC(fit.test.roc.log2) =",
+                  round(auc(fit.test.roc.log2),2)),
+    ylab = "Sensitivities")
+
+points(1-fit.rf.train.roc$specificities, fit.rf.train.roc$sensitivities, col="blue", pch=20)
+points(1-fit.test.roc.log2$specificities, fit.test.roc.log2$sensitivities, col="yellow", pch=20)
+# legend("topleft", legend=c("fit.fitted.test using logistic regression", "pred.rf2 using random forest"),
+#        lty=c(1,1), lwd=c(2,2), col=c("red","blue"))
+# title("Comparison of logistic and random forest model for prediction patient readmission")
+title ("Sensitivity (true positive rate)  vs. false positive rate (1-specificity): logistic and random forest models")
 ```
 
 We can see that when comparing the two classifiers that in terms of area under the curve alone the random forest model is better by only .01. More importantly, the logistic regression model outperforms the random forest model, but only when the false positive rate is above 70%. When the false positive rate is below this -- below 50% in particular -- the random forest clearly provides a better true positive rate (sensitivity). 
@@ -1153,12 +1172,12 @@ To summarize, here are some salient differences between Lasso, Ridge and Elastic
 --->
 
 <!--- BOOSTING
-```{r}
+```{r, eval=FALSE}
 set.seed(30)
 data.boosting <- data1[sample(nrow(data1)),]
 #summary(data.boosting)
 # ntree <- 200
-boost.in <-  readmitted~. -diag_1 -diag_2 -diag_3
+boost.in <-  readmitted~. -diag1_mod -diag2_mod -diag3_mod
 # fit.boost <- gbm(boost.in, data = data.boosting, distribution = "gaussian", n.trees = ntree, interaction.depth = 2, train.fraction = .7)
 # names(fit.boost)
 # fit.boost$fit
@@ -1180,7 +1199,7 @@ min(fit.boost$train.error)
 # which(fit.boost$train.error == 0.09526856)
 ```
 Originally ran boosting with 2000 trees but a plot seemed to suggest that more trees would result in 
-```{r}
+```{r, eval=FALSE}
 # using testing and training data
 nrow(data.boosting) #99493
 n.t <- floor(.7*99493)
@@ -1199,7 +1218,7 @@ sum(yhat != data.test.boost$readmitted) #all different -> reject
 
 <!---
 ##### Modeling a single tree for interpretation purposes
-```{r}
+```{r, eval=FALSE}
 # summary(data1)
 # fit.1tree <- tree(readmitted~. -diag_1 -diag_2 -diag_3, data1,
 #                   control=tree.control(nrow(data1), mindev = 0.005),
@@ -1219,7 +1238,7 @@ fit.1tree
 
 <!---
 ##### Trying model building with bestglm() function
-```{r}
+```{r, eval=FALSE}
 library(bestglm)
 best.input <- readmitted ~ age + time_in_hospital + num_procedures + num_medications + number_emergency + number_inpatient + number_diagnoses + insulin + diabetesMed
 Xy <- model.matrix(best.input, data1)
