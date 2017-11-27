@@ -19,8 +19,9 @@ int main(int argc, char** argv) {
 	char  program_bin_str [ROWS][17] ; 		// instructions converted to a binary string
 	unsigned short int program_bin [ROWS] ; // instructions in binary (HEX) -- 2 bytes
 
-
+// =========================
 // 1. check argument to main
+// =========================
 	if(argv[1] == 0){
 		printf("No string filename provided to main!\n");
 		printf("error1: usage: ./assembler <assembly_file.asm>\n");
@@ -43,13 +44,18 @@ int main(int argc, char** argv) {
  
 	filename = argv[1] ;
 	
+// =========================
 //2. read file
+// =========================
 	read_asm_file(filename, program) ;
 
+// =========================
 //3. parse instructions
+// =========================
 	for(int row = 0; row < 8; row++){
 		printf("========= Row %d=========\n", row);
 		parse_instruction(&program[row][0], &program_bin_str[row][0]);
+		str_to_bin(&program_bin_str[row][0]); //this might also have to be [row][0]
 	}
 
 
