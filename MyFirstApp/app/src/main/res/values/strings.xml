@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+
+    <string name="hello">Hello World, CheckBoxTutorialActivity!</string>
+    <!--<string name="app_name">First CheckBox Tutorial</string>-->
+    <string name="suvendu">www.suvendugiri.com</string>
+    <string name="wordpress">www.wordpress.com</string>
+
+    <!--<string name="hello">Hello World, MyAndroidAppActivity!</string>-->
+    <!--<string name="app_name">MyAndroidApp</string>-->
+    <string name="chk_ios">IPhone</string>
+    <string name="chk_android">Android</string>
+    <string name="chk_windows">Windows Mobile</string>
+    <string name="btn_display">Display</string>
+
+    <string name="chinese">Chinese</string>
+    <string name="american">American</string>
+    <string name="indian">Indian</string>
+    <string name="mediterranean">Mediterranean</string>
+    <string name="middle_eastern">Middle Eastern</string>
+    <string name="asian">Asian</string>
+    <string name="halal">Halal</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="mexican">Mexican</string>
+    <string name="vegetarian_vegan">Vegetarian/vegan</string>
+    <string name="healthy">Healthy</string>
+
+</resources>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:text="TextView"-->
+        <!--android:textColor="@android:color/holo_green_dark"-->
+        <!--android:textSize="12sp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/tvDetails"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="0.17"-->
+        <!--android:textSize="22dp"-->
+        <!--android:background="@android:color/white"-->
+        <!--android:textColor="@android:color/black" />-->
+
+    <!--<CheckBox-->
+        <!--android:id="@+id/cbSuvendu"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/suvendu" />-->
+
+    <!--<CheckBox-->
+        <!--android:id="@+id/cbWordPress"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/wordpress" />-->
+
+    <!--<CheckBox-->
+        <!--android:id="@+id/chkIos"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/chk_ios" />-->
+
+    <!--<CheckBox-->
+        <!--android:id="@+id/chkAndroid"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/chk_android"-->
+        <!--android:checked="true" />-->
+
+    <!--<CheckBox-->
+        <!--android:id="@+id/chkWindows"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/chk_windows" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnDisplay"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/btn_display" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvDetails"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.17"-->
+    <!--android:textSize="22dp"-->
+    <!--android:background="@android:color/white"-->
+    <!--android:textColor="@android:color/black" />-->
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Click all food categories that apply to your truck"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <CheckBox
+        android:id="@+id/chkChinese"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/chinese" />
+
+    <CheckBox
+        android:id="@+id/chkAmerican"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/american" />
+    <CheckBox
+        android:id="@+id/chkIndian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/indian" />
+    <CheckBox
+        android:id="@+id/chkMediterranean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mediterranean" />
+    <CheckBox
+        android:id="@+id/chkMdlEstrn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/middle_eastern" />
+    <CheckBox
+        android:id="@+id/chkAsian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/asian" />
+    <CheckBox
+        android:id="@+id/chkHalal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/halal" />
+    <CheckBox
+        android:id="@+id/chkBreakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/breakfast" />
+    <CheckBox
+        android:id="@+id/chkMexican"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/mexican" />
+    <CheckBox
+        android:id="@+id/chkVegVegan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/vegetarian_vegan" />
+    <CheckBox
+        android:id="@+id/chkHealthy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/healthy" />
+
+    <Button
+        android:id="@+id/saveCategoriesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/goBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Go back" />
+
+</LinearLayout>
