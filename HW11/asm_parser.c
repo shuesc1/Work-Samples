@@ -90,10 +90,10 @@ int parse_instruction 	(char* instr, char* instr_bin_str) {
 			printf("Converting 'ADD' to binary...\n");
 			parse_add(direc_string, instr_bin_str);
 		} else if (strcmp(opcode, "MUL") == 0) {
-			parse_add(direc_string, instr_bin_str);
+			// parse_add(direc_string, instr_bin_str);
 			// parse_mul(newstring, instr_bin_str);
 		} else if (strcmp(opcode, "SUB") == 0) {
-			parse_add(direc_string, instr_bin_str);
+			// parse_add(direc_string, instr_bin_str);
 			// parse_sub(newstring, instr_bin_str);
 		} else if (strcmp(opcode, "DIV") == 0) {
 			// parse_div(newstring, instr_bin_str);
@@ -119,7 +119,7 @@ int parse_instruction 	(char* instr, char* instr_bin_str) {
 
 int parse_add 			(char* instr, char* instr_bin_str ) {
 	char* bin_opcode_0_3 = "0001" ;
-	char* bin_opcode_10_12 = "001" ;
+	char* bin_opcode_10_12 = "000" ;
 	int i = 0;
 	for (int j = 0; j < 4; j++) {
 		instr_bin_str[j] = bin_opcode_0_3[j] ;
@@ -148,16 +148,16 @@ int parse_add 			(char* instr, char* instr_bin_str ) {
 	char* a = strtok(instr, ",") ;
 	printf("\nfirst token: %s\n", a);
 	*R_first = extract_reg_num(a);
-	printf("first reg num: %d\n", *R_first);
+	printf("first reg num (as ascii char): %c\n", *R_first);
 	*Rd_Rs_Rt_indicator = 1 ; // 1 indicates Rd
-	printf("Reg position indicator: %d\n", (int)*Rd_Rs_Rt_indicator);
+	printf("Reg position indicator (as asciic char): %c\n", (int)*Rd_Rs_Rt_indicator);
 	parse_reg(*R_first, instr_bin_str, Rd_Rs_Rt_indicator) ;
 
 	//======= 2nd register =======
 	a = strtok(NULL, " ") ;
 	printf("next token: %s\n", a);
 	R_second = extract_reg_num(a);
-	printf("second reg num: %d\n", R_second);
+	printf("second reg num (as ascii char): %c\n", R_second);
 	*Rd_Rs_Rt_indicator = 2 ; // 2 indicates Rs
 	printf("Reg position indicator: %d\n", (int)*Rd_Rs_Rt_indicator);
 	parse_reg(R_second, instr_bin_str, Rd_Rs_Rt_indicator) ;
@@ -166,7 +166,7 @@ int parse_add 			(char* instr, char* instr_bin_str ) {
 	a = strtok(NULL, " ") ;
 	printf("next token: %s\n", a);
 	R_third = extract_reg_num(a);
-	printf("third reg num: %d\n", R_third);
+	printf("third reg num (as ascii char): %c\n", R_third);
 	*Rd_Rs_Rt_indicator = 3 ; // 3 indicates Rt
 	printf("Reg position indicator: %d\n", (int)*Rd_Rs_Rt_indicator);
 	parse_reg(R_third, instr_bin_str, Rd_Rs_Rt_indicator) ;
@@ -278,8 +278,61 @@ int parse_mul 			(char* instr, char* instr_bin_str ) ;
 
 unsigned short int str_to_bin (char* instr_bin_str) {
 
+	// char str[30] = "2030300 This is test";
+	char *ptr = NULL;
+	unsigned short int ret;
 
-	return 0;
+	ret = strtol(instr_bin_str, &ptr, 2);
+	printf("The number(unsigned long integer) is %hu\n", ret);
+	// printf("String part is |%s|", ptr);
+
+
+// char* binaryString = "1101";
+// // convert binary string to integer
+// int value = (int)strtol(binaryString, NULL, 2);
+// // convert integer to hex string
+// char hexString[12]; // long enough for any 32-bit value, 4-byte aligned
+// sprintf(hexString, "%x", value);
+// // output hex string
+// printf("0x%d", (int)hexString);
+// int y;
+// y = strtol(binaryString, NULL, 2) ;
+// printf("Hex num: %d\n", y);
+// if(y == 10){
+// 	y = 'A' ;
+// } else if (y == 11) {
+// 	y
+// }
+// if(y == 13){
+// 	y = 'D' ;
+// 	printf("hex proper: %c\n", y);
+// }
+
+	// char chunk[4];
+	// unsigned short int ret[4] ;
+	// int k = 0;
+	// for(int i = 0; i < 4; i++){
+	// 	for(int j = 0; j < 4; j++, k++){
+	// 		chunk[j] = instr_bin_str[k] ; //chunk gets indices 0-3, then 4-7, then 8-11, then 12-15
+	// 		// printf("%c", instr_bin_str[k]);
+	// 		printf("%c", chunk[j]);
+	// 	}
+	// 	bin_str_to_int =
+	// 	// printf("Output from comparison of chunk & '0001': %c\n", strcmp(chunk, "0001"));
+	// 	// printf("\nchunk: %s\n", chunk);
+	// 	// if(strcmp(chunk, "0001") == 0){
+	// 	// 	ret[i] = 1 ; // return should be hex values x1201 in example
+	// 	// }
+	// 	// printf("ret: %hu\n", *ret);
+	// }
+
+	if (ret == 0) {
+		printf("error6: function str_to_bin() failed\n");
+		return 6;
+	} else {
+		return ret;
+	}
+	// return 0;
 }
 
 

@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
 // =========================
 //3. parse instructions
 // =========================
-	for(int row = 0; row < 8; row++){
+	for(int row = 0; row < 3; row++){
 		printf("========= Row %d=========\n", row);
 		parse_instruction(&program[row][0], &program_bin_str[row][0]);
 		str_to_bin(&program_bin_str[row][0]); //this might also have to be [row][0]
