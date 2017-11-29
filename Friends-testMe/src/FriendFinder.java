@@ -13,17 +13,17 @@ public class FriendFinder {
 		studentsDataSource = sds;
 	}
 	
-	public FriendFinder() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public void addClassesDataSource(ClassesDataSource cds) {
-		classesDataSource = cds ;
-	}
-	
-	public void addStudentsDataSource(StudentsDataSource sds) {
-		studentsDataSource = sds ;
-	}
+//	public FriendFinder() {
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public void addClassesDataSource(ClassesDataSource cds) {
+//		classesDataSource = cds ;
+//	}
+//	
+//	public void addStudentsDataSource(StudentsDataSource sds) {
+//		studentsDataSource = sds ;
+//	}
 	
 	/*
 	 * This method takes a String representing the name of a student 
@@ -56,6 +56,7 @@ public class FriendFinder {
 		
 		// use the classes to find the names of the students
 		Set<String> classmates = new HashSet<String>();
+//		Set<String> classmates = null;
 		
 		for (String myClass : myClasses) {
 			// list all the students in the class

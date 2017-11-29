@@ -1,0 +1,15 @@
+AORB_1:9:int_add(int,int):a + b => a * b
+AORB_2:9:int_add(int,int):a + b => a / b
+AORB_3:9:int_add(int,int):a + b => a % b
+AORB_4:9:int_add(int,int):a + b => a - b
+AOIU_1:9:int_add(int,int):a => -a
+AOIS_1:9:int_add(int,int):a => ++a
+AOIS_2:9:int_add(int,int):a => --a
+AOIS_3:9:int_add(int,int):a => a++
+AOIS_4:9:int_add(int,int):a => a--
+AOIS_5:9:int_add(int,int):b => ++b
+AOIS_6:9:int_add(int,int):b => --b
+AOIS_7:9:int_add(int,int):b => b++
+AOIS_8:9:int_add(int,int):b => b--
+LOI_1:9:int_add(int,int):a => ~a
+LOI_2:9:int_add(int,int):b => ~b

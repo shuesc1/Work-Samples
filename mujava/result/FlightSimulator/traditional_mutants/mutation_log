@@ -1,0 +1,89 @@
+AORB_1:33:boolean_simulateFlights(Airplane,int,double):steps + 1 => steps * 1
+AORB_2:33:boolean_simulateFlights(Airplane,int,double):steps + 1 => steps / 1
+AORB_3:33:boolean_simulateFlights(Airplane,int,double):steps + 1 => steps % 1
+AORB_4:33:boolean_simulateFlights(Airplane,int,double):steps + 1 => steps - 1
+AORB_5:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing * 360.0
+AORB_6:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing % 360.0
+AORB_7:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing + 360.0
+AORB_8:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing - 360.0
+AORB_9:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 / 2
+AORB_10:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 % 2
+AORB_11:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 + 2
+AORB_12:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 - 2
+AORB_13:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 / Math.PI
+AORB_14:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 % Math.PI
+AORB_15:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 + Math.PI
+AORB_16:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 - Math.PI
+AORB_17:37:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity / Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_18:37:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity % Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_19:37:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity + Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_20:37:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity - Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_21:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing * 360.0
+AORB_22:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing % 360.0
+AORB_23:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing + 360.0
+AORB_24:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 => planes[i].bearing - 360.0
+AORB_25:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 / 2
+AORB_26:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 % 2
+AORB_27:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 + 2
+AORB_28:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 => planes[i].bearing / 360.0 - 2
+AORB_29:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 / Math.PI
+AORB_30:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 % Math.PI
+AORB_31:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 + Math.PI
+AORB_32:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing / 360.0 * 2 * Math.PI => planes[i].bearing / 360.0 * 2 - Math.PI
+AORB_33:38:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity / Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_34:38:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity % Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_35:38:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity + Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORB_36:38:boolean_simulateFlights(Airplane,int,double):planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].velocity - Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+AORS_1:16:boolean_simulateFlights(Airplane,int,double):i++ => i--
+AORS_2:24:boolean_simulateFlights(Airplane,int,double):i++ => i--
+AORS_3:26:boolean_simulateFlights(Airplane,int,double):j++ => j--
+AORS_4:33:boolean_simulateFlights(Airplane,int,double):step++ => step--
+AORS_5:35:boolean_simulateFlights(Airplane,int,double):i++ => i--
+AORS_6:42:boolean_simulateFlights(Airplane,int,double):i++ => i--
+AORS_7:46:boolean_simulateFlights(Airplane,int,double):j++ => j--
+AOIU_1:34:boolean_simulateFlights(Airplane,int,double):planes.length => -planes.length
+AOIU_2:36:boolean_simulateFlights(Airplane,int,double):planes[i].location.x => -planes[i].location.x
+AOIU_3:36:boolean_simulateFlights(Airplane,int,double):planes[i].location.y => -planes[i].location.y
+AOIU_4:37:boolean_simulateFlights(Airplane,int,double):planes[i].velocity => -planes[i].velocity
+AOIU_5:37:boolean_simulateFlights(Airplane,int,double):planes[i].bearing => -planes[i].bearing
+AOIU_6:37:boolean_simulateFlights(Airplane,int,double):Math.PI => -Math.PI
+AOIU_7:38:boolean_simulateFlights(Airplane,int,double):planes[i].velocity => -planes[i].velocity
+AOIU_8:38:boolean_simulateFlights(Airplane,int,double):planes[i].bearing => -planes[i].bearing
+AOIU_9:38:boolean_simulateFlights(Airplane,int,double):Math.PI => -Math.PI
+AOIU_10:39:boolean_simulateFlights(Airplane,int,double):planes[i].location.x => -planes[i].location.x
+AOIU_11:39:boolean_simulateFlights(Airplane,int,double):planes[i].location.y => -planes[i].location.y
+AOIU_12:43:boolean_simulateFlights(Airplane,int,double):i => -i
+AOIU_13:47:boolean_simulateFlights(Airplane,int,double):j => -j
+ROR_1:13:boolean_simulateFlights(Airplane,int,double): planes == null  =>   planes != null
+ROR_2:17:boolean_simulateFlights(Airplane,int,double): planes[i] == null  =>   planes[i] != null
+COR_1:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1  =>   planes == null && steps < 1
+COR_2:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1  =>   planes == null ^ steps < 1
+COR_3:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1 || safeDistance < 0  =>   (planes == null || steps < 1) && safeDistance < 0
+COR_4:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1 || safeDistance < 0  =>   (planes == null || steps < 1) ^ safeDistance < 0
+COI_1:13:boolean_simulateFlights(Airplane,int,double): planes == null  =>  !(planes == null)
+COI_2:13:boolean_simulateFlights(Airplane,int,double): steps < 1  =>  !(steps < 1)
+COI_3:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1  =>  !(planes == null || steps < 1)
+COI_4:13:boolean_simulateFlights(Airplane,int,double): safeDistance < 0  =>  !(safeDistance < 0)
+COI_5:13:boolean_simulateFlights(Airplane,int,double): planes == null || steps < 1 || safeDistance < 0  =>  !(planes == null || steps < 1 || safeDistance < 0)
+COI_6:16:boolean_simulateFlights(Airplane,int,double): i < planes.length  =>  !(i < planes.length)
+COI_7:17:boolean_simulateFlights(Airplane,int,double): planes[i] == null  =>  !(planes[i] == null)
+COI_8:20:boolean_simulateFlights(Airplane,int,double): planes[i].velocity < 0  =>  !(planes[i].velocity < 0)
+COI_9:24:boolean_simulateFlights(Airplane,int,double): i < planes.length  =>  !(i < planes.length)
+COI_10:26:boolean_simulateFlights(Airplane,int,double): j < planes.length  =>  !(j < planes.length)
+COI_11:28:boolean_simulateFlights(Airplane,int,double): point1.distance( point2 ) < safeDistance  =>  !(point1.distance( point2 ) < safeDistance)
+COI_12:33:boolean_simulateFlights(Airplane,int,double): step < steps + 1  =>  !(step < steps + 1)
+COI_13:35:boolean_simulateFlights(Airplane,int,double): i < planes.length  =>  !(i < planes.length)
+COI_14:42:boolean_simulateFlights(Airplane,int,double): i < segments.length  =>  !(i < segments.length)
+COI_15:46:boolean_simulateFlights(Airplane,int,double): j < segments.length  =>  !(j < segments.length)
+COI_16:50:boolean_simulateFlights(Airplane,int,double): point1.distance( other1 ) < safeDistance  =>  !(point1.distance( other1 ) < safeDistance)
+COI_17:53:boolean_simulateFlights(Airplane,int,double): point1.distance( other2 ) < safeDistance  =>  !(point1.distance( other2 ) < safeDistance)
+COI_18:56:boolean_simulateFlights(Airplane,int,double): point2.distance( other1 ) < safeDistance  =>  !(point2.distance( other1 ) < safeDistance)
+COI_19:59:boolean_simulateFlights(Airplane,int,double): point2.distance( other2 ) < safeDistance  =>  !(point2.distance( other2 ) < safeDistance)
+ASRS_1:37:boolean_simulateFlights(Airplane,int,double):planes[i].location.x += planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.x /= planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_2:37:boolean_simulateFlights(Airplane,int,double):planes[i].location.x += planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.x *= planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_3:37:boolean_simulateFlights(Airplane,int,double):planes[i].location.x += planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.x -= planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_4:37:boolean_simulateFlights(Airplane,int,double):planes[i].location.x += planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.x %= planes[i].velocity * Math.cos( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_5:38:boolean_simulateFlights(Airplane,int,double):planes[i].location.y += planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.y /= planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_6:38:boolean_simulateFlights(Airplane,int,double):planes[i].location.y += planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.y *= planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_7:38:boolean_simulateFlights(Airplane,int,double):planes[i].location.y += planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.y -= planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
+ASRS_8:38:boolean_simulateFlights(Airplane,int,double):planes[i].location.y += planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI ) => planes[i].location.y %= planes[i].velocity * Math.sin( planes[i].bearing / 360.0 * 2 * Math.PI )
