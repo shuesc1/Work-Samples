@@ -19,3 +19,4 @@ unsigned short int str_to_bin (char* instr_bin_str) ;
 int write_obj_file 			  (char* filename, unsigned short int program_bin[ROWS] ) ;
 
 int extract_reg_num		(char * tokenized_reg_string) ;
+unsigned short int convert_dec_to_hex(unsigned short int decimal) ;

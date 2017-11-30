@@ -18,7 +18,7 @@
 
 int read_asm_file (char* filename, char program [ROWS][COLS]) {
 	FILE *file = fopen(filename, "r") ;
-	if (filename == NULL) {
+	if (file == NULL) {
 		printf("error2: read_asm_file() failed\n");
 		return 2;
 	} else {
@@ -27,15 +27,15 @@ int read_asm_file (char* filename, char program [ROWS][COLS]) {
 			for (int j = 0; j < 255 ; j++) {
 				*byte_read = fgetc(file);
 				if (*byte_read == 10) {
-					// printf("\n");
+					printf("\n");
 					i++;
 					continue;
 					// } else if(*byte_read == 0 && !isalnum(program[i][j-1]){
 					// 	continue;
 					// } else {
-				} else {
+				} else if (*byte_read > 0 && *byte_read < 128) {
 					program[i][j] = *byte_read ;
-					// printf("%c", program[i][j]);
+					printf("%c", program[i][j]);
 				}
 				// fscanf(file,"%c\t", &program[i][j]); //read in 1 char at a time (not whole line)
 			}
@@ -144,13 +144,14 @@ int parse_add 			(char* instr, char* instr_bin_str ) {
 	// set up flag to let parse_reg know where to store outcome in string of instr_bin_str
 	int Rd_Rs_Rt_indicator[1] ; // 1 - Rd, 2 - Rs, 3 - Rt
 
+	printf("===========Extracting number from registers============\n");
 	//======  1st register =======
 	char* a = strtok(instr, ",") ;
 	printf("\nfirst token: %s\n", a);
 	*R_first = extract_reg_num(a);
 	printf("first reg num (as ascii char): %c\n", *R_first);
 	*Rd_Rs_Rt_indicator = 1 ; // 1 indicates Rd
-	printf("Reg position indicator (as asciic char): %c\n", (int)*Rd_Rs_Rt_indicator);
+	printf("Reg position indicator (as asciic char): %d\n", (int)*Rd_Rs_Rt_indicator);
 	parse_reg(*R_first, instr_bin_str, Rd_Rs_Rt_indicator) ;
 
 	//======= 2nd register =======
@@ -209,7 +210,7 @@ int parse_reg 			(char reg_num, char* instr_bin_str, int* Rd_Rs_Rt_indicator) {
 		printf("error5: parse_reg() function failed due to null input(s)\n");
 		return 5;
 	} else {
-
+		printf("=============Changing register numbers to binary=============\n");
 		char* reg_num_in_binary = "";
 		if (reg_num == 48) { // ascii '0'
 			reg_num_in_binary = "000" ;
@@ -286,46 +287,6 @@ unsigned short int str_to_bin (char* instr_bin_str) {
 	printf("The number(unsigned long integer) is %hu\n", ret);
 	// printf("String part is |%s|", ptr);
 
-
-// char* binaryString = "1101";
-// // convert binary string to integer
-// int value = (int)strtol(binaryString, NULL, 2);
-// // convert integer to hex string
-// char hexString[12]; // long enough for any 32-bit value, 4-byte aligned
-// sprintf(hexString, "%x", value);
-// // output hex string
-// printf("0x%d", (int)hexString);
-// int y;
-// y = strtol(binaryString, NULL, 2) ;
-// printf("Hex num: %d\n", y);
-// if(y == 10){
-// 	y = 'A' ;
-// } else if (y == 11) {
-// 	y
-// }
-// if(y == 13){
-// 	y = 'D' ;
-// 	printf("hex proper: %c\n", y);
-// }
-
-	// char chunk[4];
-	// unsigned short int ret[4] ;
-	// int k = 0;
-	// for(int i = 0; i < 4; i++){
-	// 	for(int j = 0; j < 4; j++, k++){
-	// 		chunk[j] = instr_bin_str[k] ; //chunk gets indices 0-3, then 4-7, then 8-11, then 12-15
-	// 		// printf("%c", instr_bin_str[k]);
-	// 		printf("%c", chunk[j]);
-	// 	}
-	// 	bin_str_to_int =
-	// 	// printf("Output from comparison of chunk & '0001': %c\n", strcmp(chunk, "0001"));
-	// 	// printf("\nchunk: %s\n", chunk);
-	// 	// if(strcmp(chunk, "0001") == 0){
-	// 	// 	ret[i] = 1 ; // return should be hex values x1201 in example
-	// 	// }
-	// 	// printf("ret: %hu\n", *ret);
-	// }
-
 	if (ret == 0) {
 		printf("error6: function str_to_bin() failed\n");
 		return 6;
@@ -338,5 +299,36 @@ unsigned short int str_to_bin (char* instr_bin_str) {
 
 //===================================== WRITE OBJECT TO FILE FUNCTION ==========================
 
-int write_obj_file 			  (char* filename, unsigned short int program_bin[ROWS] ) ;
+int write_obj_file 			  (char* filename, unsigned short int program_bin[ROWS] ){
+
+	FILE *output = fopen(filename, "wb"	);
+	fwrite(program_bin, 1, ROWS, output) ; //size of each element is 1 byte
+	fclose(output) ;
+	return 0;
+}
+
+
+////===================================== CONVERT DECIMAL VALUE TO HEX ==========================
+//source: http://scanftree.com/programs/c/c-code-to-convert-decimal-to-hexadecimal/
+unsigned short int convert_dec_to_hex(unsigned short int decimal) {
+	long int decimalNumber,remainder,quotient;
+	int i=1,j,temp;
+	unsigned short int hexadecimalNumber[100];
+	// printf("Enter any decimal number: ");
+	// scanf("%ld",&decimalNumber);
+	quotient = decimal;
+	while(quotient!=0) {
+		temp = quotient % 16;
+		//To convert integer into character
+		if( temp < 10)
+		           temp =temp + 48; else
+		         temp = temp + 55;
+		hexadecimalNumber[i++]= temp;
+		quotient = quotient / 16;
+	}
+	// printf("Equivalent hexadecimal value of decimal number %d: ",decimalNumber);
+	// for (j = i -1 ;j> 0;j--)
+	//       printf("%c",hexadecimalNumber[j]);
+	return 0;
+}
 
