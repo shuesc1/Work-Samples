@@ -6,14 +6,17 @@
 /* Author(s) : tjf and you												*/
 /************************************************************************/
 
+/* [compile]: make assembler; [run]: ./assembler <asm_file_to_read.asm>    */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "asm_parser.h"
 
-int main(int argc, char** argv) {
 
+
+int main(int argc, char** argv) {
 	char* filename = NULL ;					// name of ASM file-- ptr to string valid filename, main() arg
 	char  program [ROWS][COLS] ; 			// ASM file line-by-line, 2D matrix 100 rows x 255 columns
 	char  program_bin_str [ROWS][17] ; 		// instructions converted to a binary string
@@ -68,7 +71,7 @@ int main(int argc, char** argv) {
 // =========================
 //3. parse instructions
 // =========================
-	for(int row = 0; row < 1; row++){
+	for(int row = 0; row < 100; row++){
 		printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 		printf("<<<<<<<<<<<<<<<<<<<<<<<<<<< ROW %d>>>>>>>>>>>>>>>>>>>>>>>>\n", row);
 		printf("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
@@ -78,7 +81,7 @@ int main(int argc, char** argv) {
 	}
 
 // =========================
-//4. get name of .obj file 
+//4. get name of .obj file -- ** not working **
 // =========================
 	// char* filename2 = argv[1] ;
 	printf("original filename: %s\n", filename) ;
@@ -93,8 +96,12 @@ int main(int argc, char** argv) {
 	stripped_filename[stripped_file_end] = '\0' ;
 	printf("output file name: %s\n", stripped_filename);
 
+// =========================
+//5. write out .obj file 
+// =========================
 	// write_obj_file(stripped_filename, program_bin) ;
 	char* output_file = "output.obj" ;
+	printf("*** OUTPUT FILE NAME ***: %s\n", output_file);
 	write_obj_file(output_file, program_bin) ;
 
 	return 0;

@@ -15,6 +15,12 @@ char  program [100][255];
 		return 2;
 	} else {
 		int *byte_read;
+
+// int i = 0
+//todo maybe while (fgetc(file) != 0) { fill 1 row, i++}
+
+//		while ((c = fgetc(fp)) != EOF)
+
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 255 ; j++) {
 				*byte_read = fgetc(file);
