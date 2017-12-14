@@ -1,0 +1,829 @@
+---
+title: "Cervical Cancer Interpolation and Prediction"
+author:
+- Wai (Antina) Lee
+- Joey Haymaker
+- Maria Diaz Ortiz
+date: "12/13/2017"
+output:
+  html_document:
+    code_folding: show
+    highlight: haddock
+    number_sections: yes
+    self_contained: yes
+    theme: lumen
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: 2
+---
+
+```{r, echo=FALSE, fig.align="center", out.width="300px"}
+knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Modern-data-mining/Final_Project_Cervical_Cancer_Prediction/cervical_cancer.jpg")
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment=NA)
+library(dplyr)
+library(leaps)
+library(car)
+library(glmnet)
+library(tidyverse)
+library(ggplot2)
+library(magrittr)
+library(GGally)
+library(corrplot)
+library(caret)
+library(randomForest)
+library(pROC)
+```
+
+<!---=====# Table of Contents -- will automatically be included in output
+__Our Objective:__ 
+
+Predict: Dependent variable "Cervical cancer" = "Hinselmann" + "Schiller" + "Citology" + "Biopsy"
+
+__Rationale:__ "The last four features represent medical exams that determine the likelyhood of that person having cancer, as far as I know there is no feature that confirms if a person has cervical cancer in this dataset - so I approached it as a risk instead.
+
+The target variable that I created represent groups of people with varying degrees of risk of having cervical cancer.
+
+From my previous experience in a cancer related NGO, a single exam isn't enough to determine if a person has cancer or not - it's a big diagnostic and often more medical exams are required to determine the final diagnostic (since exams can also yield false positives and false negatives)."
+
+=====================--->
+<!---==========================--->
+#Executive Summary
+
+Cervical cancer is an important clinical problem both in the US and worldwide, and is associated with human papilloma virus (HPV). In order to decrease its incidence, it is important to inderstand what factors affect one's likelihood to develop cervical cancer. Our goal was to identify factors that significantly impact the risk of cancer by building a model that predicts whether a patient is "high risk" or "low risk" for developing the disease. We explored a kaggle dataset of 858 patients and 26 variables, which included known risk factors for cervical cancer. Rows of missing values, highly correlated variables, and sparse variables were eliminated and relevant variables were log(transfored). The response variable `cancerPred` was developed as a sum of 4 diagnostic variables (ranging from 0-4). To perform prediction, the response variable `cancerPred` was further subdivided into "low risk" or "0" (for an initial `cancerPred` score of 0) and "high risk" or "1" (for an initial`cancerPred` score of 1-4). The resulting dataset was split 70-30 into training and testing datasets. LASSO with 10-fold cross-validation was performed to identify non-zero coefficients, which were used to perform logistic regression with backwards selection until all coefficients were significant at the alpha = 0.05 level. A second classifier was built using randomForest with an mtry of 4 on the training data. Both fits were used to predict $P(\hat Y = 1)$ for the test data, then $P(\hat Y = 1) > 1/4$ was used as the threshold rule to determine class assignments. Sensitivity, specificity, false nagative rate, false positive rate and unweighted misclassification errors (MCE) were calculated for the testing data to compared model performance for the selected rule. ROC curves and AUC were also calculated to compare performance across all rules. Random forest outperformed logistic regression in classifying our training data (with an AUC of near 1); however, both models had similar performance in terms of AUC for the test data (both around ~0.58). Although logistic regression outperformed random forest in terms of MCE for the specified rule, random forest had a higher sensitivity ($P(\hat Y = 1|Y=1)$) and lower false negative rate ($P(\hat Y=0|Y=1)$), which are two desirable qualities when classifying potential cancer patients. Future directions for improvement include significantly increasing our sample size (particuarly in the proportion of "high risk" patients) and exploring the effect of vaccination against HPV.
+
+#Description of the Problem
+
+The incidence of cervical cancer in the US has decreased singnificanty over the past 40 years (from being the #1 cause of death for women in the US to being 14th in frequency), mosly due to early detection from pap smear screening. However, it still remains a large source of morbidity and mortality both in the US and globally. In 2014, there were over 12,500 new cervical cancer diagnoses and over 4,000 cervical cancer-associated deaths in the US alone. On a global scale, cervical cancer is still the 3rd most common neoplasia and the #2 cause of cancer-related deaths among women. Cervical cancer is almost exclusively caused by the human papilloma virus (HPV), a common sexually transmitted disease (STD). There are multiple subtypes of HPV, some of which are associated with warts (condyloma/condylomatosis) and others which are notorious for causing cervical cancer. Although the US Food and Drug Administration (FDA) has approved two vaccines for HPV, these vaccines do not protect against all cancer-causing HPV strains. Thus, in order to further decrease the incidence of this malignancy, it is important to understand what behavioral and demographic factors increase the likelihood of acquiring HPV and developing cervical cancer. Some factors that are traditionally associated with an increased risk include an earlier age for 1st sexual encounter and a larger number of sexual partners (since both increase likelihood of being exposed to HPV), as well as being of older age (since cancer takes a couple of years to develop after exposure and younger women's bodies tend to heal from HPV without progressing to CIN or cancer). Thus, the goal of our analysis is to develop a model that can estimate the risk of developing cervical cancer using a patient derived datase. We hope to validate some of the previous findings in the literature as well as to expand upon this knowledge using the results from our approach.
+
+#Description of the Data
+
+The dataset was obtained from [kaggle](https://www.kaggle.com/loveall/cervical-cancer-risk-classification/data) and was collected by administering questionnaires to 858 patients at 'Hospital Universitario de Caracas' in Caracas, Venezuela. It includes demographic information, habits, and historic medical records of the patients in question. Missing values correspond to patients who failed to answer a question due to privacy concerns. After EDA, cleaning and transformations, a total of 12 variables were used to predict the response variable. A description of all the variables in the original dataset are included in the appendix.
+
+## Predictor variables
+
+Demographic
+  
+  + `logAge` (numeric) - Corresponds to the age at which the patient filled the questionnaire, log transformed for normality
+  + `Smoker.status` (factor) - Categorical value that corresponds to whether someone is a non-smoker (0), light-medium smoker (1), or heavy smoker (2). 
+    + This variable was generated by using the following transformation to define pack years (a metric commonly used in the medical field to predict one's risk of other diseases, including lung cancer): $Packyears = Smokes (yes=1, no=0) \times Smokes (years) \times Smokes (packs/year)$. Then, pack years was log transformed ($log(packyears+1)$) because, when excluding non-smokers ($log(packyears+1)=0$), the distribution for number of $log(packyears+1)$ looks more normal. We calculated the mean for this group ($mean(log(packyears+1))=2.346$) and 0-2 were assigned as follows:
+        + $Non-smoker(0)$: 0 log(packyears+1)
+        + $Light-Medium smoker (1)$: Between 0 and 2.346 log(packyears+1)
+        + $Heavy smoker (2)$: > 2.346 log(packyears+1)
+
+Contraception
+
+  + `log.Years.HCP` (numeric)** - Generated by multiplying $Years.HCP = Hormonal.Contraceptives(yes=1,no=0) \times Hormonal.Contraceptive.Years$ then taking the log transofrmation: $log.Years.HCP = log(Years.HCP + 1)$
+  + `log.Years.IUD` (numeric)** - Generated by multiplying $Years.IUD = IUD(yes=1,no=0) \times IUD.Years$ then taking the log transofrmation: $log.Years.IUD = log(Years.IUD + 1)$
+    ** The variables `log.Years.HCP` and `log.Years.IUC` were used instead of `Years.HCP` and `Years.IUD` respectively because, when you eliminate patients without HCP and IUD's, the log distributions are closer to being normally distributed (see EDA below).
+  
+Sexual activity
+        
+  + `Number.of.sexual.partners` (numeric) - Numer of sexual partners
+  + `First.sexual.intercourse` (numeric) - Age at first sexual intercourse
+  + `Num.of.pregnancies` (numeric) - Number of pregnancies
+
+Sexual health history
+  
+  + `STDs.condylomatosis` (factor) - Categorical variable representing the presence ($STDs.condylomatosis=1$) or absence ($STDs.condylomatosis=0$) of genital warts, which is a sexually transmitted disease caused by HPV strains that are not cancer-associated.
+  + `STDs.syphilis` (factor) - Categorical variable representing the presence ($STDs.syphilis=1$) or absence ($STDs.syphilis=0$) of syphilis. This STD is caused by a bacteria rather than a virus, and is relativey rare in comparison to HPV.
+  
+Medical history
+
+  + `Dx.Cancer` (factor) - Categorical variable corresponding to whether or not a person carries a previous cervical cancer diagnosis (1) or not (0)
+  + `Dx.CIN` (factor) - Categorical variable corresponding to whether or not a person carries a previous diagnosis of cervical intraepithelial neoplasia or CIN (1) or not (0). CIN is when a biopsy of the cervix is examined under the microscope and reveals malignant or cancer-like cells that have NOT invaded outside of a well defined area. This is considered a form or "pre-cancer" and is thought to progress to cancer if left untreated
+  + `Dx.HPV` (factor) - Categorical variable corresponding to whether or not a person has been previously diagnosed with HPV (1) or not (0). Although HPV is the #1 risk factor for cancer, there is not a 1-to-1 relationship, since many women's bodies are able to heal themselves and become HPV negative over time (especially young people)
+
+  
+
+ <!-- $Cervical.Cancer$ -->
+
+## Response Variable (y)
+
+  + `cancerPred` (factor) - Categorical variable generated as the sum of 4 individual variables ($Schiller + Hinselmann + Cytology + Biopsy$) which is meant to capture a person's risk of having cervical cancer. More detailed descriptions of what the variables mean are included below:
+    + $Schiller$: The Schiller test is a screening test in which iodine solution is added to the cervix to better visualize any abnormal cells that may be suspicious for cancer. A positive test ($Schiller = 1$) increases your risk of cervical cancer and might require further diagnostic exams. On the other hand, a negative test ($Schiller = 0$) makes having cervical cancer less likely.
+    + $Hinselmann$: The Hinselmann tets is more commonly used suring screening and involves adding an acetic acid or vinegar solution to the cervix to visualize abnormal cells. An abnormal test ($Hinselmann = 1$) increases your risk of cervical cancer and usually warrants either cytology or a biopsy, whereas a negative test ($Hinselmann = 0$) decreases your likelihood of having cervical cancer.
+    + $Cytology$: This is when cells are taken from the cervix using a brush, then they aresuspended in a liquid solution and visualized under a microscope. 
+
+# Data Cleaning and Preparation (EDA)
+
+```{r, include=FALSE}
+# <<< read in data >>>>
+data_orig  <- read.csv("kag_risk_factors_cervical_cancer.csv", header=TRUE, sep=",", na.strings="")
+data  <- data_orig
+# names(data)
+# View(data)
+# str(data)
+# dim(data) #858 x 36
+# head(data, 10)
+# library(data.table)
+# data <- as.data.frame(lapply(data, function(x){replace(x, x == 0.0,0)}))
+# head(data, 10)
+# data$Smokes..years.
+
+# <<<<<<<<<< NA VALUES >>>>>>>>>
+# sum(is.na(data)) # not giving correct response
+# sapply(data, function(x) sum(is.na(x)))
+
+#<<<< ELIMINATING COLUMNS WITH EXCESSIVE 0 VALUES >>>>
+summary(data) #STDs.cervical.condylomatosis [15], STDs.vaginal.condylomatosis[16],  STDs.pelvic.inflammatory.disease[19], STDs.genital.herpes[20], STDs.molluscum.contagiosum[21], STDs.HIV[23], STDs.Hepatitis.B[24], STDs.HPV[25] are not helpful columns
+names(data)
+data <- data[ -c(15,16,19,20,21,23,24,25) ]# getting rid of unhelpful vars
+# data <- data[ -c(17) ]# getting rid of unhelpful vars
+# combining above 2 lines
+# data <- data[ -c("STDs.cervical.condylomatosis","STDs.vaginal.condylomatosis","STDs.pelvic.inflammatory.disease","STDs.genital.herpes","STDs.molluscum.contagiosum","STDs.HIV","STDs.Hepatitis.B","STDs.HPV") ] ## not working
+
+# STDs..Time.since.first.diagnosis[19] & STDs..Time.since.last.diagnosis[20] have a lot of missing values as well -- removing them
+names(data)
+data <- data[ -c(19,20) ]# getting rid of unhelpful vars
+
+# summary(data)
+# names(data)
+data <- na.omit(data)
+# data <- select_if(data, is.numeric) #gets rid of too much information
+summary(data)
+
+## <<<< removing most frequent '?' entries >>>>>
+data <-  data[!data$IUD == "?", ] #eliminating some ? entries
+data <-  data[!data$Smokes == "?", ] #eliminating some ? entries
+data <-  data[!data$STDs.syphilis == "?", ] #eliminating some ? entries
+
+summary(data)
+names(data)
+dim(data) #728  28 -- cleaning got rid of ~130 entries
+```
+
+While there were many good variables that theoretically would have been good to include in our model (such as `STDs.HIV`, `STDs.Hepatitis.B`, `STDs.HPV`), many were almost purely comprised of 0 values, leaving little to be inferred from them. Consequently, they were removed from the dataset. There were a large number of '?' entries, many of which were also eliminated from the dataset. This left 728 out of the original 858 observations in the dataset.
+
+## Dependent variable `cancerPred`  
+The response variable is created from aggregating the last four features `Hinselmann`, `Schiller`, `Citology`, and `Biopsy`, as they represent medical exams that determine the likelyhood of that person having cervical cancer.
+
+```{r, echo=FALSE}
+# <<<< creating dependent variable >>>>>
+# "Cervical cancer" = "Hinselmann" + "Schiller" + "Citology" + "Biopsy"
+data$cancerPred <- data$Hinselmann + data$Schiller + data$Citology + data$Biopsy
+# summary(data$cancerPred)
+# data$cancerPred # all 0, 1, 2, 3, or 4
+ggplot(data) + geom_histogram(aes(x = cancerPred), bins = 5, fill = "blue") +
+  labs(title = "Histogram of aggregate cancer predictors (Hinselmann + Schiller + Citology + Biopsy)", x = "cancerPred", y = "Frequency")
+
+# ------ Pie Chart ----
+cancer.0 <- filter(data, cancerPred == 0)
+# dim(cancer.0) # 635
+cancer.1 <- filter(data, cancerPred == 1)
+# dim(cancer.1) # 36
+cancer.2 <- filter(data, cancerPred == 2)
+# dim(cancer.2) # 20
+cancer.3 <- filter(data, cancerPred == 3)
+# dim(cancer.3) # 32
+cancer.4 <- filter(data, cancerPred == 4)
+# dim(cancer.4) # only 5!
+slices <- c(635, 36, 20, 32, 5) 
+lbls <- c("0", "1", "2", "3", "4")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, "-(",pct, ")") # add percents to labels 
+lbls <- paste(lbls,"%",sep="") # ad % to labels 
+pie(slices,labels = lbls, col=rainbow(length(lbls)),
+  	main="Pie Chart of aggregate cancer predictor")
+```
+
+There are a great deal more values that equal 0 than any other value.
+
+## Smoking  
+Captured in: `Smokes`, `Smokes..years.`, `Smokes..packs.year.`
+
+```{r, echo=FALSE}
+# selecting `Smokes`, `Smokes..years.`, `Smokes..packs.year.`
+# names(data)
+my_data.smokes <- as.data.frame(data[, c("Smokes", "Smokes..years.", "Smokes..packs.year.")])
+# my_data.contraception
+# sapply(my_data.smokes, is.numeric) # none numeric for some reason
+
+# making all applicable columns numeric
+my_data.smokes$Smokes <- as.numeric(as.character(my_data.smokes$Smokes))
+my_data.smokes$Smokes..years. <- as.numeric(as.character(my_data.smokes$Smokes..years.))
+my_data.smokes$Smokes..packs.year.  <- as.numeric(as.character(my_data.smokes$Smokes..packs.year.))
+
+# sapply(my_data.smokes, is.numeric)
+# now all columns are numeric
+
+# typeof(my_data$STDs..Time.since.first.diagnosis) # all rows are ints
+res.smokes <- cor(my_data.smokes)
+
+corrplot(res.smokes, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+
+All these variables are highly correlated and could be combined.  
+
+```{r, echo=FALSE}
+# Create packyears
+data$packyears <- as.numeric(as.character(data$Smokes)) * as.numeric(as.character(data$Smokes..years.)) *
+  as.numeric(as.character(data$Smokes..packs.year.))
+
+# Distribution of packyears
+data %>%
+  ggplot(aes(packyears)) + 
+  geom_histogram(bins=15, fill="cyan") +
+  ggtitle("Histogram of packyears")
+
+# Distribution of log(packyears+1)
+data %>%
+  ggplot(aes(log(packyears+1))) + 
+  geom_histogram(bins=15, fill="cyan") +
+  ggtitle("Histogram of log(packyears+1)")
+
+# Distribution of packyears without packyears == 0
+data[-c(which(data$packyears == 0)),] %>%
+  ggplot(aes(packyears)) + 
+  geom_histogram(bins=15, fill="cyan") +
+  ggtitle("Histogram of packyears, excluding zero values") +
+  xlab("packyears")
+
+# Distribution of log(packyears+1) without zero values
+data[-c(which(log(data$packyears+1) == log(1))),] %>%
+  ggplot(aes(log(packyears+1))) + 
+  geom_histogram(bins=15, fill="cyan") +
+  ggtitle("Histogram of log(packyears+1), excluding zero values for packyears") +
+  xlab("log(packyears+1)")
+
+# Create Smoker.status
+data$Smoker.status <- rep("1", length(data$packyears))
+nonsmoker.index <- c(which(log(data$packyears+1) == 0))
+heavy.index <- c(which(log(data$packyears+1) > 2.346))
+na.index <- c(which(is.na(data$packyears)))
+data$Smoker.status[nonsmoker.index] <- "0"
+data$Smoker.status[heavy.index] <- "2"
+data$Smoker.status[na.index] <- "?"
+data$Smoker.status <- as.factor(data$Smoker.status)
+```
+
+To address the interaction between the 3 smoking variables, a categorical variable `Smoker.status` was created. This was done first by a transformation to define pack years (a metric commonly used in the medical field to predict one's risk of other diseases, including lung cancer): $Packyears = Smokes (yes=1, no=0) \times Smokes (years) \times Smokes (packs/year)$. Then, pack years was log transformed ($log(packyears+1)$) because, when excluding non-smokers ($log(packyears+1)=0$), the distribution for number of $log(packyears+1)$ looks more normal (as seen above). Finally, the mean was calculated for the group ($mean(log(packyears+1))=2.346$) and 0-2 were assigned as follows:
+        + $Non-smoker(0)$: 0 log(packyears+1)
+        + $Light-Medium smoker (1)$: Between 0 and 2.346 log(packyears+1)
+        + $Heavy smoker (2)$: > 2.346 log(packyears+1)
+        
+```{r, include=FALSE}
+# removing "Smokes"[5], "Smokes..years."[6],Smokes..packs.year."[7], & "packyears"[28] from df, as Smoker.status captures all that
+names(data)
+data <- data[-c(5:7, 28)]
+names(data)
+```
+
+The original smoking variables (`Smokes`, `Smokes..years.`, `Smokes..packs.year.`, `packyears`) were then removed fromt the dataset.
+
+## Age
+
+```{r, echo=FALSE}
+ggplot(data) + geom_histogram(aes(x = Age), bins = 25, fill = "blue") +
+  labs(title = "Histogram of participant ages", x = "age", y = "Frequency")
+
+#<<< creating log age column >>>
+data$logAge <- log(data$Age)
+ggplot(data) + geom_histogram(aes(x = logAge), bins = 25, fill = "blue") +
+  labs(title = "Histogram of participant ages (log)", x = "log(age)", y = "Frequency")
+
+# removing original age column
+data <- data[,-1]
+# names(data)
+```
+
+We can see the respondents' ages are skewed, with the majority of participants falling in the 20-40 age range. There is a conspicuos gap in representation, specifically in teh 60-70 age range, as well as 70-80 age range. 
+
+Taking the natural log of the age results in a more normal distribution.
+
+## Sexual activity
+
+Since the human papilloma virus (HPV) is the main risk factor for cervical cancer it makes sense to investigate variables that speak to this. From the data provided, sexual activity indicators are most salient, as HPV is contracted via sexual activity with an infected person.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# "Number.of.sexual.partners" 
+# data %>% select(Number.of.sexual.partners) %>% distinct() # get distinct values for # partners column
+
+# making numeric
+data$Number.of.sexual.partners <- as.numeric(as.character(data$Number.of.sexual.partners))
+# data %>% select(Number.of.sexual.partners) %>% distinct()
+# summary(data$Number.of.sexual.partners)
+
+ggplot(data) + geom_histogram(aes(x = Number.of.sexual.partners), bins = 20, fill = "green") +
+  labs(title = "Histogram of num. of sexual partners", x = "Num. of partners", y = "Frequency")
+```
+
+Slightly skewed, but not terribly so. 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# "First.sexual.intercourse"  
+# data %>% select(First.sexual.intercourse) %>% distinct()
+# ggplot(data) + geom_histogram(aes(x = First.sexual.intercourse), bins = 10, fill = "red") +
+  # labs(title = "Histogram of num. of sexual partners", x = "Num. of partners", y = "Frequency")
+
+# making numeric
+data$First.sexual.intercourse <- as.numeric(as.character(data$First.sexual.intercourse))
+
+ggplot(data, aes(x = First.sexual.intercourse, fill = factor(cancerPred))) +
+    geom_bar(stat = "count") +
+    xlab("Age of first sexual intercourse") +
+    ylab("Total count") +
+    labs(fill = "Cancer predictor value")
+```
+
+We can see that these values have a good normal distribution, and the dependent variable values seem to follow the data, indicating this may be an important factor in predicting the outcome.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# "Num.of.pregnancies"
+# data %>% select(Num.of.pregnancies) %>% distinct()
+
+# making numeric
+data$Num.of.pregnancies <- as.numeric(as.character(data$Num.of.pregnancies))
+
+ggplot(data, aes(x = Num.of.pregnancies, fill = factor(cancerPred))) +
+    geom_bar(stat = "count") +
+    xlab("Number of pregnancies") +
+    ylab("Total count") +
+    labs(fill = "Cancer predictor value")
+```
+
+Exhibits normal distribution, and dependent variable slightly follows the data.
+
+## HPV
+
+```{r, echo=FALSE}
+# names(data)
+# data %>% select(Dx.HPV) %>% distinct() # categorical
+
+# ------ breakdown of cancerPred value for all respondents who have HPV == 1 ----
+hpv.y0 <- filter(data, Dx.HPV == 1, cancerPred == 0)
+# dim(hpv.y0) # only 8
+hpv.y1 <- filter(data, Dx.HPV == 1, cancerPred == 1)
+# dim(hpv.y1) # 2
+hpv.y2 <- filter(data, Dx.HPV == 1, cancerPred == 2)
+# dim(hpv.y2) # 1
+hpv.y3 <- filter(data, Dx.HPV == 1, cancerPred == 3)
+# dim(hpv.y3) # 4
+hpv.y4 <- filter(data, Dx.HPV == 1, cancerPred == 4)
+# dim(hpv.y4) # 1
+
+slices.hpv <- c(8, 2, 1, 4, 1)
+lbls.hpv <- c("cancer pred. 0", "cancer pred. 1", "cancer pred. 2", "cancer pred. 3", "cancer pred. 4")
+pct.hpv <- round(slices.hpv/sum(slices.hpv)*100)
+lbls.hpv <- paste(lbls.hpv, "-(", pct.hpv, ")")
+lbls.hpv <- paste(lbls.hpv, "%", sep="")
+
+pie(slices.hpv,labels = lbls.hpv, col=rainbow(length(lbls.hpv)),
+  	main="Pie Chart of cancer predictor values for patients with HPV")
+
+# ------------ cancerPred for all repsondents HPV == 0 ---------
+hpv0.y0 <- filter(data, Dx.HPV == 0, cancerPred == 0)
+# dim(hpv0.y0) # 627
+hpv0.y1 <- filter(data, Dx.HPV == 0, cancerPred == 1)
+# dim(hpv0.y1) # 34
+hpv0.y2 <- filter(data, Dx.HPV == 0, cancerPred == 2)
+# dim(hpv0.y2) # 19
+hpv0.y3 <- filter(data, Dx.HPV == 0, cancerPred == 3)
+# dim(hpv0.y3) # 28
+hpv0.y4 <- filter(data, Dx.HPV == 0, cancerPred == 4)
+# dim(hpv0.y4) # 4
+
+slices.hpv0 <- c(627, 34, 19, 28, 4)
+lbls.hpv0 <- c("cancer pred. 0", "cancer pred. 1", "cancer pred. 2", "cancer pred. 3", "cancer pred. 4")
+pct.hpv0 <- round(slices.hpv0/sum(slices.hpv0)*100)
+lbls.hpv0 <- paste(lbls.hpv0, "-(", pct.hpv0, ")")
+lbls.hpv0 <- paste(lbls.hpv0, "%", sep="")
+
+pie(slices.hpv0,labels = lbls.hpv0, col=rainbow(length(lbls.hpv0)),
+  	main="Pie Chart of cancer predictor values for patients without HPV")
+```
+
+These pie graphs confirm our review of literature, showing that patients with HPV show a higher prevalence of cervical cancer markers.
+
+
+<!----------------Multicollinearity--------------------->
+## Multicollinearity across variables
+
+### Sexual history
+
+Captured in: `Number.of.sexual.partners`, `First.sexual.intercourse`, `Num.of.pregnancies`
+
+```{r, echo=FALSE}
+# install.packages("corrplot")
+library(corrplot)
+# Use corrplot() to create a correlogram:
+# The function corrplot() takes the correlation matrix as the first argument. The second argument (type=“upper”) is used to display only the upper triangular of the correlation matrix.
+
+# selecting `Number.of.sexual.partners`, `First.sexual.intercourse`, `Num.of.pregnancies`
+# names(data)
+my_data.sxhistory <- as.data.frame(data[, c("Number.of.sexual.partners", "First.sexual.intercourse", "Num.of.pregnancies")])
+# my_data.contraception
+# sapply(my_data.sxhistory, is.numeric) # none numeric for some reason
+
+# making all applicable columns numeric
+my_data.sxhistory$Number.of.sexual.partners <- as.numeric(as.character(my_data.sxhistory$Number.of.sexual.partners))
+my_data.sxhistory$First.sexual.intercourse <- as.numeric(as.character(my_data.sxhistory$First.sexual.intercourse))
+my_data.sxhistory$Num.of.pregnancies  <- as.numeric(as.character(my_data.sxhistory$Num.of.pregnancies))
+
+# my_data.sxhistory$Number.of.sexual.partners <- na.omit(my_data.sxhistory$Number.of.sexual.partners)
+my_data.sxhistory <-  na.omit(my_data.sxhistory)
+# sapply(my_data.sxhistory, is.numeric)
+# now all columns are numeric
+
+# typeof(my_data$STDs..Time.since.first.diagnosis) # all rows are ints
+res.sxhistory <- cor(my_data.sxhistory)
+
+corrplot(res.sxhistory, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+
+These variables are relatively uncorrelated, and thus can remain as they are.
+
+
+### Contraception - Hormonal contraceptives & IUDs
+
+Captured in: `Hormonal.Contraceptives`, `Hormonal.Contraceptives..years.`, `IUD`, `IUD..years.`
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# selecting `Hormonal.Contraceptives`, `Hormonal.Contraceptives..years.`, `IUD`, `IUD..years.`
+# names(data)
+my_data.contraception <- as.data.frame(data[, c("Hormonal.Contraceptives", "Hormonal.Contraceptives..years.", "IUD", "IUD..years.")])
+# my_data.contraception
+# sapply(my_data.contraception, is.numeric) # none numeric for some reason
+
+# making all applicable columns numeric
+my_data.contraception$Hormonal.Contraceptives <- as.numeric(as.character(my_data.contraception$Hormonal.Contraceptives))
+my_data.contraception$Hormonal.Contraceptives..years. <- as.numeric(as.character(my_data.contraception$Hormonal.Contraceptives..years.))
+my_data.contraception$IUD  <- as.numeric(as.character(my_data.contraception$IUD))
+my_data.contraception$IUD..years. <- as.numeric(as.character(my_data.contraception$IUD..years.))
+# sapply(my_data.contraception, is.numeric)
+# now all columns are numeric
+
+# Omit all NA's
+my_data.contraception <- na.omit(my_data.contraception)
+
+# typeof(my_data$STDs..Time.since.first.diagnosis) # all rows are ints
+res.contraception <- cor(my_data.contraception)
+
+corrplot(res.contraception, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+
+Results indicate that we should combine `IUD`/`IUD..years.`, and `Hormonal.Contraceptives`/`Hormonal.Contraceptives..years.`.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Hormonal contraceptives
+
+# Create Years.HCP
+data$Years.HCP <- as.numeric(as.character(data$Hormonal.Contraceptives)) * 
+  as.numeric(as.character(data$Hormonal.Contraceptives..years.))
+# summary(data$Years.HCP)
+
+# Histogram HCP
+data %>%
+  ggplot(aes(Years.HCP)) +
+  geom_histogram(bins = 15, fill = "cyan") + 
+  ggtitle("Histogram of Years.HCP")
+
+# Histogram of log(Years.HCP+1)
+data[c(which(log(data$Years.HCP+1) != 0)),] %>%
+  ggplot(aes(log(Years.HCP+1))) +
+  geom_histogram(bins = 15, fill = "cyan") +
+  ggtitle("Histogram of log(Years.HCP+1) without zero values for Years.HCP")
+
+# The log transformed data should be closer to normal is you remove first peak
+#log.years.hcp <- log(data$Years.HCP[-c(which(is.na(data$Years.HCP)))]+1)
+#log.years.hcp <- log.years.hcp[-c(which(log.years.hcp == log(1)))]
+
+# Create log.Years.HCP
+data$log.Years.HCP <- log(data$Years.HCP+1)
+
+# IUD's
+
+# Create Years.IUD
+data$Years.IUD <- as.numeric(as.character(data$IUD)) * as.numeric(as.character(data$IUD..years.))
+
+# Histogram IUD
+data %>%
+  ggplot(aes(Years.IUD)) +
+  geom_histogram(bins=15, fill="cyan") +
+  ggtitle("Histogram of Years.IUD")
+
+# Histogram log(Years.IUD+1)
+data[c(which(log(data$Years.IUD+1) != 0)),] %>% 
+  ggplot(aes(log(Years.IUD+1))) +
+  geom_histogram(bins = 15, fill="cyan") +
+  ggtitle("Histogram of log(Years.IUD+1) without zero values for Years.IUD")
+
+# The log transformed data should be closer to normal is you remove first peak
+#log.years.iud <- log(data$Years.IUD[c(which(!is.na(data$Years.IUD)))]+1)
+#log.years.iud <- log.years.iud[-c(which(log.years.iud == log(1)))]
+
+# Create log.Years.IUD
+data$log.Years.IUD <- log(data$Years.IUD+1)
+```
+Similarly to `Smoker.status`, two new variables were created from the four original correlated variables. `log.Years.HCP` was created by multiplying $Years.HCP = Hormonal.Contraceptives(yes=1,no=0) \times Hormonal.Contraceptive.Years$ then taking the log transofrmation: $log.Years.HCP = log(Years.HCP + 1)$. The histograms before and after this process can be seen above. `log.Years.IUD` was created by multiplying $Years.IUD = IUD(yes=1,no=0) \times IUD.Years$, then taking the log transofrmation: $log.Years.IUD = log(Years.IUD + 1)$. As expected the histograms of the log transformed variables show a much better distribution than the originals.  
+
+```{r, include=FALSE}
+# removing 4 original variables - `Hormonal.Contraceptives`[4], `Hormonal.Contraceptives..years.`[5], `IUD`[6], `IUD..years.`[7], "Years.HCP"[26], "Years.IUD"[28]
+names(data)
+data <- data[-c(4:7,26,28)]
+names(data)
+```
+
+The preliminary variables `Hormonal.Contraceptives`, `Hormonal.Contraceptives..years.`, `IUD`, `IUD..years.`, `Years.HCP`, and `Years.IUD` were then removed from the dataframe in lieu of the log values.  
+
+### STIs  
+Captured in: `STDs`, `STDs..number.`, `STDs.condylomatosis`, `STDs.vulvo.perineal.condylomatosis`, `STDs.syphilis`, `STDs..Number.of.diagnosis`
+
+```{r, echo=FALSE}
+# selecting `STDs`[12], `STDs..number.`[13], `STDs.condylomatosis`[14], `STDs.vulvo.perineal.condylomatosis`[15], `STDs.syphilis`[16], `STDs..Number.of.diagnosis`[17], `STDs..Time.since.first.diagnosis`[18]
+# names(data)
+# data$std
+my_data <- as.data.frame(data[, c("STDs", "STDs..number.", "STDs.condylomatosis", "STDs.vulvo.perineal.condylomatosis", "STDs.syphilis", "STDs..Number.of.diagnosis")])
+# my_data
+# sapply(my_data, is.numeric) # many not numeric for some reason
+
+# making all applicable columns numeric
+my_data$STDs <- as.numeric(as.character(my_data$STDs))
+my_data$STDs..number. <- as.numeric(as.character(my_data$STDs..number.))
+my_data$STDs.condylomatosis  <- as.numeric(as.character(my_data$STDs.condylomatosis))
+my_data$STDs.vulvo.perineal.condylomatosis <- as.numeric(as.character(my_data$STDs.vulvo.perineal.condylomatosis))
+my_data$STDs.syphilis <- as.numeric(as.character(my_data$STDs.syphilis))
+# sapply(my_data, is.numeric)
+# now all columns are numeric
+
+# typeof(my_data$STDs..Time.since.first.diagnosis) # all rows are ints
+res <- cor(my_data)
+
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+
+Unsurprsingly, there exists high correlation between many of these variables. To address this, we remove those with high correlation. As the figure shows, all variables except `STDs.syphilis` are highly correlated with `STDs.condylomatosis`. Consequently we leave those that are uncorrelated (`STDs.syphilis`, and `STDs.condylomatosis`) in the model, and remove the rest.  
+
+```{r, include=FALSE}
+names(data)
+summary(data)
+data <- data[-c(4,5,7,9,10)]
+names(data)
+```
+
+```{r, include=FALSE}
+# finally, removing "Hinselmann"[10] "Schiller"[11],"Citology"[12], "Biopsy"[13] -- all in cancerPred 
+data <- data[-c(10:13)]
+names(data)
+
+# Remove "Dx" [9]
+data <- data[-9]
+names(data)
+
+# Final data = data1
+data1 <- na.omit(data)
+dim(data1) #668 observations 13 variables
+data1$Dx.Cancer <- as.factor(data1$Dx.Cancer)
+data1$Dx.CIN <- as.factor(data1$Dx.CIN)
+data1$Dx.HPV <- as.factor(data1$Dx.HPV)
+```
+
+## Final dataset, Testing & Training Data Split  
+
+In this study, we classify a patient as having low risk of developing cerivical cancer if cancerPred is 0. If cancerPred is 1-4, the patient is considered to have high risk of developing cerivical cancer.  
+
+```{r}
+data1$cancerPred <- ifelse(data1$cancerPred>0, 1, 0)
+data1$cancerPred <- as.factor(data1$cancerPred)
+```
+
+Finally, we split our data into training and testing with 30% of data set aside as testing set.  
+```{r}
+# Split into training and testing
+set.seed(1)
+index <- sample(nrow(data1), round(nrow(data1) * 0.7))
+train <- data1[index,]
+test <- data1[-index,]
+```
+We're now ready to model.  
+
+<!----------------END Multicollinearity--------------------->
+
+<!--- modeling - Logistic Regression with LASSO --->
+# Modelling  
+We developed two models to predict the risk of cervical cancer: 1) Logistic Regression with LASSO and 2) Random Forest. We introduce each and proceed to compare them with confusion matrix metrics and AUC.  
+
+## Logistic Regression with LASSO  
+We conduct LASSO with 10-fold cross validation on the training set to compare the performance of the logistic regression.  
+```{r, include=FALSE}
+set.seed(1)
+X <- model.matrix(cancerPred~., data=train)[, -1]
+Y <- train[,"cancerPred"]
+```
+
+```{r, echo=FALSE}
+fit1.cv <- cv.glmnet(X, Y, alpha=1, family="binomial", nfolds = 10, type.measure = "deviance")  
+coef_1se <- stats::coef(fit1.cv, s = 'lambda.min') 
+nzcoef   <- rownames(coef_1se)[which((coef_1se) != 0)]
+formula <- paste(c('cancerPred ~ STDs.condylomatosis + Dx.Cancer + Dx.HPV'))
+fit1.1 <- glm(formula, train, family=binomial)
+# Anova(fit1.1) # to check for significance of variables
+# Remove Dx.Cancer as it is insignificant at the 0.05 level and re-run the model.
+fit1.2 <- update(fit1.1, . ~ . -Dx.Cancer)
+Anova(fit1.2)
+```
+This model shows that `Dx.Cancer` and `STDs.condylomatosis` are significant factors at the 0.05 level in predicting cervical cancer risk.  
+<!--- END modeling - Logistic Regression with LASSO --->
+
+<!--- modeling - random forest --->
+##  Random Forest  
+
+The random forest model deems `logAge`, `log.Years.HCP`, `First.sexual.intercourse`, `Num.of.pregnancies`, and `Number.of.sexual.parters` as important factors in predicting cervical cancer risk. These variables all conform to our original hypotheses.  
+
+```{r, echo=FALSE}
+set.seed(1)
+fit.rf <- randomForest(cancerPred ~ ., data = train, mtry=4)
+importance(fit.rf)
+varImpPlot(fit.rf)
+```
+<!--- END modeling - random forest --->
+
+<!--- comparison of methods --->
+## Comparison of Methods  
+
+We will compare the models with confusion matrix metrics and area under curve.
+
+### Confusion Matrix  
+
+We apply our two models to the test data and see how well they predict cancer risk. In classifying our probabilities, one might set phat to be 0.5. However, since this is a medical prediction, we want to data to be more sensitive in order to decrease the chance of false negatives - we wouldn't want to tell a patient who has cancer he/she has does not have cancer. Given that, we set phat to be 0.25 for class assignments.  
+
+The confusion matrix reports the following information:  
+```{r, echo=FALSE}
+fit1.2pred <- rep("0", nrow(test))
+phat <- predict(fit1.2,newdata=test, type="response")
+fit1.2pred[phat > 0.25] <- "1"  
+fit1.2pred <- as.factor(fit1.2pred) 
+
+cm <- table(fit1.2pred, test$cancerPred)
+cm 
+```
+
+```{r, include=FALSE}
+sensitivity1 <- cm[2,2]/sum(test$cancerPred == "1")  
+false.negative1 <- 1-sensitivity1
+specificity1 <- cm[1,1]/ sum(test$cancerPred == "0")
+false.positive1 <- 1-specificity1
+mce1 <- (cm[1,2]+cm[2,1])/length(fit1.2pred)
+```
+
+The logistic regression model returns MCE of `r mce1` on our test set. It has sensitivity of `r sensitivity1` and specificity of `r specificity1`.  
+
+Let's compare these numbers to that of the random forest model:  
+
+```{r, echo=FALSE}
+pred2 = predict(fit.rf, newdata = test, type = "prob")
+fit2.pred <- rep("0", nrow(test)) 
+fit2.pred[pred2[,2] > 0.25] <- "1" 
+fit2.pred <- as.factor(fit2.pred) # make this hat y
+
+cm2 <- table(fit2.pred, test$cancerPred) # confusion matrix: 
+cm2 
+```
+
+```{r, include=FALSE}
+sensitivity2 <- cm2[2,2]/sum(test$cancerPred == "1")  
+false.negative2 <- 1-sensitivity2
+specificity2 <- cm2[1,1]/ sum(test$cancerPred == "0")
+false.positive2 <- 1-specificity2
+mce2 <- (cm2[1,2]+cm2[2,1])/length(fit2.pred)
+```
+
+The random forest model returns MCE of `r mce2` on our test set. It has sensitivity of `r sensitivity2` and specificity of `r specificity2`.  
+
+We summarize the performance of the two models as follows:  
+- __Misclassification rate__: Logistic regression 0.12; Random Forest 0.20.  Logistic regression has a lower misclassification rate.  
+- __Sensitivity__: Logistic regression 0.21; Random Forest 0.37.  Random Forest has higher sensitivity, and thus has lower false negative rates.  
+- __Specificity__: Logistic regression 0.95; Random Forest 0.85. Logistic regression has higher specificity, and thus have lower false positive rates.  
+
+If our objective is to minimize misclassification rate, logistic regression model seems to perform better.  
+However, if we want to minimize false negative rates (ie. minimize errors in diagnosing a patient with cancer as without), we'd be better off with the random forest model.  
+<!--- END comparison of methods --->
+
+<!--- ROC and AUC --->
+### ROCs and AUC  
+
+Let's look at ROC and area under curve to further compare the models.  
+
+```{r, echo=FALSE}
+# Calculate ROCs for training data
+fit1.train.roc <- roc(train$cancerPred, fit1.2$fitted, plot=FALSE)
+rf.train.pred <- predict(fit.rf, newdata = train, type = "prob") # What does our RF model predict for training data?
+rf.train.pred <- rf.train.pred[,2]
+fit2.train.roc <- roc(train$cancerPred, rf.train.pred, plot=FALSE)
+
+# Plot ROC for training data
+plot(1-fit1.train.roc$specificities, fit1.train.roc$sensitivities, type = "l", col="blue", pch=16, cex=.7, 
+     xlab="False Positive", 
+     ylab="Sensitivity")
+points(1-fit2.train.roc$specificities, fit2.train.roc$sensitivities, type = "l", col="red", pch=16, cex=.7)
+title("ROC Curves for Training Data (Logistic= blue, Random Forest = red)")
+
+# AUC for training data
+auc(fit1.train.roc)
+auc(fit2.train.roc)
+```
+
+The plot below shows that random forest has higher auc than logistic regression model at auc of `r auc(fit2.train.roc)`. In fact, at `r auc(fit1.train.roc)`, logistic regression model's auc is so low that it is not much better than guessing.  
+
+Interestingly, the picture is very different when we plot ROC with our test set. 
+
+```{r, echo=FALSE}
+# ROC for testing data
+fit1.test.roc <- roc(test$cancerPred, phat, plot = FALSE)
+fit2.test.roc <- roc(test$cancerPred, pred2[,2], plot=FALSE)
+
+# Plot ROC for testing data
+plot(1-fit1.test.roc$specificities, fit1.test.roc$sensitivities, type = "l", col="blue", pch=16, cex=.7, 
+     xlab="False Positive", 
+     ylab="Sensitivity")
+points(1-fit2.test.roc$specificities, fit2.test.roc$sensitivities, type = "l", col="red", pch=16, cex=.7)
+title("ROC Curves for Testing Data (fit1 = blue, fit2 = red)")
+
+# AUC for test data
+auc(fit1.test.roc)
+auc(fit2.test.roc)
+```
+
+Neither model performs particularly well on the test set (logistic regression auc `r auc(fit1.test.roc)`, random forest auc `r auc(fit2.test.roc)`. This may be due to overfitting of the training set. We will discuss this further in the next section (Validity of Results).  
+<!--- END ROC and AUC --->
+
+<!--- Validity of Results and Future Improvement--->
+## Validity of Results and Future Improvement    
+
+Our model predicts `Dx.HPV` and `STDs.condylomatosis` as being the most important variables. Based on literature review, it makes sense that a diagnosis HPV is the strongest predictor of whether or not somebody is at high risk for contracting cervical cancer.`STDs.condylomatosis` does not make as much sense, since condyloma or genital warts are generally  caused by HPV strains that do NOT lead to cancer. However, in the initial EDA, we chose to include `STDs.condylomatosis` over some of the other highly correlated variables that captured sexual activity. Thus, a possible explanation for this effect is that `STDs.condylomatosis` is a confounding variable and that the variable truly responsible for the effect is `STDs..number.`.   
+
+Unfortunately, our model did not reveal the importance of known risk factors for cervical cancer (such as age at initial intercourse, number of sexual partners, patient age, CIN, among others). This could be due to two possibilities: First, it could be that the manipulation in the EDA ended up removing some of the variability that would allow us to capture these effects. Second and most likely, it coud be that these known risk factors have relatively small effects when compared to the #1 risk factor and only contibute minimally to the overall risk. Thus, our study might have been underpowered for the purposes of identifying cervical cancer predictors.    
+
+Future improvements to our model should consider an increased sample size (particularly trying to enroll more patients whose `cancerPred` score is "high risk" 1-4), which would increase the power of the study and our ability to detect small effects. Another improvement could be the use of a more definitive cancer diagnosis variable, such as the presence of an active cervical cancer diagnosis code. Lastly, it would be interesting to explore the effects of HPV vaccination by including variables such as whether or not somebody received Gardasil or Cevarix, how many doses were administered, and at what ages at which the doses were given. 
+<!--- END Validity of Results and Future Improvement--->
+
+<!--- conclusion --->
+# Conclusion    
+
+In identifiying factors that influence cervical cancer risk, we employed two models (logistic regression and random forest). We compared the two models with sensitivity, specificity, false nagative rate, false positive rate, unweighted misclassification errors (MCE), ROC curves and AUC.  We find that random forest outperforms logistic regression in classifying the training data (with an AUC of near 1); however, both models had similar performance in terms of AUC for the test data (both around ~0.58). Also, while logistic regression outperformed random forest in terms of MCE for the specified rule, random forest had a higher sensitivity ($P(\hat Y = 1|Y=1)$) and lower false negative rate ($P(\hat Y=0|Y=1)$), which are two desirable qualities when classifying potential cancer patients. Therefore, between the two models, we recommend employing the random forest model for future predictions. Note however that while the random forest model has the upper hand in this analysis, there is still significant room for improvement in data collection to improve the model's prediction powers. Future directions for improvement include significantly increasing our sample size, particularly increasing the proportion of "high risk" patients, and exploring the effect of vaccination against HPV.  
+<!--- END conclusion --->
+
+# Appendix  
+
+## Original variable descriptions
+
+### Demographic
+
++ `Age` - (int) Age
++ `Smokes` - (bool) Smokes
++ `Smokes..years.` - Smokes (years)
++ `Smokes..packs.year.` - Smokes (packs/year)
+
+### Contraception
+
++ `Hormonal.Contraceptives` - (bool) Hormonal Contraceptives
++ `Hormonal.Contraceptives..years.` - (int) Hormonal Contraceptives (years)
++ `IUD` - (bool) IUD (Intrauterine device)
++ `IUD..years.` - (int) IUD (years)
+
+### Sexual activity history
+
++ `Number.of.sexual.partners` - (int) Number of sexual partners
++ `First.sexual.intercourse` - (int) First sexual intercourse (age)
++ `Num.of.pregnancies` - (int) Num of pregnancies
+
+### Sexual health history
+
++ `STDs` - (bool) STDs
++ `STDs..number.` - (int) STDs (number)
++ `STDs.condylomatosis` - (bool) STDs:condylomatosis
++ `STDs.cervical.condylomatosis` - (bool) STDs:cervical condylomatosis
++ `STDs.vaginal.condylomatosis` - (bool) STDs:vaginal condylomatosis
++ `STDs.vulvo.perineal.condylomatosis` - (bool) STDs:vulvo-perineal condylomatosis
++ `STDs.syphilis` - (bool) STDs:syphilis
++ `STDs.pelvic.inflammatory.disease` - (bool) STDs:pelvic inflammatory disease
++ `STDs.genital.herpes` - (bool) STDs:genital herpes
++ `STDs.molluscum.contagiosum` - (bool) STDs:molluscum contagiosum
++ `STDs.AIDS` - (bool) STDs:AIDS
++ `STDs.HIV` - (bool) STDs:HIV
++ `STDs.Hepatitis.B` - (bool) STDs:Hepatitis B
++ `STDs.HPV` - (bool) STDs:HPV
++ `STDs..Number.of.diagnosis` - (int) STDs: Number of diagnosis
++ `STDs..Time.since.first.diagnosis` - (int) STDs: Time since first diagnosis
++ `STDs..Time.since.last.diagnosis` - (int) STDs: Time since last diagnosis
+
+### Medical history
+
++ `Dx.Cancer` - (bool) Dx:Cancer (person had previous cervical cancer diagnostic)
++ `Dx.CIN` - (bool) Dx:CIN (person had previous diagnostic of Cervical intraepithelial neoplasia - the potentially premalignant transformation and abnormal growth (dysplasia) of squamous cells on the surface of the cervix)
++ `Dx.HPV` - (bool) Dx:HPV
++ `Dx` - (bool) Dx
++ `Hinselmann` - (bool) Hinselmann: target variable
++ `Schiller` - (bool) Schiller: target variable
++ `Citology` - (bool) Cytology: target variable
++ `Biopsy` - (bool) Biopsy: target variable
+
