@@ -1,0 +1,1071 @@
+﻿<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>US Censes Bureau</origin>
+        <pubdate>20170802</pubdate>
+        <title>American Community Survey Nbrhd (2011-2015)</title>
+        <geoform>vector digital data</geoform>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>Neighborhood level data from the derived from the American Community Survey; 5 year average, years 2011-2015. Data was aggregated at the census tract level, and the summarized into neighborhoods. This information was then joined with Community Planning and Developments Neighborhoods layer. This data-set does not contain data for any enclaves administered by other jurisdictions that are located within the City and County of Denver's boundary. This data is a sample, not a census. Results should be considered estimates. Since this data was internally derived by the City and County of Denver from census tract level data, Margin of Error statistics from the census tract data could not be accurately aggregated for the neighborhood level data. Therefore, the Margin of Error data is not provided with this data set. Users should use caution as data values are estimates.</abstract>
+      <purpose>This data set should be used for planning and analysis of activities that are within the City and County of Denver.
+</purpose>
+    </descript>
+    <status>
+      <update>As needed</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-105.109967</westbc>
+        <eastbc>-104.599538</eastbc>
+        <northbc>39.914209</northbc>
+        <southbc>39.614311</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>census</themekey>
+        <themekey>demographics</themekey>
+      </theme>
+      <theme>
+        <themekt>ISO 19115 Topic Categories</themekt>
+        <themekey>economy</themekey>
+        <themekey>society</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>Denver</placekey>
+        <placekey>Denver County</placekey>
+        <placekey>Colorado</placekey>
+        <placekey>USA</placekey>
+      </place>
+    </keywords>
+    <accconst>None</accconst>
+    <useconst>ACCESS CONSTRAINTS: None. USE CONSTRAINTS: The City and County of Denver is not responsible and shall not be liable to the user for damages of any kind arising out of the use of data or information provided by the City and County of Denver, including the installation of the data or information, its use, or the results obtained from its use. ANY DATA OR INFORMATION PROVIDED BY THE City and County of Denver IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. Data or information provided by the City and County of Denver shall be used and relied upon only at the user's sole risk, and the user agrees to indemnify and hold harmless the City and County of Denver, its officials, officers and employees from any liability arising out of the use of the data/information provided. NOT FOR ENGINEERING PURPOSES</useconst>
+    <datacred>City and County of Denver, Technology Services, Enterprise Data Management , derived from American Community Survey data, US Census Bureau. </datacred>
+    <secinfo>
+      <secsys>AVAILABLE  </secsys>
+      <secclass>Unclassified</secclass>
+      <sechandl>Available to the public and accessible through Denver’s Open Data Catalog, http://data.denvergov.org/</sechandl>
+    </secinfo>
+    <native> Version 6.2 (Build 9200) ; Esri ArcGIS 10.4.1.5686</native>
+  </idinfo>
+  <dataqual />
+  <spdoinfo>
+    <direct>Vector</direct>
+    <ptvctinf>
+      <sdtsterm>
+        <sdtstype>GT-polygon composed of chains</sdtstype>
+        <ptvctcnt>78</ptvctcnt>
+      </sdtsterm>
+    </ptvctinf>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>8.983152841195215e-009</latres>
+        <longres>8.983152841195215e-009</longres>
+        <geogunit>Decimal Degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>D WGS 1984</horizdn>
+        <ellips>WGS 1984</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257223563</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>american_community_survey_nbrhd_2011_2015</enttypl>
+      </enttyp>
+      <attr>
+        <attrlabl>OBJECTID</attrlabl>
+        <attrdef>Internal feature number.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Sequential unique whole numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE</attrlabl>
+        <attrdef>Feature geometry.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>NBHD_NAME</attrlabl>
+        <attrdef>Neighborhood Name</attrdef>
+        <attrdefs>Community Planning and DevelopmentCPD</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTL_POPULATION_ALL</attrlabl>
+        <attrdef>Total Population of a unit of geography.</attrdef>
+        <attrdefs>ACS Table b01003</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HISPANIC_OR_LATINO</attrlabl>
+        <attrdef>Persons of Hispanic or Latino origin</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WHITE</attrlabl>
+        <attrdef>Non-Hispanic White Population</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BLACK</attrlabl>
+        <attrdef>Non-Hispanic Black</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NATIVE_AMERICAN</attrlabl>
+        <attrdef>Non-Hispanic Native American</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ASIAN</attrlabl>
+        <attrdef>Non-Hispanic Asian</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HAWAIIAN_PI</attrlabl>
+        <attrdef>Non-Hispanic Hawaiian and Pacific Islanders</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_RACE</attrlabl>
+        <attrdef>Non-Hispanic Persons of any other race</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TWO_OR_MORE</attrlabl>
+        <attrdef>Non-Hispanic Persons of Two_or_More Races</attrdef>
+        <attrdefs>ACS Race by Hispanic Origin</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_HISPANIC</attrlabl>
+        <attrdef>Percent of Population of Hispanic Origin</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_WHITE</attrlabl>
+        <attrdef>Percent of Population Non-Hispanic White</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_BLACK</attrlabl>
+        <attrdef>Percent of Population Non-Hispanic Black</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_NATIVEAM</attrlabl>
+        <attrdef>Percent of Population Non-Hispanic Native American</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_ASIAN</attrlabl>
+        <attrdef>Percent of Population Non-Hispanic Asian</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_HAWAIIANPI</attrlabl>
+        <attrdef>Percent of Population Non Hispanic Hawaiian or Pacific Islander</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_OTHERRACE</attrlabl>
+        <attrdef>Percentage of population that is not Hispanic of any other race</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_TWOORMORE_RACES</attrlabl>
+        <attrdef>Percent of population that is not Hispanic that identifies with 2 or more races</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MALE</attrlabl>
+        <attrdef>Total Male Population</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FEMALE</attrlabl>
+        <attrdef>Total Female Population</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_LESS_5</attrlabl>
+        <attrdef>Population Less than Age 5</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_5_TO_9</attrlabl>
+        <attrdef>Population from age 5 to 9</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_10_TO_14</attrlabl>
+        <attrdef>Population from age 10 to 14</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_15_TO_17</attrlabl>
+        <attrdef>Population from age 15 to 17</attrdef>
+        <attrdefs>ACS Table b01001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_0_TO_9</attrlabl>
+        <attrdef>Population from age 0 to 9</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_10_TO_19</attrlabl>
+        <attrdef>Population from age 10 to 19</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_20_TO_29</attrlabl>
+        <attrdef>Population from age 20 to 29</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_30_TO_39</attrlabl>
+        <attrdef>Population from age 30 to 39</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_40_TO_49</attrlabl>
+        <attrdef>Population from age 40 to 49</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_50_TO_59</attrlabl>
+        <attrdef>Population from age 50 to 59</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_60_TO_69</attrlabl>
+        <attrdef>Population from age 60 to 69</attrdef>
+        <attrdefs>Population from age 60 to 69</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_70_TO_79</attrlabl>
+        <attrdef>Population from age 70 to 79</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_80_PLUS</attrlabl>
+        <attrdef>Population age 80 or more</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGELESS18</attrlabl>
+        <attrdef>Population that is less than 18 years old</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE65PLUS</attrlabl>
+        <attrdef>Total population that is 65 years old or more</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_AGELESS18</attrlabl>
+        <attrdef>Percent of Population that is less than 18 years old</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_AGE65PLUS</attrlabl>
+        <attrdef>Percent of total population that is 65 years old or more</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_AGE_ALL</attrlabl>
+        <attrdef>Median Age</attrdef>
+        <attrdefs>ACS Table b01002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_AGE_MALE</attrlabl>
+        <attrdef>Median age of male population</attrdef>
+        <attrdefs>ACS Table b01002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_AGE_FEMALE</attrlabl>
+        <attrdef>Median age of female population</attrdef>
+        <attrdefs>ACS Table b01002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTL_AGE_3_PLUS_ENRSTATUS</attrlabl>
+        <attrdef>Total Population 3 years of age of higher</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ENROLLED_IN_SCHOOL</attrlabl>
+        <attrdef>Total Population 3 or Older enrolled in school</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NURSERY_OR_PRESCHOOL</attrlabl>
+        <attrdef>Total Population 3 or older enrolled in nursery or preschool</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>KINDERGARTEN</attrlabl>
+        <attrdef>Total Population enrolled in kindergarten</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GRADES_5_TO_8</attrlabl>
+        <attrdef>Total Population enrolled in grades 5 through 8</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GRADES_9_TO_12</attrlabl>
+        <attrdef>Total population enrolled in grades 9 through 12</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COLLEGE_UNDERGRADUATE</attrlabl>
+        <attrdef>Total population enrolled in college as undergraduate</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GRADUATE_SCHOOL</attrlabl>
+        <attrdef>Total population enrolled in graduate school</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NOT_ENROLLED</attrlabl>
+        <attrdef>Total population 3 plus not enrolled in school</attrdef>
+        <attrdefs>ACS Table B14001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TOTAL_COMMUTERS</attrlabl>
+        <attrdef>Workers 16 Years and Older who did not work at home.</attrdef>
+        <attrdefs>ACS; Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COMMUTE_LESS_15</attrlabl>
+        <attrdef>Commuters whose commute time was less than 15 minutes</attrdef>
+        <attrdefs>ACS; Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COMMUTE_15_TO_30</attrlabl>
+        <attrdef>Commuters whose commute time was between 15 and 30 minutes</attrdef>
+        <attrdefs>ACS Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COMMUTE_30_TO_45</attrlabl>
+        <attrdef>Commuters whose commute time was between 30 and 45 minutes</attrdef>
+        <attrdefs>ACS; Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COMMUTE_45_TO_60</attrlabl>
+        <attrdef>Commuters whose commute time was between 45 and 60 minutes</attrdef>
+        <attrdefs>ACS Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>COMMUTE_60_PLUS</attrlabl>
+        <attrdef>Commuters whose commute time was greater than 60 minutes</attrdef>
+        <attrdefs>ACS Table b08303</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTLPOP_25PLUS_EDU</attrlabl>
+        <attrdef>Total Population age 25 or older - for educational attainment table</attrdef>
+        <attrdefs>ACS Table B15002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LESS_THAN_HS_DIPLOMA_EDU</attrlabl>
+        <attrdef>Population 25 plus with less than a high school diploma</attrdef>
+        <attrdefs>ACS Table B15002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HSGRAD_OR_EQUIV_EDU</attrlabl>
+        <attrdef>Population 25 plus with a high school diploma or equivalent level of education</attrdef>
+        <attrdefs>ACS Table B15002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOMECOLLEGE_OR_AA_EDU</attrlabl>
+        <attrdef>Population 25 plus with some college, or an AA degree</attrdef>
+        <attrdefs>ACS Table B15002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BACHELORS_OR_HIGHER_EDU</attrlabl>
+        <attrdef>Population 25 plus with a bachelors degree or higher</attrdef>
+        <attrdefs>ACS Table B15002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTLPOP_5PLUS_LNG</attrlabl>
+        <attrdef>Total Population 5 Years and over</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ONLY_ENGLISH_LNG</attrlabl>
+        <attrdef>Population 5 years or over that speaks only English at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SPANISH_LNG</attrlabl>
+        <attrdef>Population 5 or over that speaks Spanish at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FRENCH_LNG</attrlabl>
+        <attrdef>population 5 and over that speaks French at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FRENCH_CREOLE_LNG</attrlabl>
+        <attrdef>population 5 and over that speaks French Creole at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ITALIAN_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks Italian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PORTUGESE_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks Portugese at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GERMAN_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks German at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>YIDDISH_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks Yiddish at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_W_GERMAN_LNG</attrlabl>
+        <attrdef>Population 5 years old or over that speaks any other West German language (not already mentioned) at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SCANDINAVIAN_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks a Scandinavian language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GREEK_LNG</attrlabl>
+        <attrdef>Population 5 and over that speaks Greek at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>RUSSIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Russian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>POLISH_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Polish at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SERBO_CROATIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Serbo Croatian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_SLAVIC_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other Slavic language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ARMENIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Armenian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PERSIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Persian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GUJARATI_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Gujarati at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HINDI_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Hindi at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>URDU_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Urdu at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_INDIC_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other Indic language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_INDO_EUR_LNG</attrlabl>
+        <attrdef>population 5 and over that speak ay other Indo European language</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CHINESE_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Chinese at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>JAPANESE_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Japanese at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>KOREAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Korean at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MON_KHMR_CMBDN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Mon-Khmer or Cambodian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HMONG_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Hmong at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>THAI_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Thai at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LAOTIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Laotian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>VIETNAMESE_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Vietnamese at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_ASIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other Asian language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TAGALOG_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Tagalog at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_PACIS_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other Pacific Islander language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NAVAJO_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Navajo at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_NATAM_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other Native American language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HUNGARIAN_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Hungarian at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ARABIC_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Arabic at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HEBREW_LNG</attrlabl>
+        <attrdef>population 5 and over that speak Hebrew at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AFRICAN_ALL_LNG</attrlabl>
+        <attrdef>population 5 and over that speak an African language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ALL_OTHER_LNG</attrlabl>
+        <attrdef>population 5 and over that speak any other language at home</attrdef>
+        <attrdefs>ACS Table b16001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTL_HOUSING_UNITS</attrlabl>
+        <attrdef>Total Housing Units</attrdef>
+        <attrdefs>ACS Table b25002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OCCUPIED_HU</attrlabl>
+        <attrdef>Total Occupied Housing Units</attrdef>
+        <attrdefs>ACS; Table b25002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>VACANT_HU</attrlabl>
+        <attrdef>Total Vacant Housing Units</attrdef>
+        <attrdefs>ACS Table b25002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OWNER_OCCUPIED_HU</attrlabl>
+        <attrdef>Total Owner Occupied Housing Units</attrdef>
+        <attrdefs>ACS Table b25003</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>RENTER_OCCUPIED_HU</attrlabl>
+        <attrdef>Total Renter Occupied Housing Units</attrdef>
+        <attrdefs>ACS; Table b25003</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TTL_HOUSEHOLDS</attrlabl>
+        <attrdef>Total Number of Households</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FAMILY_HOUSEHOLDS</attrlabl>
+        <attrdef>Total Number of Family Households</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MARRIED_COUPLE_FAMILY</attrlabl>
+        <attrdef>Total Number of Married Couple Family Households</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER_FAMILY</attrlabl>
+        <attrdef>Total Number of Other Family Households</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MALE_HHLDR_NO_WIFE_PRESENT</attrlabl>
+        <attrdef>Total Number of Male Householder Families with No Wife Present</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FEMALE_HHLDR_NO_HSBND_PRESENT</attrlabl>
+        <attrdef>Total Number of Female Householder Families with No Husband Present</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NONFAMILY_HOUSEHOLD</attrlabl>
+        <attrdef>Total Number of Non-Family Households</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HOUSEHOLDER_ALONE</attrlabl>
+        <attrdef>Total Number of Non-Family Households with Householder living alone</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HOUSEHOLDER_NOT_ALONE</attrlabl>
+        <attrdef>Total Number of Non-Family Households with Householder Not Living Alone</attrdef>
+        <attrdefs>ACS Table b11001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_LESS_10000</attrlabl>
+        <attrdef>Number of Households where total Income is Less than $10,000</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_10000_14999</attrlabl>
+        <attrdef>Number of Households where total income is between $10,000 and $14,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_15000_19999</attrlabl>
+        <attrdef>Number of Households where total income is between $15,000 and $19,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_20000_24999</attrlabl>
+        <attrdef>Number of Households where total income is between $20,000 and $24,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_25000_29999</attrlabl>
+        <attrdef>Number of Households where income is between $25,000 and $29,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_30000_34999</attrlabl>
+        <attrdef>Number of Households where total income is between $30,000 and $34,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_35000_39999</attrlabl>
+        <attrdef>Number of Households where total income is between $35,000 and $39,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_40000_44999</attrlabl>
+        <attrdef>Number of Households where total income is between $40,000 and $44,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_45000_49999</attrlabl>
+        <attrdef>Number of Households where total income is between $45,000 and $49,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_50000_59999</attrlabl>
+        <attrdef>Number of Households where total income is between $50,000 and $59,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_60000_74999</attrlabl>
+        <attrdef>Number of Households where total income is between $60,000 and $74,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_75000_99999</attrlabl>
+        <attrdef>Number of Households where total income is between $75,000 and $99,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_100000_124999</attrlabl>
+        <attrdef>Number of Households where total income is between $100,000 and $124,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_125000_149999</attrlabl>
+        <attrdef>Number of Households where total income is beetween $125,000 and $149,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_150000_199999</attrlabl>
+        <attrdef>Number of Households where total income is between $150,000 and $199,999</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_INC_OVER_200000</attrlabl>
+        <attrdef>Number of Households where total income is over $200,000</attrdef>
+        <attrdefs>ACS Table b19001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_HH_INCOME</attrlabl>
+        <attrdef>Median Household Income</attrdef>
+        <attrdefs>ACS Table b19013</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_FAMILY_INCOME</attrlabl>
+        <attrdef>Median Family Income</attrdef>
+        <attrdefs>ACS Table b19113</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PER_CAPITA_INCOME</attrlabl>
+        <attrdef>Aggregate Income divided by Total Population</attrdef>
+        <attrdefs>ACS Table B19313</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AVG_HH_INC</attrlabl>
+        <attrdef>Average Household Income</attrdef>
+        <attrdefs>ACS 09-13 Table B19025</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AVG_FAM_INCOME</attrlabl>
+        <attrdef>Aggregate Family Income Divided by Number of Families</attrdef>
+        <attrdefs>DenverGIS - ACS 06-10 Table B19127</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_EARNINGS</attrlabl>
+        <attrdef>Median Earnings for the Population 16+ with Earnings</attrdef>
+        <attrdefs>ACS Table b20002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_EARN_MALE</attrlabl>
+        <attrdef>Median Earnings for the male Population 16+ with Earnings</attrdef>
+        <attrdefs>ACS Table b20002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_EARN_FEMALE</attrlabl>
+        <attrdef>Median Earnings for the female population 16+ with earnings</attrdef>
+        <attrdefs>ACS Table b20002</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDEARN_LESSHS</attrlabl>
+        <attrdef>Median Earnings of those 25 and over with less than a high school degree</attrdef>
+        <attrdefs>ACS Table b20004</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDEARN_HIGHSCHOOL</attrlabl>
+        <attrdef>Median earnings of those 25 years over with a high school level education</attrdef>
+        <attrdefs>ACS Table b20004</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDEARN_SOMECOLLEGE</attrlabl>
+        <attrdef>median earnings of those 25 and over with some college experience, including AA</attrdef>
+        <attrdefs>ACS Table b20004</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDEARN_BACHELORS</attrlabl>
+        <attrdef>median earnings of those 25 and over with college degree</attrdef>
+        <attrdefs>ACS Table b20004</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDEARN_GRAD_PROFESSIONAL</attrlabl>
+        <attrdef>Median earnings of those 25 years over with a graduate or profesional degree</attrdef>
+        <attrdefs>ACS Table b20004</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_YR_STRUCTURE_BUILT</attrlabl>
+        <attrdef>Median Year Built of all Structures</attrdef>
+        <attrdefs>ACS Table b25035</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_2010_OR_LATER</attrlabl>
+        <attrdef>Number of Houses Built in 2010 and after</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_2000_2009</attrlabl>
+        <attrdef>Number of Houses Built between 2000 and 2009</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1990_1999</attrlabl>
+        <attrdef>Number of Houses Built between 1990 and 1999</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1980_1989</attrlabl>
+        <attrdef>Number of Houses Built between 1980 and 1989</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1970_1979</attrlabl>
+        <attrdef>Number of Houses Built between 1970 and 1979</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1960_1969</attrlabl>
+        <attrdef>Number of Houses Built between 1960 and 1969</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1950_1959</attrlabl>
+        <attrdef>Number of Houses Built Between 1950 and 1959</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1940_1949</attrlabl>
+        <attrdef>Number of Houses Built between 1940 and 1949</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BUILT_1939_OR_EARLIER</attrlabl>
+        <attrdef>Number of Houses built in 1939 or earlier</attrdef>
+        <attrdefs>ACS Table b25034</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_CONTRACT_RENT</attrlabl>
+        <attrdef>Median Contract Rent</attrdef>
+        <attrdefs>ACS Table b25064</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_GROSS_RENT</attrlabl>
+        <attrdef>Median Gross Rent</attrdef>
+        <attrdefs>ACS Table b25064</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MEDIAN_HOME_VALUE</attrlabl>
+        <attrdef>Median Home Value</attrdef>
+        <attrdefs>ACS Table b25077</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NATIVE_BORN</attrlabl>
+        <attrdef>Born in the United States</attrdef>
+        <attrdefs>ACS Table B05012</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FOREIGN_BORN_FB</attrlabl>
+        <attrdef>Population not born in the United States</attrdef>
+        <attrdefs>ACS Table B05012</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EUROPE_FB</attrlabl>
+        <attrdef>Foreign Born - Place of Birth in Europe</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NORTHERN_EUROPE_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Northern Europe</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WESTERN_EUROPE_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Western Europe</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOUTHERN_EUROPE_FB</attrlabl>
+        <attrdef>foreign born - place of birth in southern Europe</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EASTERN_EUROPE_FB</attrlabl>
+        <attrdef>foregin born - place of birth in Eastern Europe</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ASIA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Asia</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EASTERN_ASIA_FB</attrlabl>
+        <attrdef>foregin born - place of birth in Eastern Asia</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOUTH_CENTRAL_ASIA_FB</attrlabl>
+        <attrdef>foregin born - place of birth in South Central Asia</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOUTH_EASTERN_ASIA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in South Eastern Asia</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WESTERN_ASIA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Western Asia</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EASTERN_AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Eastern Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MIDDLE_AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Middle Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NORTHERN_AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Northern Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOUTHERN_AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Southern Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WESTERN_AFRICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Western Africa</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OCEANIA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Oceania</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AMERICAS_FB</attrlabl>
+        <attrdef>foreign born - place of birth in the Americas</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LATIN_AMERICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Latin America</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CARRIBEAN_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Carribean</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CENTRAL_AMERICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in Central America</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SOUTH_AMERICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in South America</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NORTH_AMERICA_FB</attrlabl>
+        <attrdef>foreign born - place of birth in North America</attrdef>
+        <attrdefs>ACS Table b05006</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_POVERTY</attrlabl>
+        <attrdef>POVERTY STATUS IN THE PAST 12 MONTHS: Percent below poverty level  - Population for whom poverty status is determined</attrdef>
+        <attrdefs>ACS Table S1701</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PCT_FAM_POVERTY</attrlabl>
+        <attrdef>Percent of families in poverty</attrdef>
+        <attrdefs>ACS Table B17018</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Length</attrlabl>
+        <attrdef>Length of feature in internal units.</attrdef>
+        <attrdefs>Esri</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Area</attrlabl>
+        <attrdef>Area of feature in internal units squared.</attrdef>
+        <attrdefs>Esri</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>City and County of Denver, Technology Services / Enterprise Data Management</cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>unknown</addrtype>
+          <address>201 W Colfax Ave, Dept 301</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80202</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntemail>denvergis@denvergov.org</cntemail>
+        <hours>M-F 8:00am - 4:00pm (MT)</hours>
+      </cntinfo>
+    </distrib>
+    <distliab>See access and use constraints information.</distliab>
+  </distinfo>
+  <metainfo>
+    <metd>20171124</metd>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+    <mettc>local time</mettc>
+    <metsi>
+      <metscs>AVAILABLE  </metscs>
+      <metsc>Unclassified</metsc>
+      <metshd>Read access to all City users via the Intranet GIS Framework. Data available to those with access to SDE layers</metshd>
+    </metsi>
+  </metainfo>
+</metadata>

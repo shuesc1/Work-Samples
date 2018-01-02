@@ -1,0 +1,786 @@
+﻿<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <pubdate>20110824</pubdate>
+        <title>Census Neighborhood Demographics (2010)</title>
+        <geoform>vector digital data</geoform>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>Based upon the Neighborhoods layer from Community Planning and Development. This layer is a duplicate of that layer, but with additional demographic information compiled from the 2010 US Census. Although every effort was made to ensure that blocks were assigned to their proper neighborhoods, due to geographic problems inherent in the original 2010 census block data, errors may exist. This data-set includes the housing and population data from redistricting file P.L. 94-171 of the 2010 census. The data-set does not contain data for any enclaves administered by other jurisdictions that are located within the City and County of Denver's boundary.</abstract>
+      <purpose>This data set should be used for planning and analysis of activities that are within the City and County of Denver.</purpose>
+    </descript>
+    <status>
+      <update>None planned</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-105.109967</westbc>
+        <eastbc>-104.599538</eastbc>
+        <northbc>39.914209</northbc>
+        <southbc>39.614311</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>census</themekey>
+        <themekey>demographics</themekey>
+      </theme>
+      <theme>
+        <themekt>ISO 19115 Topic Categories</themekt>
+        <themekey>society</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>Denver</placekey>
+        <placekey>Denver County</placekey>
+        <placekey>Colorado</placekey>
+        <placekey>USA</placekey>
+      </place>
+    </keywords>
+    <accconst>None</accconst>
+    <useconst>ACCESS CONSTRAINTS:
+
+This data set is provided as read-only. Contact the GIS Data Administrator for more information on distribution requirements/restrictions.   
+
+USE CONSTRAINTS:
+
+The City and County of Denver is not responsible and shall not be liable to the user for damages of any kind arising out of the use of data or information provided by the City and County of Denver, including the installation of the data or information, its use, or the results obtained from its use.
+ 
+ANY DATA OR INFORMATION PROVIDED BY THE City and County of Denver IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  Data or information provided by the City and County of Denver shall be used and relied upon only at the user's sole risk, and the user agrees to indemnify and hold harmless the City and County of Denver, its officials, officers and employees from any liability arising out of the use of the data/information provided.
+ 
+NOT FOR ENGINEERING PURPOSES
+
+
+</useconst>
+    <datacred>US Census Bureau; City and County of Denver, Technology Services / GIS Data </datacred>
+    <secinfo>
+      <secsys>AVAILABLE</secsys>
+      <secclass>Unclassified</secclass>
+    </secinfo>
+    <native>Microsoft Windows Server 2003 R2 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcGIS 10.0.5.4400</native>
+  </idinfo>
+  <dataqual />
+  <spdoinfo>
+    <direct>Vector</direct>
+    <ptvctinf>
+      <sdtsterm>
+        <sdtstype>GT-polygon composed of chains</sdtstype>
+        <ptvctcnt>78</ptvctcnt>
+      </sdtsterm>
+    </ptvctinf>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>8.9831528411952133e-009</latres>
+        <longres>8.9831528411952133e-009</longres>
+        <geogunit>Decimal Degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>D WGS 1984</horizdn>
+        <ellips>WGS 1984</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257223563</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>POP_CENSUS2010NBRHD_A</enttypl>
+      </enttyp>
+      <attr>
+        <attrlabl>OBJECTID</attrlabl>
+        <attrdef>Internal feature number.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Sequential unique whole numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Shape</attrlabl>
+        <attrdef>Feature geometry.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>NBHD_ID</attrlabl>
+        <attrdef>Neighborhood Identification Number</attrdef>
+        <attrdefs>Community Planning and Development</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Population_2010</attrlabl>
+        <attrdef>Population on April 1, 2010</attrdef>
+        <attrdefs>US Census Table P5 Field P0050001</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Hispanic_2010</attrlabl>
+        <attrdef>Persons of Hispanic Origin</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>White_2010</attrlabl>
+        <attrdef>Non-Hispanic White Population</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Black_2010</attrlabl>
+        <attrdef>Non-Hispanic Black Population</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NativeAm_2010</attrlabl>
+        <attrdef>Non-Hispanic Native American Population</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Asian_2010</attrlabl>
+        <attrdef>Non-Hispanic Asian Population</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HawPacIs_2010</attrlabl>
+        <attrdef>Non-Hispanic Hawaiian and Pacific Islander Population</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Other_2010</attrlabl>
+        <attrdef>Non-Hispanic Population of any other Race</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Hispanic</attrlabl>
+        <attrdef>Percent of Hispanic Origin</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_White</attrlabl>
+        <attrdef>Percent Non-Hispanic White</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Black</attrlabl>
+        <attrdef>Percent Non-Hispanic Black</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_AmerInd</attrlabl>
+        <attrdef>Percent Non-Hispanic Native American</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Asian</attrlabl>
+        <attrdef>Percent Non-Hispanic Asian</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Haw_PacIs</attrlabl>
+        <attrdef>Percent Non-Hispanic Hawaiian or Pacific Islander</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Other_Race</attrlabl>
+        <attrdef>Percent Non-Hispanic of any other race</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Two_or_More_Races</attrlabl>
+        <attrdef>Percent Non-Hispanic who identify with more than one races</attrdef>
+        <attrdefs>DenverGIS, derived from US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Two_or_More_2010</attrlabl>
+        <attrdef>Non-Hispanic Population that Identifies with 2 or more races</attrdef>
+        <attrdefs>US Census Table P5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HousingUnits_2010</attrlabl>
+        <attrdef>Number of Housing Units on April 1, 2010</attrdef>
+        <attrdefs>US Census Table H1</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OccupiedUnits_2010</attrlabl>
+        <attrdef>Number of Occupied Housing Units</attrdef>
+        <attrdefs>US Census Table H2</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Male</attrlabl>
+        <attrdef>Total Male Population</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Female</attrlabl>
+        <attrdef>Total Female Population</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_Less_5</attrlabl>
+        <attrdef>Total persons less than 5 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_5_to_9</attrlabl>
+        <attrdef>Persons from 5 to 9 years</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_10_to_14</attrlabl>
+        <attrdef>Persons from 10 to 14 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_15_to_17</attrlabl>
+        <attrdef>Persons from 15 to 17 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_18_and_19</attrlabl>
+        <attrdef>Persons 18 or 19 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_20</attrlabl>
+        <attrdef>Persons 20 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_21</attrlabl>
+        <attrdef>Persons 21 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_22_to_24</attrlabl>
+        <attrdef>Persons 22 to 24 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_25_to_29</attrlabl>
+        <attrdef>Persons 25 to 29 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_30_to_34</attrlabl>
+        <attrdef>Persons 30 to 34 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_35_to_39</attrlabl>
+        <attrdef>Persons 35 to 39 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_40_to_44</attrlabl>
+        <attrdef>Persons 40 to 44 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_45_to_49</attrlabl>
+        <attrdef>Persons 45 to 49 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_50_to_54</attrlabl>
+        <attrdef>Persons 50 to 54 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_55_to_59</attrlabl>
+        <attrdef>Persons 55 to 59 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_60_and_61</attrlabl>
+        <attrdef>Persons 60 or 61 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_62_to_64</attrlabl>
+        <attrdef>Persons 62 to 64 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_65_and_66</attrlabl>
+        <attrdef>Persons 65 or 66 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_67_to_69</attrlabl>
+        <attrdef>Persons 67 to 69 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_70_to_74</attrlabl>
+        <attrdef>Persons 70 to 74 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_75_to_79</attrlabl>
+        <attrdef>Persons 75 to 79 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_80_to_84</attrlabl>
+        <attrdef>Persons 80 to 84 years old</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_85_Plus</attrlabl>
+        <attrdef>Persons 85 Years old or over</attrdef>
+        <attrdefs>US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_0_to_9</attrlabl>
+        <attrdef>Persons age 0 to 9</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_10_to_19</attrlabl>
+        <attrdef>Persons age 10 to 19</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_20_to_29</attrlabl>
+        <attrdef>Persons age 20 to 29</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_30_to_39</attrlabl>
+        <attrdef>Persons age 30 to 39</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_40_to_49</attrlabl>
+        <attrdef>Persons age 40 to 49</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_50_to_59</attrlabl>
+        <attrdef>Persons age 50 to 59</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_60_to_69</attrlabl>
+        <attrdef>Persons age 60 to 69</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_70_to_79</attrlabl>
+        <attrdef>Persons age 70 to 79</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_80_Plus</attrlabl>
+        <attrdef>Persons age 80 or more</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_Less_18</attrlabl>
+        <attrdef>Persons age less than 18</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Age_65_Plus</attrlabl>
+        <attrdef>Persons age 65 or more</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Less_18</attrlabl>
+        <attrdef>Percentage of total population less than 18</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_65_Plus</attrlabl>
+        <attrdef>Percentage of total population 65 or older</attrdef>
+        <attrdefs>DenverGIS derived from US Census Table P12</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Num_Households</attrlabl>
+        <attrdef>Number of households</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>One_Person_HH</attrlabl>
+        <attrdef>Total One Person Households</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>One_Person_HH_Male</attrlabl>
+        <attrdef>Total One Person Households where the householder is male</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>One_Person_HH_Female</attrlabl>
+        <attrdef>Total one person households where the householder is female</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Two_or_More_Person_HH</attrlabl>
+        <attrdef>Number of two or more person households</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Family_Hhld</attrlabl>
+        <attrdef>Number of family households</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Husb_Wife_Fam</attrlabl>
+        <attrdef>Number of husband wife families</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Husb_Wife_No_Child</attrlabl>
+        <attrdef>Number of husband wife families with no children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Husb_Wife_w_Chldr</attrlabl>
+        <attrdef>Number of Husband Wife families with children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Other_Family</attrlabl>
+        <attrdef>Total number of other types of families</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Male_Hhldr_No_Wife</attrlabl>
+        <attrdef>Number of male householder families with no wife present</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Male_Hhldr_w_Chldr</attrlabl>
+        <attrdef>Number of male householder families with children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Male_Hhldr_No_Childr</attrlabl>
+        <attrdef>Number of male householder families with no children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Female_Hhldr_No_Husb</attrlabl>
+        <attrdef>Number of female householder families with no husband present</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Female_Hhldr_w_Childr</attrlabl>
+        <attrdef>Number of female householder families with children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Female_Hhldr_No_Childr</attrlabl>
+        <attrdef>Number of female householder families with no children</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Non_Family_HH</attrlabl>
+        <attrdef>Number of non-family households</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Non_Family_Male_Hhldr</attrlabl>
+        <attrdef>Number of non-family households with a male householder</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Non_Family_Female_Hhldr</attrlabl>
+        <attrdef>Number of non family households with a female householder</attrdef>
+        <attrdefs>US Census Table P19</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_w_NonRelatives</attrlabl>
+        <attrdef>Number of households containing non relatives</attrdef>
+        <attrdefs>US Census Table P27</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_No_NonRelatives</attrlabl>
+        <attrdef>Number of households not containing non relatives</attrdef>
+        <attrdefs>US Census Table P27</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Families</attrlabl>
+        <attrdef>Total number of families</attrdef>
+        <attrdefs>US Census Table P35</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pop_Group_Qrtrs</attrlabl>
+        <attrdef>Total population in group quarters</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Institutionalized</attrlabl>
+        <attrdef>Total group quarters institutionalized population</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Correctional_Fac</attrlabl>
+        <attrdef>Total group quarters population in correctional facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Juvenile_Fac</attrlabl>
+        <attrdef>Total Group quarters population in juvenile facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Nursing_Fac</attrlabl>
+        <attrdef>Total Group quarters population in nursing facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Other_Inst_Fac</attrlabl>
+        <attrdef>Total group quarters population in all other institutional facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_NonInstitutional</attrlabl>
+        <attrdef>Total group quarters population in noninstitutional facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_CollegeHousing</attrlabl>
+        <attrdef>Total group quarters population living in college housing</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_MilitaryQuarters</attrlabl>
+        <attrdef>Total group quarters population living in military quarters</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GQ_Other_NonInst</attrlabl>
+        <attrdef>Total group quarters population living in any other non institutional facilities</attrdef>
+        <attrdefs>US Census Table P42</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Housing_Units</attrlabl>
+        <attrdef>Total number of housing units</attrdef>
+        <attrdefs>US Census Table H1</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Occupied_HU</attrlabl>
+        <attrdef>Total number of occupied housing units</attrdef>
+        <attrdefs>US Census Table H3</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_HU</attrlabl>
+        <attrdef>Total number of vacant housing units</attrdef>
+        <attrdefs>US Census Table H3</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_w_Mortg_Loan</attrlabl>
+        <attrdef>Total number of owner occupied units with a mortgage</attrdef>
+        <attrdefs>US Census Table H11</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Free_Clear</attrlabl>
+        <attrdef>Total number of owner occupied units owned free and clear</attrdef>
+        <attrdefs>US Census Table H11</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented</attrlabl>
+        <attrdef>Total number of rented housing units</attrdef>
+        <attrdefs>US Census Table H11</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_For_Rent</attrlabl>
+        <attrdef>Total number of housing units vacant for rent</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_Rented_Not_Occ</attrlabl>
+        <attrdef>Total number of units vacant that are being currently rented</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_For_Sale</attrlabl>
+        <attrdef>Total number of vacant for sale housing units</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_Sold_Not_Occ</attrlabl>
+        <attrdef>Total number of vacant units recently sold that are not occupied</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_Seasonal</attrlabl>
+        <attrdef>Total number of vacant seasonal housing units</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_Migrant_Wrkr</attrlabl>
+        <attrdef>Total number of vacant migrant worker housing units</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vacant_Other</attrlabl>
+        <attrdef>Total number of housing units vacant for any other reason</attrdef>
+        <attrdefs>US Census Table H5</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HU_Owned</attrlabl>
+        <attrdef>Total number of housing units that are owner occupied</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_15_to_24</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 15 and 24</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_25_to_34</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 25 and 34</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_35_to_44</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 35 and 44</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_45_to_54</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 45 and 54</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_55_to_59</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 55 and 59</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_60_to_64</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 60 and 64</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_65_to_74</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 65 and 74</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_75_to_84</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is between 75 and 84</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Owned_Age_85_Plus</attrlabl>
+        <attrdef>Total number of owner occupied housing units where the householder is 85 or older</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HU_Rented</attrlabl>
+        <attrdef>Total number of rented housing units</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_15_to_24</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 15 and 24</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_25_to_34</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 25 and 34</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_35_to_44</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 35 and 44</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_45_to_54</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 45 and 54</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_55_to_59</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 55 and 59</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_60_to_64</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 60 and 64</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_65_to_74</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 65 and 74</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_75_to_84</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is between 75 and 84</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Rented_Age_85_Plus</attrlabl>
+        <attrdef>Total number of rented housing units where the householder is 85 or older</attrdef>
+        <attrdefs>US Census Table H17</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>VacantUnits_2010</attrlabl>
+        <attrdef>Number of Vacant Housing Units</attrdef>
+        <attrdefs>US Census Table H3</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Nbrhd_Name</attrlabl>
+        <attrdef>Name of Neighborhood</attrdef>
+        <attrdefs>Community Planning and Development</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Length</attrlabl>
+        <attrdef>Length of feature in internal units.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Area</attrlabl>
+        <attrdef>Area of feature in internal units squared.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>City and County of Denver, Technology Services / GIS Data </cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>unknown</addrtype>
+          <address>201 W Colfax Ave, Dept 301</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80202</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntfax>720-913-5237</cntfax>
+        <cntemail>denvergis@denvergov.org</cntemail>
+        <hours>M-F 8:00am - 4:00pm (MT)</hours>
+      </cntinfo>
+    </distrib>
+    <distliab>See access and use constraints information.</distliab>
+    <stdorder>
+      <fees>This information is available at a time and material cost from the City and County of Denver. </fees>
+      <ordering>Digital products can be downloaded for free using the FTP site or can be requested by filing out the GIS Data Request Form and faxing it to (720) 913-5237, ATTN: Data Sales. All digital orders will be confirmed and processed by DenverGIS.  Use our online request form and acknowledge the GIS ordinance to download publically available GIS digital data. Please reference the following link - https://www.denvergov.org/gis and click on Products and Services, then click on Data Sales.; Technical Prerequisites: It is recommended to use DSL or T1 connections to download the information. If dial-up is used, please expect longer download times or incomplete data downloads.</ordering>
+      <turnarnd>10 working days.</turnarnd>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20130430</metd>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+    <mettc>local time</mettc>
+  </metainfo>
+</metadata>

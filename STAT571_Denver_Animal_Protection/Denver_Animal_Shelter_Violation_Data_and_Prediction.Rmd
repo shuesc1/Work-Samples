@@ -1,0 +1,80 @@
+---
+title: "Denver Animal Shelter - Violation Data & Prediction"
+author: "Joseph Haymaker, The University of Pennsylvania"
+date: "01/2018"
+output:
+  html_document:
+    code_folding: show
+    highlight: haddock
+    number_sections: yes
+    self_contained: yes
+    theme: lumen
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: 2
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyfoot[CO,CE]{}
+- \fancyfoot[LE,RO]{\thepage}
+#subtitle: STAT 471/571/701, Fall 2017
+graphics: yes
+---
+
+```{r, echo=FALSE, fig.align="center", out.width="300px"}
+knitr::include_graphics("https://www.denvergov.org/content/dam/denvergov/Portals/682/images/About%20DAS/DAPDEHlogo.png")
+```
+
+```{r setup, include=FALSE}
+# knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.height=5, fig.width=11, warning = F, fig.align = "left")
+# install.packages('plotrix')
+library(car)       # v 2.1-4
+library(glmnet)    # v 2.0-5
+library(dplyr)     # v 0.5.0
+library(ggplot2)
+library(GGally)
+library(plotrix)
+library(randomForest)
+library(tree)
+library(rpart)
+library(rpart.plot)
+library(pROC)
+library(partykit)
+library(gbm)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# getwd()
+# dir <- "/Users/lzhao/Dropbox/STAT471/Data"  # my laptop
+# setwd(dir)   #same as setwd("/Users/lzhao/Dropbox/STAT471/Data") 
+# getwd()
+```
+
+# Executive Summary
+
+
+```{r, echo=FALSE, fig.align="center", out.width="300px"}
+knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Protection/das.jpeg")
+```
+
+# Description of the problem
+### Introduction
+
+Denver Animal Protection is part of the City & County of Denver's organizational structure and, as such, strives to serve all members of Denver County, an area comprised of 155 square miles ([US Census Data](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2017_Gazetteer/2017_gaz_counties_08.txt)) and 54 unique zip codes ([source](https://tools.usps.com/go/ZipLookupAction!input.action)).More specifically, Denver Animal Protection (DAP) falls under the umbrella of Denver’s Department of Environmental Health (DEH), which oversees programs related to public health and environment. Within DEH there are seven different divisions (one of which is DAP): Community Health (CH), Public Health Inspection (PHI), Denver Animal Protection (DAP), the Office of Medical Examiner (OME), Environmental Quality (EQ), the Executive Director’s Office (EDO), and the Office of Sustainability (OOS) ([source](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/MayorsProposedBudget_2016.pdf)). While DAP garners much public attention, media attention generally focuses on its public facing roles of animal returns to owners and animal adoption ([1](https://www.denverpost.com/2017/11/01/denver-animal-shelter-adoption-deal/), [2](http://kdvr.com/2017/08/22/denver-animal-shelter-to-put-2-dozen-french-bulldogs-up-for-adoption-saturday/), [3](https://www.denverpost.com/2017/12/28/border-collie-deformed-front-legs-gets-cart/), [4](http://kdvr.com/2017/07/14/cat-found-in-west-denver-dumpster-finds-new-home/)). However, the shelter also offers a foster program, volunteer opportunities, a weekly vaccination clinic, pet licensing, breed evaluations, wildlife & pest control, and ordinance enforcement. Some of these services are offered at the shelter, while many others are performed by animal control officers who spend much of their time in the field. For example, in addition to enforcing Denver’s leash, pet waste, pet licensing, rabies vaccination, and spay/neuter laws, the field services unit also investigates animal bites, cruelty and neglect claims, and barking dog disturbances. One of DAP's specific strategies is to "improve public safety and animal welfare by increasing compliance with Denver’s animal codes and improving pet responsibility through proactive outreach efforts" ([Mayor’s Proposed 2017 Budget](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/2017/2017%20Budget%20Book_October%20Draft_Web%20Version.pdf), p. 603). Consequently, with more perfect knowledge of city violation trends and predictors the field services unit will be better able to target public outreach opportunities with current resources, and in turn move in the direction of greater ordinance compliance in the county. 
+
+# Description of the data
+### Data Summary
+__Data source:__
+Clore, John, et al. “ Diabetes 130-US Hospitals for Years 1999-2008 Data Set .” UCI Machine Learning Repository: Diabetes 130-US Hospitals for Years 1999-2008 Data Set, Center for Clinical and Translational Research, Virginia Commonwealth University, 2014, [archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008](archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008).
+
+# Data Cleaning and Preparation (EDA)
+# Modeling & Analyses
+# Conclusion 
+# Appendix
+
+
+

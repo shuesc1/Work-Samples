@@ -1,0 +1,1153 @@
+﻿<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <pubdate>20111005</pubdate>
+        <title>Census Tracts (2000)</title>
+        <edition>2nd</edition>
+        <geoform>vector digital data</geoform>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>The U.S. Census Bureau's year 2000 census tract boundaries for the City and County of Denver. The original census tract boundaries have been adjusted to various Denver GIS data layers to increase the spatial accuracy of this data. Although every effort was made to ensure the accurate rectification of the data, due to geographic problems inherent in the original 2000 census block data, errors may exist. This data-set includes the housing and population data from Summary File 1, and Summary File 3 of the 2000 census. The data-set does not contain data for any enclaves administered by other jurisdictions that are located within the City and County of Denver's boundary.</abstract>
+      <purpose>This data-set should be used for planning and analysis of activities that are within the City and County of Denver.</purpose>
+    </descript>
+    <status>
+      <update>None planned</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-105.109967</westbc>
+        <eastbc>-104.599538</eastbc>
+        <northbc>39.914209</northbc>
+        <southbc>39.614313</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>census</themekey>
+        <themekey>demographics</themekey>
+      </theme>
+      <theme>
+        <themekt>ISO 19115 Topic Categories</themekt>
+        <themekey>society</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>Denver</placekey>
+        <placekey>Denver County</placekey>
+        <placekey>Colorado</placekey>
+        <placekey>USA</placekey>
+      </place>
+    </keywords>
+    <accconst>None</accconst>
+    <useconst>ACCESS CONSTRAINTS:
+
+This data set is provided as read-only. Contact the GIS Data Administrator for more information on distribution requirements/restrictions.   
+
+USE CONSTRAINTS:
+
+The City and County of Denver is not responsible and shall not be liable to the user for damages of any kind arising out of the use of data or information provided by the City and County of Denver, including the installation of the data or information, its use, or the results obtained from its use.
+ 
+ANY DATA OR INFORMATION PROVIDED BY THE City and County of Denver IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  Data or information provided by the City and County of Denver shall be used and relied upon only at the user's sole risk, and the user agrees to indemnify and hold harmless the City and County of Denver, its officials, officers and employees from any liability arising out of the use of the data/information provided.
+ 
+NOT FOR ENGINEERING PURPOSES
+</useconst>
+    <datacred>City and County of Denver, Technology Services / DenverGIS Data</datacred>
+    <secinfo>
+      <secsys>AVAILABLE</secsys>
+      <secclass>Unclassified</secclass>
+      <sechandl>Available to the general public and posted on the Denver FTP (File Transfer Protocol) site.</sechandl>
+    </secinfo>
+    <native>Microsoft Windows Server 2003 R2 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcGIS 10.0.5.4400</native>
+  </idinfo>
+  <dataqual />
+  <spdoinfo>
+    <direct>Vector</direct>
+    <ptvctinf>
+      <sdtsterm>
+        <sdtstype>GT-polygon composed of chains</sdtstype>
+        <ptvctcnt>136</ptvctcnt>
+      </sdtsterm>
+    </ptvctinf>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>8.9831528411952133e-009</latres>
+        <longres>8.9831528411952133e-009</longres>
+        <geogunit>Decimal Degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>D WGS 1984</horizdn>
+        <ellips>WGS 1984</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257223563</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>census_tracts_2000</enttypl>
+      </enttyp>
+      <attr>
+        <attrlabl>Shape</attrlabl>
+        <attrdef>Feature geometry.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>OBJECTID</attrlabl>
+        <attrdef>Internal feature number.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Sequential unique whole numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>STFID</attrlabl>
+        <attrdef>Unique Geographic Identifier</attrdef>
+        <attrdefs>US Census</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LatinAmerica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Latin America</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Area</attrlabl>
+        <attrdef>Area of feature in internal units squared.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Americas_FB</attrlabl>
+        <attrdef>Foreign born residents born in the Americas</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>POP2000</attrlabl>
+        <attrdef>Population in the 2000 Census</attrdef>
+        <attrdefs>US Census</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>Carribean_FB</attrlabl>
+        <attrdef>Foreign born residents born in the Carribean</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CentralAmerica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Central America</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SouthAmerica_FB</attrlabl>
+        <attrdef>Foreign born residents born in South America</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NorthAmerica_FB</attrlabl>
+        <attrdef>Foreign born residents born in North America</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AtSea_FB</attrlabl>
+        <attrdef>Foreign born residents born at sea</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Workers_16Plus</attrlabl>
+        <attrdef>Total number of workers 16 years or older</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Drove_Alone</attrlabl>
+        <attrdef>Total number of workers who drove to work alone</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Carpooled</attrlabl>
+        <attrdef>Total number of workers who carpooled to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Public_Transportation</attrlabl>
+        <attrdef>Total number of workers who took public transportation to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Motorcycle</attrlabl>
+        <attrdef>Total number of workers who rode a motorcycle to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Bicycle</attrlabl>
+        <attrdef>Total number of workers who rode a bicycle to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Walked</attrlabl>
+        <attrdef>Total number of workers who walked to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Other_Mode</attrlabl>
+        <attrdef>Total number of workers who took another mode of transportation to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Worked_At_Home</attrlabl>
+        <attrdef>Total number of workers who worked at home</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Population5Plus</attrlabl>
+        <attrdef>Total number of people age 5 plus, for use in newcomer status</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>In_Denver</attrlabl>
+        <attrdef>Total number of population who lived in Denver 5 years ago</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Elsewhere_in_CO</attrlabl>
+        <attrdef>Total number who lived somewhere else in colorado 5 years ago</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Different_State</attrlabl>
+        <attrdef>Total number who lived in a different state 5 years ago</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OutsideUSA</attrlabl>
+        <attrdef>Total number who lived outside of the united states 5 years ago</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TotalPop16Plus</attrlabl>
+        <attrdef>Total number of people who are 16 years or older</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TRACT_NUM</attrlabl>
+        <attrdef>Unique tract identification number, for labeling</attrdef>
+        <attrdefs>DenverGIS</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>InLaborForce</attrlabl>
+        <attrdef>Total number 16 plus that are in the labor force</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>InArmedForces</attrlabl>
+        <attrdef>Total number 16 plus that are in the armed forces</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Civilian</attrlabl>
+        <attrdef>Total number of people 16 plus that are in the civilian labor pool</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CivilianEmployed</attrlabl>
+        <attrdef>Total number 16 plus who are employed civilians</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CivilianUnemployed</attrlabl>
+        <attrdef>Total number 16 plus who are unemployed civilians</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NotInLaborForce</attrlabl>
+        <attrdef>Total number 16 plus who are not a part of the labor force</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE</attrlabl>
+        <attrdef>Feature geometry.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>WHITE</attrlabl>
+        <attrdef>Non Hispanic White Population in the 2000 Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BLACK</attrlabl>
+        <attrdef>Non-Hispanic Black Population in the 2000 US Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ASIAN</attrlabl>
+        <attrdef>Non-Hispanic Asian Population in the 2000 Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HAWN_PI</attrlabl>
+        <attrdef>Non_Hispanic Hawaiian and Pacific Islander population in the 2000 US Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OTHER</attrlabl>
+        <attrdef>Non-Hispanic Population of any other race in the 2000 US Census.</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MULT_RACE</attrlabl>
+        <attrdef>Non Hispanic Individuals that Identified with more than 1 race in the 2000 us census.</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AMER_ES</attrlabl>
+        <attrdef>Non Hispanic Native American population in the 2000 US Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HISPANIC</attrlabl>
+        <attrdef>Hispanic Population of any race in the 2000 US Census</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MALES</attrlabl>
+        <attrdef>Male Population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FEMALES</attrlabl>
+        <attrdef>Female Population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_UNDER5</attrlabl>
+        <attrdef>Population Under 5 Years</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Hispanic</attrlabl>
+        <attrdef>Percent of the population that is of Hispanic Origin</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_White</attrlabl>
+        <attrdef>Percent of the Population which is Non-Hispanic White</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Black</attrlabl>
+        <attrdef>Percentage of the population which is non-hispanic black</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_AmerEs</attrlabl>
+        <attrdef>Percentage of the population which is non hispanic native american</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Asian</attrlabl>
+        <attrdef>Percentage of the Population which is non hispanic asian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_HawnPI</attrlabl>
+        <attrdef>Percentage of the population that is non hispanic hawaiian or pacific islander</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Other</attrlabl>
+        <attrdef>Percentage of the population that is not hispanic of any other race</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Multi</attrlabl>
+        <attrdef>Percentage of the population which is not hispanic, but identifies with multiple races</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_18_21</attrlabl>
+        <attrdef>Population from 18 to 21 years old</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_65_UP</attrlabl>
+        <attrdef>Population 65 years or older</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_AGE</attrlabl>
+        <attrdef>Median Age</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_AGE_M</attrlabl>
+        <attrdef>Median Age, Male Population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_5_13</attrlabl>
+        <attrdef>Population from age 5 to age 13</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_14_17</attrlabl>
+        <attrdef>Population from age 14 to age 17</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LESS_THAN_18</attrlabl>
+        <attrdef>Population less than 18 years old</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MED_AGE_F</attrlabl>
+        <attrdef>Median Age, Female Population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_22_34</attrlabl>
+        <attrdef>Population from age 22 to age 34</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AGE_35_64</attrlabl>
+        <attrdef>Population from age 35 to age 64</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HOUSEHOLDS</attrlabl>
+        <attrdef>Total number of households</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_Less18</attrlabl>
+        <attrdef>Percent of population less than 18 years old</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pct_65Plus</attrlabl>
+        <attrdef>Percent of population age 65 or older</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AVE_HH_SZ</attrlabl>
+        <attrdef>Average household size</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HSEHLD_1_M</attrlabl>
+        <attrdef>One person household, male householder</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HSEHLD_1_F</attrlabl>
+        <attrdef>One person household, female householder</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MARHH_CHD</attrlabl>
+        <attrdef>Married household with children</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MARHH_NO_C</attrlabl>
+        <attrdef>Married household without children</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MHH_CHILD</attrlabl>
+        <attrdef>Male householder, no wife present, with children</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FHH_CHILD</attrlabl>
+        <attrdef>Female householder, no husband present, with children</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>FAMILIES</attrlabl>
+        <attrdef>Total number of families</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>AVE_FAM_SZ</attrlabl>
+        <attrdef>Average family size</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HSE_UNITS</attrlabl>
+        <attrdef>Total number of housing units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HSE_UNITS_OCC</attrlabl>
+        <attrdef>Total number of occupied housing units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>VACANT</attrlabl>
+        <attrdef>Total number of vacant housing units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OWNER_OCC</attrlabl>
+        <attrdef>Number of Owner Occupied housing units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>RENTER_OCC</attrlabl>
+        <attrdef>Number of renter occupied housing units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>OCC_HU_AVE_SZ</attrlabl>
+        <attrdef>Average Number of persons per occupied housing unit</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TotalPop3Plus</attrlabl>
+        <attrdef>Total Population 3 years or older, for use in enrollment statistics</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EnrolledinSchool</attrlabl>
+        <attrdef>Total population enrolled in school</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NotEnrolled</attrlabl>
+        <attrdef>Total population not enrolled in school</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NurseryOrPreschool</attrlabl>
+        <attrdef>Total number enrolled in nursery or preschool</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Kindergarten</attrlabl>
+        <attrdef>Total number enrolled in kindergarten</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Grades1to4</attrlabl>
+        <attrdef>Total number enrolled in grades 1 through 4</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Grades5to8</attrlabl>
+        <attrdef>Total number enrolled in grades 5 through 8</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Grades9to12</attrlabl>
+        <attrdef>Total number enrolled in grades 9 through 12</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>CollegeUndergrad</attrlabl>
+        <attrdef>Total number enrolled as college undergraduates</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>GraduateStudent</attrlabl>
+        <attrdef>Total number enrolled as college graduate students</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>TotalPop25Plus</attrlabl>
+        <attrdef>Total population 25 years or older, for use in educational attainment</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>LessThanHSDiploma</attrlabl>
+        <attrdef>Total pop 25 plus with less than a high school diploma</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HS_GradorEquiv</attrlabl>
+        <attrdef>Total population 25 plus with a high school diploma or equivalent</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SomeCollegeOrAA</attrlabl>
+        <attrdef>Total population 25 plus that have taken some college courses, or completed an AA degree</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>BachelorsOrHigher</attrlabl>
+        <attrdef>Total population 25 plus that has attained a bacehlors degree or higher</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Total_Commuters</attrlabl>
+        <attrdef>Total population that commutes to work</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Commute_Less_15</attrlabl>
+        <attrdef>Number who have a commute time less than 15 minutes</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Commute_15_to_30</attrlabl>
+        <attrdef>Number who have a commute time between 15 and 30 minutes.</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Commute_30_to_45</attrlabl>
+        <attrdef>Number who have a commute time between 30 and 45 minutes</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Commute_45_to_60</attrlabl>
+        <attrdef>Number who have a commute time between 45 and 60 minutes</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Commute_60_Plus</attrlabl>
+        <attrdef>Total number who have a commute time of an hour or more</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_Less_10000</attrlabl>
+        <attrdef>Number of households with income of less than $10,000</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_10000_14999</attrlabl>
+        <attrdef>Number of households with income between $10,000 and $14,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_15000_19999</attrlabl>
+        <attrdef>Number of households with income between $15,000 and $19,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_20000_24999</attrlabl>
+        <attrdef>Number of households with income between $20,000 and $24,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_25000_29999</attrlabl>
+        <attrdef>Number of households with income between $25,000 and $29,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_30000_34999</attrlabl>
+        <attrdef>Number of households with income between $30,000 and $34,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_35000_39999</attrlabl>
+        <attrdef>Number of households with income between $35,000 and $39,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_40000_44999</attrlabl>
+        <attrdef>Number of households with income between $40,000 and $44,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_45000_49999</attrlabl>
+        <attrdef>Number of households with income between $45,000 and $49,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_50000_59999</attrlabl>
+        <attrdef>Number of households with income between $50,000 and $59,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_60000_74999</attrlabl>
+        <attrdef>Number of households with income between $60,000 and $74,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_75000_99999</attrlabl>
+        <attrdef>Number of households with income between $75,000 and $99,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_100000_124999</attrlabl>
+        <attrdef>Number of households with income between $100,000 and $124,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_125000_149999</attrlabl>
+        <attrdef>Number of households with income between $125,000 and $149,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_150000_199999</attrlabl>
+        <attrdef>Number of households with income between $150,000 and $199,999</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>HH_Income_Over_200000</attrlabl>
+        <attrdef>Number of households with income over $200,000</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_HH_Income</attrlabl>
+        <attrdef>Median household income</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Fam_Income</attrlabl>
+        <attrdef>Median family income</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Per_Capita_Income</attrlabl>
+        <attrdef>Per capita income</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PctInPoverty</attrlabl>
+        <attrdef>Percentage of Population in poverty</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Earn_16Plus</attrlabl>
+        <attrdef>Median Earnings for the population 16Plus</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Ear_Male</attrlabl>
+        <attrdef>Median Earnings for the Male population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Earn_Female</attrlabl>
+        <attrdef>Median Earnings for the Female Population</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Yr_Built</attrlabl>
+        <attrdef>Median Year Built of all Housing Units</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_Since_1990</attrlabl>
+        <attrdef>Number of housing units built since 1990</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1980_1989</attrlabl>
+        <attrdef>Number of housing units built between 1980 and 1989</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1970_1979</attrlabl>
+        <attrdef>Number of housing units built between 1970 and 1979</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1960_1969</attrlabl>
+        <attrdef>Number of housing units built between 1960 and 1969</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1950_1959</attrlabl>
+        <attrdef>Number of housing units built between 1950 and 1959</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1940_1949</attrlabl>
+        <attrdef>Number of housing units built between 1940 and 1949</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Built_1939_Earlier</attrlabl>
+        <attrdef>Number of housing units built 1939 or earlier</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>PctSngFamDetached</attrlabl>
+        <attrdef>Percentage of housing units which are single family detached</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Contract_Rent</attrlabl>
+        <attrdef>Median Contract Rent</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Gross_Rent</attrlabl>
+        <attrdef>Median Gross Rent</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Med_Home_Value</attrlabl>
+        <attrdef>Median Home Value</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Pop5Plus_Lng</attrlabl>
+        <attrdef>Total Population 5 or more years old, for language statistics</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>English_Lng</attrlabl>
+        <attrdef>Number who speak primarily English</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Spanish_Lng</attrlabl>
+        <attrdef>Number who speak primarily spanish</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>French_Lng</attrlabl>
+        <attrdef>Number who speak primarily french</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>French_Creole_Lng</attrlabl>
+        <attrdef>Number who speak primarily French Creole</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Italian_Lng</attrlabl>
+        <attrdef>Number who speak primarily Italian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Portugese_Lng</attrlabl>
+        <attrdef>Number who speak primarily Portugese</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>German_Lng</attrlabl>
+        <attrdef>Number who speak primarily German</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Yiddish_Lng</attrlabl>
+        <attrdef>Number who speak primarily Yiddish</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Other_West_Germanic_Lng</attrlabl>
+        <attrdef>Number who speak primarily some other West Germanic Language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Scandinavian_Lng</attrlabl>
+        <attrdef>Number who speak primarily a scandinavian language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Greek_Lng</attrlabl>
+        <attrdef>Number who speak primarily greek</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Russian_Lng</attrlabl>
+        <attrdef>Number who speak primarily russian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Polish_Lng</attrlabl>
+        <attrdef>Number who speak primarily polish</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SerboCroatian_Lng</attrlabl>
+        <attrdef>Number who speak primarily serbo-croatian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherSlavic_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other slavic language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Armenian_Lng</attrlabl>
+        <attrdef>Number who speak primarily armenian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Persian_Lng</attrlabl>
+        <attrdef>Number who speak primarily persian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Gujarathi_Lng</attrlabl>
+        <attrdef>Number who speak primarily gujarathi</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Hindi_Lng</attrlabl>
+        <attrdef>Number who speak primarily hindi</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Urdu_Lng</attrlabl>
+        <attrdef>Number who speak primarily urdu</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherIndic_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other indic language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherIndoEuropean_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other indo european language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Chinese_Lng</attrlabl>
+        <attrdef>Number who speak primarily chinese</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Japanese_Lng</attrlabl>
+        <attrdef>Number who speak primarily japanese</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Korean_Lng</attrlabl>
+        <attrdef>Number who speak primarily korean</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MonKhmerCambodian_Lng</attrlabl>
+        <attrdef>Number who speak primarily mon khmer cambodian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MiaoHmong_Lng</attrlabl>
+        <attrdef>Number who speak primarily miao hmong</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Thai_Lng</attrlabl>
+        <attrdef>Number who speak primarily thai</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Laotian_Lng</attrlabl>
+        <attrdef>Number who speak primarily laotian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Vietnamese_Lng</attrlabl>
+        <attrdef>Number who speak primarily vietnamese</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherAsian_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other asian language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Tagalog_Lng</attrlabl>
+        <attrdef>Number who speak primarily tagalog</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherPacIsLang_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other pacific island language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Navajo_Lng</attrlabl>
+        <attrdef>Number who speak primarily navajo</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>OtherNativeAm_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other native american language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Hungarian_Lng</attrlabl>
+        <attrdef>Number who speak primarily hungarian</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Arabic_Lng</attrlabl>
+        <attrdef>Number who speak primarily arabic</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Hebrew_Lng</attrlabl>
+        <attrdef>Number who speak primarily hebrew</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>African_Lang_Lng</attrlabl>
+        <attrdef>Number who speak primarily an african language</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Other_Lng_Lng</attrlabl>
+        <attrdef>Number who speak primarily any other language not previously listed</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>ForeignBorn_FB</attrlabl>
+        <attrdef>Total Population foreign born residents</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Europe_FB</attrlabl>
+        <attrdef>Foreign born residents born in Europe</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NorthernEurope_FB</attrlabl>
+        <attrdef>Foreign born residents born in Northern Europe</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WesternEurope_FB</attrlabl>
+        <attrdef>Foreign born residents born in Western Europe</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SouthernEurope_FB</attrlabl>
+        <attrdef>Foreign born residents born in Southern Europe</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EasternEurope_FB</attrlabl>
+        <attrdef>Foreign born residents born in Eastern Europe</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Asia_FB</attrlabl>
+        <attrdef>Foreign born residents born in Asia</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EasternAsia_FB</attrlabl>
+        <attrdef>Foreign born residents born in Eastern Asia</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SouthCentralAsia_FB</attrlabl>
+        <attrdef>Foreign born residents born in South Central Asia</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SouthEasternAsia_FB</attrlabl>
+        <attrdef>Foreign born residents born in South Eastern Asia</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WesternAsia_FB</attrlabl>
+        <attrdef>Foreign born residents born in Western Asia</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Africa_FB</attrlabl>
+        <attrdef>Foreign born residents born in Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>EasternAfrica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Eastern Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>MiddleAfrica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Middle Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>NorthernAfrica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Northern Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SouthernAfrica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Southern Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>WesternAfrica_FB</attrlabl>
+        <attrdef>Foreign born residents born in Western Africa</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>Oceania_FB</attrlabl>
+        <attrdef>Foreign born residents born in Oceania</attrdef>
+        <attrdefs>US Census Bureau</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Length</attrlabl>
+        <attrdef>Length of feature in internal units.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>City and County of Denver, Technology Services / DenverGIS Data </cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>unknown</addrtype>
+          <address>201 W Colfax Ave, Dept 301</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80202</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntfax>720-913-5237</cntfax>
+        <cntemail>denvergis@denvergov.org</cntemail>
+        <hours>M-F 8:00am - 4:00pm (MT)</hours>
+      </cntinfo>
+    </distrib>
+    <distliab>See access and use constraints information.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>SDE Feature Class</formname>
+          <transize>0.341</transize>
+        </digtinfo>
+        <digtopt />
+      </digform>
+      <fees>This information is available at a time and material cost from the City and County of Denver. </fees>
+      <ordering>Digital products can be downloaded for free using the FTP site or can be requested by filing out the GIS Data Request Form and faxing it to (720) 913-5237, ATTN: Data Sales. All digital orders will be confirmed and processed by DenverGIS.  Use our online request form and acknowledge the GIS ordinance to download publically available GIS digital data. Please reference the following link - https://www.denvergov.org/gis and click on Products and Services, then click on Data Sales.; Technical Prerequisites: It is recommended to use DSL or T1 connections to download the information. If dial-up is used, please expect longer download times or incomplete data downloads.</ordering>
+      <turnarnd>10 working days.</turnarnd>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20130430</metd>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+    <mettc>local time</mettc>
+  </metainfo>
+</metadata>
