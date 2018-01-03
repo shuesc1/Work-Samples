@@ -64,17 +64,135 @@ knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Pro
 # Description of the problem
 ### Introduction
 
-Denver Animal Protection is part of the City & County of Denver's organizational structure and, as such, strives to serve all members of Denver County, an area comprised of 155 square miles ([US Census Data](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2017_Gazetteer/2017_gaz_counties_08.txt)) and 54 unique zip codes ([source](https://tools.usps.com/go/ZipLookupAction!input.action)).More specifically, Denver Animal Protection (DAP) falls under the umbrella of Denver’s Department of Environmental Health (DEH), which oversees programs related to public health and environment. Within DEH there are seven different divisions (one of which is DAP): Community Health (CH), Public Health Inspection (PHI), Denver Animal Protection (DAP), the Office of Medical Examiner (OME), Environmental Quality (EQ), the Executive Director’s Office (EDO), and the Office of Sustainability (OOS) ([source](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/MayorsProposedBudget_2016.pdf)). While DAP garners much public attention, media attention generally focuses on its public facing roles of animal returns to owners and animal adoption ([1](https://www.denverpost.com/2017/11/01/denver-animal-shelter-adoption-deal/), [2](http://kdvr.com/2017/08/22/denver-animal-shelter-to-put-2-dozen-french-bulldogs-up-for-adoption-saturday/), [3](https://www.denverpost.com/2017/12/28/border-collie-deformed-front-legs-gets-cart/), [4](http://kdvr.com/2017/07/14/cat-found-in-west-denver-dumpster-finds-new-home/)). However, the shelter also offers a foster program, volunteer opportunities, a weekly vaccination clinic, pet licensing, breed evaluations, wildlife & pest control, and ordinance enforcement. Some of these services are offered at the shelter, while many others are performed by animal control officers who spend much of their time in the field. For example, in addition to enforcing Denver’s leash, pet waste, pet licensing, rabies vaccination, and spay/neuter laws, the field services unit also investigates animal bites, cruelty and neglect claims, and barking dog disturbances. One of DAP's specific strategies is to "improve public safety and animal welfare by increasing compliance with Denver’s animal codes and improving pet responsibility through proactive outreach efforts" ([Mayor’s Proposed 2017 Budget](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/2017/2017%20Budget%20Book_October%20Draft_Web%20Version.pdf), p. 603). Consequently, with more perfect knowledge of city violation trends and predictors the field services unit will be better able to target public outreach opportunities with current resources, and in turn move in the direction of greater ordinance compliance in the county. 
+Denver Animal Protection is part of the City & County of Denver's organizational structure and, as such, strives to serve all members of Denver County, an area comprised of 155 square miles ([US Census Data](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2017_Gazetteer/2017_gaz_counties_08.txt)) and 53 unique zip codes not associated with a specific company or organization ([source](https://tools.usps.com/go/ZipLookupAction!input.action), [full list](#denver-county-zip-codes)).More specifically, Denver Animal Protection (DAP) falls under the umbrella of Denver’s Department of Environmental Health (DEH), which oversees programs related to public health and environment. Within DEH there are seven different divisions (one of which is DAP): Community Health (CH), Public Health Inspection (PHI), Denver Animal Protection (DAP), the Office of Medical Examiner (OME), Environmental Quality (EQ), the Executive Director’s Office (EDO), and the Office of Sustainability (OOS) ([source](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/MayorsProposedBudget_2016.pdf)). While DAP garners much public attention, media attention generally focuses on its public facing roles of animal returns to owners and animal adoption ([1](https://www.denverpost.com/2017/11/01/denver-animal-shelter-adoption-deal/), [2](http://kdvr.com/2017/08/22/denver-animal-shelter-to-put-2-dozen-french-bulldogs-up-for-adoption-saturday/), [3](https://www.denverpost.com/2017/12/28/border-collie-deformed-front-legs-gets-cart/), [4](http://kdvr.com/2017/07/14/cat-found-in-west-denver-dumpster-finds-new-home/)). However, the shelter also offers a foster program, volunteer opportunities, a weekly vaccination clinic, pet licensing, breed evaluations, wildlife & pest control, and ordinance enforcement. Some of these services are offered at the shelter, while many others are performed by animal control officers who spend much of their time in the field. For example, in addition to enforcing Denver’s leash, pet waste, pet licensing, rabies vaccination, and spay/neuter laws, the field services unit also investigates animal bites, cruelty and neglect claims, and barking dog disturbances. One of DAP's specific strategies is to "improve public safety and animal welfare by increasing compliance with Denver’s animal codes and improving pet responsibility through proactive outreach efforts" ([Mayor’s Proposed 2017 Budget](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/2017/2017%20Budget%20Book_October%20Draft_Web%20Version.pdf), p. 603). Consequently, with more perfect knowledge of city violation trends and predictors the field services unit will be better able to target public outreach opportunities with current resources, and in turn move in the direction of greater ordinance compliance in the county. 
 
 # Description of the data
 ### Data Summary
-__Data source:__
-Clore, John, et al. “ Diabetes 130-US Hospitals for Years 1999-2008 Data Set .” UCI Machine Learning Repository: Diabetes 130-US Hospitals for Years 1999-2008 Data Set, Center for Clinical and Translational Research, Virginia Commonwealth University, 2014, [archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008](archive.ics.uci.edu/ml/datasets/Diabetes+130-US+hospitals+for+years+1999-2008).
+
+Citation data was kindly provided by the City & County of Denver ([5](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/about-das/contact.html), [6](https://www.denvergov.org/content/denvergov/en/denver-city-council/about-us/open-records-policy.html)) and consists of 32,018 entries of violations issued for a 5 year period from 2012-2017. There are 5 variables represented: `zip_code` (zip code of owner cited), `violation_type` (administrative or regular citation), `offense` (official ordinance number), `item_name` (description of violation), `animal_id` (unique animal identifier). Please see the [appendix](#denver-animal-ordinances) for more detailed information on ordinance numbers and descriptions.
+
+
+<!--- ###################################### CITATION Dataset characteristics #################################--->
+```{r, include=FALSE}
+## =============================  STANDARD EDA TECHNIQUES ==============================
+## <<<< READING IN DATA >>>
+## ===== CITATION DATASET =====
+data1 <- read.csv("Violations_Data_2012_2017.csv", header=TRUE, sep=",", na.strings="") # accounts for header, xls, and na strings
+dim(data1) # 32,018 observations x 5 variables
+head(data1, 30)
+# View(data1) #see whole file
+# summary(data1$violation_type)
+#    ADMIN CITATION 
+#    24572     7446 
+summary(data1$offense)
+summary(data1$item_name)
+summary(data1)
+
+# <<<<<<<<<< NA VALUES >>>>>>>>>
+sum(is.na(data1)) # 662
+# show how many NA values in each column
+sapply(data1, function(x) sum(is.na(x))) # zip_code: 246, animal_id: 416
+```
+
+```{r, include=FALSE}
+# ==== zip codes ========
+summary(data1$zip_code)
+#-- top 5 zip codes by frequency --
+  # 80219   80239   80204   80205   80211   
+  #  5480    2583    2093    1852    1843
+#-- other non-Denver zip codes & NA values --
+# (Other)    NA's 
+# 558     246 
+levels(data1$zip_code) # shows all values
+# data1 %>% select(zip_code) %>% distinct() #430 distinct zip codes present
+unique(data1$zip_code) #429 distinct values
+```
+
+
 
 # Data Cleaning and Preparation (EDA)
 # Modeling & Analyses
 # Conclusion 
 # Appendix
 
+### Denver County Zip Codes
 
+80012
+80014
+80022
+80033
+80123
+80127
+80202
+80203
+80204
+80205
+80206
+80207
+80209
+80210
+80211
+80212
+80214
+80215
+80216
+80218
+80219
+80220
+80221
+80222
+80223
+80224
+80225
+80226
+80227
+80228
+80229
+80230
+80231
+80232
+80233
+80234
+80235
+80236
+80237
+80238
+80239
+80241
+80246
+80247
+80249
+80260
+80264
+80265
+80266
+80290
+80293
+80294
+80299
 
+### Denver Animal Ordinances
+
+```{r, echo=FALSE}
+# install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+
+# text_tbl <- data.frame(
+#   Items = c("Item 1", "Item 2", "Item 3"),
+#   Features = c(
+#     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vehicula tempor ex. Morbi malesuada sagittis turpis, at venenatis nisl luctus a. ",
+#     "In eu urna at magna luctus rhoncus quis in nisl. Fusce in velit varius, posuere risus et, cursus augue. Duis eleifend aliquam ante, a aliquet ex tincidunt in. ", 
+#     "Vivamus venenatis egestas eros ut tempus. Vivamus id est nisi. Aliquam molestie erat et sollicitudin venenatis. In ac lacus at velit scelerisque mattis. "
+#   )
+# )
+text_tbl <- read.csv("denver_animal_ordinances.csv", header=TRUE, sep=",", na.strings="")
+
+kable(text_tbl, "html") %>%
+  kable_styling(full_width = T) %>%
+  column_spec(1, bold = T, border_right = T) %>%
+  column_spec(2, width = "10em", background = "white") %>%
+  column_spec(3, background = "light gray")
+```
+
+([Source.](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/animal-protection/denver-animal-ordinances.html))
