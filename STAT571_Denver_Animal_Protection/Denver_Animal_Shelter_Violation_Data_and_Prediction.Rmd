@@ -95,7 +95,7 @@ sapply(data1, function(x) sum(is.na(x))) # zip_code: 246, animal_id: 416
 ```
 
 ```{r, include=FALSE}
-# ==== zip codes ========
+# ==== ZIP CODES ========
 summary(data1$zip_code)
 #-- top 5 zip codes by frequency --
   # 80219   80239   80204   80205   80211   
@@ -106,6 +106,31 @@ summary(data1$zip_code)
 levels(data1$zip_code) # shows all values
 # data1 %>% select(zip_code) %>% distinct() #430 distinct zip codes present
 unique(data1$zip_code) #429 distinct values
+
+zipcode_vector <- read.csv("zipcodes_vector.csv", header=FALSE, sep=",", na.strings="")
+zipcode_vector # now have all denver zipcodes as a vector
+
+typeof(data1$zip_code)
+typeof(zipcode_vector) #list 
+typeof(zipcode_vector[1,]) #list of integers
+dim(zipcode_vector)
+# data2 <- data1[!match(zipcode_vector, data1$zip_code),]
+dim(data1) #32018     5
+# data1$zip_code %in% zipcode_vector[,1]
+# data1[(data1$zip_code %in% zipcode_vector[,1]), ]
+data2 <- data1[(as.factor(data1$zip_code) %in% as.factor(zipcode_vector[,1])), ]
+# data2 <- subset(data1, data1$zip_code %in% zipcode_vector)
+
+# updated_myData <- subset(myData, id!= 6)
+# print (updated_myData)
+
+data2
+dim(data2) #30266 x 5 -- about 2,000 entries removed
+summary(data2)
+head(data2, 30)
+summary(data2$zip_code)
+# View(data2)
+data2 %>% select(zip_code) %>% distinct() # now 46 unique zip codes from zip code list -- 7 zip codes are missing. No data from them?
 ```
 
 
@@ -113,6 +138,8 @@ unique(data1$zip_code) #429 distinct values
 # Data Cleaning and Preparation (EDA)
 # Modeling & Analyses
 # Conclusion 
+
+
 # Appendix
 
 ### Denver County Zip Codes
