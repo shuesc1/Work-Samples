@@ -25,7 +25,7 @@ graphics: yes
 ---
 
 ```{r, echo=FALSE, fig.align="center", out.width="300px"}
-knitr::include_graphics("https://www.denvergov.org/content/dam/denvergov/Portals/682/images/About%20DAS/DAPDEHlogo.png")
+knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Protection/DAP_DEH_logo.png")
 ```
 
 ```{r setup, include=FALSE}
@@ -47,6 +47,7 @@ library(partykit)
 library(gbm)
 ```
 
+<!--- checking/changing directory if needed --->
 ```{r, eval=FALSE, include=FALSE}
 # getwd()
 # dir <- "/Users/lzhao/Dropbox/STAT471/Data"  # my laptop
@@ -67,6 +68,7 @@ knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Pro
 Denver Animal Protection is part of the City & County of Denver's organizational structure and, as such, strives to serve all members of Denver County, an area comprised of 155 square miles ([US Census Data](https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2017_Gazetteer/2017_gaz_counties_08.txt)) and 53 unique zip codes not associated with a specific company or organization ([source](https://tools.usps.com/go/ZipLookupAction!input.action), [full list](#denver-county-zip-codes)).More specifically, Denver Animal Protection (DAP) falls under the umbrella of Denver’s Department of Environmental Health (DEH), which oversees programs related to public health and environment. Within DEH there are seven different divisions (one of which is DAP): Community Health (CH), Public Health Inspection (PHI), Denver Animal Protection (DAP), the Office of Medical Examiner (OME), Environmental Quality (EQ), the Executive Director’s Office (EDO), and the Office of Sustainability (OOS) ([source](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/MayorsProposedBudget_2016.pdf)). While DAP garners much public attention, media attention generally focuses on its public facing roles of animal returns to owners and animal adoption ([1](https://www.denverpost.com/2017/11/01/denver-animal-shelter-adoption-deal/), [2](http://kdvr.com/2017/08/22/denver-animal-shelter-to-put-2-dozen-french-bulldogs-up-for-adoption-saturday/), [3](https://www.denverpost.com/2017/12/28/border-collie-deformed-front-legs-gets-cart/), [4](http://kdvr.com/2017/07/14/cat-found-in-west-denver-dumpster-finds-new-home/)). However, the shelter also offers a foster program, volunteer opportunities, a weekly vaccination clinic, pet licensing, breed evaluations, wildlife & pest control, and ordinance enforcement. Some of these services are offered at the shelter, while many others are performed by animal control officers who spend much of their time in the field. For example, in addition to enforcing Denver’s leash, pet waste, pet licensing, rabies vaccination, and spay/neuter laws, the field services unit also investigates animal bites, cruelty and neglect claims, and barking dog disturbances. One of DAP's specific strategies is to "improve public safety and animal welfare by increasing compliance with Denver’s animal codes and improving pet responsibility through proactive outreach efforts" ([Mayor’s Proposed 2017 Budget](https://www.denvergov.org/content/dam/denvergov/Portals/344/documents/Budget/2017/2017%20Budget%20Book_October%20Draft_Web%20Version.pdf), p. 603). Consequently, with more perfect knowledge of city violation trends and predictors the field services unit will be better able to target public outreach opportunities with current resources, and in turn move in the direction of greater ordinance compliance in the county. 
 
 # Description of the data
+
 ### Data Summary
 
 Citation data was kindly provided by the City & County of Denver ([5](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/about-das/contact.html), [6](https://www.denvergov.org/content/denvergov/en/denver-city-council/about-us/open-records-policy.html)) and consists of 32,018 entries of violations issued for a 5 year period from 2012-2017. There are 5 variables represented: `zip_code` (zip code of owner cited), `violation_type` (administrative or regular citation), `offense` (official ordinance number), `item_name` (description of violation), `animal_id` (unique animal identifier). Please see the [appendix](#denver-animal-ordinances) for more detailed information on ordinance numbers and descriptions.
@@ -74,20 +76,20 @@ Citation data was kindly provided by the City & County of Denver ([5](https://ww
 
 <!--- ###################################### CITATION Dataset characteristics #################################--->
 ```{r, include=FALSE}
-## =============================  STANDARD EDA TECHNIQUES ==============================
-## <<<< READING IN DATA >>>
-## ===== CITATION DATASET =====
+## <<<< READING IN CITATION DATASET >>>
 data1 <- read.csv("Violations_Data_2012_2017.csv", header=TRUE, sep=",", na.strings="") # accounts for header, xls, and na strings
 dim(data1) # 32,018 observations x 5 variables
-head(data1, 30)
+head(data1, 30) # view 1st 30 entries
+# data1[order(data1$zip_code),] # order data based on zip
 # View(data1) #see whole file
 # summary(data1$violation_type)
-#    ADMIN CITATION 
-#    24572     7446 
+# str(data1)
 summary(data1$offense)
 summary(data1$item_name)
 summary(data1)
+```
 
+```{r, include=FALSE}
 # <<<<<<<<<< NA VALUES >>>>>>>>>
 sum(is.na(data1)) # 662
 # show how many NA values in each column
@@ -95,44 +97,231 @@ sapply(data1, function(x) sum(is.na(x))) # zip_code: 246, animal_id: 416
 ```
 
 ```{r, include=FALSE}
-# ==== ZIP CODES ========
+# ==== subsetting only Denver ZIP CODES entries ========
 summary(data1$zip_code)
-#-- top 5 zip codes by frequency --
-  # 80219   80239   80204   80205   80211   
-  #  5480    2583    2093    1852    1843
-#-- other non-Denver zip codes & NA values --
-# (Other)    NA's 
-# 558     246 
 levels(data1$zip_code) # shows all values
 # data1 %>% select(zip_code) %>% distinct() #430 distinct zip codes present
 unique(data1$zip_code) #429 distinct values
 
-zipcode_vector <- read.csv("zipcodes_vector.csv", header=FALSE, sep=",", na.strings="")
-zipcode_vector # now have all denver zipcodes as a vector
+# read in and store master list of Denver zipcodes with FIP 8031
+zipcode_vector <- read.csv("zipcodes_vector_orig.csv", header=FALSE, sep=",", na.strings="")
+zipcode_vector # now have all denver zipcodes as a vector -- 44 entries from 3 sources
 
-typeof(data1$zip_code)
+# making sure data types are same
+typeof(data1$zip_code) # integer
 typeof(zipcode_vector) #list 
-typeof(zipcode_vector[1,]) #list of integers
-dim(zipcode_vector)
-# data2 <- data1[!match(zipcode_vector, data1$zip_code),]
-dim(data1) #32018     5
-# data1$zip_code %in% zipcode_vector[,1]
-# data1[(data1$zip_code %in% zipcode_vector[,1]), ]
+typeof(zipcode_vector[1,]) #list of integers -- data types are the same
+
+# number of values before removing non-Denver zip entries/rows
+# dim(zipcode_vector) #44 x 1
+# dim(data1) #32018     5
+
+# creating new dataframe of only rows with zipcodes in master list of denver zipcodes
 data2 <- data1[(as.factor(data1$zip_code) %in% as.factor(zipcode_vector[,1])), ]
-# data2 <- subset(data1, data1$zip_code %in% zipcode_vector)
-
-# updated_myData <- subset(myData, id!= 6)
-# print (updated_myData)
-
 data2
-dim(data2) #30266 x 5 -- about 2,000 entries removed
+dim(data2) #with zips from 'zipcodes_vector.csv':30266 x 5 -- about 2,000 entries removed; with CORRECTED zip values (minus Adams, JeffCo, Arapahoe) from 'zipcodes_vector_orig.csv': 30140 x 5 -- again about 2000 removed
 summary(data2)
-head(data2, 30)
-summary(data2$zip_code)
-# View(data2)
-data2 %>% select(zip_code) %>% distinct() # now 46 unique zip codes from zip code list -- 7 zip codes are missing. No data from them?
+# head(data2, 30)
+
+data2 %>% select(zip_code) %>% distinct() # now 37 unique zip codes from zip code list 
 ```
 
+```{r, include=FALSE}
+# ===== saving the summary of data2$zip_code as its own data frame - zip code with total citations ========
+# zip.sum.vector <- data.frame(summary(data2$zip_code)) # getting all denver zips and the total number of violations in dataset
+# zip.sum.vector
+# write.csv(zip.sum.vector, "zip.sum.vector.csv") # wrote out values and removed any 0 occurence entries
+
+# now can just read in csv file and use info from there
+zip.sum.vector <-  read.csv("zip.sum.vector.csv", header=TRUE, sep=",", na.strings="")
+zip.sum.vector
+```
+
+#### Total citations by zipcode
+
+```{r, include=FALSE}
+# code for choropleth visualization setup
+
+library(devtools)
+library(choroplethrZip)
+# zip.regions info
+?zip.regions
+# getting dataset
+data(zip.regions)
+#viewing first couple of entries
+head(zip.regions)
+# View(zip.regions)
+# names(zip.regions)
+
+# getting subset of just those in 'denver' region
+denver_subset <- zip.regions[which(zip.regions$county.name == "denver"),]
+# ============================================================================================================
+# =================== true list of zip codes for Denver (hypothetically) ======================================
+denver_subset #41 entries
+# ============================================================================================================
+# ============================================================================================================
+names(denver_subset)
+unique(denver_subset$county.fips.numeric) #8031
+
+# === prep for visualization ====
+# ** view population of a state **
+library(choroplethr)
+library(choroplethrZip)
+
+?df_pop_zip
+data(df_pop_zip)
+head(df_pop_zip)
+?zip_choropleth
+?zip.regions
+denver_fip = c(8031)
+```
+
+##### Most cited zipcodes
+
+Given the fact that this investigation will focus on geographic considerations, I choose to examine the zip code data first. Several points are worth mentioning with respect to the zip code representation shown in this data. First is the the highest and lowest offending zip codes. 
+
+After consulting 3 separate sources (USPS, noncensus package, and choroplethrZip package), the 40 common zip codes were found to be the following:
+<!--- 40 of them --->
+
+80012 80014 80123 80202 80203 80204 80205 80206 80207 80209 80210 80211 80212 80214 80216 80218 80219 80220 80221 80222 80223 80224 80226 80227 80230 80231 80232 80235 80236 80237 80238 80239 80246 80247 80249 80264 80290 80293 80294
+
+Zip code discrepancies between the three sources were:
+
+80022 80033 80110 80111 80127 80215 80225 80228 80229 80233 80234 80241 80256 80259 80260 80261 80262 80265 80266 80266 80273 80274 80280 80281 80291 80292 80295 80299
+
+Using sources to triangulate true Denver county zipcodes (https://www.unitedstateszipcodes.org/, https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf), I determined (or failed to remove) the following zipcodes from the questionable list: 80110, 80265, 80266, 80292, and 80295. See the [appendix]() for the final master list of zipcodes used.
+
+Using this information, the top ten zip codes based on citation frequency are:
+
+```{r, echo=FALSE}
+# view first 10 entries
+# head(zip.sum.vector, 10)
+highest <- head(zip.sum.vector, 10)
+highest
+
+# write.csv(highest, "top_10.csv")
+```
+
+```{r, echo=FALSE}
+# ====== MAPPING TOP 10 TOTAL OFFENDING ZIPS ==========
+# region == zip code, value == whatever value for that zip
+# top_10_zips <- read.csv("top_10.csv", header=TRUE, sep=",", na.strings="") # not using this -- incorrect data
+top_10_zips <- highest
+# names(top_10_zips)
+names(top_10_zips)[1] <- "region"
+names(top_10_zips)[2] <- "value"
+# names(top_10_zips)
+top_10_zips$region <- as.character(top_10_zips$region)
+zip_choropleth(top_10_zips,
+               county_zoom = denver_fip,
+               title = "Top 10 offending zip codes in Denver County",
+               legend = "Citations")
+```
+
+##### Least cited zipcodes
+
+The lowest offending zip codes are:
+  
+```{r, echo=FALSE}
+# view last 10 entries
+# tail(zip.sum.vector, 10)
+lowest <- data.frame(tail(zip.sum.vector, 10))
+lowest
+
+# write.csv(lowest, "bottom_10.csv")
+```
+
+```{r, echo=FALSE}
+# ======== MAPPING BOTTOM 10 OFFENDING ZIPS ==============
+# region == zip code, value == whatever value for that zip
+# bottom_10_zips <- read.csv("bottom_10.csv", header=TRUE, sep=",", na.strings="") # not using this
+bottom_10_zips <- lowest
+names(bottom_10_zips)[1] <- "region"
+names(bottom_10_zips)[2] <- "value"
+# names(bottom_10_zips)
+bottom_10_zips$region <- as.character(bottom_10_zips$region)
+# bottom_10_zips
+zip_choropleth(bottom_10_zips,
+               county_zoom = denver_fip,
+               title = "10 least cited zip codes in Denver County",
+               legend = "Citations")
+```
+
+This map shows an interesting trend, that areas on the periphery of the county (bordering Jefferson and Arapahoe Counties) accumulated the least number of citations from 2011-2017, and consequently may be low priority in terms of community outreach. However it must be noted that the low numbers may in fact be due to other factors (such as less regular patrolling in these areas, for example), and not due to the fact that these areas are actually in violation of county ordinances.
+
+##### All zipcodes
+
+```{r, echo=FALSE}
+# ======== MAPPING All OFFENDING ZIPS ==============
+# region == zip code, value == whatever value for that zip
+all_zips <- zip.sum.vector
+names(all_zips)[1] <- "region"
+names(all_zips)[2] <- "value"
+# names(all_zips)
+all_zips$region <- as.character(all_zips$region)
+# all_zips
+zip_choropleth(all_zips,
+               county_zoom = denver_fip,
+               title = "Cited zip codes in Denver County",
+               legend = "Citations")
+```
+
+#### Top citation types
+
+```{r}
+# offense_counts <- data.frame(summary(data2$offense))
+# offense_counts
+# write.csv(offense_counts, "offense_counts.csv")
+
+offense_counts <- read.csv("offense_counts.csv", header=TRUE, sep=",", na.strings="")
+offense_counts
+offense_counts_sorted <- offense_counts[order(-offense_counts$Frequency),] # reverse sort data by frequency
+offense_counts_sorted
+
+head(offense_counts_sorted, 10)
+tail(offense_counts_sorted, 10)
+```
+
+```{r, include=FALSE}
+# cleaning dataset first to account for 1st, 2nd, 3rd ,etc violations
+# all violations of same type regardless of circumstances will be aggregated
+data3 <- data2
+unique(data3$offense) # 58 levels
+typeof(data3$offense) # integer?
+data3$offense
+dim(data3) #30140 x 5
+
+# remove any compliant or rescinded citations (double counting)
+data3 <- data3[!grepl("COMP", data3$offense),]
+dim(data3) # 27923 x 5
+data3 <- data3[!grepl("RSCND", data3$offense),]
+dim(data3) # 26227 x 5
+# data3$offense
+# unique(data3$offense)
+
+# removing 1ST, 2ND, 3RD
+
+# gsub("* (1ST)", "*", data3$offense)
+# sub(" (1ST)", "", data3$offense)
+# data3$offense
+```
+
+
+<!--- MAPPING --->
+https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf
+http://www.nws.noaa.gov/mirs/public/prods/maps/cnty_fips_colorado.htm
+
+https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013697
+https://www2.census.gov/geo/docs/reference/codes/files/st08_co_cou.txt
+https://www.census.gov/geo/reference/codes/cou.html
+
+https://cengel.github.io/rspatial/4_Mapping.nb.html
+https://andrewbtran.github.io/NICAR/2017/maps/mapping-census-data.html
+http://unconj.ca/blog/choropleth-maps-with-r-and-ggplot2.html
+https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
+http://journocode.com/2016/01/28/your-first-choropleth-map/
+
+Hampden, Baker, Washington Park, Cherry Creek, Country Club, Clayton, Skyland, City Park West, Capitol Hill, North Capitol Hill, Civic Center, CBD, Union Station, Five Points, Stapleton, Highland, Globeville, University Park, Cory – Merrill, Washington Park West, Speer, Congress Park, Cole, Sunnyside, Ruby Hill, University, Goldsmith, Virginia Village, DIA, University Hills, West Colfax, West Highland, Southmoor Park, Indian Creek, East Colfax, Rosedale, City Park, Lowry Field, Harvey Park South, Gateway / Green Valley Ranch, Barnum West, Montclair, Platt Park, Mar Lee, Westwood, Washington Virginia Vale, Villa Park, Hale, North Park Hill, South Park Hill, Kennedy, College View / South Platte, Hampden South, Northeast Park Hill, Elyria Swansea, Overland, Cheesman Park, Hilltop, Lincoln Park, Auraria, Belcaro, Windsor, Sloan Lake, Berkeley, Regis, Sun Valley, Wellshire, Jefferson Park, Valverde, Athmar Park, Chaffee Park, Harvey Park, Barnum, Whittier, Montbello, Marston, Fort Logan, Bear Valley
 
 
 # Data Cleaning and Preparation (EDA)
@@ -140,63 +329,29 @@ data2 %>% select(zip_code) %>% distinct() # now 46 unique zip codes from zip cod
 # Conclusion 
 
 
+
+
+
+
+
 # Appendix
 
 ### Denver County Zip Codes
 
-80012
-80014
-80022
-80033
-80123
-80127
-80202
-80203
-80204
-80205
-80206
-80207
-80209
-80210
-80211
-80212
-80214
-80215
-80216
-80218
-80219
-80220
-80221
-80222
-80223
-80224
-80225
-80226
-80227
-80228
-80229
-80230
-80231
-80232
-80233
-80234
-80235
-80236
-80237
-80238
-80239
-80241
-80246
-80247
-80249
-80260
-80264
-80265
-80266
-80290
-80293
-80294
-80299
+#### Master list obtained by crosschecking
+
+44 entries:
+
+80012 80014 80123 80202 80203 80204 80205 80206 80207 80209 80210 80211 80212 80214 80216 80218 80219 80220 80221 80222 80223 80224 80226 80227 80230 80231 80232 80235 80236 80237 80238 80239 80246 80247 80249 80264 80290 80293 80294 80110 80265 80266 80292 80295
+
+#### Source: USPS
+
+80012 80014 80022 80033 80123 80127 80202 80203 80204 80205 80206 80207 80209 80210 80211 80212 80214 80215 80216 80218 80219 80220 80221 80222 80223 80224 80225 80226 80227 80228 80229 80230 80231 80232 80233 80234 80235 80236 80237 80238 80239 80241 80246 80247 80249 80260 80264 80265 80266 80290 80293 80294 80299
+
+#### Source: R package 'noncensus'
+
+#### Source: R package '
+
 
 ### Denver Animal Ordinances
 
@@ -223,3 +378,112 @@ kable(text_tbl, "html") %>%
 ```
 
 ([Source.](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/animal-protection/denver-animal-ordinances.html))
+
+
+
+<!--- DEAD CODE --->
+<!-- Playing with zip codes -->
+```{r}
+# ========== NONCENSUS PACKAGE -- 37 DENVER ENTRIES FROM 75 USING FIPS 8031 ============
+
+# install.packages('noncensus')
+library(noncensus)
+data("zip_codes")
+co_zips <- zip_codes[zip_codes$state=="CO",]
+# co_zips
+denver_zips <- co_zips[which(co_zips$city=='Denver'),]
+denver_zips #75 zip code entries for city of denver from dataset
+# write.csv(denver_zips, "denver_zips.csv")
+
+typeof(denver_zips$fips)
+denver_zips_fips <- denver_zips[which(denver_zips$fips == 8031),] #using 8031 fips code to get just denver county
+denver_zips_fips #now only 37 entries
+# write.csv(denver_zips_fips, "denver_zips.csv")
+```
+
+```{r, eval=FALSE, include=FALSE}
+#full_list_of_zips.csv was changed into zipcodes_vector_orig.csv and then used above
+
+# using denver_subset to get top and bottom 10
+# denver_subset
+# typeof(denver_subset$region)
+# unique(denver_subset$region)
+# list_zips <- data.frame(unique(denver_subset$region))
+# list_zips
+# write.csv(list_zips, "list_of_zips.csv")
+full_zip_list <- read.csv("full_list_of_zips.csv", header=FALSE, sep=",", na.strings="")
+# typeof(full_zip_list[1,])
+# typeof(data1$zip_code) # both ints
+str(full_zip_list)
+str(data1$zip_code)
+unique(data1$zip_code)
+data1$zip_code %in% full_zip_list
+
+as.list(full_zip_list)
+data1[(as.factor(data1$zip_code) %in% as.factor(full_zip_list)), ]
+data3 <- data1[(as.factor(data1$zip_code) %in% as.factor(full_zip_list)), ]
+data3
+head(data3, 30)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# install.packages('rgdal')
+# install.packages('rgeos')
+# install.packages('leaflet')
+library(rgdal)
+library(rgeos)
+library(leaflet)
+
+url<-"http://www2.census.gov/geo/tiger/TIGER2010DP1/County_2010Census_DP1.zip"
+downloaddir<-getwd()
+destname<-"tiger_county.zip"
+download.file(url, destname)
+unzip(destname, exdir=downloaddir, junkpaths=TRUE)
+
+filename<-list.files(downloaddir, pattern=".shp", full.names=FALSE)
+filename<-gsub(".shp", "", filename)
+
+# ----- Read in shapefile (NAD83 coordinate system)
+# ----- this is a fairly big shapefile and takes 1 minute to read
+dat<-readOGR(downloaddir, "County_2010Census_DP1") 
+
+# ----- Create a subset of New York counties
+# subdat<-dat[substring(dat$GEOID10, 1, 2) == "36",]
+# subdat <- denver_zips
+subdat<-dat[dat$GEOID10 %in% denver_zips$zip,]
+
+# ----- Transform to EPSG 4326 - WGS84 (required)
+subdat<-spTransform(subdat, CRS("+init=epsg:4326"))
+
+# ----- save the data slot
+subdat_data<-subdat@data[,c("GEOID10", "ALAND10")]
+
+# ----- simplification yields a SpatialPolygons class
+subdat<-gSimplify(subdat,tol=0.01, topologyPreserve=TRUE)
+
+# ----- to write to geojson we need a SpatialPolygonsDataFrame
+subdat<-SpatialPolygonsDataFrame(subdat, data=subdat_data)
+
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data=subdat)
+```
+
+```{r}
+# practice visualization with choropleth
+# for zip_choropleth the df arg has to be-- A data.frame with a column named "region" and a column named "value". Elements in the "region" # column must exactly match how regions are named in the "region" column in ?zip.map.
+# zip_choropleth(df_pop_zip,
+#                state_zoom = "colorado",
+#                title      = "2012 Colorado State US Zip Code Tabulated Areas (ZCTA) Population Estimates",
+#                legend     = "Population")
+
+
+# ** zoom into counties **
+# applying this to denver whose FIPS code is 8031
+denver_fip = c(8031)
+# zip_choropleth(df_pop_zip,
+#                county_zoom = denver_fip,
+#                title       = "2012 Denver County Zip Code Tabulated Areas (ZCTAs) Population Estimates",
+#                legend      = "Population")
+```
+
