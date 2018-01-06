@@ -37,30 +37,20 @@ library(glmnet)    # v 2.0-5
 library(dplyr)     # v 0.5.0
 library(ggplot2)
 library(GGally)
-library(plotrix)
-library(randomForest)
-library(tree)
-library(rpart)
-library(rpart.plot)
-library(pROC)
-library(partykit)
-library(gbm)
-library(xtable)
-options(xtable.floating = FALSE)
-options(xtable.timestamp = "")
-```
-
-<!--- checking/changing directory if needed --->
-```{r, eval=FALSE, include=FALSE}
-# getwd()
-# dir <- "/Users/lzhao/Dropbox/STAT471/Data"  # my laptop
-# setwd(dir)   #same as setwd("/Users/lzhao/Dropbox/STAT471/Data") 
-# getwd()
+library(knitr)
+library(kableExtra)
+library(devtools)
+library(choroplethrZip)
 ```
 
 # Executive Summary
 
 ```{r, echo=FALSE, fig.align="center", out.width="300px"}
+# <!--- checking/changing directory if needed --->
+# getwd()
+# dir <- "/Users/lzhao/Dropbox/STAT471/Data"  # my laptop
+# setwd(dir)   #same as setwd("/Users/lzhao/Dropbox/STAT471/Data") 
+# getwd()
 knitr::include_graphics("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Protection/das.jpeg")
 ```
 
@@ -78,7 +68,7 @@ Citation data was kindly provided by the City & County of Denver ([5](https://ww
 Of these 5 variabless the 2 most important for the purpose of this invesigation are `zip_code` and `offense`. A cursory inspection provides the following insights:
 
 + `zip_code` - The most frequently occuring zip code (80219) appears ~5,500 times in the data, twice as much as the next highest zip code (80239 with ~2,600 occurences). More importantly, there are 429 distinct zip codes present, an issue that will be addressed later on. The mean number of citations per zip code was 815 for this 6 year period, while the median was 460.
-+ `offense` - The most frequently occuring offense is 8-16 (Leash law - 1st offense) with ~8000 occurences, followed by 8-61 (License required - 1st offense) with ~4,500 occurences. Several of the least issued citations occured less than 10 times in this six year period (8-2: Keeping wild or dangerous animals, 8-3: Vaccination, 8-82: Unlawful accumulation of manure, 8-134: Abandonment, 8-140: Trapping of animals, 8-131(B), and 8-153.5(F)). Due to 1st, 2nd, 3rd offenses and rescinded and compliant citations there are 58 types of offenses in the original dataset. The mean number of offenses by type is 520, while the median is 34.
++ `offense` - The most frequently occuring offense is __8-16__ (Leash law - 1st offense) with ~8000 occurences, followed by __8-61__ (License required - 1st offense) with ~4,500 occurences. Several of the least issued citations occured less than 10 times in this six year period ( __8-2__: Keeping wild or dangerous animals, __8-3__: Vaccination, __8-82__: Unlawful accumulation of manure, __8-134__: Abandonment, __8-140__: Trapping of animals, __8-131(B)__, and __8-153.5(F)__). Due to 1st, 2nd, 3rd offenses and rescinded and compliant citations there are 58 types of offenses in the original dataset. The mean number of offenses by type is 520, while the median is 34.
 
 It's also worth mentioning that `animal_id` data, though not relevant here, shows that one animal was cited 16 times. 
 
@@ -114,7 +104,7 @@ levels(data1$zip_code) # shows all values
 # data1 %>% select(zip_code) %>% distinct() #430 distinct zip codes present
 unique(data1$zip_code) #429 distinct values
 
-# read in and store master list of Denver zipcodes with FIP 8031
+# read in and store master list of Denver zip codes with FIP 8031
 zipcode_vector <- read.csv("zipcodes_vector_orig.csv", header=FALSE, sep=",", na.strings="")
 zipcode_vector # now have all denver zipcodes as a vector -- 44 entries from 3 sources
 
@@ -148,13 +138,10 @@ zip.sum.vector <-  read.csv("zip.sum.vector.csv", header=TRUE, sep=",", na.strin
 zip.sum.vector
 ```
 
-#### Total citations by zipcode
+#### Total citations by zip code
 
 ```{r, include=FALSE}
 # code for choropleth visualization setup
-
-library(devtools)
-library(choroplethrZip)
 # zip.regions info
 ?zip.regions
 # getting dataset
@@ -188,7 +175,7 @@ head(df_pop_zip)
 denver_fip = c(8031)
 ```
 
-##### Most cited zipcodes
+##### Most cited zip codes
 
 Given the fact that this investigation will focus on geographic considerations, I choose to examine the zip code data first. Several points are worth mentioning with respect to the zip code representation shown in this data. First is the the highest and lowest offending zip codes. 
 
@@ -200,7 +187,7 @@ Zip code discrepancies between the three sources were:
 
 80022 80033 80110 80111 80127 80215 80225 80228 80229 80233 80234 80241 80256 80259 80260 80261 80262 80265 80266 80266 80273 80274 80280 80281 80291 80292 80295 80299
 
-Using sources to triangulate true Denver county zipcodes ([7](https://www.unitedstateszipcodes.org/), [8](https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf)), I included (or failed to deem unnecessary) the following zipcodes from the questionable list: 80110, 80265, 80266, 80292, and 80295. See the [appendix]() for the final master list of zipcodes used.
+Using sources to triangulate true Denver county zip codes ([7](https://www.unitedstateszipcodes.org/), [8](https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf)), I included (or failed to deem unnecessary) the following zip codes from the questionable list: 80110, 80265, 80266, 80292, and 80295. See the [appendix](#final-master-list-obtained-by-crosschecking) for the final master list of zip codes used.
 
 Using this information, the top ten zip codes based on citation frequency are:
 
@@ -209,30 +196,8 @@ Using this information, the top ten zip codes based on citation frequency are:
 # head(zip.sum.vector, 10)
 highest <- head(zip.sum.vector, 10)
 names(highest) <- c("Zip code", "Number of citations")
-
 # write.csv(highest, "top_10.csv")
-```
 
-```{r, echo=FALSE, results='asis'}
-# xtable(highest)
-library(knitr)
-library(kableExtra)
-# kable(highest)
-
-# kable(highest, "html") %>%
-  # kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
-kable(highest, "html") %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
-```
-
-```{r, eval=FALSE, include=FALSE}
-# install.packages('formattable')
-library(formattable)
-formattable(highest)
-```
-
-
-```{r, echo=FALSE}
 # ====== MAPPING TOP 10 TOTAL OFFENDING ZIPS ==========
 # region == zip code, value == whatever value for that zip
 # top_10_zips <- read.csv("top_10.csv", header=TRUE, sep=",", na.strings="") # not using this -- incorrect data
@@ -248,7 +213,17 @@ zip_choropleth(top_10_zips,
                legend = "Citations")
 ```
 
-##### Least cited zipcodes
+```{r, echo=FALSE, results='asis'}
+# kable(highest, "html") %>%
+  # kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
+# knitr::kable(data, caption = "Table with kable")
+kable(highest, "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+As we can see in the map, the areas of most concern and subsequent proposed outreach are in the western-center part of the county (80219 in particular), and areas near DIA & bordering Adams County (Stapleton, Montbello, & Green Valley Ranch).
+
+##### Least cited zip codes
 
 The lowest offending zip codes are:
   
@@ -256,12 +231,9 @@ The lowest offending zip codes are:
 # view last 10 entries
 # tail(zip.sum.vector, 10)
 lowest <- data.frame(tail(zip.sum.vector, 10))
-lowest
-
+# lowest
 # write.csv(lowest, "bottom_10.csv")
-```
 
-```{r, echo=FALSE}
 # ======== MAPPING BOTTOM 10 OFFENDING ZIPS ==============
 # region == zip code, value == whatever value for that zip
 # bottom_10_zips <- read.csv("bottom_10.csv", header=TRUE, sep=",", na.strings="") # not using this
@@ -277,9 +249,16 @@ zip_choropleth(bottom_10_zips,
                legend = "Citations")
 ```
 
-This map shows an interesting trend, that areas on the periphery of the county (bordering Jefferson and Arapahoe Counties) accumulated the least number of citations from 2011-2017, and consequently may be low priority in terms of community outreach. However it must be noted that the low numbers may in fact be due to other factors (such as less regular patrolling in these areas, for example), and not due to the fact that these areas are actually in violation of county ordinances.
+```{r, echo=FALSE}
+# printing table
+names(lowest) <- c("Zip code", "Number of citations")
+kable(lowest, "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
 
-##### All zipcodes
+This map shows an interesting trend: areas on the periphery of the county (bordering Jefferson and Arapahoe Counties) accumulated the least number of citations from 2011-2017, and consequently may be low priority in terms of community outreach. However, it must be noted that the low numbers may in fact be due to other factors (such as less regular patrolling in these areas, for example) over this time period, and not due to the fact that these areas are actually in violation of county ordinances.
+
+##### All zip codes
 
 ```{r, echo=FALSE}
 # ======== MAPPING All OFFENDING ZIPS ==============
@@ -296,28 +275,21 @@ zip_choropleth(all_zips,
                county_zoom = denver_fip,
                title = "Cited zip codes in Denver County",
                legend = "Citations")
+
+# kable(all_zips, "html") %>%
+  # kable_styling(bootstrap_options = "striped", full_width = F)
 ```
+
+The full table of values is available in the [appendix](#all-zip-codes-and-number-of-offenses).
 
 #### Citations by type
 
-```{r, echo=FALSE}
-# offense_counts <- data.frame(summary(data2$offense))
-# offense_counts
-# write.csv(offense_counts, "offense_counts.csv")
+In addition to investigating areas by pure citation number alone, it also seems prudent to delve into which ordinances are most problematic in the county generally and where they are most problematic specifically.
 
-offense_counts <- read.csv("offense_counts.csv", header=TRUE, sep=",", na.strings="")
-# offense_counts
-offense_counts_sorted <- offense_counts[order(-offense_counts$Frequency),] # reverse sort data by frequency
-offense_counts_sorted
-# mean(offense_counts_sorted$Frequency) #519.6552
-# median(offense_counts_sorted$Frequency)
-
-head(offense_counts_sorted, 10)
-tail(offense_counts_sorted, 20)
-```
+While original values can be found in the [appendix](#original-offense-values), data cleaning was employed for the interpretation of this variable. For the sake of simplicity all rescinded ("RSCND") violations or those that came into compliance ("COMP") were removed from the dataset to avoid overcounting, leaving roughly 26,000 observations. Also logically if we are looking to prescribe interventions to curb infractions in the first place these types of citations wouldn't be very helpful. Similarly, all "1st", "2nd", and "3rd" tags were removed, though those entries themselves were kept.
 
 ```{r, echo=FALSE}
-# cleaning dataset first to account for 1st, 2nd, 3rd ,etc violations
+# == cleaning dataset first to account for 1st, 2nd, 3rd ,etc violations ==
 # all violations of same type regardless of circumstances will be aggregated
 data3 <- data2
 # unique(data3$offense) # 58 levels
@@ -325,7 +297,7 @@ data3 <- data2
 # data3$offense
 # dim(data3) #30140 x 5
 
-# remove any compliant or rescinded citations (double counting)
+# == remove any compliant or rescinded citations (double counting) ==
 data3 <- data3[!grepl("COMP", data3$offense),]
 # dim(data3) # 27923 x 5
 data3 <- data3[!grepl("RSCND", data3$offense),]
@@ -333,36 +305,39 @@ data3 <- data3[!grepl("RSCND", data3$offense),]
 # data3$offense
 # unique(data3$offense)
 
-# removing 1ST, 2ND, 3RD
+# == removing 1ST, 2ND, 3RD ==
 data3$offense <- sub('\\ .*', '', data3$offense) # using regex to get rid of anything after the space
 # unique(data3$offense)
 # typeof(data3$offense) # character
 
 # write.csv(data3, "offense_col_cleaned.csv")
 data3_cleaned <- read.csv("offense_col_cleaned.csv", header=TRUE, sep=",", na.strings="")
-data3_cleaned <- data3_cleaned[,-1]
+data3_cleaned <- data3_cleaned[,-1] # removing extraneous column
 # dim(data3_cleaned) #26227 x 6
-names(data3_cleaned)
-summary(data3_cleaned)
+# names(data3_cleaned)
+# summary(data3_cleaned)
 # data3_cleaned
 ```
 
-```{r}
-# getting frequencies
+After sorting the data the top 5 offenses are: 
+
+```{r, echo=FALSE}
+# == getting frequencies ==
 # offense_sum <- data.frame(summary(data3_cleaned$offense))
 # offense_sum
 # write.csv(offense_sum, "offense_sum.csv")
 offense_sum <- read.csv("offense_sum.csv", header=TRUE, sep=",", na.strings="")
 names(offense_sum) <- c("Offense number", "Frequency")
-offense_sum
+# offense_sum
 offense_sum <- offense_sum[order(-offense_sum$Frequency),] # reverse sort data by frequency
 # View(offense_sum)
-head(offense_sum,5)
-
-# top 3 -- 8-16, 8-61, 8-32
+# kable(head(offense_sum, 5))
+kable(head(offense_sum, 5), "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+# top 5 -- 8-16, 8-61, 8-32, 8-70/71, 8-51
 ```
 
-## Most frequent offenses: 8-16, 8-61, 8-32
+## Most frequent offenses: 8-16, 8-61, 8-32, 8-70/71, 8-51
 
 #### 8-16 - Leash law
 
@@ -374,7 +349,10 @@ leash_law <- data3[which(data3$offense == '8-16'),]
 # leash_zips
 # write.csv(leash_zips, "leash_zips.csv")
 leash_zips <- read.csv("leash_zips.csv", header=TRUE, sep=",", na.strings="")
-head(leash_zips, 3)
+names(leash_zips) <- c("Zip code", "Frequency")
+# head(leash_zips, 3)
+kable(head(leash_zips, 3), "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
 
@@ -387,7 +365,10 @@ license_law <- data3[which(data3$offense == '8-61'),]
 # license_zips
 # write.csv(license_zips, "license_zips.csv")
 license_zips <- read.csv("license_zips.csv", header=TRUE, sep=",", na.strings="")
-head(license_zips, 3)
+names(license_zips) <- c("Zip code", "Frequency")
+# head(leash_zips, 3)
+kable(head(license_zips, 3), "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 ```
 
 
@@ -400,40 +381,69 @@ rabies_zips <- data.frame(summary(rabies_vac$zip_code))
 # rabies_zips
 write.csv(rabies_zips, "rabies_zips.csv")
 rabies_zips <- read.csv("rabies_zips.csv", header=TRUE, sep=",", na.strings="")
-head(rabies_zips, 3)
+names(rabies_zips) <- c("Zip code", "Frequency")
+kable(head(rabies_zips, 3), "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+# head(rabies_zips, 3)
 ```
 
+#### 8-70/71 - Spaying and neutering
 
-<!--- MAPPING --->
-__Sources:__
+#### 8-51 - Dog attack or bite
 
-+ https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf
-+ http://www.nws.noaa.gov/mirs/public/prods/maps/cnty_fips_colorado.htm
-
-+ https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013697
-+ https://www2.census.gov/geo/docs/reference/codes/files/st08_co_cou.txt
-+ https://www.census.gov/geo/reference/codes/cou.html
-
-+ https://cengel.github.io/rspatial/4_Mapping.nb.html
-+ https://andrewbtran.github.io/NICAR/2017/maps/mapping-census-data.html
-+ http://unconj.ca/blog/choropleth-maps-with-r-and-ggplot2.html
-+ https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
-+ http://journocode.com/2016/01/28/your-first-choropleth-map/
-
-+ Hampden, Baker, Washington Park, Cherry Creek, Country Club, Clayton, Skyland, City Park West, Capitol Hill, North Capitol Hill, Civic Center, CBD, Union Station, Five Points, Stapleton, Highland, Globeville, University Park, Cory – Merrill, Washington Park West, Speer, Congress Park, Cole, Sunnyside, Ruby Hill, University, Goldsmith, Virginia Village, DIA, University Hills, West Colfax, West Highland, Southmoor Park, Indian Creek, East Colfax, Rosedale, City Park, Lowry Field, Harvey Park South, Gateway / Green Valley Ranch, Barnum West, Montclair, Platt Park, Mar Lee, Westwood, Washington Virginia Vale, Villa Park, Hale, North Park Hill, South Park Hill, Kennedy, College View / South Platte, Hampden South, Northeast Park Hill, Elyria Swansea, Overland, Cheesman Park, Hilltop, Lincoln Park, Auraria, Belcaro, Windsor, Sloan Lake, Berkeley, Regis, Sun Valley, Wellshire, Jefferson Park, Valverde, Athmar Park, Chaffee Park, Harvey Park, Barnum, Whittier, Montbello, Marston, Fort Logan, Bear Valley
-
-
+<!---
 # Data Cleaning and Preparation (EDA)
 # Modeling & Analyses
 # Conclusion 
+--->
 
+# Flaws, outstanding questions, and suggestions for future investigation
 
++ Zip of owner vs. zip where offense was committed
++ How to interpret rescinded and compliant citations
++ Explanation for the large number of non-Denver zip codes
++ Using census data to link zip codes with Denver neighborhoods and thus demographic information
++ Getting more demographic information on owner along with citation information
++ What are the importance of 1st, 2nd, and 3rd violations? What about ordinance violations that are almost never encountered/cited?
 
-
-
-
+<!--- ========================================================================================================================================== --->
+<!--- ============================================================ APPENDIX ==================================================================== --->
+<!--- ========================================================================================================================================== --->
 
 # Appendix
+
+### All zip codes and number of offenses
+
+```{r, echo=FALSE}
+names(all_zips) <- c("Zip code", "Number of citations")
+kable(all_zips, "html") %>%
+kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+### Original offense values
+
+```{r, echo=FALSE}
+unique(data2$offense)
+```
+
+```{r, echo=FALSE, results = 'asis'}
+# kable(unique(data2$offense))
+# offense_counts <- data.frame(summary(data2$offense))
+# offense_counts
+# write.csv(offense_counts, "offense_counts.csv")
+
+offense_counts <- read.csv("offense_counts.csv", header=TRUE, sep=",", na.strings="")
+# offense_counts
+offense_counts_sorted <- offense_counts[order(-offense_counts$Frequency),] # reverse sort data by frequency
+# offense_counts_sorted
+# mean(offense_counts_sorted$Frequency) #519.6552
+# median(offense_counts_sorted$Frequency)
+
+kable(head(offense_counts_sorted, 10), "html") %>%
+kable_styling(bootstrap_options = "striped", full_width = T)
+kable(tail(offense_counts_sorted, 10), "html") %>%
+kable_styling(bootstrap_options = "striped", full_width = T)
+```
 
 ### Denver County Zip Codes
 
@@ -493,7 +503,28 @@ kable(text_tbl, "html") %>%
   column_spec(3, background = "light gray")
 ```
 
-([Source](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/animal-protection/denver-animal-ordinances.html), [more information](https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=REMUCOCODECO))
+([Source](https://www.denvergov.org/content/denvergov/en/denver-animal-shelter/animal-protection/denver-animal-ordinances.html); [More information](https://library.municode.com/co/denver/codes/code_of_ordinances?nodeId=REMUCOCODECO))
+
+### Other sources
+
++ https://www.denvergov.org/media/gis/WebDocs/Citywide/Neighborhoods.pdf
++ http://www.nws.noaa.gov/mirs/public/prods/maps/cnty_fips_colorado.htm
+
++ https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013697
++ https://www2.census.gov/geo/docs/reference/codes/files/st08_co_cou.txt
++ https://www.census.gov/geo/reference/codes/cou.html
+
++ https://cengel.github.io/rspatial/4_Mapping.nb.html
++ https://andrewbtran.github.io/NICAR/2017/maps/mapping-census-data.html
++ http://unconj.ca/blog/choropleth-maps-with-r-and-ggplot2.html
++ https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
++ http://journocode.com/2016/01/28/your-first-choropleth-map/
+
++ Hampden, Baker, Washington Park, Cherry Creek, Country Club, Clayton, Skyland, City Park West, Capitol Hill, North Capitol Hill, Civic Center, CBD, Union Station, Five Points, Stapleton, Highland, Globeville, University Park, Cory – Merrill, Washington Park West, Speer, Congress Park, Cole, Sunnyside, Ruby Hill, University, Goldsmith, Virginia Village, DIA, University Hills, West Colfax, West Highland, Southmoor Park, Indian Creek, East Colfax, Rosedale, City Park, Lowry Field, Harvey Park South, Gateway / Green Valley Ranch, Barnum West, Montclair, Platt Park, Mar Lee, Westwood, Washington Virginia Vale, Villa Park, Hale, North Park Hill, South Park Hill, Kennedy, College View / South Platte, Hampden South, Northeast Park Hill, Elyria Swansea, Overland, Cheesman Park, Hilltop, Lincoln Park, Auraria, Belcaro, Windsor, Sloan Lake, Berkeley, Regis, Sun Valley, Wellshire, Jefferson Park, Valverde, Athmar Park, Chaffee Park, Harvey Park, Barnum, Whittier, Montbello, Marston, Fort Logan, Bear Valley
+
+
+
+
 
 <!--- DEAD CODE --->
 <!-- Playing with zip codes -->
