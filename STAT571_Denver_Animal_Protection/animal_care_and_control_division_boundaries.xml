@@ -1,0 +1,186 @@
+﻿<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>Department of Environmental Health  - Brenda Johnson</origin>
+        <pubdate>20100405</pubdate>
+        <title>Animal Care and Control Division Boundaries</title>
+        <geoform>vector digital data</geoform>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>This layer represents the geographical divisions of the City and County of Denver that are used by the Animal Care and Control Division to define service areas for Animal Control officers.</abstract>
+      <purpose>To provide geographic territories for response to animal-related incidents in the City and County of Denver and to provide territories for Animal Control officers' regular enforcement patrols necessitated by city animal ordinances.</purpose>
+    </descript>
+    <status>
+      <update>As needed</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-105.109926</westbc>
+        <eastbc>-104.599538</eastbc>
+        <northbc>39.914107</northbc>
+        <southbc>39.614380</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>Animal control</themekey>
+        <themekey>patrol districts</themekey>
+      </theme>
+      <theme>
+        <themekt>ISO 19115 Topic Categories</themekt>
+        <themekey>boundaries</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>Denver</placekey>
+        <placekey>Denver County</placekey>
+        <placekey>Colorado</placekey>
+        <placekey>USA</placekey>
+      </place>
+    </keywords>
+    <accconst>None</accconst>
+    <useconst>ACCESS CONSTRAINTS:
+
+This dataset is provided as read-only and is restricted to City and County of Denver employees for official City business only.  Contact the GIS Administrator for more information on distribution requirements/restrictions.
+
+USE CONSTRAINTS:
+
+The City and County of Denver is not responsible and shall not be liable to the user for damages of any kind arising out of the use of data or information provided by the City and County of Denver, including the installation of the data or information, its use, or the results obtained from its use.
+ 
+ANY DATA OR INFORMATION PROVIDED BY THE City and County of Denver IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  Data or information provided by the City and County of Denver shall be used and relied upon only at the user's sole risk, and the user agrees to indemnify and hold harmless the City and County of Denver, its officials, officers and employees from any liability arising out of the use of the data/information provided.
+ 
+NOT FOR ENGINEERING PURPOSES
+</useconst>
+    <datacred>Department of Environmental Health  </datacred>
+    <secinfo>
+      <secsys>RESTRICT - 1</secsys>
+      <secclass>Restricted</secclass>
+      <sechandl>Read access to all City users via LVM (Locate View Map). Data available to those with access to SDE layers.</sechandl>
+    </secinfo>
+    <native> Version 6.2 (Build 9200) ; Esri ArcGIS 10.4.1.5686</native>
+  </idinfo>
+  <dataqual />
+  <spdoinfo>
+    <direct>Vector</direct>
+    <ptvctinf>
+      <sdtsterm>
+        <sdtstype>GT-polygon composed of chains</sdtstype>
+        <ptvctcnt>8</ptvctcnt>
+      </sdtsterm>
+    </ptvctinf>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>8.983152841195215e-009</latres>
+        <longres>8.983152841195215e-009</longres>
+        <geogunit>Decimal Degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>D WGS 1984</horizdn>
+        <ellips>WGS 1984</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257223563</denflat>
+      </geodetic>
+    </horizsys>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>animal_care_and_control_division_boundaries</enttypl>
+        <enttypd>Animal Control Patrol Districts</enttypd>
+        <enttypds>None</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>OBJECTID</attrlabl>
+        <attrdef>Internal feature number.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Sequential unique whole numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE</attrlabl>
+        <attrdef>Feature geometry.</attrdef>
+        <attrdefs>ESRI</attrdefs>
+        <attrdomv>
+          <udom>Coordinates defining the features.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>DISTRICT_ID</attrlabl>
+        <attrdef>Animal Control Patrol District</attrdef>
+        <attrdefs>Department of Environmental Health</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>INSPECTOR_NAME</attrlabl>
+        <attrdef>District inspector name.</attrdef>
+        <attrdefs>Department of Environmental Health</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>INSPECTOR_PHONE</attrlabl>
+        <attrdef>District inspector phone number.</attrdef>
+        <attrdefs>Department of Environmental Health</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>INSPECTOR_EMAIL</attrlabl>
+        <attrdef>District inspector email.</attrdef>
+        <attrdefs>Department of Environmental Health</attrdefs>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Length</attrlabl>
+        <attrdef>Length of feature in internal units.</attrdef>
+        <attrdefs>Esri</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>SHAPE_Area</attrlabl>
+        <attrdef>Area of feature in internal units squared.</attrdef>
+        <attrdefs>Esri</attrdefs>
+        <attrdomv>
+          <udom>Positive real numbers that are automatically generated.</udom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>City and County of Denver, Technology Services / DenverGIS Data </cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>unknown</addrtype>
+          <address>201 W Colfax Ave, Dept 301</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80202</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntfax>720-913-5237</cntfax>
+        <cntemail>denvergis@denvergov.org</cntemail>
+        <hours>M-F 8:00am - 4:00pm (MT)</hours>
+      </cntinfo>
+    </distrib>
+    <distliab>See access and use constraints information.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>SDE Feature Class</formname>
+        </digtinfo>
+        <digtopt />
+      </digform>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20170618</metd>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+    <mettc>local time</mettc>
+  </metainfo>
+</metadata>

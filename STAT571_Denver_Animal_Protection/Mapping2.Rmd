@@ -1,0 +1,281 @@
+---
+title: "Mapping Practice"
+author: "Joseph Haymaker"
+date: "1/7/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# install.packages('tmap')
+library(ggmap)
+library(rgdal)
+library(rgeos)
+library(maptools)
+library(dplyr)
+library(tidyr)
+library(tmap)
+# x <- c("ggmap", "rgdal", "rgeos", "maptools", "dplyr", "tidyr", "tmap")
+# lapply(x, library, character.only = TRUE)
+```
+
+```{r}
+x <- 1:400
+y <- sin(x / 10) * exp(x * -0.01)
+plot(x,y)
+```
+
+# Choropleth mapping with `spplot`
+
+```{r}
+philly <- readOGR("Philly3")
+names(philly)
+plot(philly)
+spplot(philly)
+
+# RColorBrewer for colors
+library(RColorBrewer)
+display.brewer.all(type="seq")
+pal <- brewer.pal(5, 'OrRd')
+typeof(pal) #character
+philly$HOMIC_R
+
+
+spplot(philly,"HOMIC_R", col.regions = pal, cuts = 4)  #applying colors and cuts
+
+#===============================================================
+# Denver datasets
+# denver1 <- readOGR("county_boundary_lines")
+# plot(denver1)
+# # spplot(denver1)
+# 
+# denver2 <- readOGR("county_boundary")
+# plot(denver2)
+# spplot(denver2)
+
+# denver3 <- readOGR("tl_2017_us_county")
+# plot(denver3)
+# spplot(denver3)
+
+denver4 <- readOGR("statisticalneighborhoods")
+plot(denver4)
+spplot(denver4)
+names(denver4)#"NBHD_ID"   "NBHD_NAME" "TYPOLOGY"  "NOTES"   
+denver4$NBHD_NAME
+# denver4$TYPOLOGY #NA
+spplot(denver4, "NBHD_NAME", col.regions = pal, cuts = 78)
+
+
+d5pal <- brewer.pal(8, 'YlOrRd')
+denver5 <- readOGR("animal_care_and_control_division_boundaries")
+plot(denver5)
+# spplot(denver5)
+names(denver5)#"DISTRICT_I" "INSPECTOR_" "INSPECTOR1" "INSPECTO_1"  
+denver5$DISTRICT_I
+# denver5$INSPECTO_1 #INSPECTO_1
+spplot(denver5, "DISTRICT_I", col.regions = d5pal, cuts = 78)
+```
+
+
+```{r}
+library(classInt)
+breaks_qt <- classIntervals(philly$HOMIC_R, n = 5) # 5 colors
+str(breaks_qt)
+breaks_qt$brks
+
+spplot(philly, "HOMIC_R", col.regions=pal, at = breaks_qt$brks,  main = "Philadelphia homicide rate per 100,000")
+
+# add a very small value to the top breakpoint, and subtract from the bottom for symmetry 
+br <- breaks_qt$brks 
+offs <- 0.0000001 
+br[1] <- br[1] - offs 
+br[length(br)] <- br[length(br)] + offs 
+
+# plot
+spplot(philly, "HOMIC_R", col.regions=pal, at=br,  main = "Philadelphia homicide rate per 100,000")
+
+# correcting legend
+philly$HOMIC_R_bracket <- cut(philly$HOMIC_R, br)
+head(philly$HOMIC_R_bracket)
+class(philly$HOMIC_R_bracket)
+spplot(philly, "HOMIC_R_bracket", col.regions=pal, main = "Philadelphia homicide rate per 100,000")
+```
+
+
+```{r}
+# install.packages('GISTools')
+library(GISTools)                               # load library
+# View(philly)
+choropleth(philly, philly$HOMIC_R)              # plot the polygons
+shd <-  auto.shading(philly$HOMIC_R)            # we need that for the legend coloring
+choro.legend(                                   # plot the legend
+  bbox(philly)["x","max"] - 5000,               # x coordinate of top left corner
+  bbox(philly)["y","min"] + 15000,              # y coordinate of top left corner
+  shd                                           # color scheme
+  )                               
+title("Philadelphia homicide rate per 100,000") # plot the title.
+```
+
+```{r}
+# not helpful
+library(ggmap)
+
+ph_basemap <- get_map(location="Philadelphia, PA", zoom=11, maptype = 'satellite')
+ggmap(ph_basemap)
+
+den_basemap <- get_map(location="Denver, CO", zoom=11, maptype = 'satellite')
+ggmap(den_basemap)
+```
+
+# Plotting simple features (sf) with `plot`
+
+```{r}
+library(sf)
+# getwd
+philly_sf <-  st_read("/Users/josephhaymaker/Desktop/STAT571_Denver_Animal_Protection/Philly3/Philly3.shp")
+plot(philly_sf)
+
+plot(philly_sf$HOMIC_R) # this is a numeric vector
+plot(philly_sf["HOMIC_R"])
+
+hr_cuts <-  cut(philly_sf$HOMIC_R, br)
+plot(philly_sf["HOMIC_R"], main = "Philadelphia homicide rate per 100,000", col = pal[as.numeric(hr_cuts)])
+legend(1760000, 471000, legend = paste("<", round(br[-1])), fill = pal)
+```
+
+# Choropleth mapping with `ggplot2`
+
+```{r}
+# GGPLOT
+#So if we wanted to map polygons, like census tract boundaries, we would use longitude and latitude of their vertices as our x and y values and  geom_polygon() as our geometry.
+
+library(broom)
+philly_df <- tidy(philly)
+dim(philly_df) #31410     7
+# head(philly_df, 30)
+# View(philly_df)
+# head(philly_df)
+str(philly, max.level = 2)
+
+philly$polyID <- sapply(slot(philly, "polygons"), function(x) slot(x, "ID"))
+philly_df <- merge(philly_df, philly, by.x = "id", by.y="polyID")
+head(philly_df)
+# View(philly_df)
+
+library(ggplot2)
+
+ggplot() +                                               # initialize ggplot object
+  geom_polygon(                                          # make a polygon
+    data = philly_df,                                    # data frame
+    aes(x = long, y = lat, group = group,                # coordinates, and group them by polygons
+        fill = cut_number(HOMIC_R, 5))) +                # variable to use for filling
+  scale_fill_brewer("Homicide Rate", palette = "OrRd") + # fill with brewer colors 
+  ggtitle("Philadelphia homicide rate per 100,000") +    # add title
+  theme(line = element_blank(),                          # remove axis lines .. 
+        axis.text=element_blank(),                       # .. tickmarks..
+        axis.title=element_blank(),                      # .. axis labels..
+        panel.background = element_blank()) +            # .. background gridlines
+  coord_equal()                                          # both axes the same scale
+
+# ggplot(philly_sf) + geom_sf(aes(fill=HOMIC_R))
+```
+
+# Choropleth with `tmap`
+
+```{r}
+library(tmap)
+names(philly)
+tm_shape(philly) +
+  tm_polygons("HOMIC_R", style="quantile", title="Philadelphia \nhomicide rate \nper 100,000") +
+  tm_shape(philly) + tm_polygons("TOTALPO", style="quantile") +
+
+
+tmap_mode("view")
+last_map()
+
+vignette("tmap-nutshell")
+
+#  ============================================
+tm_shape(denver4) +
+  tm_polygons("NBHD_NAME", style="quantile", title="Denver county statistical neighborhoods")
+
+tm_shape(denver4) +
+  tm_polygons(style = "quantile")
+# tmap_mode("view")
+# last_map()
+
+tm_shape(denver5) +
+  tm_polygons("DISTRICT_I", style="quantile", title="Philadelphia \nhomicide rate \nper 100,000")
+```
+
+### Other tmap practice 
+ 
+```{r}
+data(World, metro)
+metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
+
+map1 <- tm_shape(World) +
+	tm_polygons("income_grp", palette="-Blues", contrast=.7, id="name", title="Income group") +
+	tm_shape(metro) +
+	tm_bubbles("pop2010", col = "growth", 
+		border.col = "black", border.alpha = .5, 
+		style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
+		palette="-RdYlBu", contrast=1, 
+		title.size="Metro population", 
+		title.col="Growth rate (%)", id="name",
+		popup.vars = c("pop2010", "pop2020", "growth")) + 
+	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
+
+# initial mode: "plot"
+current.mode <- tmap_mode("plot")
+
+# plot map
+map1
+
+# switch to other mode: "view"
+ttm()
+tmap_mode("view")
+
+# view map
+map1
+
+# }
+# NOT RUN {
+# choropleth of the Dutch population in interactive mode:
+require(tmaptools)
+data(NLD_muni, NLD_prov)
+NLD_muni$pop_dens <- calc_densities(NLD_muni, var = "population")
+
+tm_shape(NLD_muni) +
+	tm_fill(col="pop_dens", 
+		style="kmeans", 
+		title = "Population (per km^2)", id = "name") +
+	tm_borders("grey25", alpha=.5) + 
+	tm_shape(NLD_prov) +
+	tm_borders("grey40", lwd=2)
+# }
+# NOT RUN {
+# restore current mode
+tmap_mode(current.mode)
+# }
+```
+
+
+
+# New tutorial - [link](http://unconj.ca/blog/choropleth-maps-with-r-and-ggplot2.html)
+
+```{r, eval=FALSE, include=FALSE}
+library(rgeos)
+library(maptools)
+library(ggplot2)
+
+fsas <- maptools::readShapeSpatial("path/to/gfsa000b11a_e.shp")
+
+toronto.fsas <- fsas[substr(fsas$CFSAUID, 1, 1) == 'M',]
+
+# The shapefile takes up quite a lot of memory, and we no longer need it all,
+# so you can delete it if you like:
+rm(fsas)
+
+```
+

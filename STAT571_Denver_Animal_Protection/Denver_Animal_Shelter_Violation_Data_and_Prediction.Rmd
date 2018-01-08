@@ -41,6 +41,13 @@ library(knitr)
 library(kableExtra)
 library(devtools)
 library(choroplethrZip)
+library(ggmap)
+library(rgdal)
+library(rgeos)
+library(maptools)
+library(dplyr)
+library(tidyr)
+library(tmap)
 ```
 
 # Executive Summary
@@ -333,7 +340,7 @@ offense_sum <- offense_sum[order(-offense_sum$Frequency),] # reverse sort data b
 # View(offense_sum)
 # kable(head(offense_sum, 5))
 kable(head(offense_sum, 5), "html") %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
 # top 5 -- 8-16, 8-61, 8-32, 8-70/71, 8-51
 ```
 
@@ -343,32 +350,46 @@ kable(head(offense_sum, 5), "html") %>%
 
 ```{r, echo=FALSE}
 # summary(data3_cleaned)
-leash_law <- data3[which(data3$offense == '8-16'),]
+leash_law <- data3[which(data3_cleaned$offense == '8-16'),]
 # dim(leash_law) #10358 x 5
 # leash_zips <- data.frame(summary(leash_law$zip_code))
 # leash_zips
 # write.csv(leash_zips, "leash_zips.csv")
 leash_zips <- read.csv("leash_zips.csv", header=TRUE, sep=",", na.strings="")
+
+names(leash_zips) <- c("region", "value")
+zip_choropleth(head(leash_zips,3),
+               county_zoom = denver_fip,
+               title = "3 most cited zip codes for 8-16 leash law violation",
+               legend = "Citations")
+
 names(leash_zips) <- c("Zip code", "Frequency")
 # head(leash_zips, 3)
 kable(head(leash_zips, 3), "html") %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
 ```
 
 
 #### 8-61 - License required
 
 ```{r, echo=FALSE}
-license_law <- data3[which(data3$offense == '8-61'),]
+license_law <- data3_cleaned[which(data3_cleaned$offense == '8-61'),]
 # dim(license_law) # 5125 x 5
 # license_zips <- data.frame(summary(license_law$zip_code))
 # license_zips
 # write.csv(license_zips, "license_zips.csv")
 license_zips <- read.csv("license_zips.csv", header=TRUE, sep=",", na.strings="")
+
+names(license_zips) <- c("region", "value")
+zip_choropleth(head(license_zips,3),
+               county_zoom = denver_fip,
+               title = "3 most cited zip codes for 8-61 license required violation",
+               legend = "Citations")
+
 names(license_zips) <- c("Zip code", "Frequency")
 # head(leash_zips, 3)
 kable(head(license_zips, 3), "html") %>%
-  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
 ```
 
 
@@ -381,15 +402,133 @@ rabies_zips <- data.frame(summary(rabies_vac$zip_code))
 # rabies_zips
 write.csv(rabies_zips, "rabies_zips.csv")
 rabies_zips <- read.csv("rabies_zips.csv", header=TRUE, sep=",", na.strings="")
+
+names(rabies_zips) <- c("region", "value")
+zip_choropleth(head(rabies_zips,3),
+               county_zoom = denver_fip,
+               title = "3 most cited zip codes for 8-32 rabies vaccination violation",
+               legend = "Citations")
+
+names(rabies_zips) <- c("Zip code", "Frequency")
+kable(head(rabies_zips, 3), "html") %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")
+# head(rabies_zips, 3)
+```
+
+<!---
+#### 8-70/71 - Spaying and neutering
+
+```{r, eval=FALSE, include=FALSE}
+summary(data3_cleaned$offense)
+# 8-71 8-70/71 (1ST) 8-70/71 (2ND) 8-70/71 (3RD)
+# spay_neut <- data3[which(data3$offense == '8-71' | data3$offense == '8-70/71 (1ST)' | data3$offense == '8-70/71 (2ND)' | data3$offense == '8-70/71 (3RD)'),]
+
+spay_neut <- data3_cleaned[which(data3_cleaned$offense == '8-70' | data3_cleaned$offense == '8-71' | data3_cleaned$offense == '8-70/71'),]
+dim(spay_neut) # 2845  x  5
+names(spay_neut)
+# spay_neut
+# spay_neut$zip_code
+write.csv(spay_neut, "spay_neut.csv")
+spay_neut <- read.csv("spay_neut.csv", header=TRUE, sep=",", na.strings="")
+typeof(spay_neut$zip_code)
+
+
+
+summary(spay_neut$zip_code)
+spay_neut_zips <- data.frame(summary(spay_neut$zip_code))
+write.csv(rabies_zips, "rabies_zips.csv")
+rabies_zips <- read.csv("rabies_zips.csv", header=TRUE, sep=",", na.strings="")
+
+names(rabies_zips) <- c("region", "value")
+zip_choropleth(head(rabies_zips,3),
+               county_zoom = denver_fip,
+               title = "3 most cited zip codes for 8-32 rabies vaccination violation",
+               legend = "Citations")
+
 names(rabies_zips) <- c("Zip code", "Frequency")
 kable(head(rabies_zips, 3), "html") %>%
   kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
 # head(rabies_zips, 3)
 ```
 
-#### 8-70/71 - Spaying and neutering
-
 #### 8-51 - Dog attack or bite
+
+```{r}
+bite <- data3_cleaned[which(data3_cleaned$offense == '8-51'),]
+# dim(bite) #2199    5
+```
+--->
+
+### Denver statistical neighborhoods map
+
+```{r, echo=FALSE, message=F, warning=F}
+# RColorBrewer for colors
+library(RColorBrewer)
+# display.brewer.all(type="seq")
+pal <- brewer.pal(5, 'YlGnBu')
+
+#===============================================================
+# Denver datasets
+# denver1 <- readOGR("county_boundary_lines")
+# plot(denver1)
+# # spplot(denver1)
+# 
+# denver2 <- readOGR("county_boundary")
+# plot(denver2)
+# spplot(denver2)
+
+# denver3 <- readOGR("tl_2017_us_county")
+# plot(denver3)
+# spplot(denver3)
+
+denver4 <- readOGR("statisticalneighborhoods")
+# plot(denver4)
+# spplot(denver4)
+# names(denver4)#"NBHD_ID"   "NBHD_NAME" "TYPOLOGY"  "NOTES"   
+denver4$NBHD_NAME # 78 neighborhoods
+# denver4$TYPOLOGY #NA
+# spplot(denver4, "NBHD_NAME", col.regions = pal, cuts = 78)
+
+
+d5pal <- brewer.pal(8, 'YlOrRd')
+denver5 <- readOGR("animal_care_and_control_division_boundaries")
+# plot(denver5)
+# spplot(denver5)
+# names(denver5)#"DISTRICT_I" "INSPECTOR_" "INSPECTOR1" "INSPECTO_1"  
+# denver5$DISTRICT_I
+# denver5$INSPECTO_1 #INSPECTO_1
+# spplot(denver5, "DISTRICT_I", col.regions = d5pal, cuts = 78)
+```
+
+```{r, echo=FALSE}
+library(tmap)
+#  ============================================
+tmap_mode("view")
+map1 <- tm_shape(denver4) +
+        tm_polygons("NBHD_NAME", style="quantile", title="Denver county statistical neighborhoods")
+lf <- tmap_leaflet(map1)
+lf
+
+# tm_shape(denver4) +
+  # tm_polygons(style = "quantile")
+# tmap_mode("view")
+# last_map()
+
+# tmap_mode("view")
+# last_map()
+# vignette("tmap-nutshell")
+```
+
+[Source](https://www.denvergov.org/opendata/dataset/city-and-county-of-denver-statistical-neighborhoods)
+
+### Denver Animal Care and Control Division Boundaries
+
+```{r, echo=FALSE}
+tm_shape(denver5) +
+  tm_polygons("DISTRICT_I", style="quantile", title="Animal Care and Control Division Boundaries")
+```
+
+[Source](https://www.denvergov.org/opendata/dataset/city-and-county-of-denver-animal-care-and-control-division-boundaries)
 
 <!---
 # Data Cleaning and Preparation (EDA)
@@ -520,11 +659,10 @@ kable(text_tbl, "html") %>%
 + https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
 + http://journocode.com/2016/01/28/your-first-choropleth-map/
 
+
+<!---
 + Hampden, Baker, Washington Park, Cherry Creek, Country Club, Clayton, Skyland, City Park West, Capitol Hill, North Capitol Hill, Civic Center, CBD, Union Station, Five Points, Stapleton, Highland, Globeville, University Park, Cory – Merrill, Washington Park West, Speer, Congress Park, Cole, Sunnyside, Ruby Hill, University, Goldsmith, Virginia Village, DIA, University Hills, West Colfax, West Highland, Southmoor Park, Indian Creek, East Colfax, Rosedale, City Park, Lowry Field, Harvey Park South, Gateway / Green Valley Ranch, Barnum West, Montclair, Platt Park, Mar Lee, Westwood, Washington Virginia Vale, Villa Park, Hale, North Park Hill, South Park Hill, Kennedy, College View / South Platte, Hampden South, Northeast Park Hill, Elyria Swansea, Overland, Cheesman Park, Hilltop, Lincoln Park, Auraria, Belcaro, Windsor, Sloan Lake, Berkeley, Regis, Sun Valley, Wellshire, Jefferson Park, Valverde, Athmar Park, Chaffee Park, Harvey Park, Barnum, Whittier, Montbello, Marston, Fort Logan, Bear Valley
-
-
-
-
+--->
 
 <!--- DEAD CODE --->
 <!-- Playing with zip codes -->
@@ -632,5 +770,23 @@ denver_fip = c(8031)
 #                county_zoom = denver_fip,
 #                title       = "2012 Denver County Zip Code Tabulated Areas (ZCTAs) Population Estimates",
 #                legend      = "Population")
+```
+
+```{r, eval=FALSE, include=FALSE}
+# install.packages("rgdal")
+# library(rgdal)
+# 
+# denver <- readOGR("Denver2.kml")
+# plot(denver)
+# 
+# dortmund <- readOGR("Statistische Bezirke.kml.txt")
+# plot(dortmund)
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+x <- 1:400
+y <- sin(x / 10) * exp(x * -0.01)
+plot(x,y)
 ```
 
