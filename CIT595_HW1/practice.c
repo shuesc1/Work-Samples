@@ -9,7 +9,7 @@ int main() {
 
 	char* null = "0/";
 
-	char all_str[10];
+	char* all_str[10];
 	char str[] = "- This, a sample string.";
 	char str1[] = "int fun0 ( ) {";
 	char str2[] = "int fun1 ( int a ) {" ;
@@ -17,12 +17,21 @@ int main() {
 	char str4[] = "int fun3 ( int larry , int moe , int curly ) {" ;
 	char str5[] = "int fun3 ( int param1 , int param2 , int param3 , int param4 ) {" ;
 
-	all_str[0] = str[0];
-	all_str[1] = str1[0];
-	all_str[2] = str2[0];
-	all_str[3] = str3[0];
-	all_str[4] = str4[0];
-	all_str[5] = *null;
+	all_str[0] = str;
+	printf("all_str[0]: %s\n", all_str[0]);
+	all_str[1] = str1;
+	all_str[2] = str2;
+	all_str[3] = str3;
+	all_str[4] = str4;
+	all_str[5] = null;
+
+
+
+
+
+
+
+
 
 	char * token;
 // char * current;
