@@ -14,6 +14,12 @@ char* variable_names[10];
 void reset();
 
 //================= HW1 - PART I ====================
+/*
+token = strtok(sss, null)
+function_name = token;
+function_name = malloc(sizeof(char)* strlen(token));
+strcpy(function_name, token);
+*/
 
 /*
  * This is the function you need to implement for Parts 1 and 3.
@@ -21,19 +27,15 @@ void reset();
  */
 int parse_function_header(char* header) { //takes in pointer to a header
     if (header == NULL) return -1;
-    
     // clean up the global variables - do not remove this line!
     reset();
-    
     // ---------- making 2D array ------------
     // char strs[NUMBER_OF_STRINGS][STRING_LENGTH+1];
     char arr_char_arrs[20][30] = {""};
     //strcpy(arr_char_arrs[0], aString); // where aString is either an array or pointer to char
     //strcpy(arr_char_arrs[1], "foo");
-    
     // ------------- tokenizing string ------------
     printf ("Splitting string \"%s\" into tokens:\n", header);
-    
     char * token;
     char * input_copy = malloc(sizeof(char)*strlen(header));
     strcpy(input_copy, header) ; // make copy of immutable input string
@@ -61,7 +63,6 @@ int parse_function_header(char* header) { //takes in pointer to a header
     }
     //a[x] = "\0" ;
     strcpy(arr_char_arrs[x], "\0");
-    
     // ------------ TOKEN ARRAY -------------
     // int length = strlen(arr_char_arrs);
     int length = x;
@@ -70,7 +71,6 @@ int parse_function_header(char* header) { //takes in pointer to a header
     //for (int i = 0; i < length; i++) {
     //    printf("arr_char_arrs[%d]: %s\n", i, arr_char_arrs[i]);
     //}
-    
     // ----------- getting parameters ---------
     if (length > 5) {
         //toks[2] will always be '\(' && toks[length - 2] will always be '\)'
@@ -184,14 +184,111 @@ int parse_function_header(char* header) { //takes in pointer to a header
 //}
 
 
+
+
+
+//================= HW1 - PART II ======================
+/*
+ * This is the function you need to implement for Parts 2 and 4.
+ * You must NOT change its signature!
+ */
+int parse_line(char* line) {
+	if (line == NULL) return -1;
+	// clean up the global variables - do not remove this line!
+	reset();
+
+	// -------------- 2D array to store line tokens -----------
+    char arr_char_arrs[20][30] = {""};
+    // ------------- tokenizing string ------------
+    //printf ("<<<<<<<<<< Splitting line \"%s\" into tokens >>>>>>>>:\n", line);
+    char * token;
+    char * input_copy = malloc(sizeof(char)*strlen(line));
+    strcpy(input_copy, line) ; // make copy of immutable input string
+    token = strtok (input_copy, " ");
+    int x = 0 ;
+    //printf("%s\n", token);
+    strcpy(arr_char_arrs[x], token);
+    x++;
+    while (token != NULL) {
+        token = strtok (NULL, " ");
+        //printf ("%s\n", token);
+        if (token == NULL) {
+            break;
+        }
+        strcpy(arr_char_arrs[x], token);
+        x++;
+    }
+    strcpy(arr_char_arrs[x], "\0");
+
+    // ------------ TOKEN ARRAY -------------
+    int length = x;
+    //printf("Length: %d\n", length);
+    // printf("======= Tokens ====== \n");
+    // for (int i = 0; i < length; i++) {
+    //    printf("arr_char_arrs[%d]: %s\n", i, arr_char_arrs[i]);
+    // }
+    // ----------- getting variables ---------
+    // if first token is 'int'
+    if(strcmp(arr_char_arrs[0],"int")==0){
+		// arr_char_arrs[0] will always be 'int', and what follows, arr_char_arrs[1] will always be the first declaration
+    	//printf("\n****** match! *****\n") ;
+    	variable_names[0] = malloc(sizeof(char)*strlen(arr_char_arrs[1])) ; //malloc space for 1st var
+    	strcpy(variable_names[0],arr_char_arrs[1]);
+    	int var_index = 1;
+    	int iter_till_end = length-2;
+    	if (iter_till_end > 1){
+    		iter_till_end += 2;
+    		for(int start = 2; start < iter_till_end; start++){
+    			if(strcmp(arr_char_arrs[start], ",") == 0){ //if token value at current index is ","
+    				variable_names[var_index] = malloc(sizeof(char)*strlen(arr_char_arrs[start+1])) ;
+    				strcpy(variable_names[var_index], arr_char_arrs[start+1]); //copy value right after "," into var array
+    				var_index++;
+    			} 
+    		}
+    	}
+    }
+    
+    printf("\n======== OUTPUT: ==========\n") ;
+    // function_name = malloc(sizeof(char)*strlen(arr_char_arrs[1]));
+    // strcpy(function_name, arr_char_arrs[1]);
+    
+    // //function_name = arr_char_arrs[1] ;
+    // printf("\nfunction name: %s\n", function_name);
+    for (int v = 0; v < 10; v++) { //length of 10
+        printf("variable_names[%d]: %s\n", v, variable_names[v]);
+    }
+    
+    free(input_copy);
+	// Be sure to return the correct value in Part 4.
+	return 1;
+}
+//================= HW1 - PART II (ABOVE) ======================
+
 int main() {
-	char* null = "0/";
-	char all_str[10];
-	char str[] = "- This, a sample string.";
-	char str1[] = "int fun0 ( ) {";
-	char str2[] = "int fun1 ( int a ) {" ;
-	char str3[] = "int fun2 ( int dog , int cat ) {" ;
-	char str4[] = "int fun3 ( int larry , int moe , int curly ) {" ;
+	// char* null = "0/";
+	// char all_str[10];
+	// char str[] = "- This, a sample string.";
+	// char str1[] = "int fun0 ( ) {";
+	// char str2[] = "int fun1 ( int a ) {" ;
+	// char str3[] = "int fun2 ( int dog , int cat ) {" ;
+	// char str4[] = "int fun3 ( int larry , int moe , int curly ) {" ;
+
+	char line1[] = "int x ;";
+	char line2[] = "int j , k ;" ;
+	char line3[] = "int y = 2 ;" ;
+	char line4[] = "int a = x + 5 ;" ;
+	char line5[] = "int b = a + y + 8 ;" ;
+	char line6[] = "int c = a + x , d , e = b ;" ;
+	char line7[] = "int q , r , s , t = 5 , u , y ;" ;
+
+
+	parse_line(line1) ;
+	parse_line(line2) ;
+	parse_line(line3) ;
+	parse_line(line4) ;
+	parse_line(line5) ;
+	parse_line(line6) ;
+	parse_line(line7) ;
 
 	return 0;
 }
@@ -205,26 +302,7 @@ int main() {
 
 
 
-//=====================================================
 
-/*
- * This is the function you need to implement for Parts 2 and 4.
- * You must NOT change its signature!
- */
-int parse_line(char* line) {
-	if (line == NULL) return -1;
-
-	// clean up the global variables - do not remove this line!
-	reset();
-
-
-	// WRITE THE REST OF THIS FUNCTION!
-
-
-	// Be sure to return the correct value in Part 4.
-	return 1;
-
-}
 
 
 /*
