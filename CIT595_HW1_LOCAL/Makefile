@@ -3,6 +3,12 @@ ARGS = -Wall
 
 all: find_symbols_test
 
+practice: practice.c
+	clang -o practice practice.c
+
+2dArrs: 2dArrs.c
+	clang -o 2dArrs 2dArrs.c
+
 find_symbols:
 	$(CC) -c $(ARGS) find_symbols.c
 

@@ -36,8 +36,6 @@ void check_variable(int, char*);
  */
 int main() {
 
-// ========================= PARSE FUNCTION HEADER ======================
-  // 1)
   printf("Calling parse_function_header with input \"int fun ( int dog , int cat ) {\"\n");
   /*
    * Here's an example of a test for parse_function_header
@@ -48,33 +46,7 @@ int main() {
    */
   test_parse_function_header("int fun ( int dog , int cat ) {", "fun", 2, "dog", "cat");
 
-  //2) 
-  printf("Calling parse_function_header with input \"int fun0 ( ) {\"\n");
-  test_parse_function_header("int fun0 ( ) {", "fun0", 0, "", "");
 
-  //3) 
-  printf("Calling parse_function_header with input \"int fun1 ( int a ) {\"\n");
-  test_parse_function_header("int fun1 ( int a ) {", "fun1", 1, "a");
-
-  //4) 
-  printf("Calling parse_function_header with input \"int fun3 ( int larry , int moe , int curly ) {\"\n");
-  test_parse_function_header("int fun3 ( int larry , int moe , int curly ) {", "fun3", 3, "larry", "moe", "curly");
-
-  //5) 
-  printf("Calling parse_function_header with input \"int fun4 ( int param1 , int param2 , int param3 , int param4 ) {\"\n");
-  test_parse_function_header("int fun4 ( int param1 , int param2 , int param3 , int param4 ) {", "fun4", 4, "param1", "param2", "param3", "param4");
-
-/*
-	char str1[] = "int fun0 ( ) {";
-	char str2[] = "int fun1 ( int a ) {" ;
-	char str3[] = "int fun2 ( int dog , int cat ) {" ;
-	char str4[] = "int fun3 ( int larry , int moe , int curly ) {" ;
-	char str5[] = "int fun4 ( int param1 , int param2 , int param3 , int param4 ) {" ;
-*/
-
-
-// ==================== PARSE LINE ===========================
-  //1)
   printf("Calling parse_line with input \"int c , e = b ;\"\n");
   /*
    * Here's an example of a test for parse_line
@@ -83,32 +55,6 @@ int main() {
    * Arguments after that are the correct names of the variables in the order in which they are being declared
    */
   test_parse_line("int c , e = b ;", 2, "c", "e");
-
-  //2) char line5[] = "int b = a + y + 8 ;" ;
-  printf("Calling parse_line with input \"int b = a + y + 8 ;\"\n");
-  test_parse_line("int b = a + y + 8 ;", 1, "b");
-
-  //3) char line2[] = "int j , k ;" ;
-  printf("Calling parse_line with input \"int j , k ;\"\n");
-  test_parse_line("int j , k ;", 2, "j", "k");
-
-  //4) char line7[] = "int q , r , s , t = 5 , u , y ;" ;
-  printf("Calling parse_line with input \"int q , r , s , t = 5 , u , y ;\"\n");
-  test_parse_line("int q , r , s , t = 5 , u , y ;", 6, "q", "r", "s", "t", "u", "y");
-
-/*
-	char line1[] = "int x ;";
-	char line2[] = "int j , k ;" ;
-	char line3[] = "int y = 2 ;" ;
-	char line4[] = "int a = x + 5 ;" ;
-	char line5[] = "int b = a + y + 8 ;" ;
-	char line6[] = "int c = a + x , d , e = b ;" ;
-	char line7[] = "int q , r , s , t = 5 , u , y ;" ;
-*/
-
-
-
-
 
   return 0;
 
