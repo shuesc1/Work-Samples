@@ -245,6 +245,120 @@ int parse_function_header(char* header) { //takes in pointer to a header
 //===================================================================
 //===================================================================
 
+
+// ======================================================
+// ============== LINE SYNTAX HELPER FUNCS ==============
+// ======================================================
+// |							|
+// |							|
+
+/*
+* A function that takes in a string ptr and iterates over it to check all letters to see if they are valid [A-Za-z_], not 'VOID' or 'INT'
+*/
+int valid_name(char* var_name){ // 0 - valid ; 1 - invalid
+  int equal = 0;
+  int length = strlen(var_name);
+  printf("length: %d\n", length);
+
+  if(strcmp(var_name,"int")==0|strcmp(var_name,"void")==0){ // is 'INT' or 'VOID'
+        equal = 1;
+  } else {
+        for(int i = 0; i < length; i++){
+          if((var_name[i] == 95) | (var_name[i]>64 && var_name[i]<91) | (var_name[i]>96 && var_name[i]<123)){ // is '_', or 'A-Z', or 'a-z'
+                equal = 0;
+          } else {
+                equal = 1;
+                printf("ILLEGAL: identifier/variable contains illegal character\n");
+          }
+        }
+  }
+
+  return equal;
+}
+
+/*
+* A function that takes in a string ptr and iterates over it to check all chars to see if they are valid [0-9]*
+*/
+int valid_num(char* num_string){ // 0 - valid ; 1 - invalid
+  int equal = 0;
+  int length = strlen(num_string);
+  printf("length: %d\n", length);
+  for(int i = 0; i < length; i++){
+	if((num_string[i] < 48) | (num_string[i] > 57)){
+		equal = 1;
+		break;
+	}
+  }
+
+  return equal;
+}
+
+/*
+* A function that takes in a char and checks it to see if it is a valid operator [+-*%/]
+*/
+int valid_operator(char op_char){ // 0 - valid ; 1 - invalid
+  int equal = 0;
+  if(op_char==43|op_char==45|op_char==47|op_char==42|op_char==35){ // +==43 ; -==45 ; /==47 ; *==42 ; %==35
+        equal = 0;
+  } else {
+        equal = 1;
+        printf("ILLEGAL: operator '%c' is not a valid operator \(+, -, *, /, mod \) \n", op_char);
+  }
+  return equal;
+}
+
+
+
+
+// A func that parses the line if it starts with 'INT'
+//  " int ..... ; "
+int parse_int_line(char tok_arr[20][30], int len){
+  int result = 1;
+  int string_len = len ;
+
+  printf("array of toks passed to 'parse_int_line': ");
+  for(int i = 0; i < len; i++){
+	printf("%s\n",tok_arr[i]);
+	if(valid_name(tok_arr[i])==0){
+		printf("%s is a valid variable name\n", tok_arr[i]);
+	}
+	if(valid_operator(*tok_arr[i])==0){
+		printf("%c is a valid operator \n", *tok_arr[i]);
+	}
+	if(valid_num(tok_arr[i])==0){
+		printf("%s is a valid number\n", tok_arr[i]);
+	}
+  }
+  printf("\n");
+
+  return result;
+}
+
+/*
+* a func that parses a line if it starts with 'RETURN' ;  " return .... ; "
+*/
+int parse_return_line(char tok_arr[20][30], int len){
+  int result = 1;
+  int string_len = len ;
+
+  return result;
+}
+
+/*
+* a func that parses an assign line that takes the format 'var = .... ; ' ;  " a = ..... ; "
+*/ 
+int parse_assign_line(char tok_arr[20][30], int len){
+  int result = 1;
+  int string_len = len ;
+
+
+
+  return result;
+}
+// |							|
+// |							|
+// ======================================================
+
 /*
  * This is the function you need to implement for Parts 2 and 4.
  * You must NOT change its signature! 
@@ -285,9 +399,34 @@ int parse_line(char* line) {
   // for (int i = 0; i < length; i++) {
   //    printf("arr_char_arrs[%d]: %s\n", i, arr_char_arrs[i]);
   // }
-  // ----------- getting variables ---------
+ 
+  // ----------- SYNTAX CHECKING ------------
+
+  int valid = 1;
+
+  // first check -- ends in ';'
+  if(strcmp(arr_char_arrs[x-1],";") != 0){ // if line doesn't end in ';' automatically invalid
+	valid = 0;
+	printf("ILLEGAL: line does not end with ';'");
+  }
+  // 2nd check -- depends on first token
+  if(valid ==1){
+	if(strcmp(arr_char_arrs[0], "int")==0){ // " int ...... ; "
+		valid = parse_int_line(arr_char_arrs, length);
+	} else if (strcmp(arr_char_arrs[0], "return")==0){ // "return ..... ; "
+		valid = parse_return_line(arr_char_arrs, length);
+	} else {
+		valid = parse_assign_line(arr_char_arrs, length); // " z = .... ; "
+	}
+  }  
+
+
+
+  // ----------- SYNTAX CHECKING (ABOVE) ------------
+
+ // ----------- getting variables ---------
   // if first token is 'int'
-  if(strcmp(arr_char_arrs[0],"int")==0){
+  if(strcmp(arr_char_arrs[0],"int")==0 && valid == 1){
 	// arr_char_arrs[0] will always be 'int', and what follows, arr_char_arrs[1] will always be the first declaration
     	//printf("\n****** match! *****\n") ;
     	variable_names[0] = malloc(sizeof(char)*strlen(arr_char_arrs[1])) ; //malloc space for 1st var
@@ -305,12 +444,14 @@ int parse_line(char* line) {
     		}
     	}
   }
-   
+
+  /*
   printf("\n======== OUTPUT: ==========\n") ;
   for (int v = 0; v < 10; v++) { //length of 10
         printf("variable_names[%d]: %s\n", v, variable_names[v]);
   }
-    
+  */
+
   free(input_copy);
   // Be sure to return the correct value in Part 4.
   return 1;
