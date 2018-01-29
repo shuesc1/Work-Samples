@@ -273,7 +273,6 @@ int valid_name(char* var_name){ // 0 - valid ; 1 - invalid
           }
         }
   }
-
   return equal;
 }
 // ====================== VALID NUMBER??? ==================
@@ -290,7 +289,6 @@ int valid_num(char* num_string){ // 0 - valid ; 1 - invalid
 		break;
 	}
   }
-
   return equal;
 }
 // ===================== VALID OPERATOR +-*DIV%?? ================
@@ -360,24 +358,17 @@ int parse_int_line(char tok_arr[20][30], int len){ // 0 - ILLEGAL ; 1 - legal
                         	break;
 			}
                 }
-		//printf("%s\n",tok_arr[i]);
-		/* ==== TESTING AUXILIARY HELPER METHODS
-		if(valid_name(tok_arr[i])==0){
-			printf("%s is a valid variable name\n", tok_arr[i]);
-		}
-		if(valid_operator(*tok_arr[i])==0){
-			printf("%c is a valid operator \n", *tok_arr[i]);
-		}
+		// 7) any number should not be preceded for followed by a variable name
 		if(valid_num(tok_arr[i])==0){
-			printf("%s is a valid number\n", tok_arr[i]);
+			if((valid_name(tok_arr[i-1])==0) | (valid_name(tok_arr[i+1])==0)){
+				result = 0;
+				printf("ILLEGAL: number followed or preceded by a variable\n");
+				break;
+			}	
 		}
-		*/
-	
     	}
     }
   } 
-  //printf("\n");
-
   return result;
 }
 // ================= PARSE -- 'RETURN.....;'=============
@@ -387,7 +378,34 @@ int parse_int_line(char tok_arr[20][30], int len){ // 0 - ILLEGAL ; 1 - legal
 int parse_return_line(char tok_arr[20][30], int len){
   int result = 1;
   int string_len = len ;
-
+  // ~~~~~~~ String needs to satisfy 4 conditions:~~~~~~~~~~
+  for(int i = 0; i < len; i++){
+ 	// 1) tok[0] is 'return', tok[last] is ';'
+	// 2) 'return' must be followed by valid variable names OR a valid number OR ';'
+  	if(strcmp(tok_arr[i],"return")==0){
+        	if((valid_name(tok_arr[i+1])!=0)&&(valid_num(tok_arr[i+1])!=0)&&(strcmp(tok_arr[i+1],";")!=0)){
+                	result=0;
+                        printf("ILLEGAL: 'return' not followed by a valid variable/number/;\n");
+                        break;
+                }
+        }
+        // 3) a valid variable name must not be preceded by another variable name
+        if(valid_name(tok_arr[i])==0 && i!=0){
+        	if(valid_name(tok_arr[i-1])==0){
+                        result=0;
+                        printf("ILLEGAL: two variable names in a row\n");
+                	break;
+               	}
+        }
+        // 4) any operator + - / * % must be preceded & followed by a valid variable name OR valid number
+        if(valid_operator(*tok_arr[i])==0){
+        	if((valid_name(tok_arr[i-1])!=0 && valid_num(tok_arr[i-1])!=0) | (valid_name(tok_arr[i+1])!=0 && valid_num(tok_arr[i+1])!=0)){
+                	result=0;
+                        printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
+                        break;
+                }
+        }
+   }
   return result;
 }
 // ==================== PARSE --'X = ....' ===============
@@ -397,7 +415,39 @@ int parse_return_line(char tok_arr[20][30], int len){
 int parse_assign_line(char tok_arr[20][30], int len){
   int result = 1;
   int string_len = len ;
-
+ 
+  // 1) if doesn't start with a valid variable then illegal
+  if(valid_name(tok_arr[0])!=0){
+	result = 0;
+	printf("ILLEGAL: doesn't start with a valid variable\n");
+  }
+  if(result==1){
+	// 2) if 2nd token isn't '=' then illegal
+  	if(strcmp(tok_arr[1], "=")!=0){
+		result = 0;
+		printf("ILLEGAL: second token not assignment operator =\n");
+  	}
+  }
+  if(result==1){
+  	for(int i = 0; i < len; i++){
+		// 3) any operator +-/*% must be in between variables/numbers
+		if(valid_operator(*tok_arr[i])==0){
+		        if((valid_name(tok_arr[i-1])!=0 && valid_num(tok_arr[i-1])!=0) | (valid_name(tok_arr[i+1])!=0 && valid_num(tok_arr[i+1])!=0)){
+                        result=0;
+                        printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
+                        break;
+                	}
+		} 
+                // 4) any number should not be preceded for followed by a variable name
+                if(valid_num(tok_arr[i])==0){
+                        if((valid_name(tok_arr[i-1])==0 && strcmp(tok_arr[i-1],"return")!=0) | (valid_name(tok_arr[i+1])==0)){
+                                result = 0;
+                                printf("ILLEGAL: number followed or preceded by a variable\n");
+                                break;
+                        }
+                }
+	}
+  }
   return result;
 }
 // |							|
@@ -593,6 +643,13 @@ int main(){
     parse_line(line17);
     char line18[]="int b = x + - 5 ;";
     parse_line(line18);
+    char line19[]="cat x = 11 ;";
+    parse_line(line19);
+    char line20[]="return x";
+    parse_line(line20);
+    char line21[]="return 3 + ;";
+    parse_line(line21);
+
 }
 
 
