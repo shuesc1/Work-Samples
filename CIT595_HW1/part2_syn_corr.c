@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// ============== A FILE TO TEST CHANGED FUNCS WITH A MAIN METHOD BEFORE CHANGING FIND_SYMBOLS.C ======================
+
 /*
  * These are the global variables that you need to populate in the functions below.
  * Do not change these variables' names or types!
@@ -18,7 +20,6 @@ void reset();
 //======================== PART II - PARSE HEADER ===================
 //===================================================================
 //===================================================================
-
 
 // a helper function to assess an identifier if it's legal or not
 int eval_identifier(char* identifier) {

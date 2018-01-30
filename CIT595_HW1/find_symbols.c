@@ -55,7 +55,7 @@ int parse_function_header(char* header) { //takes in pointer to a header
   // ---------- making 2D array ------------
   char arr_char_arrs[20][30] = {""};
   // ------------- tokenizing string ------------
-  printf ("\n===================[ \"%s\"]================ \n", header);
+  //printf ("\n===================[ \"%s\"]================ \n", header);
   char * token;
   char * input_copy = malloc(sizeof(char) * strlen(header));
   strcpy(input_copy, header) ; // make copy of immutable input string
@@ -216,10 +216,10 @@ int parse_function_header(char* header) { //takes in pointer to a header
     //printf("\n======== OUTPUT: ==========\n") ;
     function_name = malloc(sizeof(char) * strlen(arr_char_arrs[1]));
     strcpy(function_name, arr_char_arrs[1]);
-    printf("\nfunction name: %s\n", function_name);
-    for (int v = 0; v < 10; v++) { //length of 10
-      printf("parameter_names[%d]: %s\n", v, parameter_names[v]);
-    }
+    //printf("\nfunction name: %s\n", function_name);
+    //for (int v = 0; v < 10; v++) { //length of 10
+    //  printf("parameter_names[%d]: %s\n", v, parameter_names[v]);
+    //}
   }
 
   free(input_copy);
@@ -455,7 +455,7 @@ int parse_line(char* line) {
   // -------------- 2D array to store line tokens -----------
   char arr_char_arrs[20][30] = {""};
   // ------------- tokenizing string ------------
-  printf ("<<<<<<<< %s >>>>>>>>>>\n", line);
+  //printf ("<<<<<<<< %s >>>>>>>>>>\n", line);
   char * token;
   char * input_copy = malloc(sizeof(char) * strlen(line));
   strcpy(input_copy, line) ; // make copy of immutable input string
