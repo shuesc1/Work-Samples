@@ -358,10 +358,10 @@ int parse_function_header(char* header) { //takes in pointer to a header
 			break;
 		}
 		if (strlen(token) > 29) {
-			printf("Token %s too long -- truncating!\n", token);
-			//continue;
-			strcpy(arr_char_arrs[x], token, 29);
-			x++;
+			printf("Token %s too long to store!\n", token);
+			continue;
+			//strcpy(arr_char_arrs[x], token, 29);
+			//x++;
 		} else {
 			strcpy(arr_char_arrs[x], token);
 			// printf("toks[%d]: %s\n", x, toks[x]);

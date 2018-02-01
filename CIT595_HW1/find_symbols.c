@@ -355,10 +355,10 @@ int parse_function_header(char* header) { //takes in pointer to a header
 			break;
 		}
 		if (strlen(token) > 29) {
-			printf("Token %s too long -- truncating!\n", token);
-			//continue;
-			strcpy(arr_char_arrs[x], token, 29);
-			x++;
+			printf("Token %s too long!\n", token);
+			continue;
+			//strcpy(arr_char_arrs[x], token, 29);
+			//x++;
 		} else {
 			strcpy(arr_char_arrs[x], token);
 			// printf("toks[%d]: %s\n", x, toks[x]);
@@ -572,8 +572,16 @@ int parse_line(char* line) {
 		if (token == NULL) {
 			break;
 		}
-		strcpy(arr_char_arrs[x], token);
-		x++;
+		if (strlen(token) > 29) {
+                        printf("Token %s too long!\n", token);
+                        continue;
+                        //strcpy(arr_char_arrs[x], token, 29);
+                        //x++;
+                } else {
+                        strcpy(arr_char_arrs[x], token);
+                        // printf("toks[%d]: %s\n", x, toks[x]);
+                        x++;
+                }	
 	}
 	strcpy(arr_char_arrs[x], "\0");
 
