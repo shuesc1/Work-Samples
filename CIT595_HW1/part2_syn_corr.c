@@ -26,7 +26,7 @@ void reset();
 // *(int|char|void|float|double)\**[^ A-Za-z]
 
 //===================================================================
-//======================== HELPER FUNCTIONS ========= ===============
+//======================== HELPER FUNCTIONS =========================
 //===================================================================
 /*
 * a helper function to assess an identifier if it's legal or not
@@ -51,197 +51,197 @@ int eval_identifier(char* identifier) {
 * A function that takes in a string ptr and iterates over it to check all letters to see if they are valid [A-Za-z_], not 'VOID' or 'INT'
 */
 int valid_name(char* var_name) { // 0 - valid ; 1 - invalid
-        int equal = 0;
-        int length = strlen(var_name);
-        //printf("length: %d\n", length);
+	int equal = 0;
+	int length = strlen(var_name);
+	//printf("length: %d\n", length);
 
-        if (strcmp(var_name, "int") == 0 | strcmp(var_name, "void") == 0) { // is 'INT' or 'VOID'
-                equal = 1;
-        } else {
-                for (int i = 0; i < length; i++) {
-                        if ((var_name[i] == 95) | (var_name[i] > 64 && var_name[i] < 91) | (var_name[i] > 96 && var_name[i] < 123)) { // is '_', or 'A-Z', or 'a-z'
-                                equal = 0;
-                        } else {
-                                equal = 1;
-                                //printf("ILLEGAL: identifier/variable contains illegal character\n");
-                        }
-                }
-        }
-        return equal;
+	if (strcmp(var_name, "int") == 0 | strcmp(var_name, "void") == 0) { // is 'INT' or 'VOID'
+		equal = 1;
+	} else {
+		for (int i = 0; i < length; i++) {
+			if ((var_name[i] == 95) | (var_name[i] > 64 && var_name[i] < 91) | (var_name[i] > 96 && var_name[i] < 123)) { // is '_', or 'A-Z', or 'a-z'
+				equal = 0;
+			} else {
+				equal = 1;
+				//printf("ILLEGAL: identifier/variable contains illegal character\n");
+			}
+		}
+	}
+	return equal;
 }
 // ====================== VALID NUMBER??? ==================
 /*
 * A function that takes in a string ptr and iterates over it to check all chars to see if they are valid [0-9]*
 */
 int valid_num(char* num_string) { // 0 - valid ; 1 - invalid
-        int equal = 0;
-        int length = strlen(num_string);
-        //printf("length: %d\n", length);
-        for (int i = 0; i < length; i++) {
-                if ((num_string[i] < 48) | (num_string[i] > 57)) {
-                        equal = 1;
-                        break;
-                }
-        }
-        return equal;
+	int equal = 0;
+	int length = strlen(num_string);
+	//printf("length: %d\n", length);
+	for (int i = 0; i < length; i++) {
+		if ((num_string[i] < 48) | (num_string[i] > 57)) {
+			equal = 1;
+			break;
+		}
+	}
+	return equal;
 }
 // ===================== VALID OPERATOR +-*DIV%?? ================
 /*
 * A function that takes in a char and checks it to see if it is a valid operator [+-*%/]
 */
 int valid_operator(char op_char) { // 0 - valid ; 1 - invalid
-        int equal = 0;
-        if (op_char == 43 | op_char == 45 | op_char == 47 | op_char == 42 | op_char == 35) { // +==43 ; -==45 ; /==47 ; *==42 ; %==35
-                equal = 0;
-        } else {
-                equal = 1;
-                //printf("ILLEGAL: operator '%c' is not a valid operator (+, -, *, /, mod ) \n", op_char);
-        }
-        return equal;
+	int equal = 0;
+	if (op_char == 43 | op_char == 45 | op_char == 47 | op_char == 42 | op_char == 35) { // +==43 ; -==45 ; /==47 ; *==42 ; %==35
+		equal = 0;
+	} else {
+		equal = 1;
+		//printf("ILLEGAL: operator '%c' is not a valid operator (+, -, *, /, mod ) \n", op_char);
+	}
+	return equal;
 }
 //===================== PARSE -- 'INT' ===============
 // A func that parses the line if it starts with 'INT'
 //  " int ..... ; "
 int parse_int_line(char tok_arr[20][30], int len) { // 0 - ILLEGAL ; 1 - legal
-        int result = 1;
-        int string_len = len ;
-        //printf("length: %d\n", string_len);
+	int result = 1;
+	int string_len = len ;
+	//printf("length: %d\n", string_len);
 
-        // ~~~~~~~ String needs to satisfy 6 conditions:~~~~~~~~~~
-        // 1) min length is 3 tokens; any less automatically is elminated
-        if (len < 3) {
-                result = 0;
-        } else {
-                // 2) 'int' needs to be directly followed by a valid variable name
-                if (valid_name(tok_arr[1]) != 0) {
-                        result = 0;
-                        printf("ILLEGAL: 'int' not directly followed by a valid variable name\n");
-                } else { // legal so far
-                        //printf("array of toks passed to 'parse_int_line': ");
-                        for (int i = 0; i < len; i++) {
-                                // 3) '=' must be preceded and followed by valid variable names OR followed by a valid number
-                                if (strcmp(tok_arr[i], "=") == 0) {
-                                        if ((valid_name(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
-                                                result = 0;
-                                                printf("ILLEGAL: '=' not following a valid variable name and/or not before a valid variable or number\n");
-                                                break;
-                                        }
-                                }
-                                // 4) ',' must be preceded by a valid variable name OR valid number
-                                if (strcmp(tok_arr[i], ",") == 0) {
-                                        if (valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) {
-                                                result = 0;
-                                                printf("ILLEGAL: ',' not following a valid variable name or valid number\n");
-                                                break;
-                                        }
-                                }
-                                // 5) a valid variable name must not be preceded by another variable name (anything other than 'INT')
-                                if (valid_name(tok_arr[i]) == 0) {
-                                        if (valid_name(tok_arr[i - 1]) == 0) {
-                                                result = 0;
-                                                printf("ILLEGAL: two variable names in a row\n");
-                                                break;
-                                        }
-                                }
-                                // 6) any operator + - / * % must be preceded & followed by a valid variable name OR valid number
-                                if (valid_operator(*tok_arr[i]) == 0) {
-                                        if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
-                                                result = 0;
-                                                printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
-                                                break;
-                                        }
-                                }
-                                // 7) any number should not be preceded for followed by a variable name
-                                if (valid_num(tok_arr[i]) == 0) {
-                                        if ((valid_name(tok_arr[i - 1]) == 0) | (valid_name(tok_arr[i + 1]) == 0)) {
-                                                result = 0;
-                                                printf("ILLEGAL: number followed or preceded by a variable\n");
-                                                break;
-                                        }
-                                }
-                        }
-                }
-        }
-        return result;
+	// ~~~~~~~ String needs to satisfy 6 conditions:~~~~~~~~~~
+	// 1) min length is 3 tokens; any less automatically is elminated
+	if (len < 3) {
+		result = 0;
+	} else {
+		// 2) 'int' needs to be directly followed by a valid variable name
+		if (valid_name(tok_arr[1]) != 0) {
+			result = 0;
+			printf("ILLEGAL: 'int' not directly followed by a valid variable name\n");
+		} else { // legal so far
+			//printf("array of toks passed to 'parse_int_line': ");
+			for (int i = 0; i < len; i++) {
+				// 3) '=' must be preceded and followed by valid variable names OR followed by a valid number
+				if (strcmp(tok_arr[i], "=") == 0) {
+					if ((valid_name(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
+						result = 0;
+						printf("ILLEGAL: '=' not following a valid variable name and/or not before a valid variable or number\n");
+						break;
+					}
+				}
+				// 4) ',' must be preceded by a valid variable name OR valid number
+				if (strcmp(tok_arr[i], ",") == 0) {
+					if (valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) {
+						result = 0;
+						printf("ILLEGAL: ',' not following a valid variable name or valid number\n");
+						break;
+					}
+				}
+				// 5) a valid variable name must not be preceded by another variable name (anything other than 'INT')
+				if (valid_name(tok_arr[i]) == 0) {
+					if (valid_name(tok_arr[i - 1]) == 0) {
+						result = 0;
+						printf("ILLEGAL: two variable names in a row\n");
+						break;
+					}
+				}
+				// 6) any operator + - / * % must be preceded & followed by a valid variable name OR valid number
+				if (valid_operator(*tok_arr[i]) == 0) {
+					if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
+						result = 0;
+						printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
+						break;
+					}
+				}
+				// 7) any number should not be preceded for followed by a variable name
+				if (valid_num(tok_arr[i]) == 0) {
+					if ((valid_name(tok_arr[i - 1]) == 0) | (valid_name(tok_arr[i + 1]) == 0)) {
+						result = 0;
+						printf("ILLEGAL: number followed or preceded by a variable\n");
+						break;
+					}
+				}
+			}
+		}
+	}
+	return result;
 }
 // ================= PARSE -- 'RETURN.....;'=============
 /*
 * a func that parses a line if it starts with 'RETURN' ;  " return .... ; "
 */
 int parse_return_line(char tok_arr[20][30], int len) {
-        int result = 1;
-        int string_len = len ;
-        // ~~~~~~~ String needs to satisfy 4 conditions:~~~~~~~~~~
-        for (int i = 0; i < len; i++) {
-                // 1) tok[0] is 'return', tok[last] is ';'
-                // 2) 'return' must be followed by valid variable names OR a valid number OR ';'
-                if (strcmp(tok_arr[i], "return") == 0) {
-                        if ((valid_name(tok_arr[i + 1]) != 0) && (valid_num(tok_arr[i + 1]) != 0) && (strcmp(tok_arr[i + 1], ";") != 0)) {
-                                result = 0;
-                                printf("ILLEGAL: 'return' not followed by a valid variable/number/;\n");
-                                break;
-                        }
-                }
-                // 3) a valid variable name must not be preceded by another variable name
-                if (valid_name(tok_arr[i]) == 0 && i != 0) {
-                        if (valid_name(tok_arr[i - 1]) == 0) {
-                                result = 0;
-                                printf("ILLEGAL: two variable names in a row\n");
-                                break;
-                        }
-                }
-                // 4) any operator + - / * % must be preceded & followed by a valid variable name OR valid number
-                if (valid_operator(*tok_arr[i]) == 0) {
-                        if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
-                                result = 0;
-                                printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
-                                break;
-                        }
-                }
-        }
-        return result;
+	int result = 1;
+	int string_len = len ;
+	// ~~~~~~~ String needs to satisfy 4 conditions:~~~~~~~~~~
+	for (int i = 0; i < len; i++) {
+		// 1) tok[0] is 'return', tok[last] is ';'
+		// 2) 'return' must be followed by valid variable names OR a valid number OR ';'
+		if (strcmp(tok_arr[i], "return") == 0) {
+			if ((valid_name(tok_arr[i + 1]) != 0) && (valid_num(tok_arr[i + 1]) != 0) && (strcmp(tok_arr[i + 1], ";") != 0)) {
+				result = 0;
+				printf("ILLEGAL: 'return' not followed by a valid variable/number/;\n");
+				break;
+			}
+		}
+		// 3) a valid variable name must not be preceded by another variable name
+		if (valid_name(tok_arr[i]) == 0 && i != 0) {
+			if (valid_name(tok_arr[i - 1]) == 0) {
+				result = 0;
+				printf("ILLEGAL: two variable names in a row\n");
+				break;
+			}
+		}
+		// 4) any operator + - / * % must be preceded & followed by a valid variable name OR valid number
+		if (valid_operator(*tok_arr[i]) == 0) {
+			if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
+				result = 0;
+				printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
+				break;
+			}
+		}
+	}
+	return result;
 }
 // ==================== PARSE --'X = ....' ===============
 /*
 * a func that parses an assign line that takes the format 'var = .... ; ' ;  " a = ..... ; "
 */
 int parse_assign_line(char tok_arr[20][30], int len) {
-        int result = 1;
-        int string_len = len ;
+	int result = 1;
+	int string_len = len ;
 
-        // 1) if doesn't start with a valid variable then illegal
-        if (valid_name(tok_arr[0]) != 0) {
-                result = 0;
-                printf("ILLEGAL: doesn't start with a valid variable\n");
-        }
-        if (result == 1) {
-                // 2) if 2nd token isn't '=' then illegal
-                if (strcmp(tok_arr[1], "=") != 0) {
-                        result = 0;
-                        printf("ILLEGAL: second token not assignment operator =\n");
-                }
-        }
-        if (result == 1) {
-                for (int i = 0; i < len; i++) {
-                        // 3) any operator +-/*% must be in between variables/numbers
-                        if (valid_operator(*tok_arr[i]) == 0) {
-                                if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
-                                        result = 0;
-                                        printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
-                                        break;
-                                }
-                        }
-                        // 4) any number should not be preceded for followed by a variable name
-                        if (valid_num(tok_arr[i]) == 0) {
-                                if ((valid_name(tok_arr[i - 1]) == 0 && strcmp(tok_arr[i - 1], "return") != 0) | (valid_name(tok_arr[i + 1]) == 0)) {
-                                        result = 0;
-                                        printf("ILLEGAL: number followed or preceded by a variable\n");
-                                        break;
-                                }
-                        }
-                }
-        }
-        return result;
+	// 1) if doesn't start with a valid variable then illegal
+	if (valid_name(tok_arr[0]) != 0) {
+		result = 0;
+		printf("ILLEGAL: doesn't start with a valid variable\n");
+	}
+	if (result == 1) {
+		// 2) if 2nd token isn't '=' then illegal
+		if (strcmp(tok_arr[1], "=") != 0) {
+			result = 0;
+			printf("ILLEGAL: second token not assignment operator =\n");
+		}
+	}
+	if (result == 1) {
+		for (int i = 0; i < len; i++) {
+			// 3) any operator +-/*% must be in between variables/numbers
+			if (valid_operator(*tok_arr[i]) == 0) {
+				if ((valid_name(tok_arr[i - 1]) != 0 && valid_num(tok_arr[i - 1]) != 0) | (valid_name(tok_arr[i + 1]) != 0 && valid_num(tok_arr[i + 1]) != 0)) {
+					result = 0;
+					printf("ILLEGAL: operator (+,-,etc.) not between 2 variables and/or 2 numbers\n");
+					break;
+				}
+			}
+			// 4) any number should not be preceded for followed by a variable name
+			if (valid_num(tok_arr[i]) == 0) {
+				if ((valid_name(tok_arr[i - 1]) == 0 && strcmp(tok_arr[i - 1], "return") != 0) | (valid_name(tok_arr[i + 1]) == 0)) {
+					result = 0;
+					printf("ILLEGAL: number followed or preceded by a variable\n");
+					break;
+				}
+			}
+		}
+	}
+	return result;
 }
 // |                                                    |
 // |                                                    |
@@ -261,40 +261,40 @@ int parse_assign_line(char tok_arr[20][30], int len) {
 /*
 * A helper method that returns the number of valid non-letter chars in a token
 */
-int is_valid_non_letters(char ch){ // 0-True ; 1-False
-        int result = 1;
-        if(ch==123|ch==40|ch==41|ch==44|ch==61|ch==43|ch==45|ch==42|ch==47|ch==35|ch==59){
-                result = 0;
-        }
-        return result;
+int is_valid_non_letters(char ch) { // 0-True ; 1-False
+	int result = 1;
+	if (ch == 123 | ch == 40 | ch == 41 | ch == 44 | ch == 61 | ch == 43 | ch == 45 | ch == 42 | ch == 47 | ch == 35 | ch == 59) {
+		result = 0;
+	}
+	return result;
 }
 /*
 * A helper method that returns the number of valid non-letter chars in a token
 */
-int contains_valid_non_letters(char* token){
-        int size = strlen(token);
-        int num_non_letters = 0;
-        for(int i = 0; i < size; i++){
-                if(token[i]==123|token[i]==40|token[i]==41|token[i]==44|token[i]==61|token[i]==43|token[i]==45|token[i]==42|token[i]==47|token[i]==35|token[i]==59){
-                        num_non_letters++; //
-                }
-        }
+int contains_valid_non_letters(char* token) {
+	int size = strlen(token);
+	int num_non_letters = 0;
+	for (int i = 0; i < size; i++) {
+		if (token[i] == 123 | token[i] == 40 | token[i] == 41 | token[i] == 44 | token[i] == 61 | token[i] == 43 | token[i] == 45 | token[i] == 42 | token[i] == 47 | token[i] == 35 | token[i] == 59) {
+			num_non_letters++; //
+		}
+	}
 
-        return num_non_letters;
+	return num_non_letters;
 }
 /*
 * A helper function to get the index of the first occurence of a valid non-letter char
 */
-int get_index(char* token){
-        int index = 0;
-        int size = strlen(token);
-        for(int i = 0; i < size; i++){
-                if(token[i]==123|token[i]==40|token[i]==41|token[i]==44|token[i]==61|token[i]==43|token[i]==45|token[i]==42|token[i]==47|token[i]==35|token[i]==59){
-                        index = i; //
-                        break;
-                }
-        }
-        return index;
+int get_index(char* token) {
+	int index = 0;
+	int size = strlen(token);
+	for (int i = 0; i < size; i++) {
+		if (token[i] == 123 | token[i] == 40 | token[i] == 41 | token[i] == 44 | token[i] == 61 | token[i] == 43 | token[i] == 45 | token[i] == 42 | token[i] == 47 | token[i] == 35 | token[i] == 59) {
+			index = i; //
+			break;
+		}
+	}
+	return index;
 }
 // =========================================================
 // =============== END ALL HELPER FUNCS ====================
@@ -324,28 +324,28 @@ int parse_function_header(char* header) { //takes in pointer to a header
 	char * token;
 	//char * input_copy = malloc(sizeof(char) * strlen(header));
 	//strcpy(input_copy, header) ; // make copy of immutable input string
-	
+
 	//*********************** PART III MODS *******************************
-        int header_len = strlen(header);
-        char * input_copy = malloc(sizeof(char) * (2* header_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
-        //strcpy(input_copy, header) ; // make copy of immutable input string
-        int k = 0;
-        for(int j = 0; j < header_len; j++){
-                if(is_valid_non_letters(header[j])==0){
-                        strcpy(&input_copy[k]," "); // in copy char array put space in current index
-                        k++ ; // increment index
-                        strcpy(&input_copy[k],&header[j]); //now copy character
-                        k++ ; // increment again
-                        strcpy(&input_copy[k]," ");//pad with space after (will be handled by strtok if there are 2 consecutive spaces
-                        k++;
-                } else {
-                        strcpy(&input_copy[k],&header[j]);
-                        k++;
-                }
-        }
-        printf("input copy: %s\n", input_copy);
-        //*********************** PART III MODS (above) *******************************
-	
+	int header_len = strlen(header);
+	char * input_copy = malloc(sizeof(char) * (2 * header_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
+	//strcpy(input_copy, header) ; // make copy of immutable input string
+	int k = 0;
+	for (int j = 0; j < header_len; j++) {
+		if (is_valid_non_letters(header[j]) == 0) {
+			strcpy(&input_copy[k], " "); // in copy char array put space in current index
+			k++ ; // increment index
+			strcpy(&input_copy[k], &header[j]); //now copy character
+			k++ ; // increment again
+			strcpy(&input_copy[k], " "); //pad with space after (will be handled by strtok if there are 2 consecutive spaces
+			k++;
+		} else {
+			strcpy(&input_copy[k], &header[j]);
+			k++;
+		}
+	}
+	printf("input copy: %s\n", input_copy);
+	//*********************** PART III MODS (above) *******************************
+
 	token = strtok (input_copy, " ") ;
 	int x = 0 ;
 	//printf("%s\n", token) ;
@@ -357,13 +357,16 @@ int parse_function_header(char* header) { //takes in pointer to a header
 		if (token == NULL) {
 			break;
 		}
-		if(strlen(token)>29){
-        		printf("Token %s too long to store!\n", token);
-        		continue;
-    		}
-		strcpy(arr_char_arrs[x], token);
-		// printf("toks[%d]: %s\n", x, toks[x]);
-		x++;
+		if (strlen(token) > 29) {
+			printf("Token %s too long -- truncating!\n", token);
+			//continue;
+			strcpy(arr_char_arrs[x], token, 29);
+			x++;
+		} else {
+			strcpy(arr_char_arrs[x], token);
+			// printf("toks[%d]: %s\n", x, toks[x]);
+			x++;
+		}
 	}
 	strcpy(arr_char_arrs[x], "\0");
 
@@ -519,7 +522,7 @@ int parse_function_header(char* header) { //takes in pointer to a header
 
 //======================================================================================================
 //======================================================================================================
-//========================================= PART II - PARSE LINE =======================================
+//===================================== PART II/III - PARSE LINE =======================================
 //======================================================================================================
 //======================================================================================================
 /*
@@ -539,26 +542,26 @@ int parse_line(char* line) {
 	char * token;
 	//char * input_copy = malloc(sizeof(char) * strlen(line));
 	//strcpy(input_copy, line) ; // make copy of immutable input string
-	
+
 	//*********************** PART III MODS *******************************
-        int line_len = strlen(line);
-        char * input_copy = malloc(sizeof(char) * (2* line_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
-        //strcpy(input_copy, header) ; // make copy of immutable input string
-        int k = 0;
-        for(int j = 0; j < line_len; j++){
-                if(is_valid_non_letters(line[j])==0){
-                        strcpy(&input_copy[k]," "); // in copy char array put space in current index
-                        k++ ; // increment index
-                        strcpy(&input_copy[k],&line[j]); //now copy character
-                        k++ ; // increment again
-                        strcpy(&input_copy[k]," ");//pad with space after (will be handled by strtok if there are 2 consecutive spaces
-                        k++;
-                } else {
-                        strcpy(&input_copy[k],&line[j]);
-                        k++;
-                }
-        }
-        printf("input copy: %s\n", input_copy);
+	int line_len = strlen(line);
+	char * input_copy = malloc(sizeof(char) * (2 * line_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
+	//strcpy(input_copy, header) ; // make copy of immutable input string
+	int k = 0;
+	for (int j = 0; j < line_len; j++) {
+		if (is_valid_non_letters(line[j]) == 0) {
+			strcpy(&input_copy[k], " "); // in copy char array put space in current index
+			k++ ; // increment index
+			strcpy(&input_copy[k], &line[j]); //now copy character
+			k++ ; // increment again
+			strcpy(&input_copy[k], " "); //pad with space after (will be handled by strtok if there are 2 consecutive spaces
+			k++;
+		} else {
+			strcpy(&input_copy[k], &line[j]);
+			k++;
+		}
+	}
+	printf("input copy: %s\n", input_copy);
 	//*********************** PART III MODS (above) *******************************
 
 	token = strtok (input_copy, " ");
@@ -638,42 +641,40 @@ int parse_line(char* line) {
 	return 1;
 }
 
-//===================================================================
-//===================================================================
-//===================================================================
-//======================== PART III =================================
-//===================================================================
-//===================================================================
+// ******************************************************************
+// ******************************************************************
+// ********************** PART III - TESTING ************************
+// ******************************************************************
 /*
 * The modified parse_header function
 */
 int parse_function_header_MOD(char* header) { //takes in pointer to a header
-        if (header == NULL) return -1;
-        // clean up the global variables - do not remove this line!
-        reset();
+	if (header == NULL) return -1;
+	// clean up the global variables - do not remove this line!
+	reset();
 
-        int valid = 1; //1 - True, 0 - False
-        // ---------- making 2D array ------------
-        char arr_char_arrs[20][30] = {""};
-        // ------------- tokenizing string ------------
-        printf ("\n===================[ \"%s\"]================ \n", header);
-        char * token;
+	int valid = 1; //1 - True, 0 - False
+	// ---------- making 2D array ------------
+	char arr_char_arrs[20][30] = {""};
+	// ------------- tokenizing string ------------
+	printf ("\n===================[ \"%s\"]================ \n", header);
+	char * token;
 
 	// PART III MODS
-        int header_len = strlen(header);
-	char * input_copy = malloc(sizeof(char) * (2* header_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
-        //strcpy(input_copy, header) ; // make copy of immutable input string
+	int header_len = strlen(header);
+	char * input_copy = malloc(sizeof(char) * (2 * header_len)); // allocate 2 times size so hypothetically if all chars needed spaces between they'd have them
+	//strcpy(input_copy, header) ; // make copy of immutable input string
 	int k = 0;
-	for(int j = 0; j < header_len; j++){
-		if(is_valid_non_letters(header[j])==0){
-			strcpy(&input_copy[k]," "); // in copy char array put space in current index
+	for (int j = 0; j < header_len; j++) {
+		if (is_valid_non_letters(header[j]) == 0) {
+			strcpy(&input_copy[k], " "); // in copy char array put space in current index
 			k++ ; // increment index
-			strcpy(&input_copy[k],&header[j]); //now copy character
+			strcpy(&input_copy[k], &header[j]); //now copy character
 			k++ ; // increment again
-			strcpy(&input_copy[k]," ");//pad with space after (will be handled by strtok if there are 2 consecutive spaces
+			strcpy(&input_copy[k], " "); //pad with space after (will be handled by strtok if there are 2 consecutive spaces
 			k++;
 		} else {
-			strcpy(&input_copy[k],&header[j]);
+			strcpy(&input_copy[k], &header[j]);
 			k++;
 		}
 	}
@@ -682,30 +683,30 @@ int parse_function_header_MOD(char* header) { //takes in pointer to a header
 	// PART III - tokens come from input_copy -- what if I insert spaces before and after non-letter chars to recreate the pattern
 	// from the first two parts-- no changes will then need to be made down the line
 	token = strtok (input_copy, " ") ;
-        int x = 0 ;
-        printf("%s\n", token) ;
-        strcpy(arr_char_arrs[x], token);
-        x++;
-        while (token != NULL) {
-                // get token
+	int x = 0 ;
+	printf("%s\n", token) ;
+	strcpy(arr_char_arrs[x], token);
+	x++;
+	while (token != NULL) {
+		// get token
 		token = strtok (NULL, " ");
-                printf ("%s\n", token);
-                // if null break from loop, don't store in token array
+		printf ("%s\n", token);
+		// if null break from loop, don't store in token array
 		if (token == NULL) {
-                        break;
-                }
+			break;
+		}
 		// make sure length is < 30
 		int tok_len = strlen(token);
-                if(tok_len>29){
-                        printf("Token %s too long to store!\n", token);
-                        continue;
-                }
-	
+		if (tok_len > 29) {
+			printf("Token %s too long to store!\n", token);
+			continue;
+		}
+
 		/* 01/31-- ATTEMPTING TO SOLVE PROB 3 ON A TOKEN LEVEL, MAY COME BACK TO THIS
 		// how many non-letter chars does this token have: (,),\,,%,*,+,-,;
 		int num_non_letters = contains_valid_non_letters(token);
 		printf("token contains %d valid non-number letters\n", num_non_letters);
-	
+
 		// for number of non-letter chars extract string up to it and store string, store char itself, and repeat as necessary
 		if(num_non_letters>0 && tok_len>1){
 			int start = 0;
@@ -721,32 +722,32 @@ int parse_function_header_MOD(char* header) { //takes in pointer to a header
 					//substring[i] = *token[start];
 					//strcpy(&substring[i], &token[start]);
 					i++;
-				} 
+				}
 				//strcpy(&substring[i],"/0");
 				//bstring[i] = "/0" ;
 				//printf("substring extracted: %s", substring);
 				num_non_letters--;
 				start = found_index+1;
 				printf("new start index: %d\n", start);
-			}		
+			}
 		}
 		*/
 
 		// copy token to current index in token array
-                strcpy(arr_char_arrs[x], token);
-                //printf("arr_char_arrs[%d]: %s\n", x, arr_char_arrs[x]);
-                //x++; //increase index of arr that stores all chars
+		strcpy(arr_char_arrs[x], token);
+		//printf("arr_char_arrs[%d]: %s\n", x, arr_char_arrs[x]);
+		//x++; //increase index of arr that stores all chars
 	}
-        strcpy(arr_char_arrs[x], "\0");
+	strcpy(arr_char_arrs[x], "\0");
 
-        // ------------ TOKEN ARRAY -------------
-        int length = x;
-        printf("Length: %d\n", length);
-          printf("======= Tokens ====== \n");
-            for(int i = 0; i < length; i++) {
-              printf("arr_char_arrs[%d]: %s\n", i, arr_char_arrs[i]);
-            }       
-	return 0; 
+	// ------------ TOKEN ARRAY -------------
+	int length = x;
+	printf("Length: %d\n", length);
+	printf("======= Tokens ====== \n");
+	for (int i = 0; i < length; i++) {
+		printf("arr_char_arrs[%d]: %s\n", i, arr_char_arrs[i]);
+	}
+	return 0;
 }
 //===================================================================
 //===================================================================
@@ -763,52 +764,52 @@ int parse_function_header_MOD(char* header) { //takes in pointer to a header
 int main() {
 	//char* input = "int fun ( int dog , int cat ) {";
 	//parse_function_header(input);
-	
-	        // TESTING ---- PARSE_FUNC_HEADER
-	        char in1_val[] = "int fun ( )";
-	        parse_function_header(in1_val);
 
-	        char in2_val[] = "void fun ( int a ) {" ;
-	        parse_function_header(in2_val);
+	// TESTING ---- PARSE_FUNC_HEADER
+	char in1_val[] = "int fun ( )";
+	parse_function_header(in1_val);
 
-	        char in3_val[] = "fun ( int dog , int cat ) {" ;
-	        parse_function_header(in3_val);
+	char in2_val[] = "void fun ( int a ) {" ;
+	parse_function_header(in2_val);
 
-	        char in4[] = "cat fun ( )" ;
-	        parse_function_header(in4);
+	char in3_val[] = "fun ( int dog , int cat ) {" ;
+	parse_function_header(in3_val);
 
-	        char in5[] = "int ( int a ) {" ;
-	        parse_function_header(in5);
+	char in4[] = "cat fun ( )" ;
+	parse_function_header(in4);
 
-	        char in6[] = "int fun ( a , int b ) {" ;
-	        parse_function_header(in6);
+	char in5[] = "int ( int a ) {" ;
+	parse_function_header(in5);
 
-	        char in7[] = "int fun ( int dog cat ) {" ;
-	        parse_function_header(in7);
+	char in6[] = "int fun ( a , int b ) {" ;
+	parse_function_header(in6);
 
-	        char in8[] = "int fun ( int dog , )" ;
-	        parse_function_header(in8);
+	char in7[] = "int fun ( int dog cat ) {" ;
+	parse_function_header(in7);
 
-	        char in9[] = "int fun ( int 8cow )" ;
-	        parse_function_header(in9);
+	char in8[] = "int fun ( int dog , )" ;
+	parse_function_header(in8);
 
-	        char in10[] = "int fun ( int cow, int dog ) chicken";
-	        parse_function_header(in10);
+	char in9[] = "int fun ( int 8cow )" ;
+	parse_function_header(in9);
 
-	        char in11[] = "int 8fun ( int cow , int dog ) {";
-	        parse_function_header(in11);
+	char in10[] = "int fun ( int cow, int dog ) chicken";
+	parse_function_header(in10);
 
-	        char in12[] = "int fun fun ( int cow, int dog )";
-	        parse_function_header(in12);
+	char in11[] = "int 8fun ( int cow , int dog ) {";
+	parse_function_header(in11);
 
-	        char in13[] = "int fun ( int cow , dog ) {";
-	        parse_function_header(in13);
+	char in12[] = "int fun fun ( int cow, int dog )";
+	parse_function_header(in12);
 
-	        char in14[] = "int fun8 ( int cow , int8 dog )";
-	        parse_function_header(in14);
+	char in13[] = "int fun ( int cow , dog ) {";
+	parse_function_header(in13);
 
-	        char in15[] = "int fun ( int cow , dog dog ) {";
-	        parse_function_header(in15);
+	char in14[] = "int fun8 ( int cow , int8 dog )";
+	parse_function_header(in14);
+
+	char in15[] = "int fun ( int cow , dog dog ) {";
+	parse_function_header(in15);
 
 	char line1[] = "int x ;";
 	parse_line(line1);
@@ -852,15 +853,15 @@ int main() {
 	parse_line(line20);
 	char line21[] = "return 3 + ;";
 	parse_line(line21);
-/*
-	char test1[] = "fun(int dog,int cat){";
-	parse_function_header_MOD(test1);
-	char test2[] = "int    fun (int dog ,int              cat ) {";
-	parse_function_header_MOD(test2);
-	char test3[] = "int c=a+x,d,e=b;" ;
-	parse_function_header_MOD(test3);
-	parse_function_header_MOD(in1_val);
-*/
+	/*
+		char test1[] = "fun(int dog,int cat){";
+		parse_function_header_MOD(test1);
+		char test2[] = "int    fun (int dog ,int              cat ) {";
+		parse_function_header_MOD(test2);
+		char test3[] = "int c=a+x,d,e=b;" ;
+		parse_function_header_MOD(test3);
+		parse_function_header_MOD(in1_val);
+	*/
 }
 
 
