@@ -1,0 +1,7 @@
+int fun ( int a , int b ) {
+int x = 7 ;
+int y = a + b , z = 0 ;
+x = a + 4 ;
+int t = x + b ;
+return x + t ;
+}
