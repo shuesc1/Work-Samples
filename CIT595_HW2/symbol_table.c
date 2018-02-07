@@ -229,6 +229,7 @@ int populate_symbol_table(char* filename) {
 	// ===== ITERATING OVER LINES ====
 	// while more lines
 	int line = 1;
+	int offst = 0;
 	while(fgets(buffer, 255, (FILE*) file)) {
     		printf("%s", buffer);
 		// line is header
@@ -242,6 +243,7 @@ int populate_symbol_table(char* filename) {
 				//}
 				while(parameter_names[i] != NULL){
 					if(add_symbol(parameter_names[i], offset)==1){
+						printf("adding symbol %s with offset %d\n", parameter_names[i], offset);
 						offset++;
 						i++;
 						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
@@ -257,12 +259,14 @@ int populate_symbol_table(char* filename) {
 
 		// line is regular variable declaration line
 		} else {
+			//int offset = 0;
 			if(parse_line(buffer)==1){
-				int offset = 0;
+				//int offset = 0;
 				int j = 0;
 				while(variable_names[j] != NULL){				
-					if(add_symbol(variable_names[j],offset)==1){ // 0 -trying to add repeat value; 1 - added correctly 
-						offset=offset-1;
+					if(add_symbol(variable_names[j],offst)==1){ // 0 -trying to add repeat value; 1 - added correctly 
+						printf("adding symbol %s with offset %d\n", variable_names[j], offst);
+						offst=offst-1;
 						j++;
 						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
 					} else {
