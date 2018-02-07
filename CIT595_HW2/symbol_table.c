@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include "find_symbols_soln.h"
 
 // defining Node struct
 typedef struct Node node ;
@@ -93,7 +95,10 @@ int add(node* ht[], char* sym, int offst){ // 0 - error ; 1 - added correctly
 	new->offset = offst;
 
 	new->next = head; // new now points to head
-	head->prev = new; // head prev ptr now points to new
+	new->prev = NULL; // new points back to NULL
+	if(head!=NULL){
+		head->prev = new;
+	} // head prev ptr now points to new
 	ht[hashcode] = new; // promote new to head
 
 	return 1;
@@ -148,12 +153,133 @@ int get_offset(char* symbol, int* offset) {
 * A function that removes all entries/mappings from the symbol table and frees memory where they are stored as necessary
 */
 void clear() {
-  // IMPLEMENT THIS IN STEP 1
+  for(int i = 0; i < 11; i++){
+	node *n = hashtable[i]; // get head of all LL in hashtable array
+	
+	if(n != NULL){
+		// in case there’s only one node
+		// space malloc'd for node, node->symbol, & node->offset
+		if (n->next == NULL) {
+			free(n->symbol);
+			n->symbol = NULL; // free symbol and set to NULL
+			free(n->offset);
+			n->offset = NULL; // free offset and set to NULL
+			free(n);
+			hashtable[i] = NULL; // free head node and set to NULL
+		} else { // at least one other node
+
+			// find the tail
+			while (n->next->next!= NULL) { 
+				n = n->next;
+			}
+
+			// n now at penultimate node
+			while(n->prev != NULL){
+				// 1) free next's symbol
+				free(n->next->symbol);
+				n->next->symbol = NULL;
+				// 2) free next's offset
+                        	free(n->next->offset);
+                        	n->next->offset = NULL;
+				// 3) free next
+                        	free(n->next);
+                        	n->next = NULL;		
+				// 4) move current node back one
+				n = n->prev;	
+			}
+			// broke out -- means n->prev == NULL (at head)
+			if(n->prev == NULL && n->next!= NULL){
+                        	// 1) free next's symbol
+                        	free(n->next->symbol);
+                        	n->next->symbol = NULL;
+                        	// 2) free next's offset
+                        	free(n->next->offset);
+                        	n->next->offset = NULL;
+                        	// 3) free next
+                        	free(n->next);
+                        	n->next = NULL;   	
+			} else if(n->prev == NULL && n->next == NULL){
+				free(n->symbol);
+				n->symbol = NULL;
+				free(n->offset);
+				n->offset = NULL;
+				free(n);
+				n= NULL;
+			}
+ 		}
+	}
+  }
 }
 
 // ======================== STEP 2 =====================
 
+/*
+* A function that that takes in a filename, opens the file, reads in all lines, uses
+* parse_function_header and parse_line functions to 
+*/
 int populate_symbol_table(char* filename) {
-  // IMPLEMENT THIS IN STEP 2
+	FILE* file;
+	char buffer[255];
+	file = fopen(filename, "r");
+
+	if(file==NULL){
+		printf("File not found\n");
+		return -1;
+	}
+	// ===== ITERATING OVER LINES ====
+	// while more lines
+	int line = 1;
+	while(fgets(buffer, 255, (FILE*) file)) {
+    		printf("%s", buffer);
+		// line is header
+		if(line==1){
+			if(parse_function_header(buffer)==1){
+				int offset = 4;
+				int i =0;
+				//if(parameter_names[0]==NULL){
+				//	printf("No parameters found during populate_symbol_table\n");
+				//	return -1;
+				//}
+				while(parameter_names[i] != NULL){
+					if(add_symbol(parameter_names[i], offset)==1){
+						offset++;
+						i++;
+						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
+					} else {
+						printf("error trying to add a symbol to the symbol table that is already present\n");
+						return -1;
+					}
+				}
+			} else {
+				printf("error using parse_function_header function\n");
+				return -1;
+			}
+
+		// line is regular variable declaration line
+		} else {
+			if(parse_line(buffer)==1){
+				int offset = 0;
+				int j = 0;
+				while(variable_names[j] != NULL){				
+					if(add_symbol(variable_names[j],offset)==1){ // 0 -trying to add repeat value; 1 - added correctly 
+						offset=offset-1;
+						j++;
+						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
+					} else {
+						printf("error trying to add a symbol to the symbol table that is already present\n");
+						return -1;
+					}
+				}
+			} else {
+				printf("error using parse_line function\n");
+				return -1;
+			}
+		}
+		line++;
+	}
+
+	// EOF -- close file
+	fclose(file);
+
   return -1;
 }

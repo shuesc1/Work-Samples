@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "find_symbols_soln.h"
 
 char* function_name;
 char* parameter_names[10];
