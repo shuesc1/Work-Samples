@@ -7,7 +7,7 @@
 typedef struct Node node ;
 struct Node {
 	void* symbol;
-	void* offset;
+	int* offset;
 	node* next;
 	node* prev;
 };
@@ -153,21 +153,39 @@ int get_offset(char* symbol, int* offset) {
 * A function that removes all entries/mappings from the symbol table and frees memory where they are stored as necessary
 */
 void clear() {
+  printf("**CLEARING** array of nodes:\n");
+  for(int k=0; k<11; k++){ 
+	node *n1 = hashtable[k]; 
+	if(n1==NULL){
+		printf("[%d]|NULL|\n", k);
+	} else {
+		printf("[%d]|symbol: %s, offset: %d|", k, n1->symbol, n1->offset);
+		//int l = k;
+		while(n1->next != NULL){
+			printf(" ===> |symbol: %s, offset: %d| ", n1->next->symbol, n1->next->offset);
+			n1 = n1->next;
+		}
+		printf("\n");
+	}
+  }
+  printf("\n");
   for(int i = 0; i < 11; i++){
-	node *n = hashtable[i]; // get head of all LL in hashtable array
-	
+	node *n = malloc(sizeof(node));
+	n = hashtable[i]; // get head of all LL in hashtable array
+	//printf("node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, n->offset);
 	if(n != NULL){
 		// in case there’s only one node
 		// space malloc'd for node, node->symbol, & node->offset
 		if (n->next == NULL) {
+			printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, n->offset);
 			free(n->symbol);
 			n->symbol = NULL; // free symbol and set to NULL
-			free(n->offset);
+			//free(n->offset);
 			n->offset = NULL; // free offset and set to NULL
 			free(n);
 			hashtable[i] = NULL; // free head node and set to NULL
 		} else { // at least one other node
-
+			printf("n->next != NULL\n");
 			// find the tail
 			while (n->next->next!= NULL) { 
 				n = n->next;
@@ -189,25 +207,30 @@ void clear() {
 			}
 			// broke out -- means n->prev == NULL (at head)
 			if(n->prev == NULL && n->next!= NULL){
-                        	// 1) free next's symbol
+                        	printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->next->symbol, n->next->offset);
+				// 1) free next's symbol
                         	free(n->next->symbol);
                         	n->next->symbol = NULL;
                         	// 2) free next's offset
-                        	free(n->next->offset);
+                        	//free(n->next->offset);
                         	n->next->offset = NULL;
                         	// 3) free next
                         	free(n->next);
                         	n->next = NULL;   	
-			} else if(n->prev == NULL && n->next == NULL){
+			} 
+			if(n->prev == NULL && n->next == NULL){
+				printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, n->offset);
 				free(n->symbol);
 				n->symbol = NULL;
-				free(n->offset);
+				//free(n->offset);
 				n->offset = NULL;
 				free(n);
 				n= NULL;
 			}
  		}
 	}
+	//free(n);
+	//n=NULL;
   }
 }
 
@@ -246,7 +269,6 @@ int populate_symbol_table(char* filename) {
 						printf("adding symbol %s with offset %d\n", parameter_names[i], offset);
 						offset++;
 						i++;
-						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
 					} else {
 						printf("error trying to add a symbol to the symbol table that is already present\n");
 						return -1;
@@ -268,7 +290,6 @@ int populate_symbol_table(char* filename) {
 						printf("adding symbol %s with offset %d\n", variable_names[j], offst);
 						offst=offst-1;
 						j++;
-						//TODO check to see if we are trying to add a repeat value to symbol table-- if so then return error
 					} else {
 						printf("error trying to add a symbol to the symbol table that is already present\n");
 						return -1;
@@ -287,3 +308,14 @@ int populate_symbol_table(char* filename) {
 
   return -1;
 }
+/*
+int main(){
+
+	char* filename = "sample.c";
+	populate_symbol_table(filename);
+
+	clear();
+
+	return 1;
+}
+*/

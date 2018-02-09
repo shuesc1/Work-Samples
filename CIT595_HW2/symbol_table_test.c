@@ -50,6 +50,15 @@ int main() {
   printf("Calling add_symbol(\"dog\", 3)\n"); // try to add a symbol that already exists
   test_add_symbol("dog", 3, 0);
 
+  printf("Calling add_symbol(\"cocodrilo\", 7)\n"); // add another symbol
+  test_add_symbol("cocodrilo", 7, 1);
+
+  printf("Calling add_symbol(\"\", 3)\n"); // try to add a symbol that is empty
+  test_add_symbol("", 3, -1);
+
+  printf("Calling add_symbol(\"cocodrilo\", 12)\n"); // add a symbol that already exists
+  test_add_symbol("cocodrilo", 12, 0);
+
   /*
    * Basic functionality for get_offset
    */
@@ -70,6 +79,10 @@ int main() {
    */
   test_get_offset_not_in_table("banana");
 
+  printf("Calling get_offset(\"cocodrilo\")\n");
+  test_get_offset("cocodrilo", 7);
+
+  clear();
   return 0;
 }
 

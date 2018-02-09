@@ -4,7 +4,7 @@ ARGS = -Wall
 all: symbol_table_test populate_symbol_table_test compiler
 
 symbol_table: 
-	$(CC) -c $(ARGS) symbol_table.c find_symbols_soln.c
+	$(CC) -g -c $(ARGS) symbol_table.c find_symbols_soln.c
 
 symbol_table.o: symbol_table.c
 	$(CC) -c symbol_table.c
@@ -16,7 +16,7 @@ symbol_table_test: symbol_table
 	$(CC) -o test_symbol_table $(ARGS) symbol_table.o find_symbols_soln.o symbol_table_test.c	
 
 populate_symbol_table_test: symbol_table
-	$(CC) -o test_populate_symbol_table $(ARGS) symbol_table.o populate_symbol_table_test.c	find_symbols_soln.c
+	$(CC) -g -o test_populate_symbol_table $(ARGS) symbol_table.o populate_symbol_table_test.c find_symbols_soln.c
 
 compiler: symbol_table
 	$(CC) -o compiler $(ARGS) symbol_table.o compiler.c find_symbols_soln.c
