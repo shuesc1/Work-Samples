@@ -15,6 +15,7 @@ struct Node {
 #define SIZE 10
 // declaring global var of hashtable
 node* hashtable[SIZE];
+char arr_char_arrs[20][30] = {""};
 
 // starter code
 extern int parse_function_header(char*);
@@ -92,7 +93,7 @@ int add(node* ht[], char* sym, int offst){ // 0 - error ; 1 - added correctly
 
 	strcpy(new->symbol, sym);
 	//strcpy(new->offset, offst);
-	new->offset = offst;
+	new->offset = &offst;
 
 	new->next = head; // new now points to head
 	new->prev = NULL; // new points back to NULL
@@ -159,10 +160,10 @@ void clear() {
 	if(n1==NULL){
 		printf("[%d]|NULL|\n", k);
 	} else {
-		printf("[%d]|symbol: %s, offset: %d|", k, n1->symbol, n1->offset);
+		printf("[%d]|symbol: %s, offset: %d|", k, n1->symbol, *n1->offset);
 		//int l = k;
 		while(n1->next != NULL){
-			printf(" ===> |symbol: %s, offset: %d| ", n1->next->symbol, n1->next->offset);
+			printf(" ===> |symbol: %s, offset: %d| ", n1->next->symbol, *n1->next->offset);
 			n1 = n1->next;
 		}
 		printf("\n");
@@ -177,7 +178,7 @@ void clear() {
 		// in case there’s only one node
 		// space malloc'd for node, node->symbol, & node->offset
 		if (n->next == NULL) {
-			printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, n->offset);
+			printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, *n->offset);
 			free(n->symbol);
 			n->symbol = NULL; // free symbol and set to NULL
 			//free(n->offset);
@@ -207,7 +208,7 @@ void clear() {
 			}
 			// broke out -- means n->prev == NULL (at head)
 			if(n->prev == NULL && n->next!= NULL){
-                        	printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->next->symbol, n->next->offset);
+                        	printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->next->symbol, *n->next->offset);
 				// 1) free next's symbol
                         	free(n->next->symbol);
                         	n->next->symbol = NULL;
@@ -219,7 +220,7 @@ void clear() {
                         	n->next = NULL;   	
 			} 
 			if(n->prev == NULL && n->next == NULL){
-				printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, n->offset);
+				printf("freeing node at %p with [symbol] %s and [offset] %d\n", n, n->symbol, *n->offset);
 				free(n->symbol);
 				n->symbol = NULL;
 				//free(n->offset);
@@ -306,8 +307,134 @@ int populate_symbol_table(char* filename) {
 	// EOF -- close file
 	fclose(file);
 
-  return -1;
+  return 1;
 }
+
+// =====================================================================================================
+// ========================================== PART 2 C->LC4 ASM ========================================
+// =====================================================================================================
+
+// ----------------------------------------------------
+// -------------- lil baby helper funcs --------------
+// ----------------------------------------------------
+// |						      |
+
+/*
+* A helper function to split a line into tokens and store them in a global array
+*/
+int tokenize_line(char* input_line){
+  char* token;
+  token = strtok (input_line, " ");
+  int x = 0 ;
+  //printf("arr_char_arrs[%d]: %s\n", x, token);
+  strcpy(arr_char_arrs[x], token);
+  x++;
+  while (token != NULL) { //store tokens in array of tokens
+    token = strtok (NULL, " ");
+    //printf ("%s\n", token);
+    if (token == NULL) {
+      break;
+    }
+    if (strlen(token) > 29) {
+      printf("Token %s too long!\n", token);
+      continue;
+      //strcpy(arr_char_arrs[x], token, 29);
+      //x++;
+    } else {
+      strcpy(arr_char_arrs[x], token);
+      //printf("arr_char_arrs[%d]: %s\n", x, arr_char_arrs[x]);
+      x++;
+   }
+ }
+ strcpy(arr_char_arrs[x], "\0");
+
+  // ------------ TOKEN ARRAY -------------
+ int length = x;
+ return length;
+}
+
+/*
+* A helper method that counts the number of assignments in a line (instances of '=')
+*/
+int get_num_assignments(int length){
+  int assignments = 0;
+  for(int i = 0; i < length; i++){
+    if(strcmp(arr_char_arrs[i], "=")==0){
+      assignments++;
+    }
+  }
+  return assignments;
+}
+// |							|
+// |							|
+// -------------- helper funcs (above) ------------------
+// ------------------------------------------------------
+
+/*
+* A helper function that parses a file and generates LC4 assembly for each line (used in compiler.c)
+*/
+int generate_asm(char* orig_filename, char* lc4_filename){
+	// necessary strings & values
+	int num_assignments = 0;/*
+	char* oper[3] = {"LDR ", "STR ", "ADD "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
+	char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
+	char* comma = ", ";
+	char* wafflefry = "#";
+	char* token;
+	//char arr_char_arrs[20][30] = {""};
+*/
+	// === file I/O ===
+	FILE* file;
+	//FILE* file_output;
+        char buffer[255];
+        file = fopen(orig_filename, "r");// open for reading
+        //file_output = fopen(lc4_filename, "a"); // open/create for appending
+	if(file==NULL){
+                printf("File not found\n");
+                return -1;
+        }
+
+        // ===== ITERATING OVER LINES ====
+        // while more lines
+        int line = 1;
+        while(fgets(buffer, 255, (FILE*) file)) {
+                printf("buffer line: %s\n", buffer);
+		//arr_char_arrs = "";
+
+                // line is header
+		if(line==1){
+			line++;
+			continue;
+		} else { //no longer at header
+			// break line in to tokens and store tokens in array-- then use token attributes to call delcaration(), one_assignment(), multiple assignments(), return()
+			
+			// GET ALL TOKENS IN LINE in arr_char_arrs[]
+			int length = tokenize_line(buffer);// length==num tokens in current line of file; all toks stored in global array arr_char_arrs 	
+			num_assignments = get_num_assignments(length);
+			//printf("number of assignments ('='): %d\n", num_assignments); 
+			
+			// ready to assess if line is: 1. simple declaration, 2. 1 assignment, 3. declaration and (multiple), or 4. return statement
+			if(strcmp(arr_char_arrs[0],"int")==0 && num_assignments==0){ //1. simple declaration -- nothing to do
+				continue;
+			} else if(num_assignments==1){ //2.) simple (1) assignment
+
+			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
+
+			} else if(strcmp(arr_char_arrs[0],"return")==0){
+			
+			}
+		}
+	}
+
+	fclose(file);
+//	fclose(file_output);
+
+	return 0;
+}
+
+
+
+
 /*
 int main(){
 
