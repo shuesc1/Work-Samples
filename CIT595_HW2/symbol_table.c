@@ -15,7 +15,12 @@ struct Node {
 #define SIZE 10
 // declaring global var of hashtable
 node* hashtable[SIZE];
-char arr_char_arrs[20][30] = {""};
+char arr_char_arrs[20][30] = {""}; //TODO make a reset to null func for this after each line is read in and tokenized
+char* oper[3] = {"LDR ", "STR ", "ADD "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
+char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
+char* comma = ", ";
+char* wafflefry = "#";
+char* fp = "FP, ";
 
 // starter code
 extern int parse_function_header(char*);
@@ -354,17 +359,57 @@ int tokenize_line(char* input_line){
 }
 
 /*
-* A helper method that counts the number of assignments in a line (instances of '=')
+* A helper method that counts the number of operators in a line (instances of '+', '=', etc.)
 */
-int get_num_assignments(int length){
+int get_num_operator(char operator, int length){
   int assignments = 0;
   for(int i = 0; i < length; i++){
-    if(strcmp(arr_char_arrs[i], "=")==0){
+    if(strcmp(arr_char_arrs[i], &operator)==0){
       assignments++;
     }
   }
   return assignments;
 }
+
+/*
+* A helper function that returns the index of a certain character
+*/
+int get_char_index(char key_char, int length){
+  for(int j=0; j<length; j++){
+    if(strcmp(arr_char_arrs[j], &key_char)==0){
+      return j;
+    }
+  }
+  return 0;
+}
+
+/*
+* A helper function that iterates over a char array to see if its value is a digit
+*/
+int is_number(char* str){ // 0 - is a digit, 1 - is NOT a digit (!48-57)
+  int length = strlen(str);
+  int result = 1;
+  for(int i=0; i<length; i++){
+    if(str[i]>47 && str[i]<58){
+      result=0;
+    } else {
+      result=1;
+      return result;
+    }
+  }
+  return result;
+}
+
+/*
+* A helper function that takes in the two variables/number that are being assigned and writes out ASM to the file given their properties
+*/
+int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_additions, FILE* dest_file){
+  int result = 0;
+
+  return result;
+}
+
+
 // |							|
 // |							|
 // -------------- helper funcs (above) ------------------
@@ -380,15 +425,16 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 	char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
 	char* comma = ", ";
 	char* wafflefry = "#";
+	char* fp = "FP, ";
 	char* token;
 	//char arr_char_arrs[20][30] = {""};
 */
 	// === file I/O ===
 	FILE* file;
-	//FILE* file_output;
+	FILE* file_output;
         char buffer[255];
         file = fopen(orig_filename, "r");// open for reading
-        //file_output = fopen(lc4_filename, "a"); // open/create for appending
+        file_output = fopen(lc4_filename, "a"); // open/create for appending
 	if(file==NULL){
                 printf("File not found\n");
                 return -1;
@@ -400,6 +446,17 @@ int generate_asm(char* orig_filename, char* lc4_filename){
         while(fgets(buffer, 255, (FILE*) file)) {
                 printf("buffer line: %s\n", buffer);
 		//arr_char_arrs = "";
+		char* copy = malloc(sizeof(char)*strlen(buffer)+4);	
+		char dest[50] = ";; ";
+
+		//== write out line to file==
+		if(line!=1 && strlen(buffer)>2){
+			//fwrite(buffer, sizeof(buffer), 1, file_output);
+			strcpy(copy, buffer);
+			strcat(dest, copy);
+	 		//fputs(buffer, file_output);
+			fputs(dest, file_output);
+		}
 
                 // line is header
 		if(line==1){
@@ -410,24 +467,58 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			
 			// GET ALL TOKENS IN LINE in arr_char_arrs[]
 			int length = tokenize_line(buffer);// length==num tokens in current line of file; all toks stored in global array arr_char_arrs 	
-			num_assignments = get_num_assignments(length);
+			num_assignments = get_num_operator('=',length);
 			//printf("number of assignments ('='): %d\n", num_assignments); 
 			
 			// ready to assess if line is: 1. simple declaration, 2. 1 assignment, 3. declaration and (multiple), or 4. return statement
-			if(strcmp(arr_char_arrs[0],"int")==0 && num_assignments==0){ //1. simple declaration -- nothing to do
-				continue;
-			} else if(num_assignments==1){ //2.) simple (1) assignment
-
-			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
-
-			} else if(strcmp(arr_char_arrs[0],"return")==0){
 			
+			//===============  1. simple declaration -- nothing to do =====================================
+			if(strcmp(arr_char_arrs[0],"int")==0 && num_assignments==0){ //1. simple declaration -- nothing to do
+				printf("line is a simple declaration-- no asm generated\n");
+				continue;
+			// ================= 2.) simple (1) assignment =================================================
+			} else if(num_assignments==1){ //2.) simple (1) assignment
+				printf("line contains 1 assignment '='\n");
+				int add_index = get_char_index('+', length); // arr_char_arrs[add_index - 1] is 1st variable/number, arr_char_arrs[add_index+1] is 2nd variable/number
+				printf("index of addition operator '+' is: %d\n", add_index);
+				
+				// int x = 2 OR x = y
+				if(add_index==0){ // + not present in line
+					// LDR R0 FP #offset_y
+					// STR R0 FP #offset_x
+					int equals_index = get_char_index('=',length);
+					generate_asm_assignment(arr_char_arrs[equals_index-1], arr_char_arrs[equals_index+1], num_assignments,file_output);
+				
+				// int x = a + b OR x = a + b + 7 OR t = 9 OR int q = 4 + 72, etc.
+				} else { // 1 or multiple instances of +
+
+
+
+
+				}
+
+			// ======================= 3.) (possible) declaration and 2 or more assignments ===================
+			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
+				printf("multiple assignments in line\n");
+				int add_index = get_char_index('+',length);
+				printf("index of addition operator '+' is: %d\n", add_index); 
+				if(strcmp(arr_char_arrs[0],"int")==0){ // there is a declaration
+
+				} else { // no declaration
+
+
+
+				}
+
+			// ========================== 4.) 'return' statement =============================================
+			} else if(strcmp(arr_char_arrs[0],"return")==0){
+			  	printf("line is return line\n");
 			}
 		}
 	}
 
 	fclose(file);
-//	fclose(file_output);
+	fclose(file_output);
 
 	return 0;
 }
