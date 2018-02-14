@@ -361,10 +361,10 @@ int tokenize_line(char* input_line){
 /*
 * A helper method that counts the number of operators in a line (instances of '+', '=', etc.)
 */
-int get_num_operator(char operator, int length){
+int get_num_assignments(int length){
   int assignments = 0;
   for(int i = 0; i < length; i++){
-    if(strcmp(arr_char_arrs[i], &operator)==0){
+    if(strcmp(arr_char_arrs[i], "=")==0){
       assignments++;
     }
   }
@@ -372,11 +372,24 @@ int get_num_operator(char operator, int length){
 }
 
 /*
+* A helper method that counts the number of operators in a line (instances of '+', '=', etc.)
+*/
+int get_num_additions(int length){
+  int additions = 0;
+  for(int i = 0; i < length; i++){
+    if(strcmp(arr_char_arrs[i], "+")==0){
+      additions++;
+    }
+  }
+  return additions;
+}
+
+/*
 * A helper function that returns the index of a certain character
 */
-int get_char_index(char key_char, int length){
+int get_char_index(char* key_char, int length){
   for(int j=0; j<length; j++){
-    if(strcmp(arr_char_arrs[j], &key_char)==0){
+    if(strcmp(arr_char_arrs[j], key_char)==0){
       return j;
     }
   }
@@ -405,6 +418,40 @@ int is_number(char* str){ // 0 - is a digit, 1 - is NOT a digit (!48-57)
 */
 int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_additions, FILE* dest_file){
   int result = 0;
+  char* asm_line1 = malloc(sizeof(char)*255);
+  char* asm_line2 = malloc(sizeof(char)*255);
+
+  if(rightside_var==NULL){ // then parsing a 'return' statement
+    strcat(asm_line1, oper[1]); // 'STR '
+    strcat(asm_line1, regs[0]); // 'R0'
+    strcat(asm_line1, comma); // ', '
+    strcat(asm_line1, fp); // 'FP, '
+    strcat(asm_line1, wafflefry); // '#'
+    strcat(asm_line1, "3"); // '3'
+    fputs(asm_line1, dest_file);
+  } else { // have a left side which may be var or number, and a right side which may be a var or a number
+	// if L or R is a number (already char arr, no need to cast it up), then change the formatting of output
+	// first iteration is : LDR R0, FP, #offset_rightmost_var_num
+	if(is_number(rightside_var)==0){ // if R val is number
+		// format needs to be: AND R0, R0, #0 ; then ADD R0, R0, #numerical_value
+	} else {
+
+	}
+
+	if(is_number(leftside_var)==0){ // 
+		// format needs to be: AND R1, R1, #0 ; then ADD R1, R1, #numerical_value
+	} else {
+
+
+	}
+  }
+
+
+
+  free(asm_line1); // freeing line that was allocated
+  asm_line1=NULL;
+  free(asm_line2);
+  asm_line2=NULL;
 
   return result;
 }
@@ -420,7 +467,10 @@ int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_add
 */
 int generate_asm(char* orig_filename, char* lc4_filename){
 	// necessary strings & values
-	int num_assignments = 0;/*
+	int num_assignments = 0;
+	char* plus = "+";
+	char* equals = "=";
+	/*
 	char* oper[3] = {"LDR ", "STR ", "ADD "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
 	char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
 	char* comma = ", ";
@@ -467,7 +517,8 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			
 			// GET ALL TOKENS IN LINE in arr_char_arrs[]
 			int length = tokenize_line(buffer);// length==num tokens in current line of file; all toks stored in global array arr_char_arrs 	
-			num_assignments = get_num_operator('=',length);
+			num_assignments = get_num_assignments(length);
+			printf("number of assignments from get_num_operator is: %d\n", num_assignments);
 			//printf("number of assignments ('='): %d\n", num_assignments); 
 			
 			// ready to assess if line is: 1. simple declaration, 2. 1 assignment, 3. declaration and (multiple), or 4. return statement
@@ -479,14 +530,15 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			// ================= 2.) simple (1) assignment =================================================
 			} else if(num_assignments==1){ //2.) simple (1) assignment
 				printf("line contains 1 assignment '='\n");
-				int add_index = get_char_index('+', length); // arr_char_arrs[add_index - 1] is 1st variable/number, arr_char_arrs[add_index+1] is 2nd variable/number
+				int add_index = get_char_index(plus, length); // arr_char_arrs[add_index - 1] is 1st variable/number, arr_char_arrs[add_index+1] is 2nd variable/number
 				printf("index of addition operator '+' is: %d\n", add_index);
 				
 				// int x = 2 OR x = y
 				if(add_index==0){ // + not present in line
 					// LDR R0 FP #offset_y
 					// STR R0 FP #offset_x
-					int equals_index = get_char_index('=',length);
+					int equals_index = get_char_index(equals,length);
+					printf("index of equals '=' operator is: %d\n", equals_index);
 					generate_asm_assignment(arr_char_arrs[equals_index-1], arr_char_arrs[equals_index+1], num_assignments,file_output);
 				
 				// int x = a + b OR x = a + b + 7 OR t = 9 OR int q = 4 + 72, etc.
@@ -500,7 +552,7 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			// ======================= 3.) (possible) declaration and 2 or more assignments ===================
 			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
 				printf("multiple assignments in line\n");
-				int add_index = get_char_index('+',length);
+				int add_index = get_char_index(plus,length);
 				printf("index of addition operator '+' is: %d\n", add_index); 
 				if(strcmp(arr_char_arrs[0],"int")==0){ // there is a declaration
 
@@ -513,6 +565,15 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			// ========================== 4.) 'return' statement =============================================
 			} else if(strcmp(arr_char_arrs[0],"return")==0){
 			  	printf("line is return line\n");
+				// return x OR return 7 OR return x + 7 OR return x + y + z + 10, etc.
+
+				int num_additions = get_num_additions(length);
+				printf("number of additions in line: %d\n", num_additions);
+				if(num_additions==0){
+					generate_asm_assignment(arr_char_arrs[1], NULL, 0, file_output);
+				} else { // 1 or more additions
+
+				}
 			}
 		}
 	}
