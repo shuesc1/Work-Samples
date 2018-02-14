@@ -21,6 +21,7 @@ char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
 char* comma = ", ";
 char* wafflefry = "#";
 char* fp = "FP, ";
+int add_indices[10];
 
 // starter code
 extern int parse_function_header(char*);
@@ -414,6 +415,22 @@ int is_number(char* str){ // 0 - is a digit, 1 - is NOT a digit (!48-57)
 }
 
 /*
+* A helper function to store the indices of all instances of '+' in the add_indices[] global array
+*/
+void get_add_indices(int length){
+  int end = length -1;
+  int i = 0;
+
+  for(end; end >=0; end--){
+    if(strcmp(arr_char_arrs[end], "+")==0){
+      add_indices[i] = end;
+      add_indices[i+1]= '\0';
+      i++;
+    }
+  }
+}
+
+/*
 * A helper function that takes in the two variables/number that are being assigned and writes out ASM to the file given their properties
 */
 int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_additions, FILE* dest_file){
@@ -421,7 +438,17 @@ int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_add
   char* asm_line1 = malloc(sizeof(char)*255);
   char* asm_line2 = malloc(sizeof(char)*255);
 
-  if(rightside_var==NULL){ // then parsing a 'return' statement
+  if(rightside_var==NULL && is_number(leftside_var)!=0){ // then parsing a 'return' statement
+    strcat(asm_line1, oper[0]); // 'LDR '
+    strcat(asm_line1, regs[0]); // 'R0'
+    strcat(asm_line1, comma); // ', '
+    strcat(asm_line1, fp); // 'FP, '
+    strcat(asm_line1, wafflefry); // '#'
+    char offset_str = (get_existing_offset(hashtable, leftside_var)+48); // casting to char
+    strcat(asm_line1, &offset_str); // 
+    fputs(asm_line1, dest_file);
+    strcpy(asm_line1, ""); // clear line
+
     strcat(asm_line1, oper[1]); // 'STR '
     strcat(asm_line1, regs[0]); // 'R0'
     strcat(asm_line1, comma); // ', '
@@ -429,6 +456,8 @@ int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_add
     strcat(asm_line1, wafflefry); // '#'
     strcat(asm_line1, "3"); // '3'
     fputs(asm_line1, dest_file);
+  //TODO handle case if returning a number literal	
+
   } else { // have a left side which may be var or number, and a right side which may be a var or a number
 	// if L or R is a number (already char arr, no need to cast it up), then change the formatting of output
 	// first iteration is : LDR R0, FP, #offset_rightmost_var_num
@@ -522,7 +551,6 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			//printf("number of assignments ('='): %d\n", num_assignments); 
 			
 			// ready to assess if line is: 1. simple declaration, 2. 1 assignment, 3. declaration and (multiple), or 4. return statement
-			
 			//===============  1. simple declaration -- nothing to do =====================================
 			if(strcmp(arr_char_arrs[0],"int")==0 && num_assignments==0){ //1. simple declaration -- nothing to do
 				printf("line is a simple declaration-- no asm generated\n");
