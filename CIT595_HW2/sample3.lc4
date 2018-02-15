@@ -3,9 +3,9 @@
 ;; duro = estres + familia + 15 ;
 AND R0, R0, #0
 ADD R0, R0, #15
-LDR R1, FP, #3
+LDR R1, FP, #32767
 ADD R0, R0, R1
-LDR R2, FP, #3
+LDR R2, FP, #32767
 ADD R0, R0, R2
 ;; int iguana = 10 , joven = 19 , kimono ;
 ;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
@@ -15,9 +15,45 @@ ADD R0, R0, R2
 ;; duro = estres + familia + 15 ;
 AND R0, R0, #0
 ADD R0, R0, #15
-LDR R1, FP, #3
+LDR R1, FP, #32767
 ADD R0, R0, R1
-LDR R2, FP, #3
+LDR R2, FP, #32767
+ADD R0, R0, R2
+;; int iguana = 10 , joven = 19 , kimono ;
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+;; return iguana + muralla ;
+;; int duro , estres = 100 ;
+;; int familia , gemelos = 11 , huracan = 2 ;
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #32766
+ADD R0, R0, R1
+LDR R2, FP, #32766
+ADD R0, R0, R2
+;; int iguana = 10 , joven = 19 , kimono ;
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+;; return iguana + muralla ;
+;; int duro , estres = 100 ;
+;; int familia , gemelos = 11 , huracan = 2 ;
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #32765
+ADD R0, R0, R1
+LDR R2, FP, #32765
+ADD R0, R0, R2
+;; int iguana = 10 , joven = 19 , kimono ;
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+;; return iguana + muralla ;
+;; int duro , estres = 100 ;
+;; int familia , gemelos = 11 , huracan = 2 ;
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #32766
+ADD R0, R0, R1
+LDR R2, FP, #32766
 ADD R0, R0, R2
 ;; int iguana = 10 , joven = 19 , kimono ;
 ;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
