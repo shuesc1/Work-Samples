@@ -1,5 +1,35 @@
 ;; int xochimilco = 45 ;
 ;; int capybara = armadillo + burro , zebra = 0 ;
 ;; xochimilco = armadillo + serpiente + 75 ;
+AND R0, R0, #0
+ADD R0, R0, #75
+;; int tigre = xochimilco + burro , culebra = 2 ;
+;; return tigre + capybara + xochimilco ;
+;; int xochimilco = 45 ;
+;; int capybara = armadillo + burro , zebra = 0 ;
+;; xochimilco = armadillo + serpiente + 75 ;
+AND R0, R0, #0
+ADD R0, R0, #75
+;; int tigre = xochimilco + burro , culebra = 2 ;
+;; return tigre + capybara + xochimilco ;
+;; int xochimilco = 45 ;
+;; int capybara = armadillo + burro , zebra = 0 ;
+;; xochimilco = armadillo + serpiente + 75 ;
+AND R0, R0, #0
+ADD R0, R0, #75
+;; int tigre = xochimilco + burro , culebra = 2 ;
+;; return tigre + capybara + xochimilco ;
+;; int xochimilco = 45 ;
+;; int capybara = armadillo + burro , zebra = 0 ;
+;; xochimilco = armadillo + serpiente + 75 ;
+AND R0, R0, #0
+ADD R0, R0, #75
+;; int tigre = xochimilco + burro , culebra = 2 ;
+;; return tigre + capybara + xochimilco ;
+;; int xochimilco = 45 ;
+;; int capybara = armadillo + burro , zebra = 0 ;
+;; xochimilco = armadillo + serpiente + 75 ;
+AND R0, R0, #0
+ADD R0, R0, #75
 ;; int tigre = xochimilco + burro , culebra = 2 ;
 ;; return tigre + capybara + xochimilco ;

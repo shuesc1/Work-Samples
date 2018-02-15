@@ -16,12 +16,13 @@ struct Node {
 // declaring global var of hashtable
 node* hashtable[SIZE];
 char arr_char_arrs[20][30] = {""}; //TODO make a reset to null func for this after each line is read in and tokenized
-char* oper[3] = {"LDR ", "STR ", "ADD "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
+char* oper[4] = {"LDR ", "STR ", "ADD ","AND "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
 char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
 char* comma = ", ";
 char* wafflefry = "#";
 char* fp = "FP, ";
 int add_indices[10];
+char* multiple_assign_subarr[10];
 
 // starter code
 extern int parse_function_header(char*);
@@ -443,16 +444,51 @@ void clear_add_indices(){
 * A helper function that takes in the arr_char_arrs index of the left and right tokens, the string register of the left var (that will be changing), and a flag 
 * for if this is the 1st iteration or not (0-yes, 1-No)
 */
-int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var, int first_iter_flag, FILE* dest_file)){
-  char* left_tok = malloc(sizeof(char)*arr_char_arrs[tok_index_L]);
+int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var, int first_iter_flag, FILE* dest_file){
+  char* left_tok = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_L]));
   left_tok = arr_char_arrs[tok_index_L];
-  char* right_tok = malloc(sizeof(char)*arr_char_arrs[tok_index_R]);
+  char* right_tok = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_R]));
   right_tok = arr_char_arrs[tok_index_R]; 
+  char* asm_line1 = malloc(sizeof(char)*255);
+  char* asm_line2 = malloc(sizeof(char)*255);
 
   // first iteration or not
   if(first_iter_flag==0){ // double LDR required
     if(is_number(right_tok)==0){ // is 0-9
-
+      //snprintf(prefix, sizeof(prefix), "%s: %s: %s", argv[0], cmd_argv[0], cmd_argv[1]);
+      strcat(asm_line1, oper[3]); // 'LDR '
+      strcat(asm_line1, regs[0]); // 'R0'
+      strcat(asm_line1, comma); // ', '
+      strcat(asm_line1, regs[0]); // 'FP, '
+      strcat(asm_line1, comma); // ', '
+      strcat(asm_line1, wafflefry); // '#'
+      //char offset_str = (get_existing_offset(hashtable, leftside_var)+48); // casting to char
+      strcat(asm_line1, "0"); // 
+      fputs(asm_line1, dest_file);
+      fputs("\n", dest_file);
+      strcpy(asm_line1, ""); // clear line
+      printf("asm_line1: %s", asm_line1);     
+      //
+      strcat(asm_line1, oper[2]); // 'ADD '
+      strcat(asm_line1, regs[0]); // 'R0'
+      strcat(asm_line1, comma); // ', '
+      strcat(asm_line1, regs[0]); // 'R0'
+      strcat(asm_line1, comma); // ', '
+      strcat(asm_line1, wafflefry); // '#'
+      //char offset_str = (get_existing_offset(hashtable, leftside_var)+48); // casting to char
+      strcat(asm_line1, right_tok); // 
+      fputs(asm_line1, dest_file);
+      fputs("\n", dest_file);
+      strcpy(asm_line1, ""); // clear line
+      printf("asm_line1: %s", asm_line1);
+      /*
+      snprintf(asm_line1, sizeof(asm_line1), "%s%s, %s, #%d\n", oper[3], regs[0], regs[0], 0);// 'AND R0, R0, #0
+      printf("asm_line1: %s", asm_line1);
+      fputs(asm_line1, dest_file);
+      strcpy(asm_line1, ""); // clear line
+      snprintf(asm_line1, sizeof(asm_line1), "%s%s%s%s%s%s%s\n",oper[2],regs[0],comma,regs[0],comma,wafflefry,right_tok);// 'ADD R0, R0, #0
+      fputs(asm_line1, dest_file);
+      strcpy(asm_line1, ""); // clear line */
     } else if(is_number(right_tok)!=0){ // !0-9
 
     }
@@ -475,9 +511,9 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
   }
 
   // freeing vars
-  free(left_tok);
+  //free(left_tok);
   left_tok = NULL;
-  free(right_tok);
+  //free(right_tok);
   right_tok = NULL;
   return 0;
 }
@@ -485,7 +521,7 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 /*
 * A helper function that takin in the arr_char_arrs[] index of left and right (if any) tokens and produces the apppropriate LC4 ASM written out to a file
 */
-int generate_asm_assignment(int tok_index_L, int tok_index_R, FILE* dest_file)){
+int generate_asm_assignment(int tok_index_L, int tok_index_R, FILE* dest_file){
 
 
 
@@ -549,7 +585,7 @@ int generate_asm_assignment(char* leftside_var, char* rightside_var, int num_add
 // ------------------------------------------------------
 
         /*
-        char* oper[3] = {"LDR ", "STR ", "ADD "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
+        char* oper[3] = {"LDR ", "STR ", "ADD ", "AND "}; //array of char ptrs-- 0-LDR, 1-STR, 2-ADD
         char* regs[9] = {"R0", "R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"};
         char* comma = ", ";
         char* wafflefry = "#";
@@ -635,7 +671,7 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 					// STR R0 FP #offset_x
 					int equals_index = get_char_index(equals,length);
 					printf("index of equals '=' operator is: %d\n", equals_index);
-					//generate_asm_assignment(arr_char_arrs[equals_index-1], arr_char_arrs[equals_index+1], num_assignments,file_output);
+					generate_asm_assignment(equals_index-1, arr_char_arrs, file_output);
 				
 				// int x = a + b OR x = a + b + 7 OR t = 9 OR int q = 4 + 72, etc.
 				} else if(num_additions>0) { // 1 or multiple instances of +
@@ -643,24 +679,28 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 					int index_add = 0;
 					for(int i=0;i<num_additions;i++){
 						index_add = add_indices[i]; // get the location of all '+'s from global array
-						generate_asm_addition((index_add-1), (index_add+1), i, regs[j], file_output);// set flag to i, so will do double load on 1st iteration, the regs for L varalso get incremented this way
+						generate_asm_addition((index_add-1), (index_add+1), regs[j], i,file_output);// set flag to i, so will do double load on 1st iteration, 
+						//the regs for L varalso get incremented this way
 						j++;
 					}
 					int equals_index = get_char_index(equals,length);
-					generate_asm_assignment((equals_index-1),NULL);
+					generate_asm_assignment((equals_index-1),NULL,file_output);
 				}
 			// ======================= 3.) (possible) declaration and 2 or more assignments ===================
 			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
 				printf("line is type 3). multiple assignments '=' in line\n");
-				//int add_index = get_char_index(plus,length);
-				printf("index of addition operator '+' is: %d\n", add_index); 
-				if(strcmp(arr_char_arrs[0],"int")==0){ // there is a declaration
-
-				} else { // no declaration
-
-
-
-				}
+				//break string into smaller tokens on the ',' and store in global arr multiple_assign_subarr[10];
+				int x = 0;
+				char* copy3;
+				copy3 = strtok (copy,",");
+  				while (copy3 != NULL){
+    					printf ("%s\n", copy3);
+    					multiple_assign_subarr[x]= copy3;
+					x++;
+					copy3 = strtok (NULL, ",");
+  				}
+				// x is last index reached
+					
 			// ========================== 4.) 'return' statement =============================================
 			} else if(strcmp(arr_char_arrs[0],"return")==0){
 			  	printf("line is type 4). return line\n");
@@ -669,7 +709,7 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 				int num_additions = get_num_additions(length);
 				printf("number of additions in line: %d\n", num_additions);
 				if(num_additions==0){
-					generate_asm_assignment(arr_char_arrs[1], NULL, 0, file_output);
+					//generate_asm_assignment(arr_char_arrs[1], NULL, file_output);
 				} else { // 1 or more additions
 
 				}
