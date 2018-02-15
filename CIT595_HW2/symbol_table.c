@@ -76,7 +76,7 @@ int get_existing_offset(node* ht[], char* sym){ // 1 - found; 0 - not found
 	node* head = ht[hashcode]; // head is at certain index in hash array; may contain several linked nodes
         while(head!=NULL){
                 if(strcmp(head->symbol, sym)==0){
-                        return (int)head->offset;
+                        return *head->offset;
                 } else {
                         head = head->next;
                 }
@@ -454,16 +454,17 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 
   // first iteration or not
   if(first_iter_flag==0){ // double LDR required
+    // ---------- FIRST ITERATION ------- R side loaded in as well
     if(is_number(right_tok)==0){ // is 0-9
       //snprintf(prefix, sizeof(prefix), "%s: %s: %s", argv[0], cmd_argv[0], cmd_argv[1]);
-      strcat(asm_line1, oper[3]); // 'LDR '
+      /*
+      strcat(asm_line1, oper[3]); // 'AND '
       strcat(asm_line1, regs[0]); // 'R0'
       strcat(asm_line1, comma); // ', '
-      strcat(asm_line1, regs[0]); // 'FP, '
+      strcat(asm_line1, regs[0]); // 'R0, '
       strcat(asm_line1, comma); // ', '
       strcat(asm_line1, wafflefry); // '#'
-      //char offset_str = (get_existing_offset(hashtable, leftside_var)+48); // casting to char
-      strcat(asm_line1, "0"); // 
+      strcat(asm_line1, "0"); // '0'
       fputs(asm_line1, dest_file);
       fputs("\n", dest_file);
       strcpy(asm_line1, ""); // clear line
@@ -475,46 +476,62 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
       strcat(asm_line1, regs[0]); // 'R0'
       strcat(asm_line1, comma); // ', '
       strcat(asm_line1, wafflefry); // '#'
-      //char offset_str = (get_existing_offset(hashtable, leftside_var)+48); // casting to char
       strcat(asm_line1, right_tok); // 
       fputs(asm_line1, dest_file);
       fputs("\n", dest_file);
       strcpy(asm_line1, ""); // clear line
       printf("asm_line1: %s", asm_line1);
-      /*
-      snprintf(asm_line1, sizeof(asm_line1), "%s%s, %s, #%d\n", oper[3], regs[0], regs[0], 0);// 'AND R0, R0, #0
+      */
+      //snprintf(asm_line1, sizeof(asm_line1), "%s%s, %s, #%d\n", oper[3], regs[0], regs[0], 0);// 'AND R0, R0, #0
+      snprintf(asm_line1, 100, "AND R0, R0, #%d\n", 0);// 'AND R0, R0, #0
       printf("asm_line1: %s", asm_line1);
       fputs(asm_line1, dest_file);
       strcpy(asm_line1, ""); // clear line
-      snprintf(asm_line1, sizeof(asm_line1), "%s%s%s%s%s%s%s\n",oper[2],regs[0],comma,regs[0],comma,wafflefry,right_tok);// 'ADD R0, R0, #0
+      snprintf(asm_line1, 100, "ADD R0, R0, #%s\n",right_tok);// 'ADD R0, R0, #RIGHT_TOKEN_NUM'
       fputs(asm_line1, dest_file);
       strcpy(asm_line1, ""); // clear line */
     } else if(is_number(right_tok)!=0){ // !0-9
-
+      snprintf(asm_line1, 100, "LDR R0, FP, #%d\n", get_existing_offset(hashtable, right_tok));// 'LDR R0, FP, #offset_sym
+      printf("right tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, right_tok));
+      printf("asm_line1: %s", asm_line1);
+      fputs(asm_line1, dest_file);
+      strcpy(asm_line1, ""); // clear line
     }
-    if(is_number(left_tok)==0){ // is 0-9
+  }  
 
-    } else if(is_number(left_tok)!=0){ // !0-9
-
-    }   
-  } else { // single LDR required
-    if(is_number(right_tok)==0){ // is 0-9
-
-    } else if(is_number(right_tok)!=0){ // !0-9
-
-    }   
-    if(is_number(left_tok)==0){ // is 0-9
-
-    } else if(is_number(left_tok)!=0){ // !0-9
-
-    }
-  }
+  // single LDR required for L variable (in all cases)
+  // ------------- 1st or 2nd++ iteration --------- only L side loaded   
+  if(is_number(left_tok)==0){ // is 0-9
+      snprintf(asm_line2, 100, "AND %s, %s, #0\n", register_L_var, register_L_var);
+      printf("asm_line2: %s", asm_line2);
+      fputs(asm_line2, dest_file);
+      strcpy(asm_line2, "");
+      snprintf(asm_line2, 100, "ADD %s, %s, #%s", register_L_var, register_L_var, left_tok);
+      fputs(asm_line2, dest_file);
+      strcpy(asm_line2, "");
+   } else if(is_number(left_tok)!=0){ // !0-9
+      snprintf(asm_line2, 100, "LDR %s, FP, #%d\n", register_L_var, get_existing_offset(hashtable, left_tok));// 'LDR R#, FP, #offset_sym
+      printf("left tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, left_tok));
+      printf("asm_line2: %s", asm_line2);
+      fputs(asm_line2, dest_file);
+      strcpy(asm_line2, ""); // clear line
+   }
+	
+  // ASM for ADDing two values that are now in regs
+  snprintf(asm_line2, 100, "ADD R0, R0, %s\n", register_L_var);// 'LDR R#, FP, #offset_sym
+  //printf("asm_line2: %s", asm_line2);
+  fputs(asm_line2, dest_file);
+  strcpy(asm_line2, ""); // clear line
 
   // freeing vars
   //free(left_tok);
   left_tok = NULL;
   //free(right_tok);
   right_tok = NULL;
+  free(asm_line1);
+  asm_line1 = NULL;
+  free(asm_line2);
+  asm_line2 = NULL;
   return 0;
 }
 
@@ -522,8 +539,9 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 * A helper function that takin in the arr_char_arrs[] index of left and right (if any) tokens and produces the apppropriate LC4 ASM written out to a file
 */
 int generate_asm_assignment(int tok_index_L, int tok_index_R, FILE* dest_file){
+  if(tok_index_R==0){ // just have 'return var ;'
 
-
+  }
 
   return 0;
 }
@@ -671,7 +689,7 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 					// STR R0 FP #offset_x
 					int equals_index = get_char_index(equals,length);
 					printf("index of equals '=' operator is: %d\n", equals_index);
-					generate_asm_assignment(equals_index-1, arr_char_arrs, file_output);
+					generate_asm_assignment(equals_index-1, equals_index+1, file_output);
 				
 				// int x = a + b OR x = a + b + 7 OR t = 9 OR int q = 4 + 72, etc.
 				} else if(num_additions>0) { // 1 or multiple instances of +
@@ -684,23 +702,27 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 						j++;
 					}
 					int equals_index = get_char_index(equals,length);
-					generate_asm_assignment((equals_index-1),NULL,file_output);
+					generate_asm_assignment((equals_index-1),0,file_output);
 				}
 			// ======================= 3.) (possible) declaration and 2 or more assignments ===================
 			} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
 				printf("line is type 3). multiple assignments '=' in line\n");
+				
 				//break string into smaller tokens on the ',' and store in global arr multiple_assign_subarr[10];
 				int x = 0;
 				char* copy3;
 				copy3 = strtok (copy,",");
   				while (copy3 != NULL){
     					printf ("%s\n", copy3);
-    					multiple_assign_subarr[x]= copy3;
+    					strcpy(multiple_assign_subarr[x],copy3);
 					x++;
 					copy3 = strtok (NULL, ",");
   				}
-				// x is last index reached
-					
+				// x is last index reached -- start at line at index x and go backwards (processing right to left)
+				int(t=x; t>=0; t--){
+					//copy3 = multiple_assign_subarr[t];
+					process_line(multiple_assign_subarr[t]);
+				}
 			// ========================== 4.) 'return' statement =============================================
 			} else if(strcmp(arr_char_arrs[0],"return")==0){
 			  	printf("line is type 4). return line\n");
