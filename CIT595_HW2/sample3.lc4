@@ -1,6 +1,84 @@
 ;; int duro , estres = 100 ;
 AND R0, R0, #0
 ADD R0, R0, #100
+STR R0, FP, #32764
+;; int familia , gemelos = 11 , huracan = 2 ;
+AND R0, R0, #0
+ADD R0, R0, #2
+STR R0, FP, #32764
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #32764
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #32764
+ADD R0, R0, R1
+LDR R2, FP, #32764
+ADD R0, R0, R2
+LDR R0, FP, #32764
+STR R0, FP, #32764
+;; int iguana = 10 , joven = 19 , kimono ;
+AND R0, R0, #0
+ADD R0, R0, #19
+STR R0, FP, #32764
+AND R0, R0, #0
+ADD R0, R0, #10
+STR R0, FP, #32764
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #32764
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #32764
+;; return iguana + muralla ;
+LDR R0, FP, #32764
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3
+;; int duro , estres = 100 ;
+AND R0, R0, #0
+ADD R0, R0, #100
+STR R0, FP, #32767
+;; int familia , gemelos = 11 , huracan = 2 ;
+AND R0, R0, #0
+ADD R0, R0, #2
+STR R0, FP, #32767
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #32767
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #32767
+ADD R0, R0, R1
+LDR R2, FP, #32767
+ADD R0, R0, R2
+LDR R0, FP, #32767
+STR R0, FP, #32767
+;; int iguana = 10 , joven = 19 , kimono ;
+AND R0, R0, #0
+ADD R0, R0, #19
+STR R0, FP, #32767
+AND R0, R0, #0
+ADD R0, R0, #10
+STR R0, FP, #32767
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #32767
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #32767
+;; return iguana + muralla ;
+LDR R0, FP, #32767
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3
+;; int duro , estres = 100 ;
+AND R0, R0, #0
+ADD R0, R0, #100
 STR R0, FP, #32766
 ;; int familia , gemelos = 11 , huracan = 2 ;
 AND R0, R0, #0
@@ -34,6 +112,123 @@ ADD R0, R0, #0
 STR R0, FP, #32766
 ;; return iguana + muralla ;
 LDR R0, FP, #32766
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3
+;; int duro , estres = 100 ;
+AND R0, R0, #0
+ADD R0, R0, #100
+STR R0, FP, #-1
+;; int familia , gemelos = 11 , huracan = 2 ;
+AND R0, R0, #0
+ADD R0, R0, #2
+STR R0, FP, #-4
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #-3
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #-2
+ADD R0, R0, R1
+LDR R2, FP, #-1
+ADD R0, R0, R2
+LDR R0, FP, #0
+STR R0, FP, #0
+;; int iguana = 10 , joven = 19 , kimono ;
+AND R0, R0, #0
+ADD R0, R0, #19
+STR R0, FP, #-6
+AND R0, R0, #0
+ADD R0, R0, #10
+STR R0, FP, #-5
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #-11
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #-9
+;; return iguana + muralla ;
+LDR R0, FP, #-5
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3
+;; int duro , estres = 100 ;
+AND R0, R0, #0
+ADD R0, R0, #100
+STR R0, FP, #-1
+;; int familia , gemelos = 11 , huracan = 2 ;
+AND R0, R0, #0
+ADD R0, R0, #2
+STR R0, FP, #-4
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #-3
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #-2
+ADD R0, R0, R1
+LDR R2, FP, #-1
+ADD R0, R0, R2
+LDR R0, FP, #0
+STR R0, FP, #0
+;; int iguana = 10 , joven = 19 , kimono ;
+AND R0, R0, #0
+ADD R0, R0, #19
+STR R0, FP, #-6
+AND R0, R0, #0
+ADD R0, R0, #10
+STR R0, FP, #-5
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #-11
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #-9
+;; return iguana + muralla ;
+LDR R0, FP, #-5
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3
+;; int duro , estres = 100 ;
+AND R0, R0, #0
+ADD R0, R0, #100
+STR R0, FP, #-1
+;; int familia , gemelos = 11 , huracan = 2 ;
+AND R0, R0, #0
+ADD R0, R0, #2
+STR R0, FP, #-4
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #-3
+;; duro = estres + familia + 15 ;
+AND R0, R0, #0
+ADD R0, R0, #15
+LDR R1, FP, #-2
+ADD R0, R0, R1
+LDR R2, FP, #-1
+ADD R0, R0, R2
+LDR R0, FP, #0
+STR R0, FP, #0
+;; int iguana = 10 , joven = 19 , kimono ;
+AND R0, R0, #0
+ADD R0, R0, #19
+STR R0, FP, #-6
+AND R0, R0, #0
+ADD R0, R0, #10
+STR R0, FP, #-5
+;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #-11
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #-9
+;; return iguana + muralla ;
+LDR R0, FP, #-5
 LDR R1, FP, #0
 ADD R0, R0, R1
 STR R0, FP, #3

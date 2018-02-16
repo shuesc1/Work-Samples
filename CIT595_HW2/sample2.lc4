@@ -1,5 +1,16 @@
 ;; int xochimilco = 45 ;
+AND R0, R0, #0
+ADD R0, R0, #45
+STR R0, FP, #0
 ;; int capybara = armadillo + burro , zebra = 0 ;
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #-2
+LDR R0, FP, #-1
+LDR R1, FP, #0
+ADD R0, R0, R1
+LDR R0, FP, #0
+STR R0, FP, #-1
 ;; xochimilco = armadillo + serpiente + 75 ;
 AND R0, R0, #0
 ADD R0, R0, #75
@@ -7,60 +18,21 @@ LDR R1, FP, #0
 ADD R0, R0, R1
 LDR R2, FP, #0
 ADD R0, R0, R2
+LDR R0, FP, #0
+STR R0, FP, #0
 ;; int tigre = xochimilco + burro , culebra = 2 ;
-;; return tigre + capybara + xochimilco ;
-;; int xochimilco = 45 ;
-;; int capybara = armadillo + burro , zebra = 0 ;
-;; xochimilco = armadillo + serpiente + 75 ;
 AND R0, R0, #0
-ADD R0, R0, #75
+ADD R0, R0, #2
+STR R0, FP, #-4
+LDR R0, FP, #-3
 LDR R1, FP, #0
 ADD R0, R0, R1
-LDR R2, FP, #0
-ADD R0, R0, R2
-;; int tigre = xochimilco + burro , culebra = 2 ;
+LDR R0, FP, #0
+STR R0, FP, #-3
 ;; return tigre + capybara + xochimilco ;
-;; int xochimilco = 45 ;
-;; int capybara = armadillo + burro , zebra = 0 ;
-;; xochimilco = armadillo + serpiente + 75 ;
-AND R0, R0, #0
-ADD R0, R0, #75
-LDR R1, FP, #0
+LDR R0, FP, #0
+LDR R1, FP, #-1
 ADD R0, R0, R1
-LDR R2, FP, #0
+LDR R2, FP, #-3
 ADD R0, R0, R2
-;; int tigre = xochimilco + burro , culebra = 2 ;
-;; return tigre + capybara + xochimilco ;
-;; int xochimilco = 45 ;
-;; int capybara = armadillo + burro , zebra = 0 ;
-;; xochimilco = armadillo + serpiente + 75 ;
-AND R0, R0, #0
-ADD R0, R0, #75
-LDR R1, FP, #0
-ADD R0, R0, R1
-LDR R2, FP, #0
-ADD R0, R0, R2
-;; int tigre = xochimilco + burro , culebra = 2 ;
-;; return tigre + capybara + xochimilco ;
-;; int xochimilco = 45 ;
-;; int capybara = armadillo + burro , zebra = 0 ;
-;; xochimilco = armadillo + serpiente + 75 ;
-AND R0, R0, #0
-ADD R0, R0, #75
-LDR R1, FP, #0
-ADD R0, R0, R1
-LDR R2, FP, #0
-ADD R0, R0, R2
-;; int tigre = xochimilco + burro , culebra = 2 ;
-;; return tigre + capybara + xochimilco ;
-;; int xochimilco = 45 ;
-;; int capybara = armadillo + burro , zebra = 0 ;
-;; xochimilco = armadillo + serpiente + 75 ;
-AND R0, R0, #0
-ADD R0, R0, #75
-LDR R1, FP, #0
-ADD R0, R0, R1
-LDR R2, FP, #0
-ADD R0, R0, R2
-;; int tigre = xochimilco + burro , culebra = 2 ;
-;; return tigre + capybara + xochimilco ;
+STR R0, FP, #3
