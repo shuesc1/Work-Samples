@@ -285,8 +285,8 @@ int populate_symbol_table(char* filename) {
 						offset++;
 						i++;
 					} else {
-						printf("error trying to add a symbol to the symbol table that is already present\n");
-						return -1;
+						printf("error <<line %d>> trying to add a symbol [[%s]] to the symbol table that is already present\n", line, parameter_names[i]);
+						return 0;
 					}
 				}
 			} else {
@@ -306,8 +306,8 @@ int populate_symbol_table(char* filename) {
 						offst=offst-1;
 						j++;
 					} else {
-						printf("error trying to add a symbol to the symbol table that is already present\n");
-						return -1;
+						printf("error <<line %d>> trying to add a symbol [[%s]] to the symbol table that is already present\n", line, variable_names[j]);
+						return 0;
 					}
 				}
 			} else {
@@ -485,7 +485,7 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 			strcpy(asm_line1, ""); // clear line */
 		} else if(is_number(right_tok)!=0){ // !0-9
 			snprintf(asm_line1, 100, "LDR R0, FP, #%d\n", get_existing_offset(hashtable, right_tok));// 'LDR R0, FP, #offset_sym
-			printf("right tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, right_tok));
+			//printf("right tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, right_tok));
 			//printf("asm_line1: %s", asm_line1);
 			fputs(asm_line1, dest_file);
 			strcpy(asm_line1, ""); // clear line
@@ -504,7 +504,7 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 		strcpy(asm_line2, "");
 	} else if(is_number(left_tok)!=0){ // !0-9
 		snprintf(asm_line2, 100, "LDR %s, FP, #%d\n", register_L_var, get_existing_offset(hashtable, left_tok));// 'LDR R#, FP, #offset_sym
-		printf("left tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, left_tok));
+		//printf("left tok: %s, offset: %d\n", left_tok, get_existing_offset(hashtable, left_tok));
 		//printf("asm_line2: %s", asm_line2);
 		fputs(asm_line2, dest_file);
 		strcpy(asm_line2, ""); // clear line
@@ -634,7 +634,7 @@ int process_line(char* buffer, FILE* file_output){
 		}
 		// ======================= 3.) (possible) declaration and 2 or more assignments ===================
 	} else if(num_assignments>1 || num_commas>0){ // 3.) (possible) declaration and 2 or more assignments
-		printf("line is type 3). multiple assignments '=' in line\n");
+		printf("line is type 3). multiple assignments '=' in line AND/OR contains multiple line types\n");
 		//break string into smaller tokens on the ',' and store in global arr multiple_assign_subarr[10];
 		int x = 0;
 		//char* copy = malloc(sizeof(char)*strlen(buffer)+1);
@@ -661,7 +661,7 @@ int process_line(char* buffer, FILE* file_output){
 		// return x OR return 7 OR return x + 7 OR return x + y + z + 10, etc.
 
 		int num_additions = get_num_additions(length);
-		printf("number of additions in line: %d\n", num_additions);
+		//printf("number of additions in line: %d\n", num_additions);
 		if(num_additions==0){
 			generate_asm_assignment(1, 0, 1, file_output);
 		} else { // 1 or more additions

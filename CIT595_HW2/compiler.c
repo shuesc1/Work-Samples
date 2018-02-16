@@ -36,10 +36,12 @@ int main(int argc, char* argv[]) {
   // first, try to build the symbol table
   if (populate_symbol_table(filename) == 1) {
 
-    printf("running generate_asm...\n");
+    printf("\n[[[[[[[[[    RUNNING generate_asm()   ]]]]]]]]]\n\n");
     // IMPLEMENT PART 2 HERE
     generate_asm(filename, new_filename);
 
+  } else if(populate_symbol_table(filename) == 0){
+	printf("error0: No output produced due to repeat variable and/or parameter");
   }
 
   return 0;
