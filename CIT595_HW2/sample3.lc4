@@ -1,29 +1,14 @@
 ;; int duro , estres = 100 ;
-;; int familia , gemelos = 11 , huracan = 2 ;
-;; duro = estres + familia + 15 ;
 AND R0, R0, #0
-ADD R0, R0, #15
-LDR R1, FP, #32767
-ADD R0, R0, R1
-LDR R2, FP, #32767
-ADD R0, R0, R2
-;; int iguana = 10 , joven = 19 , kimono ;
-;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
-;; return iguana + muralla ;
-;; int duro , estres = 100 ;
+ADD R0, R0, #100
+STR R0, FP, #32766
 ;; int familia , gemelos = 11 , huracan = 2 ;
-;; duro = estres + familia + 15 ;
 AND R0, R0, #0
-ADD R0, R0, #15
-LDR R1, FP, #32767
-ADD R0, R0, R1
-LDR R2, FP, #32767
-ADD R0, R0, R2
-;; int iguana = 10 , joven = 19 , kimono ;
-;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
-;; return iguana + muralla ;
-;; int duro , estres = 100 ;
-;; int familia , gemelos = 11 , huracan = 2 ;
+ADD R0, R0, #2
+STR R0, FP, #32766
+AND R0, R0, #0
+ADD R0, R0, #11
+STR R0, FP, #32766
 ;; duro = estres + familia + 15 ;
 AND R0, R0, #0
 ADD R0, R0, #15
@@ -31,30 +16,24 @@ LDR R1, FP, #32766
 ADD R0, R0, R1
 LDR R2, FP, #32766
 ADD R0, R0, R2
+LDR R0, FP, #32766
+STR R0, FP, #32766
 ;; int iguana = 10 , joven = 19 , kimono ;
-;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
-;; return iguana + muralla ;
-;; int duro , estres = 100 ;
-;; int familia , gemelos = 11 , huracan = 2 ;
-;; duro = estres + familia + 15 ;
 AND R0, R0, #0
-ADD R0, R0, #15
-LDR R1, FP, #32765
-ADD R0, R0, R1
-LDR R2, FP, #32765
-ADD R0, R0, R2
-;; int iguana = 10 , joven = 19 , kimono ;
-;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
-;; return iguana + muralla ;
-;; int duro , estres = 100 ;
-;; int familia , gemelos = 11 , huracan = 2 ;
-;; duro = estres + familia + 15 ;
+ADD R0, R0, #19
+STR R0, FP, #32766
 AND R0, R0, #0
-ADD R0, R0, #15
-LDR R1, FP, #32766
-ADD R0, R0, R1
-LDR R2, FP, #32766
-ADD R0, R0, R2
-;; int iguana = 10 , joven = 19 , kimono ;
+ADD R0, R0, #10
+STR R0, FP, #32766
 ;; int liebre , muralla = 0 , nopales , obelisco = 200 ;
+AND R0, R0, #0
+ADD R0, R0, #200
+STR R0, FP, #32766
+AND R0, R0, #0
+ADD R0, R0, #0
+STR R0, FP, #32766
 ;; return iguana + muralla ;
+LDR R0, FP, #32766
+LDR R1, FP, #0
+ADD R0, R0, R1
+STR R0, FP, #3

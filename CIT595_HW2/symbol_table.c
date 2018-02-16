@@ -71,7 +71,7 @@ int contains(node* ht[], char* target){ // 1 - found; 0 - not found
 /*
  * A helper function for the get_offset primary function that traverses linked nodes in a hashtable
  */
-int get_existing_offset(node* ht[], char* sym){ // 1 - found; 0 - not found
+int get_existing_offset(node* ht[], char* sym){ // non-zero - found; 0 - not found
 	int hashcode = hash_func(sym, SIZE); // get index
 	node* head = ht[hashcode]; // head is at certain index in hash array; may contain several linked nodes
 	while(head!=NULL){
@@ -361,7 +361,7 @@ int tokenize_line(char* input_line){
 }
 
 /*
- * A helper method that counts the number of operators in a line (instances of '+', '=', etc.)
+ * A helper method that counts the number of '=' in a line (assignments)
  */
 int get_num_assignments(int length){
 	int assignments = 0;
@@ -374,7 +374,7 @@ int get_num_assignments(int length){
 }
 
 /*
- * A helper method that counts the number of operators in a line (instances of '+', '=', etc.)
+ * A helper method that counts the number of addition operators in a line (instances of '+')
  */
 int get_num_additions(int length){
 	int additions = 0;
@@ -384,6 +384,19 @@ int get_num_additions(int length){
 		}
 	}
 	return additions;
+}
+
+/*
+ * A helper method that counts the number of commas in a line (instances of ',')
+ */
+int get_num_commas(int length){
+	int commas = 0;
+	for(int i = 0; i < length; i++){
+		if(strcmp(arr_char_arrs[i], ",")==0){
+			commas++;
+		}
+	}
+	return commas;
 }
 
 /*
@@ -457,31 +470,6 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 		// ---------- FIRST ITERATION ------- R side loaded in as well
 		if(is_number(right_tok)==0){ // is 0-9
 			//snprintf(prefix, sizeof(prefix), "%s: %s: %s", argv[0], cmd_argv[0], cmd_argv[1]);
-			/*
-			   strcat(asm_line1, oper[3]); // 'AND '
-			   strcat(asm_line1, regs[0]); // 'R0'
-			   strcat(asm_line1, comma); // ', '
-			   strcat(asm_line1, regs[0]); // 'R0, '
-			   strcat(asm_line1, comma); // ', '
-			   strcat(asm_line1, wafflefry); // '#'
-			   strcat(asm_line1, "0"); // '0'
-			   fputs(asm_line1, dest_file);
-			   fputs("\n", dest_file);
-			   strcpy(asm_line1, ""); // clear line
-			   printf("asm_line1: %s", asm_line1);     
-			//
-			strcat(asm_line1, oper[2]); // 'ADD '
-			strcat(asm_line1, regs[0]); // 'R0'
-			strcat(asm_line1, comma); // ', '
-			strcat(asm_line1, regs[0]); // 'R0'
-			strcat(asm_line1, comma); // ', '
-			strcat(asm_line1, wafflefry); // '#'
-			strcat(asm_line1, right_tok); // 
-			fputs(asm_line1, dest_file);
-			fputs("\n", dest_file);
-			strcpy(asm_line1, ""); // clear line
-			printf("asm_line1: %s", asm_line1);
-			 */
 			//snprintf(asm_line1, sizeof(asm_line1), "%s%s, %s, #%d\n", oper[3], regs[0], regs[0], 0);// 'AND R0, R0, #0
 			snprintf(asm_line1, 100, "AND R0, R0, #%d\n", 0);// 'AND R0, R0, #0
 			printf("asm_line1: %s", asm_line1);
@@ -538,9 +526,41 @@ int generate_asm_addition(int tok_index_L, int tok_index_R, char* register_L_var
 /*
  * A helper function that takin in the arr_char_arrs[] index of left and right (if any) tokens and produces the apppropriate LC4 ASM written out to a file
  */
-int generate_asm_assignment(int tok_index_L, int tok_index_R, FILE* dest_file){
-	if(tok_index_R==0){ // just have 'return var ;'
-
+int generate_asm_assignment(int tok_index_L, int tok_index_R, int return_flag, FILE* dest_file){ // return flag - 1 if Y, 0 if N
+	// int x = y OR t = 5 OR t = q + u OR return g OR return y + t +v
+	char* asm_line1 = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_L]));
+	char* asm_line2 = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_R]));
+	char* left_tok = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_L]));
+	left_tok = arr_char_arrs[tok_index_L];
+	char* right_tok = malloc(sizeof(char)*strlen(arr_char_arrs[tok_index_R]));
+	right_tok = arr_char_arrs[tok_index_R];
+	if(return_flag==1){
+		snprintf(asm_line1, 100, "STR R0, FP, #%d\n", 3);
+		printf("assignment ASM: %s", asm_line1);
+		fputs(asm_line1, dest_file);
+		strcpy(asm_line1, "");
+	} else if(return_flag!=0 && tok_index_R==0){ // int x = .. OR return y (right side already in R0 hypothetically)
+		snprintf(asm_line1, 100, "STR R0, FP, #%d\n", get_existing_offset(hashtable, left_tok));
+		printf("assignment ASM:: %s", asm_line1);
+		fputs(asm_line1, dest_file);
+		strcpy(asm_line1, "");
+	} else {
+		if(is_number(right_tok)==0){ // int x = 7 OR y = 12
+			snprintf(asm_line2, 100, "AND R0, R0, #0\n");
+			//printf("asm_line2: %s", asm_line2);
+			fputs(asm_line2, dest_file);
+			strcpy(asm_line2, "");
+			snprintf(asm_line2, 100, "ADD R0, R0, #%s\n", right_tok);
+			fputs(asm_line2, dest_file);
+			strcpy(asm_line2, "");
+		} else if(is_number(right_tok)!=0) { // int x = y OR x = tok
+			snprintf(asm_line2, 100, "LDR R0, FP, #%d\n", get_existing_offset(hashtable, right_tok));// 'LDR R#, FP, #offset_sym
+			fputs(asm_line2, dest_file);
+			strcpy(asm_line2, ""); // clear line
+		}
+		snprintf(asm_line2, 100, "STR R0, FP, #%d\n", get_existing_offset(hashtable, left_tok));// 'LDR R#, FP, #offset_sym
+		fputs(asm_line2, dest_file);
+		strcpy(asm_line2, ""); // clear line
 	}
 
 	return 0;
@@ -552,25 +572,27 @@ int generate_asm_assignment(int tok_index_L, int tok_index_R, FILE* dest_file){
 int process_line(char* buffer, FILE* file_output){
 	int num_assignments = 0;// necessary strings & values
 	int num_additions = 0;
+	int num_commas = 0;
 	int add_index = 0;
-        char* plus = "+";
-        char* equals = "=";
+	char* plus = "+";
+	char* equals = "=";
 
-        char* copy = malloc(sizeof(char)*strlen(buffer)+1);
-        strcpy(copy, buffer);
+	char* copy = malloc(sizeof(char)*strlen(buffer)+1);
+	strcpy(copy, buffer);
 	// GET ALL TOKENS IN LINE in arr_char_arrs[]
 	int length = tokenize_line(buffer);// length==num tokens in current line of file; all toks stored in global array arr_char_arrs         
 	num_assignments = get_num_assignments(length);
-	printf("number of assignments from get_num_operator is: %d\n", num_assignments);
+	//printf("number of assignments from get_num_operator is: %d\n", num_assignments);
 	num_additions = get_num_additions(length);
-	printf("number of additions is (''): %d\n", num_assignments);
+	//printf("number of additions is (''): %d\n", num_assignments);
+	num_commas = get_num_commas(length);
 
 	// filling global array of where those addition symbols are in the token index
 	if(num_additions>1){
 		get_add_indices(length); // filling in '+' indices in global array add_indices[]                
 	} else if(num_additions==1){
 		add_index = get_char_index(plus, length);
-		printf("index of addition operator '+' is: %d\n", add_index);
+		//printf("index of addition operator '+' is: %d\n", add_index);
 	}
 
 	// ready to assess if line is: 1. simple declaration, 2. 1 assignment, 3. declaration and (multiple), or 4. return statement
@@ -579,7 +601,7 @@ int process_line(char* buffer, FILE* file_output){
 		printf("line is type 1.) simple declaration-- no asm generated\n");
 		//continue;
 		// ================= 2.) simple (1) assignment =================================================
-	} else if(num_assignments==1){ //2.) simple (1) assignment
+	} else if(num_assignments==1 && num_commas<1){ //2.) simple (1) assignment
 		printf("line is type 2). contains 1 simple assignment '='\n");
 		//int add_index = get_char_index(plus, length); // arr_char_arrs[add_index - 1] is 1st variable/number, arr_char_arrs[add_index+1] is 2nd variable/number
 		//printf("index of addition operator '+' is: %d\n", add_index);
@@ -589,8 +611,8 @@ int process_line(char* buffer, FILE* file_output){
 			// LDR R0 FP #offset_y
 			// STR R0 FP #offset_x
 			int equals_index = get_char_index(equals,length);
-			printf("index of equals '=' operator is: %d\n", equals_index);
-			generate_asm_assignment(equals_index-1, equals_index+1, file_output);
+			//printf("index of equals '=' operator is: %d\n", equals_index);
+			generate_asm_assignment(equals_index-1, equals_index+1, 0, file_output);
 
 			// int x = a + b OR x = a + b + 7 OR t = 9 OR int q = 4 + 72, etc.
 		} else if(num_additions>0) { // 1 or multiple instances of +
@@ -603,10 +625,10 @@ int process_line(char* buffer, FILE* file_output){
 				j++;
 			}
 			int equals_index = get_char_index(equals,length);
-			generate_asm_assignment((equals_index-1),0,file_output);
+			generate_asm_assignment((equals_index-1),0,0,file_output);
 		}
 		// ======================= 3.) (possible) declaration and 2 or more assignments ===================
-	} else if(num_assignments>1){ // 3.) (possible) declaration and 2 or more assignments
+	} else if(num_assignments>1 || num_commas>0){ // 3.) (possible) declaration and 2 or more assignments
 		printf("line is type 3). multiple assignments '=' in line\n");
 
 		//break string into smaller tokens on the ',' and store in global arr multiple_assign_subarr[10];
@@ -616,7 +638,7 @@ int process_line(char* buffer, FILE* file_output){
 		char* copy3 = malloc(sizeof(char)*strlen(buffer)+1);
 		copy3 = strtok (copy,",");
 		while (copy3 != NULL){
-		 	//printf ("%s\n", copy3);
+			//printf ("%s\n", copy3);
 			//strcpy(multiple_assign_subarr[x],copy3);
 			multiple_assign_subarr[x] = copy3;
 			x++;
@@ -627,7 +649,7 @@ int process_line(char* buffer, FILE* file_output){
 		for(int t=x-1; t>=0; t--){
 			//copy3 = multiple_assign_subarr[t];
 			printf("line at multiple_assign_subarr[%d]: %s\n", t, multiple_assign_subarr[t]);
-			//process_line(multiple_assign_subarr[t],file_output);
+			process_line(multiple_assign_subarr[t],file_output);
 		}
 		// ========================== 4.) 'return' statement =============================================
 	} else if(strcmp(arr_char_arrs[0],"return")==0){
@@ -637,13 +659,21 @@ int process_line(char* buffer, FILE* file_output){
 		int num_additions = get_num_additions(length);
 		printf("number of additions in line: %d\n", num_additions);
 		if(num_additions==0){
-			//generate_asm_assignment(arr_char_arrs[1], NULL, file_output);
+			generate_asm_assignment(1, 0, 1, file_output);
 		} else { // 1 or more additions
-
+			int j = 1;
+			int index_add = 0;
+			for(int i=0;i<num_additions;i++){
+				index_add = add_indices[i]; // get the location of all '+'s from global array
+				generate_asm_addition((index_add-1), (index_add+1), regs[j], i,file_output);// set flag to i, so will do double load on 1st iteration, 
+				//the regs for L varalso get incremented this way
+				j++;
+			}
+			generate_asm_assignment(1, 0, 1, file_output);
 		}
 	}
 
-  return 0;
+	return 0;
 }
 
 // |							|
@@ -658,12 +688,6 @@ int process_line(char* buffer, FILE* file_output){
  * A helper function that parses a file and generates LC4 assembly for each line (used in compiler.c)
  */
 int generate_asm(char* orig_filename, char* lc4_filename){
-	//int num_assignments = 0;// necessary strings & values
-	//int num_additions = 0;
-	//int add_index = 0;
-	//char* plus = "+";
-	//char* equals = "=";
-
 	// === file I/O ===
 	FILE* file;
 	FILE* file_output;
@@ -698,7 +722,7 @@ int generate_asm(char* orig_filename, char* lc4_filename){
 			line++;
 			continue;
 		} else { //no longer at header
-   			// break line in to tokens and store tokens in array-- then use token attributes to call delcaration(), one_assignment(), multiple assignments(), return()
+			// break line in to tokens and store tokens in array-- then use token attributes to call delcaration(), one_assignment(), multiple assignments(), return()
 			process_line(buffer, file_output);
 		} 
 		clear_add_indices();// wipe this after each line
