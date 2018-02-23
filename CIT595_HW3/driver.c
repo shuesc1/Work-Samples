@@ -67,6 +67,7 @@ int main() {
   add_to_tail(p4, l);
   add_to_tail(p5, l);
   add_to_tail(p6, l);
+  //printf("in main() called add_to_tail on: |%s| ==> |%s| ==> |%s| ==> |%s| ==> |%s| ==> |%s| ==> |%s| ==>\n", p0->name, p1->name, p2->name, p3->name, p4->name, p5->name, p6->name);  
 
   schedule(l, 4);
 

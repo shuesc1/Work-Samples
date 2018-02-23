@@ -27,19 +27,23 @@ int add_to_tail(void* value, linkedlist* l) {
   new->next = NULL;
 
   node* n = l->head;
+//  printf("|%p| ==> ", n->value);
   while (n->next != NULL) {
     //printf("|%s| ==> ", n->value->name);
+    //printf("|%p| ==> ", n->value);
     n = n->next;
+    //printf("|%p| ==> ", n->value);
   }
-  printf("\n");
   n->next = new;
- 
+  //printf("|%p| ==> ", new->value);
+  //printf("\n");
   return 1;
 }
 
 int remove_from_front(linkedlist* l) {
   if (l == NULL || l->head == NULL) return 0;
   node* old = l->head;
+  //printf("removing node: |%p|\n", old->value);
   l->head = l->head->next;
   free(old);
   // not that this does not free the value in the node, in case it needs to be reused
