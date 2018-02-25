@@ -2,7 +2,7 @@ CC = clang
 ARGS = -Wall
 LDFLAGS= -pthread -lpthread
 
-all: scheduler negative
+all: scheduler negative numbers
 
 numbers:
 	$(CC) -g -o numbers $(ARGS) $(LDFLAGS) numbers.c
