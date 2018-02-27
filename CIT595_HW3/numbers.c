@@ -10,6 +10,7 @@ void* fun2(void*);
 float input_vals[100]; // global float array to hold all input values
 int index_arr; // index of current location in array
 int quit, max, min, total, current_ind;
+pthread_mutex_t lock;
 
 
 /*
@@ -35,7 +36,10 @@ void* fun1(void* p){
 		val_input = atof(in);
 		if(val_input != 0.0){ //input is valid float/double
 			input_vals[index_arr] = val_input;
+			int r = pthread_mutex_lock(&lock);
+			if(r!=0){ printf("pthread_mutex_lock error!\n");}
 			index_arr++; // increase index of global array -- should only be modified here
+			pthread_mutex_unlock(&lock);
 		} else { // conversion couldn't happen (chars) OR 0.0 entered
 			printf("Input not a valid float!!\n");
 			//TODO account for if input is 0/0.0/0.0000000
@@ -70,8 +74,11 @@ void* fun2(void* p){
 				}
 			}
 			//new_entry = input_vals[index_arr];
+			int r = pthread_mutex_lock(&lock);
+			if(r!=0){ printf("pthread_mutex_lock error!\n");}
 			avg = (total)/(index_arr);	
 			current_ind = index_arr;
+			pthread_mutex_unlock(&lock);
 		}
 		printf("maximum value input so far: %d\n", max);
 		printf("minimum value input so far: %d\n", min);
