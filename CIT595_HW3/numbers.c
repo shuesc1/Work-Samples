@@ -29,39 +29,56 @@ void* fun1(void* p){
 		printf("Please input a valid floating point number: \n");
 		fgets(in, 100, stdin);
 		if(strcmp(in,"q\n")==0 || strcmp(in,"Q\n")==0){
-			quit = 1;
+			int r = pthread_mutex_lock(&lock);
+			if(r!=0){ printf("pthread_mutex_lock error!\n");}
+			quit = 1; //TODO helgrind race condition here
+			pthread_mutex_unlock(&lock);
 			printf("quit entered\n");
 			break;
 		}
 		val_input = atof(in);
-		if(val_input != 0.0){ //input is valid float/double
+		if(val_input != 0.0 || (val_input==0.0 && in[0]==48)){ //input is valid float/double
 			input_vals[index_arr] = val_input;
 			int r = pthread_mutex_lock(&lock);
 			if(r!=0){ printf("pthread_mutex_lock error!\n");}
-			index_arr++; // increase index of global array -- should only be modified here
+			index_arr++; // increase index of global array -- should only be modified here TODO helgrind race condition
 			pthread_mutex_unlock(&lock);
-		} else { // conversion couldn't happen (chars) OR 0.0 entered
+		} else if(val_input == 0.0){ // conversion couldn't happen (chars) OR 0.0 entered
+		// 	if(in[0]==48){ // 0 input
+		// 		//TODO account for if input is 0/0.0/0.0000000
+		// 		input_vals[index_arr] = val_input;
+		// 		int r = pthread_mutex_lock(&lock);
+		// 		if(r!=0){ printf("pthread_mutex_lock error!\n");}
+		// 		index_arr++; // increase index of global array -- should only be modified here TODO helgrind race condition
+		// 		pthread_mutex_unlock(&lock);
+		// } else {
 			printf("Input not a valid float!!\n");
-			//TODO account for if input is 0/0.0/0.0000000
 		}
 	}
-	void* v = NULL;
+// }
+void* v = NULL;
 	//*(int*)v = NULL;
-	pthread_exit(v);
+pthread_exit(v);
 }
 
 void* fun2(void* p){
 	int avg = 0;
+	int local_index_arr = 0;
+	int s = 0;
 	do{
 		sleep(10);
-		if(current_ind < index_arr){ // a new value will have been added -- if not no need to recompute all values
+		int r = pthread_mutex_lock(&lock);
+		if(r!=0){ printf("pthread_mutex_lock error!\n");}
+		local_index_arr = index_arr;
+		pthread_mutex_unlock(&lock);
+		if(current_ind < local_index_arr){ // a new value will have been added -- if not no need to recompute all values
 			//int new_entry = *(int*)p;
 			//int new_entry = input_vals[index_arr];
 			//printf("new_entry: %d\n", new_entry);
 			//printf("current max: %d\n", max);
 			int new_entry = 0;
 			int total = 0;
-			for(int i=0; i<index_arr; i++){
+			for(int i=0; i<local_index_arr; i++){
 				new_entry = input_vals[i];
 				total+=input_vals[i];
 				if(new_entry > max){
@@ -76,24 +93,33 @@ void* fun2(void* p){
 			//new_entry = input_vals[index_arr];
 			int r = pthread_mutex_lock(&lock);
 			if(r!=0){ printf("pthread_mutex_lock error!\n");}
-			avg = (total)/(index_arr);	
-			current_ind = index_arr;
+			avg = (total)/(local_index_arr);	
+			current_ind = local_index_arr;
 			pthread_mutex_unlock(&lock);
 		}
 		printf("maximum value input so far: %d\n", max);
 		printf("minimum value input so far: %d\n", min);
 		printf("average of all values input so far: %d\n", avg);
-		int floor = index_arr - 5;
+		r = pthread_mutex_lock(&lock);
+		if(r!=0){ printf("pthread_mutex_lock error!\n");}
+		int floor = index_arr - 5; //TODO helgrind race condtion
+	    int ctr = index_arr-1;
+		pthread_mutex_unlock(&lock);
+
 		if(floor<0){ floor=0; }
 		printf("last 5 values input:\n");
-		for(int ctr=index_arr-1; ctr>=floor; ctr--){
+		for(; ctr>=floor; ctr--){
 			printf("%f\n", input_vals[ctr]);
 		}
 
-		//int* r = malloc(sizeof(int));
+		// int s = 0;
+		r = pthread_mutex_lock(&lock);
+		if(r!=0){ printf("pthread_mutex_lock error!\n");}
+		s= quit;
+		pthread_mutex_unlock(&lock);
 		//if(r==NULL) printf("error3: malloc error\n") ;
 		//r = 0;
-	} while(quit != 1);
+	} while(s != 1); //helgrind race condition here
 
 	void* v = NULL;
 	//*(int*)v = 1;
