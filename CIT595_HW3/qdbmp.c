@@ -31,6 +31,7 @@ struct _BMP
 	BMP_Header	Header;
 	UCHAR*		Palette;
 	UCHAR*		Data;
+	//int 		processed;
 };
 
 

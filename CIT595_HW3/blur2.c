@@ -8,42 +8,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 
-/* Creates a negative image of the input bitmap file */
-int main( int argc, char* argv[] )
-{
-	int boxes_used = 0;
-	int x_prime_min = 0;
-	int x_prime_max = 0;			
-	int y_prime_min = 0;
-	int y_prime_max = 0;
-	UCHAR	r, g, b, r_sum, g_sum, b_sum, r_avg, g_avg, b_avg;
-	UINT	width, height;
-	UINT	x, y;
-	BMP*	bmp;
-	BMP*    bmp_out;
-
-	/* Check arguments */
-	if ( argc != 4 )
-	{
-		fprintf( stderr, "Usage: %s <input file> <output file> <int box size>\n", argv[ 0 ] );
-		return 1;
-	}
-
-	/* Read an image file */
-	bmp = BMP_ReadFile( argv[ 1 ] );
-	bmp_out = BMP_ReadFile( argv[ 1 ] );
-	BMP_CHECK_ERROR( stdout, -1 );
-
-
-	int box_size = atoi(argv[3]);
-	printf("box size: %d\n", box_size);
-	if(box_size<=0){
-		printf("error1: box size cannot be negative or 0\n");
-		return 1;
-	}
-
-	/* Get image's dimensions */
+void* fun1(void* p){
+  /* Get image's dimensions */
 	width = BMP_GetWidth( bmp );
 	height = BMP_GetHeight( bmp );
 
@@ -107,6 +75,56 @@ int main( int argc, char* argv[] )
 		}
 	}
 
+  void* v = NULL;
+  pthread_exit(v);
+}
+
+
+/* Creates a negative image of the input bitmap file */
+int main( int argc, char* argv[] ){
+
+	int boxes_used = 0;
+	int x_prime_min = 0;
+	int x_prime_max = 0;			
+	int y_prime_min = 0;
+	int y_prime_max = 0;
+	UCHAR	r, g, b, r_sum, g_sum, b_sum, r_avg, g_avg, b_avg;
+	UINT	width, height;
+	UINT	x, y;
+	BMP*	bmp;
+	BMP*    bmp_out;
+
+	/* Check arguments */
+	if ( argc != 4 )
+	{
+		fprintf( stderr, "Usage: %s <input file> <output file> <int box size>\n", argv[ 0 ] );
+		return 1;
+	}
+
+	/* Read an image file */
+	bmp = BMP_ReadFile( argv[ 1 ] );
+	bmp_out = BMP_ReadFile( argv[ 1 ] );
+	BMP_CHECK_ERROR( stdout, -1 );
+
+	int box_size = atoi(argv[3]);
+	printf("box size: %d\n", box_size);
+	int num_threads = atoi(argv[4]);
+
+	if(box_size<=0){
+		printf("error1: box size cannot be negative or 0\n");
+		return 1;
+	}
+
+	// create the specified number of threads
+	for(int i=0; i<=num_threads; i++){
+		// starting threads
+		ret_val = pthread_create(&t1, NULL, &fun1, &a1); // tbd if 4th input arg needs to go here
+		if(ret_val != 0){
+			printf("error1: thread creation failed. Exiting...\n");
+			return 1;
+		}
+	}
+
 	/* Save result */
 	BMP_WriteFile( bmp_out, argv[ 2 ] );
 	BMP_CHECK_ERROR( stdout, -2 );
@@ -118,4 +136,3 @@ int main( int argc, char* argv[] )
 
 	return 0;
 }
-
