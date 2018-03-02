@@ -2,7 +2,7 @@ CC = clang
 ARGS = -Wall
 LDFLAGS= -pthread -lpthread
 
-all: scheduler negative numbers blur1
+all: scheduler negative numbers blur1 blur2
 
 numbers:
 	$(CC) -g -o numbers $(ARGS) $(LDFLAGS) numbers.c
@@ -16,6 +16,9 @@ negative:
 blur1:
 	$(CC) -g -o blur1 $(ARGS) blur1.c qdbmp.c
 
+blur2:
+	$(CC) -g -o blur2 $(ARGS) $(LDFLAGS) blur2.c qdbmp.c
+
 clean: 
-	rm -rf scheduler negative numbers blur1
+	rm -rf scheduler negative numbers blur1 blur2
 
