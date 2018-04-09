@@ -1,0 +1,69 @@
+<html> <!-- josepma - Joseph Haymaker -->
+<head> <!-- run on Chrom on MacOS -->
+	<script src="jquery.js"></script>
+
+	<style>
+	button {
+		font-size: 200%;
+		width: 40px;
+	}
+
+	input {
+		font-size: 14px;
+		height: 40px;
+		text-align: right;
+	}
+
+</style>
+</head>
+<!-- # == element id ; .special == defining a class of elements, multiple elements allowed-->
+<body>
+
+	<table>
+		<tr>
+			<!-- input field with id 'display', disabled so user can't directly input info -->
+			<td colspan="4"><input id="display" name="display" disabled></input></td>
+		</tr>
+
+		<tr>
+			<!-- id corresponds to each digit -->
+			<td><button id="button1" value="1" class="numButton">1</button></td>
+			<td><button id="button2" value="2" class="numButton">2</button></td>
+			<td><button id="button3" value="3" class="numButton">3</button></td>
+			<!-- id == 'addButton' -->
+			<td><button id="addButton" class="numButton">+</button></td>
+		</tr>
+		<tr>
+			<td><button id="button4" value="4" class="numButton">4</button></td>
+			<td><button id="button5" value="5" class="numButton">5</button></td>
+			<td><button id="button6" value="6" class="numButton">6</button></td>
+			<!-- id == 'subtractButton' -->
+			<td><button id="subtractButton" class="operButton">-</button></td>
+		</tr>
+		<tr>
+			<td><button id="button7" value="7" class="numButton">7</button></td>
+			<td><button id="button8" value="8" class="numButton">8</button></td>
+			<td><button id="button9" value="9" class="numButton">9</button></td>
+			<!-- id == 'multiplyButton' -->
+			<td><button id="multiplyButton" class="operButton">*</button></td>
+		</tr>
+		<tr>
+			<td><button id="clearButton" class="clearsButton">C</button></td>
+			<td><button id="button0" value="0" class="numButton">0</button></td>
+			<td><button id="equalsButton" class="equalButton">=</button></td>
+			<!-- id == 'divideButton' -->
+			<td><button id="divideButton" class="operButton">&#247;</button></td>
+		</tr>
+
+	</table>
+	<!-- The <span> tag is used to group inline-elements in a document. -->
+		<span id='output'><!-- Use this span for writing debug messages or anything else you think will help! --></span>
+
+		<script src="calc.js"></script>
+
+
+	</body>
+
+
+
+	</html>
