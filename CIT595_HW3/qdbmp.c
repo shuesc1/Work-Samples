@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+int error_code_set = 0;
 
 /* Bitmap header */
 typedef struct _BMP_Header
@@ -31,6 +32,7 @@ struct _BMP
 	BMP_Header	Header;
 	UCHAR*		Palette;
 	UCHAR*		Data;
+	//int 		processed;
 };
 
 
@@ -435,6 +437,7 @@ void BMP_GetPixelRGB( BMP* bmp, UINT x, UINT y, UCHAR* r, UCHAR* g, UCHAR* b )
 	}
 	else
 	{
+		// TODO race condition
 		BMP_LAST_ERROR_CODE = BMP_OK;
 
 		bytes_per_pixel = bmp->Header.BitsPerPixel >> 3;
@@ -471,6 +474,7 @@ void BMP_SetPixelRGB( BMP* bmp, UINT x, UINT y, UCHAR r, UCHAR g, UCHAR b )
 
 	if ( bmp == NULL || x >= bmp->Header.Width || y >= bmp->Header.Height )
 	{
+		//TODO race condition
 		BMP_LAST_ERROR_CODE = BMP_INVALID_ARGUMENT;
 	}
 
@@ -481,6 +485,7 @@ void BMP_SetPixelRGB( BMP* bmp, UINT x, UINT y, UCHAR r, UCHAR g, UCHAR b )
 
 	else
 	{
+		//TODO race condition
 		BMP_LAST_ERROR_CODE = BMP_OK;
 
 		bytes_per_pixel = bmp->Header.BitsPerPixel >> 3;
