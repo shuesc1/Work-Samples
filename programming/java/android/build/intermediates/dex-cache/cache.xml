@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-26.0.0-alpha1_8f64c5ded67cb2a4818f04607290727b28734eab/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_27a889e3204f98d70dd20ae99c28f97c2a52b2e9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/1992129460505fbd81015ffd01300a31286ae7bd/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_dad3fb27b570ad8f301664efcec0bcdd36c6cb14/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/9fca6994ac28da95d4bba1eabc71b0f4679587a3/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b493665350b90606e9b10af2d89ae72e5c768afa/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/4e00ce347ba902731a00230e96cd643dd419d9c1/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8fdf9ed6702af81d5e7c15fb900a0a98e203ca21/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/4ec2064734d44f89fe39946dfd295e26b034a534/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_02a4783fd211cf18c0d40d494206fe7a43c63ddc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/8b4d75baf571aaeaa7b4bae59e3b659844088837/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_a959fb0be3398d36dd86d959146febcb92c21086/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/6e5dcd5bd5774ab2c3cf63907a3972fcae236cce/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_73aa42856cf8a961a8574428fe20094cc1f20adb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/27441c4fc1471deaa592b5686250d027230d31e1/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c3207b33fbe91f2dd7fc876484de4171daf2e98f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="38a137db44109c34727e7a5fef4c20f67bdb499e">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_df2a72ccc0755b902773fafaac7009bb10fe89d0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/981cdaf22fba0993a9f41d3e93e8cef2ed24c70b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_db1515cbbb5686645228c40e30bfe208024416b9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_f94346ba698f1efcdf54fe60a0d8566b75063c5e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/9726acbc88e50f6883f8a65fc8f9fb5f1715749b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_0f8c597b7cea1a2ddddb9d0d8372a240e5422e21/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/josephhaymaker/.android/build-cache/86d735ea4bb2bf132d034e91a77d2bdbb6d683f1/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="/Users/josephhaymaker/AndroidStudioProjects/MyFirstApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_49dbe38de195521a0514a0fd87bf9cf2cb19a646/classes.dex" />
+    </item>
+
+</items>
