@@ -4,7 +4,7 @@
 <b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b>
 </p>
 <p align="center">
-<img src="./res/penn.jpg" width="80%" height="80%" />
+<img src="./res/upenn.jpg" width="80%" height="80%" />
 </br>
 </p>
 
