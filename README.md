@@ -4,7 +4,7 @@
 <b>Joseph Haymaker - Master's candidate (Computer & Information Technology), University of Pennsylvania</b>
 </p>
 <p align="center">
-<img src="res/penn.jpg" width="80%" height="80%" />
+<img src="./res/penn.jpg" width="80%" height="80%" />
 </br>
 </p>
 
@@ -45,5 +45,5 @@ This project is an implementation of a recommendation system using __Collaborati
  
  
  <p align="center">
- <img src="res/penn_seas.png" width="30%" height="30%" />
+ <img src="./res/penn_seas.png" width="30%" height="30%" />
  </p>
